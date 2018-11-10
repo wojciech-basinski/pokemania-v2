@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Utils\Bugs;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -66,10 +67,12 @@ class GameMainController extends Controller
 
     /**
      * @Route("/zglosblad/lista", name="game_bugs_list")
+     * @param Bugs $bugs
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function gameBugsListAction()
+    public function gameBugsListAction(Bugs $bugs)
     {
-        $bugs = $this->get('game.bugs');
         $list = $bugs->list($this->getUser());
 
         return $this->render('game/bugsList.html.twig', [
@@ -82,10 +85,12 @@ class GameMainController extends Controller
     /**
      * @Route("/zglosblad", name="game_bugs_add")
      * @Method("POST")
+     * @param Bugs $bugs
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function gameBugsAddAction()
+    public function gameBugsAddAction(Bugs $bugs)
     {
-        $bugs = $this->get('game.bugs');
         $add = $bugs->add(
             $this->request->request->get('title'),
             $this->request->request->get('content'),
@@ -103,14 +108,16 @@ class GameMainController extends Controller
     /**
      * @Route("/zglosblad/admin", name="game_bugs_admin")
      * @Method("POST")
+     * @param Bugs $bugs
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function gameBugsAdminAction()
+    public function gameBugsAdminAction(Bugs $bugs)
     {
         if (!$this->getUser()->isAdmin()) {
             $this->addFlash('error', 'Nie możesz wykonać tej akcji');
             return $this->redirectToRoute('game_bugs');
         }
-        $bugs = $this->get('game.bugs');
         $mode = $this->request->request->get('mode');
         $id = $this->request->request->get('id');
         if ($mode == 'delete') {

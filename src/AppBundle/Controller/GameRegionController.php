@@ -2,6 +2,11 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Utils\GameHospital;
+use AppBundle\Utils\GameMerchant;
+use AppBundle\Utils\GameShop;
+use AppBundle\Utils\GameTravel;
+use AppBundle\Utils\Lottery;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -18,10 +23,13 @@ class GameRegionController extends Controller
 
     /**
      * @Route("/loteria", name="game_lottery")
+     * @param Lottery $lottery
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function lotteryShowAction()
+    public function lotteryShowAction(Lottery $lottery)
     {
-        $tickets = $this->get('game.lottery')->countUserTickets($this->getUser()->getId());
+        $tickets = $lottery->countUserTickets($this->getUser()->getId());
 
         return $this->render('game/lottery.html.twig', [
             'title' => 'Loteria',
@@ -29,26 +37,31 @@ class GameRegionController extends Controller
             'tickets' => $tickets
         ]);
     }
+
     /**
      * @Route("/loteria/losuj", name="game_lottery_play")
+     * @param Lottery $lottery
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function lotteryPlayAction()
+    public function lotteryPlayAction(Lottery $lottery)
     {
-        $lotteryService = $this->get('game.lottery');
-        $statusOfPlay = $lotteryService->playTheLottery($this->getUser());
+        $statusOfPlay = $lottery->playTheLottery($this->getUser());
 
         return $this->json($statusOfPlay);
     }
-    
+
     /**
      * @Route("/lecznica", name="game_hospital")
+     * @param GameHospital $hospitalService
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function hospitalAction()
+    public function hospitalAction(GameHospital $hospitalService)
     {
         //TODO:
         //ODZNAKA NR 5 Z KANTO
         $freeHeals = $this->get('session')->get('userSession')->getUserItems()->getHeals();
-        $hospitalService = $this->get('game.hospital');
         $pokemons = $hospitalService->getPokemonsToView($this->getUser());
 
         return $this->render('game/hospital.html.twig', [
@@ -62,10 +75,13 @@ class GameRegionController extends Controller
     /**
      * @Route("/lecznica/{i}", name="game_hospital_heal_one")
      * @Method("POST")
+     * @param int $i
+     * @param GameHospital $hospitalService
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function hospitalHealOneAction(int $i)
+    public function hospitalHealOneAction(int $i, GameHospital $hospitalService)
     {
-        $hospitalService = $this->get('game.hospital');
         $hospitalService->healPokemon($this->getUser(), $i);
 
         return $this->redirectToRoute('game_hospital');
@@ -74,10 +90,12 @@ class GameRegionController extends Controller
     /**
      * @Route("/lecznica/wszystkie/", name="game_hospital_heal_all")
      * @Method("POST")
+     * @param GameHospital $hospitalService
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function hospitalHealAllAction()
+    public function hospitalHealAllAction(GameHospital $hospitalService)
     {
-        $hospitalService = $this->get('game.hospital');
         $hospitalService->healAllPokemons($this->getUser());
 
         return $this->redirectToRoute('game_hospital');
@@ -86,11 +104,12 @@ class GameRegionController extends Controller
     /**
      * @Route("sklep", name="game_shop")
      * @Method("GET")
+     * @param GameShop $shop
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function shopAction()
+    public function shopAction(GameShop $shop)
     {
-        $shop = $this->get('game.shop');
-
         $pokeballs = $shop->getPokeballs($this->getUser()->getId());
         $pokeballsDescription =  $shop->getPokeballsDescriptions();
 
@@ -109,10 +128,12 @@ class GameRegionController extends Controller
     /**
      * @Route("sklep", name="game_shop_buy")
      * @Method("POST")
+     * @param GameShop $shop
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function shopBuyAction()
+    public function shopBuyAction(GameShop $shop)
     {
-        $shop = $this->get('game.shop');
         $item = $this->request->get('item');
         $quantity = $this->request->get('quantity');
 
@@ -126,10 +147,13 @@ class GameRegionController extends Controller
     /**
      * @Route("kupiec", name="game_merchant")
      * @Method("GET")
+     * @param GameMerchant $merchant
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function merchantAction()
+    public function merchantAction(GameMerchant $merchant)
     {
-        $pokemonsToSell = $this->get('game.merchant')->getPokemonsAvailableToSell($this->getUser()->getId());
+        $pokemonsToSell = $merchant->getPokemonsAvailableToSell($this->getUser()->getId());
 
         return $this->render('game/merchant.html.twig', [
            'title' => 'Kupiec Pokemonów',
@@ -141,13 +165,16 @@ class GameRegionController extends Controller
     /**
      * @Route("kupiec", name="game_merchant_sell")
      * @Method("POST")
+     * @param GameMerchant $merchant
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function merchantSellAction()
+    public function merchantSellAction(GameMerchant $merchant)
     {
         $all = $this->request->get('all');
         $selected = $this->request->get('selected');
         $confirm = $this->request->get('confirm');
-        $this->get('game.merchant')->sellPokemons($all, $this->getUser(), $selected, $confirm);
+        $merchant->sellPokemons($all, $this->getUser(), $selected, $confirm);
 
         return $this->redirectToRoute('game_merchant', [
             'selected' => $selected
@@ -169,12 +196,15 @@ class GameRegionController extends Controller
     /**
      * @Route("podroz", name="game_travel_change")
      * @Method("POST")
+     * @param GameTravel $gameTravel
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function changeRegionAction()
+    public function changeRegionAction(GameTravel $gameTravel)
     {
         $region = $this->request->request->get('region');
 
-        $this->get('game.travel')->changeRegion($this->getUser(), $region);
+        $gameTravel->changeRegion($this->getUser(), $region);
 
         return $this->redirectToRoute('game_travel');
     }

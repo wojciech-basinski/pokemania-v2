@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Utils\GameMarket;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,14 +16,15 @@ class GameMarketController extends Controller
     {
         $this->request = $request->getCurrentRequest();
     }
-    
+
     /**
      * @Route("/targ", name="game_market")
+     * @param GameMarket $market
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function gameMarketAction()
+    public function gameMarketAction(GameMarket $market)
     {
-        $market = $this->get('game.market');
-
         return $this->render(
             'game/market/items.html.twig',
             [
@@ -39,10 +41,13 @@ class GameMarketController extends Controller
 
     /**
      * @Route("targ/szukaj/przedmiot/{name}", name="game_market_search")
+     * @param string $name
+     * @param GameMarket $market
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function searchItemMarketAction(string $name)
+    public function searchItemMarketAction(string $name, GameMarket $market)
     {
-        $market = $this->get('game.market');
         $kind = $market->checkNameItem($name);
         $page = $this->request->query->get('page') ?? 0;
         $count = $market->countItemMarket($name, $this->getUser()->getId(), $kind);
@@ -64,10 +69,13 @@ class GameMarketController extends Controller
     /**
      * @Route("/targ/kup/przedmiot", name="game_market_buy_item")
      * @Method("POST")
+     * @param GameMarket $market
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function marketBuyItemAction()
+    public function marketBuyItemAction(GameMarket $market)
     {
-        $this->get('game.market')->buyItem($this->getUser());
+        $market->buyItem($this->getUser());
 
         return $this->redirectToRoute('game_market_search', [
             'name' => $this->request->request->get('name')
@@ -76,11 +84,12 @@ class GameMarketController extends Controller
 
     /**
      * @Route("/targ/pokemon", name="game_market_pokemon")
+     * @param GameMarket $market
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function gameMarketPokemonAction()
+    public function gameMarketPokemonAction(GameMarket $market)
     {
-        $market = $this->get('game.market');
-
         return $this->render('game/market/pokemon.html.twig', [
             'ajax' => $this->request->isXmlHttpRequest(),
             'title' => 'Targ- Pokemon',
@@ -91,10 +100,12 @@ class GameMarketController extends Controller
     /**
      * @Route("/targ/szukaj/pokemon", name="game_market_pokemon_search")
      * @Method("POST")
+     * @param GameMarket $market
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function searchPokemonOnMarketAction()
+    public function searchPokemonOnMarketAction(GameMarket $market)
     {
-        $market = $this->get('game.market');
         $page = $this->request->request->get('page') ?? 1;
 
         return $this->render('game/market/pokemonOferts.html.twig', [
@@ -110,11 +121,12 @@ class GameMarketController extends Controller
     /**
      * @Route("/targ/wystaw/przedmiot", name="game_market_item_sell")
      * @Method("GET")
+     * @param GameMarket $market
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function sellItemMarketAction()
+    public function sellItemMarketAction(GameMarket $market)
     {
-        $market = $this->get('game.market');
-
         return $this->render('game/market/itemsSelling.html.twig', [
             'title' => 'Wystaw produkt na targ',
             'ajax' => $this->request->isXmlHttpRequest(),
@@ -130,10 +142,13 @@ class GameMarketController extends Controller
     /**
      * @Route("/targ/wystaw/przedmiot", name="game_market_item_selling")
      * @Method("POST")
+     * @param GameMarket $market
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function sellingItemMarketAction()
+    public function sellingItemMarketAction(GameMarket $market)
     {
-        $this->get('game.market')->addItemToMarket($this->getUser());
+        $market->addItemToMarket($this->getUser());
 
         return $this->redirectToRoute('game_market_item_sell');
     }
@@ -141,10 +156,13 @@ class GameMarketController extends Controller
     /**
      * @Route("/targ/wycofaj/przedmiot", name="game_market_item_remove")
      * @Method("POST")
+     * @param GameMarket $market
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function removeItemFromMarketAction()
+    public function removeItemFromMarketAction(GameMarket $market)
     {
-        $this->get('game.market')->removeItemFromMarket($this->getUser());
+        $market->removeItemFromMarket($this->getUser());
 
         return $this->redirectToRoute('game_market_item_sell', [
             'active' => 2
@@ -154,10 +172,12 @@ class GameMarketController extends Controller
     /**
      * @Route("/targ/kup/pokemon", name="game_market_pokemon_buy")
      * @Method("POST")
+     * @param GameMarket $market
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function marketPokemonBuyAction()
+    public function marketPokemonBuyAction(GameMarket $market)
     {
-        $market = $this->get('game.market');
         $market->buyPokemon($this->getUser());
 
         return $this->redirectToRoute('game_market_pokemon');
@@ -166,11 +186,12 @@ class GameMarketController extends Controller
     /**
      * @Route("/targ/wystaw/pokemon", name="game_market_pokemon_sell")
      * @Method("GET")
+     * @param GameMarket $market
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function sellPokemonAction()
+    public function sellPokemonAction(GameMarket $market)
     {
-        $market = $this->get('game.market');
-
         return $this->render('game/market/pokemonSell.html.twig', [
             'ajax' => $this->request->isXmlHttpRequest(),
             'title' => 'Wystaw Pokemona na targ',
@@ -184,21 +205,27 @@ class GameMarketController extends Controller
     /**
      * @Route("/targ/wystaw/pokemon", name="game_market_pokemon_selling")
      * @Method("POST")
+     * @param GameMarket $market
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function sellingPokemonAction()
+    public function sellingPokemonAction(GameMarket $market)
     {
-        $this->get('game.market')->sellingPokemon($this->getUser());
+        $market->sellingPokemon($this->getUser());
 
         return $this->redirectToRoute('game_market_pokemon_sell');
     }
-    
+
     /**
      * @Route("/targ/wycofaj/pokemon", name="game_market_pokemon_remove")
      * @Method("POST")
+     * @param GameMarket $market
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function removePokemonFromMarketAction()
+    public function removePokemonFromMarketAction(GameMarket $market)
     {
-        $this->get('game.market')->removePokemonFromMarket($this->getUser());
+        $market->removePokemonFromMarket($this->getUser());
 
         return $this->redirectToRoute('game_market_pokemon_sell', [
             'active' => 2

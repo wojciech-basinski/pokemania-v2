@@ -2,6 +2,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Utils\GameAnnouncement;
+use AppBundle\Utils\Messages;
+use AppBundle\Utils\Reports;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -17,10 +20,12 @@ class GameMessageController extends Controller
 
     /**
      * @Route("/raporty", name="game_reports")
+     * @param Reports $reportsService
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showReportsAction()
+    public function showReportsAction(Reports $reportsService)
     {
-        $reportsService = $this->get('game.reports');
         $usersReports = $reportsService->getReports($this->getUser()->getId());
 
         $reportsService->markReportsAsRead($this->getUser()->getId());
@@ -35,10 +40,13 @@ class GameMessageController extends Controller
 
     /**
      * @Route("/raporty/pokaz/{id}", name="game_reports_show")
+     * @param int $id
+     * @param Reports $reportsService
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function showOneReportAction($id)
+    public function showOneReportAction(int $id, Reports $reportsService)
     {
-        $reportsService = $this->get('game.reports');
         $report = $reportsService->getOneReport($this->getUser()->getId(), $id);
 
         if (!$report) {
@@ -52,10 +60,13 @@ class GameMessageController extends Controller
 
     /**
      * @Route("/raporty/usun/{id}", name="game_reports_delete")
+     * @param int $id
+     * @param Reports $reportsService
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function deleteOneReportAction($id)
+    public function deleteOneReportAction(int $id, Reports $reportsService)
     {
-        $reportsService = $this->get('game.reports');
         $status = $reportsService->deleteOneReport($this->getUser()->getId(), $id);
 
         return $this->json([
@@ -75,10 +86,12 @@ class GameMessageController extends Controller
 
     /**
      * @Route("/wiadomosci", name="game_messages")
+     * @param Messages $messageService
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showMessagesAction()
+    public function showMessagesAction(Messages $messageService)
     {
-        $messageService = $this->get('game.messages');
         $messages = $messageService->getAllUserMessages($this->getUser()->getId());
 
         $messageService->markMessagesAsRead($this->getUser()->getId());
@@ -106,13 +119,16 @@ class GameMessageController extends Controller
 
     /**
      * @Route("/ogloszenia", name="game_announcement")
+     * @param GameAnnouncement $announcement
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function announcementAction()
+    public function announcementAction(GameAnnouncement $announcement)
     {
         $countNewAnnouncements = $this->getUser()->getAnnouncements();
-        $countAllAnnouncements = $this->get('game.announcement')->countAnnouncements();
+        $countAllAnnouncements = $announcement->countAnnouncements();
         $page = $this->request->query->get('page') ?? 0;
-        $announcements = $this->get('game.announcement')->getAnnouncements($page, $this->getUser());
+        $announcements = $announcement->getAnnouncements($page, $this->getUser());
 
         return $this->render('game/announcement.html.twig', [
             'title' => 'Ogłoszenia',

@@ -1,6 +1,9 @@
 <?php
 namespace AppBundle\Controller;
 
+use AppBundle\Utils\GameHunting;
+use AppBundle\Utils\GameHuntingBattleBetweenPokemons;
+use AppBundle\Utils\GameHuntingCatch;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -17,11 +20,12 @@ class GameHuntingController extends Controller
 
     /**
      * @Route("/polowanie", name="game_hunting_index")
+     * @param GameHunting $hunting
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showRegionAction()
+    public function showRegionAction(GameHunting $hunting)
     {
-        $hunting = $this->get('game.hunting');
-
         switch ($this->getUser()->getRegion()) {
             case 1:
                 return $this->render('game/hunting/region.html.twig', [
@@ -41,11 +45,13 @@ class GameHuntingController extends Controller
     /**
      * @Route("/polowanie/{place}", name="game_hunting_place")
      * @Method("GET")
+     * @param string $place
+     * @param GameHunting $hunting
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function gameHuntingPlaceAction(string $place)
+    public function gameHuntingPlaceAction(string $place, GameHunting $hunting)
     {
-        $hunting = $this->get('game.hunting');
-
         if (!$hunting->execute($place, $this->getUser())) {
             return $this->redirectToRoute('game_hunting_index');
         }
@@ -62,11 +68,17 @@ class GameHuntingController extends Controller
     /**
      * @Route("/polowanie/walka", name="game_hunting_battle")
      * @Method("POST")
+     * @param GameHuntingBattleBetweenPokemons $battleService
+     *
+     * @param GameHuntingCatch $catching
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function gameHuntingBattleAction()
-    {
+    public function gameHuntingBattleAction(
+        GameHuntingBattleBetweenPokemons $battleService,
+        GameHuntingCatch $catching
+    ) {
         $pokemonId = $this->request->get('pokemonId');
-        $battleService = $this->get('game.hunting.battle.pokemons');
 
         $battle = $battleService->battle($pokemonId, $this->getUser());
         if (!$battle) {
@@ -74,7 +86,6 @@ class GameHuntingController extends Controller
         }
 
         if ($battle['score']) {
-            $catching = $this->get('game.hunting.catch');
             $pokeballs = $catching->getPokeballs($this->getUser()->getId());
         }
 
@@ -90,12 +101,14 @@ class GameHuntingController extends Controller
     /**
      * @Route("/polowanie/lapanie", name="game_hunting_catch")
      * @Method("POST")
+     * @param GameHuntingCatch $catch
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function gameHuntingCatchAction()
+    public function gameHuntingCatchAction(GameHuntingCatch $catch)
     {
         $pokeball = $this->request->get('pokeball');
 
-        $catch = $this->get('game.hunting.catch');
         $catch->catch($pokeball, $this->getUser());
 
         $repeatballs = $this->get('session')->get('huntingChangeRepeatball');

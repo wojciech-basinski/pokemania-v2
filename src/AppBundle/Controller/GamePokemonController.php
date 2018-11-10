@@ -3,6 +3,11 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Utils\AttackHelper;
+use AppBundle\Utils\GamePack;
+use AppBundle\Utils\GamePokemon;
+use AppBundle\Utils\GamePokemons;
+use AppBundle\Utils\GamePokemonsExchange;
+use AppBundle\Utils\GameTraining;
 use AppBundle\Utils\PokemonHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -23,8 +28,18 @@ class GamePokemonController extends Controller
 
     /**
      * @Route("/pokemon/{id}", name="game_pokemon")
+     * @param PokemonHelper $pokemonHelper
+     * @param AttackHelper $attackHelper
+     * @param GamePokemon $pokemonService
+     * @param int $id
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function gamePokemonShowAction(PokemonHelper $pokemonHelper, AttackHelper $attackHelper, int $id = 0)
+    public function gamePokemonShowAction(
+        PokemonHelper $pokemonHelper,
+        AttackHelper $attackHelper,
+        GamePokemon $pokemonService,
+        int $id = 0)
     {
         if (!$id) {
             $id = $this->request->get('id');
@@ -32,7 +47,7 @@ class GamePokemonController extends Controller
                 $id = $this->get('session')->get('pokemon0')->getId();
             }
         }
-        $pokemonAndInfoAboutPokemon = $this->get('game.pokemon')->
+        $pokemonAndInfoAboutPokemon = $pokemonService->
             getPokemonInfo($id, $this->getUser(), $this->request->query->get('modal') ?? 0);
 
         return $this->render('game/pokemon.html.twig', [
@@ -70,11 +85,14 @@ class GamePokemonController extends Controller
     /**
      * @Route("/sala/{id}", name="game_training")
      * @Method("GET")
+     * @param AttackHelper $attackHelper
+     * @param GameTraining $trainingService
+     * @param int $id
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function trainingAction(AttackHelper $attackHelper, int $id = 0)
+    public function trainingAction(AttackHelper $attackHelper, GameTraining $trainingService, int $id = 0)
     {
-        $trainingService = $this->get('game.training');
-
         $pokemonExists = $trainingService->checkId($id);
         $pokemons = $trainingService->getPokemons($this->getUser()->getId())['pokemons'];
         $trainings = $trainingService->calculateTrainings($pokemons);
@@ -93,10 +111,12 @@ class GamePokemonController extends Controller
     /**
      * @Route("/sala", name="game_training_pokemon")
      * @Method("POST")
+     * @param GameTraining $trainingService
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function trainingPokemonAction()
+    public function trainingPokemonAction(GameTraining $trainingService)
     {
-        $trainingService = $this->get('game.training');
         $value = $this->request->request->get('value') ?? 1;
         $training = $this->request->request->get('training');
         $pokemonId = $this->request->request->get('pokemonId');
@@ -111,14 +131,17 @@ class GamePokemonController extends Controller
     /**
      * @Route("/sala/atak/", name="game_training_attack")
      * @Method("POST")
+     * @param GameTraining $trainingService
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function trainingChangeAttackAction()
+    public function trainingChangeAttackAction(GameTraining $trainingService)
     {
         $id = $this->request->request->get('id') ?? 0;
         $attackId = $this->request->request->get('attackId') ?? 0;
         $whichChange = $this->request->request->get('whichChange') ?? -1;
 
-        $this->get('game.training')->changeAttack($id, $attackId, $whichChange);
+        $trainingService->changeAttack($id, $attackId, $whichChange);
 
         return $this->redirectToRoute('game_training', [
             'id' => $id
@@ -127,11 +150,12 @@ class GamePokemonController extends Controller
 
     /**
      * @Route("/pokemony", name="game_user_pokemons")
+     * @param GamePokemons $pokemons
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function userPokemonsAction()
+    public function userPokemonsAction(GamePokemons $pokemons)
     {
-        $pokemons = $this->get('game.pokemons');
-
         $numberOfPokemonsInTeam = $pokemons->getNumberOfPokemonsInTeam();
         $pokemonsInReserve = $pokemons->getPokemonsFromReserveOrdered($this->getUser());
         $pokemonsInWaiting = $pokemons->getPokemonsFromWaitingOrdered($this->getUser());
@@ -147,14 +171,16 @@ class GamePokemonController extends Controller
             'pokemonsInMarket' => $pokemonsInMarket
         ]);
     }
+
     /**
      * @Route("/pokemony/rezerwa", name="game_user_pokemons_reserve")
      * @Method("POST")
+     * @param GamePokemons $pokemons
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function userPokemonToReserveAction()
+    public function userPokemonToReserveAction(GamePokemons $pokemons)
     {
-        $pokemons = $this->get('game.pokemons');
-
         if ($this->request->request->get('fromTeam')) {
             $id = $this->request->request->get('id');
             $pokemons->sendPokemonFromTeamToReserve($id, $this->getUser());
@@ -171,10 +197,12 @@ class GamePokemonController extends Controller
     /**
      * @Route("/pokemony/druzyna", name="game_user_pokemons_team")
      * @Method("POST")
+     * @param GamePokemons $pokemons
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function userPokemonsToTeamAction()
+    public function userPokemonsToTeamAction(GamePokemons $pokemons)
     {
-        $pokemons = $this->get('game.pokemons');
         $pokemonsToTeam = $this->request->request->get('selected');
 
         $pokemons->sendPokemonsToTeam($pokemonsToTeam, $this->getUser());
@@ -187,10 +215,12 @@ class GamePokemonController extends Controller
     /**
      * @Route("/pokemony/poczekalnia", name="game_user_pokemons_waiting")
      * @Method("POST")
+     * @param GamePokemons $pokemons
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function userPokemonsToWaitingAction()
+    public function userPokemonsToWaitingAction(GamePokemons $pokemons)
     {
-        $pokemons = $this->get('game.pokemons');
         $pokemonsToWaiting = $this->request->request->get('selected');
 
         $pokemons->sendPokemonsToWaiting($pokemonsToWaiting, $this->getUser());
@@ -203,10 +233,12 @@ class GamePokemonController extends Controller
     /**
      * @Route("/pokemony/kolejnosc", name="game_user_pokemons_order")
      * @Method("POST")
+     * @param GamePokemons $pokemons
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function changeOrderPokemonAction()
+    public function changeOrderPokemonAction(GamePokemons $pokemons)
     {
-        $pokemons = $this->get('game.pokemons');
         $i = $this->request->request->get('i');
         $this->request->request->get('up') ?
             $pokemons->getOrderUp($i, $this->getUser()->getId()) :
@@ -218,30 +250,35 @@ class GamePokemonController extends Controller
     /**
      * @Route("/pokemony/wymiana", name="game_user_pokemons_exchange")
      * @Method("GET")
+     * @param GamePokemonsExchange $pokemonsExchange
+     *
+     * @param GamePack $gamePack
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function pokemonExchangeAction()
+    public function pokemonExchangeAction(GamePokemonsExchange $pokemonsExchange, GamePack $gamePack)
     {
-        $pokemonsExchange = $this->get('game.pokemons.exchange');
-
         return $this->render('game/pokemons_exchange.html.twig', [
             'title' => 'Pokemony wymiana',
             'ajax' => $this->request->isXmlHttpRequest(),
             'inExchange' => $pokemonsExchange->inExchange($this->getUser()->getId()),
             'toExchange' => $pokemonsExchange->toExchange(),
-            'stones' => $this->get('game.pack')->getStones($this->getUser()->getId())
+            'stones' => $gamePack->getStones($this->getUser()->getId())
         ]);
     }
 
     /**
      * @Route("/pokemony/wymiana", name="game_user_pokemons_exchange_action")
      * @Method("POST")
+     * @param GamePokemonsExchange $pokemonsExchange
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function pokemonExchangeAddAction()
+    public function pokemonExchangeAddAction(GamePokemonsExchange $pokemonsExchange)
     {
         $id = $this->request->request->get('id');
         $what = $this->request->request->get('mode');
 
-        $pokemonsExchange = $this->get('game.pokemons.exchange');
         $pokemonsExchange->action($this->getUser(), $id, $what);
 
         return $this->redirectToRoute('game_user_pokemons_exchange');
