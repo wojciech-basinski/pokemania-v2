@@ -1,0 +1,123 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block scripts %}
+    <script src="{{ asset('js/training.js') }}"></script>
+    <script>
+        var trainingUrl = "{{ path('game_training_pokemon') }}";
+        var changeAttackHref = "{{ path('game_training_attack') }}";
+    </script>
+{% endblock %}
+{% block gamebody %}
+<div class="panel panel-success jeden_ttlo">
+    <div class="panel-heading text-medium"><span>SALA TRENINGOWA</span></div>
+    <div class="panel-body">
+        {% if exists %}
+            <div class="col-xs-12">
+                <ul class="nav nav-tabs nav-justified margin-top">
+                    {% for pokemon in pokemons %}
+                    <li {{ (pokemonId == pokemon.id) ? 'class="active"' : '' }}>
+                        <a data-toggle="tab" href="#{{ pokemon.id }}" class="pok-tab-a">
+                            <img src="{{ asset('img/poki/srednie/' ~ (pokemon.shiny ? 's' : '') ~ pokemon.idPokemon ~ '.png') }}"
+                                 class="pok-tab center" />
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="tab-content">
+                    {% include 'game/template/flashes.html.twig' %}
+                    {% for i in 0..5 %}
+                    {% if pokemons[i] is defined %}
+                        <div id="{{ pokemons[i].id }}" class="tab-pane fade{{ (pokemonId == pokemons[i].id) ? ' in active' }}">
+                            <div class="panel panel-success jeden_ttlo">
+                                <div class="panel-heading"><span>{{ pokemons[i].name }}</span></div>
+                                <div class="panel-body">
+                                    <div class="row nomargin text-center margin-bottom">
+                                        <div class="col-xs-4 col-sm-3">STATYSTYKA</div>
+                                        <div class="col-xs-4 col-sm-1">WARTOŚĆ</div>
+                                        <div class="col-xs-4 col-sm-1">TRENING</div>
+                                        <div class="col-xs-12 col-sm-7">TRENUJ</div>
+                                    </div>
+
+                                    {% for j in 1..6 %}
+                                    <div class="row nomargin {{ (j%1 == 0) ? 'jeden_ttlo' : 'dwa_ttlo' }} text-center line30 margin-top">
+                                        <div class="col-xs-4 col-md-3">{{ trainings[i]['tr'~j]['description'] }}</div>
+                                        <div class="col-xs-4 col-md-1">{{ trainings[i]['tr'~j]['all'] }}</div>
+                                        <div class="col-xs-4 col-md-1">{{ trainings[i]['tr'~j]['value'] }}</div>
+
+                                        <div class="col-xs-12 col-md-7">
+                                            <div class="row nomargin">
+                                                <div class="col-xs-6 col-md-4 nopadding">
+                                                    <button class="btn btn-primary trenuj_1 btn-block" id="{{ loop.index }}_{{ pokemons[i].id }}">
+                                                        +{{ (loop.index == 6) ? '5' : '1'}} za {{ trainings[i]['tr'~j]['cost']|number_format(0, '', '.') }} &yen;
+                                                    </button>
+                                                </div>
+                                                <div class="col-xs-3 col-md-4 nopadding">
+                                                    <input id="ile_{{ loop.index }}_{{ pokemons[i].id }}" type="text" class="ile form-control"
+                                                           placeholder="{{ (loop.index == 6) ? 'Ilość x5' : 'Ilość'}}"/>
+                                                </div>
+                                                <div class="col-xs-3 nopadding">
+                                                    <button class="btn btn-primary trenuj btn-block" id="{{ loop.index }}_{{ pokemons[i].id }}" >Trenuj</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% if pokemons[i].getInfo.ataki == '' %}
+                                <div class="alert alert-info"><span>Pokemon nie może się nauczyć żadnego ataku!</span></div>
+                                {% else %}
+
+                                <div class="row margin-top margin-bottom">
+                                    <div class="col-xs-12 text-center">
+                                        <span class="pogrubienie">Naucz zamiast:</span>
+                                    </div>
+                                    <div class="col-xs-12 text-center">
+                                        <div class="btn-group" data-toggle="buttons">
+                                            {% for j in 0..3 %}
+                                                <label class="btn btn-info btn-lg">
+                                                    <input name="zmien_atak_{{ pokemons[i].id }}" value="{{ j }}" type="radio">
+                                                    {{ attackHelper.getAttack(attribute(pokemons[i], 'attack'~j))['nazwa'] }}
+                                                </label>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="row nomargin">
+                                    {% for j in 0..pokemons[i].getInfo.attackArray|length-1 %}
+                                    {% set attack = pokemons[i].getInfo.attackArray[j] %}
+                                        <div class="col-xs-6 margin-bottom text-center">
+                                            <div data-id-poka="{{ pokemons[i].id }}" id="{{ attack['id'] }}" class="btn btn-primary btn-lg atak
+                                            {% if pokemons[i].hasAttack(attack['id']) %}
+                                                disabled" data-toggle="tooltip" data-title="{{ attackHelper.getAttack(attack['id'])['rodzaj'] }} | Znany">
+                                                <img src="{{ asset('img/typy/'~attackHelper.getAttack(attack['id'])['typ']~'.gif') }}"/>
+                                                <span>{{ attackHelper.getAttack(attack['id'])['rodzaj'] }}</span>
+                                                {{ attackHelper.getAttack(attack['id'])['nazwa'] }}
+                                            {% elseif pokemons[i].level < attack['level'] %}
+                                                disabled" data-toggle="tooltip" data-title="[{{ attackHelper.getAttack(attack['id'])['rodzaj'] }}] |
+                                                Jeszcze nie dostępny">
+                                                <img src="{{ asset('img/typy/'~attackHelper.getAttack(attack['id'])['typ']~'.gif') }}" />
+                                                {{ attackHelper.getAttack(attack['id'])['nazwa'] }} [od {{ attack['level'] }} poz]
+                                                <span class="pull-right">{{ attackHelper.getAttack(attack['id'])['rodzaj'] }}</span>
+                                            {% else %}
+                                                " data-toggle="tooltip" data-title="[{{ attackHelper.getAttack(attack['id'])['rodzaj'] }}] |
+                                                Naucz">
+                                                <img src="{{ asset('img/typy/'~attackHelper.getAttack(attack['id'])['typ']~'.gif') }}" />
+                                                <span>{{ attackHelper.getAttack(attack['id'])['rodzaj'] }}</span>
+                                                {{ attackHelper.getAttack(attack['id'])['nazwa'] }}
+                                            {% endif %}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+        {% else %}
+            <div class="alert alert-danger"><span>Ten Pokemon nie może być trenowany w tym momencie</span></div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

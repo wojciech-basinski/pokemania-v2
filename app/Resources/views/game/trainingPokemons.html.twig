@@ -1,0 +1,37 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block scripts %}
+    <script src="{{ asset('js/trainingPokemon.js') }}"></script>
+{% endblock %}
+
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading"><span>TRENING</span></div>
+        <div class="panel-body">
+            <div class="row nomargin">
+                <div class="col-xs-12">
+                    {% include 'game/template/flashes.html.twig' %}
+                    {% if training %}
+                        <div class="well well-stan jeden_ttlo line30 text-center">
+                            Trenujesz z pokemonami
+                            <span id="godziny">{{ training['hours'] }}</span>:<span id="minuty">{{ training['minutes'] }}</span>:<span id="sekundy">{{ training['seconds'] }}</span>
+                            <a class="btn btn-primary margin_2" href="{{ path('activity_training_stop') }}"> Zakończ trening</a>
+                        </div>
+                        <div class="well well-stan jeden_ttlo line30 text-center">
+                            <br/>+ 3 pkt. doświadczenia co {{ time2string(time) }}
+                        </div>
+                    {% else %}
+                        <div class="well well-stan jeden_ttlo line30 text-center">
+                            <a class="btn btn-primary" href="{{ path('activity_training_start') }}">Trenuj z pokemonami</a>
+                        </div>
+                        <div class="well well-stan jeden_ttlo line30 text-center">
+                            + 3 pkt. doświadczenia co {{ time2string(time) }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

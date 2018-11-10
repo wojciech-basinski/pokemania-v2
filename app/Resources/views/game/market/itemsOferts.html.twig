@@ -1,0 +1,90 @@
+{% include 'game/template/flashes.html.twig' %}
+
+<script>
+    $(document).ready(function(){
+        $('#pagination-oferts').pagination({
+            items: {{ count/30|round(0, 'ceil') }},
+            itemOnPage: 30,
+            currentPage: {{ page }},
+            cssStyle: '',
+            prevText: '<span aria-hidden="true">&laquo;</span>',
+            nextText: '<span aria-hidden="true">&raquo;</span>',
+            onPageClick: function (page, evt) {
+                var id = $('#przedmiot').text();
+                loadOferts(id, page);
+                afterAjax();
+            }
+        });
+    });
+</script>
+
+<div class="panel panel-success jeden_ttlo">
+    <div class="panel-heading">
+        <span class="panel_uc">OFERTY</span>
+    </div>
+    <div class="panel-body">
+        <div id="przedmiot" class="d_none">{{ name }}</div>
+        {% if count %}
+            <div class="row nomargin text-center">
+                <div class="col-xs-12">
+                    <div class="alert alert-success text-medium">
+                        <span>Znaleziono {{ count }} ofert.</span>
+                    </div>
+                </div>
+                <div class="col-xs-2 col-xs-offset-2">Ilość</div>
+                <div class="col-xs-2">Cena za sztukę</div>
+                <div class="col-xs-3">Kup</div>
+                <div class="col-xs-2">Info</div>
+                <div class="clearfix"></div>
+            </div>
+            {% for item in items %}
+                <div class="row nomargin text-center">
+                    <div class="col-xs-12 nopadding">
+                        {% if item.userId == app.user.id %}
+                        <div class="well targ_oferta_wlasna nopadding">
+                        {% else %}
+                        <div class="well targ_oferta nopadding">
+                        {% endif %}
+                            <div class="row nomargin">
+                                <div class="col-xs-2">
+                                    {% if kind == 'Berry' %}
+                                        <img src="{{ asset('img/jagody/'~item.name~'.png') }}" class="img-responsive center" />
+                                    {% elseif kind == 'Pokeball' %}
+                                        <img src="{{ asset('img/balle/'~item.name~'.png') }}" class="img-responsive center" />
+                                    {% elseif kind == 'Items' %}
+                                        <img src="{{ asset('img/przedmioty/'~item.name~'.png') }}" class="img-responsive center" />
+                                    {% else %}
+                                        <img src="{{ asset('img/kamienie/'~item.name|slice(0, -1)~'.png') }}" class="img-responsive center" />
+                                    {% endif %}
+                                </div>
+                                <div class="col-xs-2 pogrubienie targ-line">
+                                    {{ item.quantity }}
+                                </div>
+                                <div class="col-xs-2 pogrubienie targ-line">
+                                    {{ item.value }}
+                                </div>
+                                <div class="col-xs-3">
+                                    {% if item.userId == app.user.id %}
+                                        <span class="targ-line">To Twoja oferta</span>
+                                    {% else %}
+                                        <input type="text" data-id="ilosc_{{ item.id }}" class="targ_ilosc form-control margin-top" placeholder="Ilość" />
+                                        <button class="kup btn btn-success margin_2" data-id="{{ item.id }}">KUP</button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="text-center">
+                <ul id="pagination-oferts" class="pagination pagination-oferts">
+                </ul>
+            </div>
+            </div>
+        {% else %}
+            <div class="alert alert-success text-medium">
+                <span>Brak ofert.</span>
+            </div>
+        {% endif %}
+    </div>
+</div>

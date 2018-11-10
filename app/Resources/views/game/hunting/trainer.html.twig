@@ -1,0 +1,100 @@
+{% extends 'game/hunting/base.html.twig' %}
+
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading"><span>POLOWANIE - WALKA Z TRENEREM</span></div>
+        <div class="panel-body" id="panel_polowanie">
+            <div id="dzicz_ajax" class="d_none">{{ place }}</div>
+            <div class="alert alert-success text-center text-medium"><span>Na Twojej drodze staje trener, który odbywa z Tobą walkę Pokemon.</span>
+            </div>
+
+            <div class="row nomargin">
+                <div class="col-xs-12 nopadding">
+                    <div class="row nomargin">
+                        {#POKEMONY GRACZA#}
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="row nomargin">
+                                <div class="col-xs-4">
+                                    {% for i in 0..5 %}
+                                        {% if app.session.get('pokemon'~i) %}
+                                            {% set pokemon = app.session.get('pokemon'~i) %}
+                                            {% if pokemon.hunger <= 90 and pokemon.HpToTable %}
+                                                <img src="{{ asset('img/poki/srednie/'~(pokemon.shiny?'s')~pokemon.getIdPokemon~'.png') }}"
+                                                     class="trener_img img-responsive center"/>
+                                            {% else %}
+                                                <img src="{{ asset('img/poki/srednie/bw/'~pokemon.getIdPokemon~'.png') }}"
+                                                     class="trener_img img-responsive center"/>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="col-xs-8">
+                                    {% if app.user.avatar %}
+                                        <img src="{{ app.user.avatar }}" class="avatar img-responsive center"/>
+                                    {% else %}
+                                        <img src="{{ asset('img/no_avatar.png') }}"
+                                             class="avatar img-responsive center"/>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {#POKEMONY TRENERA#}
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="row nomargin">
+                                <div class="col-xs-8">
+                                    <img src="{{ asset('img/trener/1.png') }}" class="img-responsive center avatar"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    {% for pokemon in trainerPokemons %}
+                                        <img src="{{ asset('img/poki/srednie/'~(pokemon.shiny?'s')~pokemon.idPokemon~'.png') }}"
+                                             class="trener_img img-responsive center"/>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {#TRENERA POKEMONY KONIEC#}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <button id="wyswietl_walke_trener" type="button" class="btn btn-info btn-lg">
+                        Wyświetl przebieg walki
+                    </button>
+                </div>
+            </div>
+            <div id="walka"></div>
+
+            {% if battleWithTrainerInfo['score'] %}
+                <div class="alert alert-success"><span>Wygrywasz walkę z trenerem</span></div>
+                <div class="alert alert-info">
+                    <span>
+                        Dodatkowo zyskujesz 11 punktów doświadczenia trenera
+                    </span><br />
+                    <span class="pogrubienie">
+                        Twoje Pokemony zyskują doświadczenie:
+                    </span><br />
+                    {% for pokemon in battleWithTrainerInfo['pokemonsWithExp'] %}
+                        <span>
+                            {{ pokemon }} + {{ battleWithTrainerInfo['exp'] }} PD doświadczenia
+                        </span><br />
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-danger"><span>Niestety trener okazał się lepszy</span></div>
+                <div class="alert alert-info"><span>
+                        {# e sesji dodać poki, które dostały exp #}
+                        Dodatkowo zyskujesz 3 punkty doświadczenia trenera
+                    </span></div>
+            {% endif %}
+            {#PRZEDSTAWIENIE KONIEC#}
+            <div class="col-xs-12 text-center">
+                <button data-place="{{ place }}" type="button"
+                        class="btn btn-primary btn-lg button_kontynuuj margin-top">
+                    KONTYNUUJ
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

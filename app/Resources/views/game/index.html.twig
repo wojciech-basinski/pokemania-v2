@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-Control" content="no-cache">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="{{ asset('js/index.js') }}"></script>
+
+    <title>Pokemania.ml- strona główna</title>
+    <script>
+        var lastHref = "{{ path('index_last_caught_pokemons') }}";
+    </script>
+</head>
+<body>
+<noscript>
+    <div id="brak_JS">Włączona obsługa JavaScript jest niezbędna do korzystania z tej strony!</div>
+</noscript>
+<div id="content">
+    {% if registrationError is defined %}
+        <?= isset($this->bladRejestracja) ? '<div class="rej_blad_wys d_none"></div>' : '' ?>
+    {% endif %}
+    <div id="logo">
+        <a href="{{ path('homepage') }}"><img src="{{ asset('img/pokemon.png') }}"/></a>
+    </div>
+
+    <div id="glowny_div">
+        <div id="logowanie">
+            <div id="zawartosc">
+                <div class="informacja">
+                    Graczy online: {{ online }}
+                </div>
+        </div>
+        <div id="przyciski">
+            <div id="wysrodkuj">
+                <div id="zaloguj_sie_przycisk" class="button kursor button_submit">ZALOGUJ SIĘ</div>
+                <div id="zarejestruj_sie_przycisk" class="button kursor button_submit">ZAREJESTRUJ SIĘ</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+            {#
+        <div class="info info_wylogowano" id="wylogowano">
+            <div id="wyloguj_zamknij">
+                <img src="{{ asset('img/x.png') }}" id="zamknij_wyloguj" class="zamknij_obrazek kursor" />
+            </div>
+            <?=$this->wylogowano?>
+            <div class="rejestracja srodek">
+                <span class="kursor button_submit" id="zaloguj_ponownie">Zaloguj się ponownie</span></div>
+        </div>
+
+        #}
+
+        <div class="info" id="zaloguj">
+            <div id="zaloguj_zamknij">
+                <img src="{{ asset('img/x.png') }}" id="zamknij_zaloguj" class="zamknij_obrazek kursor"/>
+            </div>
+            <form action="{{ path('login') }}" method="post">
+                <div class="form-group">
+                    <label for="username">Nazwa użytkownika lub email</label>
+                    <input id="username" type="text" name="_username" class="form-control"">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Hasło:</label>
+                    <input id="password" type="password" name="_password" class="form-control">
+                </div>
+                <input type="checkbox" id="remember_me" name="_remember_me" checked />
+                <label for="remember_me">Zapamiętaj</label>
+
+                <button class="btn btn-info">Login</button>
+
+            </form>
+        </div>
+        <div class="info info_rejestracja" id="zarejestruj">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="text-center">Rejestracja nowego trenera</h3>
+                </div>
+                <div class="panel-body">
+                    {{ form(registerForm, {"action" : path('register')}) }}
+                <div class="rejestracja">
+                    <div class="rejestracja_informacja">*Login musi zawierać od 5 do 20 znaków (bez polskich znaków).
+                    </div>
+                    <div class="rejestracja_informacja">*Poprawny adres email jest potrzebny do odzyskania hasła do konta. Nie jest widoczny dla innych graczy.
+                    </div>
+                    <div class="rejestracja_informacja">*Hasło musi posiadać co najmniej 8 znaków. <a
+                                href="http://www.bezpiecznypc.pl/zasady-tworzenia-hasel.php" target="_blank">Dowiedz się
+                            jak stworzyć silne hasło.</a></div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        {#<div class="info" id="przypomnij_div">
+            <div id="przypomnij_zamknij">
+                <img src="<?= URL ?>public/img/x.png" id="zamknij_przypomnij" class="zamknij_obrazek kursor"/>
+            </div>
+            <form method="post" action="<?=URL?>index/przypomnij">
+                <input class="form_input input_200" type="text" placeholder="EMAIL LUB LOGIN" name="login" required>
+                <div class="rejestracja srodek">
+                    <input type="submit" value="Przypomnij" class="kursor button_submit2"/>
+                </div>
+            </form>
+
+            <?php
+                if (isset($this->blad) || isset($this->komunikat)) {
+            echo '<div class="przyp_blad">';
+                echo isset($this->blad) ? $this->blad : $this->komunikat;
+                echo '</div>';
+            }
+            ?>
+        </div>#}
+        <div class="informacja" id="nowe"></div>
+        <!--<a href="zarejestruj-nowe-konto">Nie masz konta? Zarejestruj się!</a>
+        <a href="przypomnij.php">Nie pamiętasz hasła?</a> -->
+    </div>
+
+
+    <div id="stopka">
+        <div class="informacja_stopka">
+            &copy; Nazwa Pokemon, postacie pokemonów i grafika są własnoscią firmy Nintendo<br/>
+            &copy; 1995-2018 Nintendo/Creatures Inc./GAME FREAK inc. Pokemon and Pokemon character names are
+            trademarks of Nintendo
+        </div>
+    </div>
+</div>
+</body>
+</html>

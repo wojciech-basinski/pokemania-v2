@@ -1,0 +1,37 @@
+{% extends 'game/hunting/base.html.twig' %}
+
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading"><span>POLOWANIE</span></div>
+        <div class="panel-body" id="panel_polowanie">
+            <div id="dzicz_ajax" class="d_none">{{ place }}</div>
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    <span>
+                    {{ message }}
+                    </span>
+                </div>
+            {% endfor %}
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    <span>
+                    {{ message|raw }}
+                    </span>
+                </div>
+            {% endfor %}
+            {% for message in app.flashes('info') %}
+                <div class="alert alert-info">
+                    <span>
+                    {{ message|raw }}
+                    </span>
+                </div>
+            {% endfor %}
+            {% if repeatball %}
+                {% include 'game/hunting/pokeballs.html.twig' %}
+            {% endif %}
+            <div class="col-xs-12 text-center margin-top">
+                <button data-place="{{ place }}" class="btn btn-primary btn-lg button_kontynuuj">KONTYNUUJ</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

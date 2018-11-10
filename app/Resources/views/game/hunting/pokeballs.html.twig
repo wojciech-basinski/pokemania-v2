@@ -1,0 +1,85 @@
+<div class="row row-centered">
+{% if place == 'safari' %}
+    {% if pokeballs.safariballs %}
+        <button class="btn btn-primary padding_button_walka nomargin pokeball" data-toggle="tooltip"
+                data-title="Safariball" data-pokeball="Safariball" >
+            <img src="{{ asset('img/balle/Safariball.png') }}" class="pokeball_img" /><br />
+            <span class="hidden-md hidden-lg">Safariballe<br /></span>
+            {{ pokeballs.safariballs }} sztuk.
+        </button>
+    {% endif %}
+{% else %}
+    {% if pokeballs.pokeballs %}
+        <button class="btn btn-primary padding_button_walka nomargin pokeball" data-toggle="tooltip"
+                data-title="Pokeball" data-pokeball="Pokeball" >
+            <img src="{{ asset('img/balle/Pokeball.png') }}" class="pokeball_img" /><br />
+            <span class="hidden-md hidden-lg">Pokeballe<br /></span>
+            {{ pokeballs.pokeballs }} sztuk.
+        </button>
+    {% endif %}
+    {% if pokeballs.nestballs %}
+        <button class="btn btn-primary padding_button_walka nomargin pokeball" data-toggle="tooltip"
+                data-title="Nestball" data-pokeball="Nestball" >
+            <img src="{{ asset('img/balle/Nestball.png') }}" class="pokeball_img" /><br />
+            <span class="hidden-md hidden-lg">Nestballe<br /></span>
+            {{ pokeballs.nestballs }} sztuk.
+        </button>
+    {% endif %}
+    {% if pokeballs.greatballs %}
+        <button class="btn btn-primary padding_button_walka nomargin pokeball" data-toggle="tooltip"
+                data-title="Greatball" data-pokeball="Greatball" >
+            <img src="{{ asset('img/balle/Greatball.png') }}" class="pokeball_img" /><br />
+            <span class="hidden-md hidden-lg">Greatballe<br /></span>
+            {{ pokeballs.greatballs }} sztuk.
+        </button>
+    {% endif %}
+    {% if pokeballs.ultraballs %}
+        <button class="btn btn-primary padding_button_walka nomargin pokeball" data-toggle="tooltip"
+                data-title="Ultraball" data-pokeball="Ultraball" >
+            <img src="{{ asset('img/balle/Ultraball.png') }}" class="pokeball_img" /><br />
+            <span class="hidden-md hidden-lg">Ultraballe<br /></span>
+            {{ pokeballs.ultraballs }} sztuk.
+        </button>
+    {% endif %}
+    {% if pokeballs.duskballs %}
+        <button class="btn btn-primary padding_button_walka nomargin pokeball" data-toggle="tooltip"
+                data-title="Duskball" data-pokeball="Duskball" >
+            <img src="{{ asset('img/balle/Duskball.png') }}" class="pokeball_img" /><br />
+            <span class="hidden-md hidden-lg">Duskballe<br /></span>
+            {{ pokeballs.duskballs }} sztuk.
+        </button>
+    {% endif %}
+    {% if pokeballs.lureballs %}
+        <button class="btn btn-primary padding_button_walka nomargin pokeball" data-toggle="tooltip"
+                data-title="Lureball" data-pokeball="Lureball" >
+            <img src="{{ asset('img/balle/Lureball.png') }}" class="pokeball_img" /><br />
+            <span class="hidden-md hidden-lg">Lureballe<br /></span>
+            {{ pokeballs.lureballs }} sztuk.
+        </button>
+    {% endif %}
+    {% if pokeballs.repeatballs %}
+        <button class="btn btn-primary padding_button_walka nomargin pokeball" data-toggle="tooltip"
+                data-title="Repeatball" data-pokeball="Repeatball" >
+            <img src="{{ asset('img/balle/Repeatball.png') }}" class="pokeball_img" /><br />
+            <span class="hidden-md hidden-lg">Repeatballe<br /></span>
+            {{ pokeballs.repeatballs }} sztuk.
+        </button>
+    {% endif %}
+    {% if pokeballs.cherishballs %}
+        <button class="btn btn-primary padding_button_walka nomargin pokeball" data-toggle="tooltip"
+                data-title="Cherishball" data-pokeball="Cherishball" >
+            <img src="{{ asset('img/balle/Cherishball.png') }}" class="pokeball_img" /><br />
+            <span class="hidden-md hidden-lg">Cherishballe<br /></span>
+            {{ pokeballs.cherishballs }} sztuk.
+        </button>
+    {% endif %}
+    {% if pokeballs.masterballs %}
+        <button class="btn btn-primary padding_button_walka nomargin pokeball" data-toggle="tooltip"
+                data-title="Masterball" data-pokeball="Masterball" >
+            <img src="{{ asset('img/balle/Masterball.png') }}" class="pokeball_img" /><br />
+            <span class="hidden-md hidden-lg">Masterballe<br /></span>
+            {{ pokeballs.masterballs }} sztuk.
+        </button>
+    {% endif %}
+{% endif %}
+</div>

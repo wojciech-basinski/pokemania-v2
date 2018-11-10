@@ -1,0 +1,123 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block scripts %}
+    <script>
+        var searchHref = "{{ path('game_market_search', {'name' : 'replace'}) }}";
+        var buyHref = "{{ path('game_market_buy_item') }}";
+    </script>
+    <script src="{{ asset('js/market.js') }}"></script>
+    <script src="{{ asset('js/jquery.simplePagination.js') }}"></script>
+{% endblock %}
+
+{% block gamebody %}
+
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading">
+            <span>TARG - KUP PRZEDMIOTY</span>
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-tabs">
+                <li {{ active == 1 ? 'class="active"' }}>
+                    <a data-toggle="tab" href="#jagody">Jagody</a>
+                </li>
+                <li {{ active == 2 ? 'class="active"' }}>
+                    <a data-toggle="tab" href="#pokeballe">Pokeballe</a>
+                </li>
+                <li {{ active == 3 ? 'class="active"' }}>
+                    <a data-toggle="tab" href="#inne">Inne</a></li>
+                <li {{ active == 4 ? 'class="active"' }}>
+                    <a data-toggle="tab" href="#kamienie">Kamienie</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="jagody" class="tab-pane fade{{ active == 1 ? ' in active' }}">
+                    <div class="panel panel-success jeden_ttlo">
+                        <div class="panel-heading">
+                            <span>Jagody</span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row nomargin">
+                                <div class="col-xs-12">
+                                    {% for berry in berrys %}
+                                    <div data-id="{{ berry['name'] }}"
+                                         class="kursor przedmiot btn btn-primary text-center col-xs-3 col-md-2 margin-bottom"
+                                         data-toggle="tooltip" data-title="{{ berry['name2'] }}">
+                                        <img src="{{ asset('img/jagody/'~berry['name']~'.png') }}" /><br />
+                                        <span class="hidden-lg hidden-md">{{ berry['name2'] }}</span>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pokeballe" class="tab-pane fade{{ active == 2 ? ' in active' }}">
+                    <div class="panel panel-success jeden_ttlo">
+                        <div class="panel-heading">
+                            <span>Pokeballe</span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row nomargin">
+                                <div class="col-xs-12">
+                                    {% for pokeball in pokeballs %}
+                                        <div data-id="{{ pokeball['name'] }}"
+                                             class="kursor przedmiot btn btn-primary text-center col-xs-3 col-md-2 margin-bottom"
+                                             data-toggle="tooltip" data-title="{{ pokeball['name'] }}">
+                                            <img src="{{ asset('img/balle/'~pokeball['name']~'.png') }}" /><br />
+                                            <span class="hidden-lg hidden-md">{{ pokeball['name'] }}</span>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="inne" class="tab-pane fade{{ active == 3 ? ' in active' }}">
+                    <div class="panel panel-success jeden_ttlo">
+                        <div class="panel-heading">
+                            <span>Inne</span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row nomargin">
+                                <div class="col-xs-12">
+                                    {% for other in other %}
+                                        <div data-id="{{ other['name'] }}" class="kursor btn btn-primary przedmiot col-xs-3 col-md-2 margin-bottom przedmiot"
+                                             data-toggle="tooltip" data-title="{{ other['namePl'] }}">
+                                            <img src="{{ asset('img/przedmioty/'~other['name']|lower~'.png') }}" /><br />
+                                            <span class="hidden-lg hidden-md">{{ other['namePl'] }}</span>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="kamienie" class="tab-pane fade{{ active == 4 ? ' in active' }}">
+                    <div class="panel panel-success jeden_ttlo">
+                        <div class="panel-heading">
+                            <span>Kamienie</span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row nomargin">
+                                <div class="col-xs-12">
+                                    {% for stone in stones %}
+                                    <div data-id="{{ stone['name'] }}" class="kursor btn btn-primary przedmiot col-xs-3 col-md-2 margin-bottom przedmiot" data-toggle="tooltip" data-title="Kamień {{ stone['namePl'] }}">
+                                        <img src="{{ asset('img/kamienie/'~stone['img']~'.png') }}" /><br />
+                                        <span class="hidden-lg hidden-md">Kamień {{ stone['namePl'] }}</span>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="content">
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

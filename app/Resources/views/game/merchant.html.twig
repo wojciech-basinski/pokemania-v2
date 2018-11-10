@@ -1,0 +1,90 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block scripts %}
+        <script type="text/javascript" src="{{ asset('js/merchant.js') }}"></script>
+        <script>
+            var sellUrl = "{{ path('game_merchant_sell') }}";
+        </script>
+{% endblock %}
+
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading">
+            <span>KUPIEC POKEMON</span>
+        </div>
+        <div class="panel-body">
+            <div class="row nomargin">
+                <div class="col-xs-12 text-center">
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger">
+                    <span>
+                    {{ message }}
+                    </span>
+                        </div>
+                    {% endfor %}
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                    <span>
+                    {{ message|raw }}
+                    </span>
+                        </div>
+                    {% endfor %}
+                    {% if pokemons == null %}
+                        <div class="alert alert-warning"><span>Brak pokemonów do sprzedania u kupca.</span></div>
+                    {% else %}
+                    <div class="row nomargin">
+                        <div class="col-xs-12">
+                            <div class="btn-group">
+                                <button class="btn btn-primary btn-lg" id="zaznacz_wszystkie">Zaznacz wszystkie</button>
+                                <button class="btn btn-primary btn-lg" id="zaznaczone">Sprzedaj zaznaczone</button>
+                                <button class="btn btn-primary btn-lg" id="wszystkie">Sprzedaj wszystkie</button>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="well dwa_ttlo margin-top text-medium">
+                                <div id="zaznaczonych"></div>
+                                <div id="wartosc_zaznaczonych"></div>
+                            </div>
+                        </div>
+                        {% for pokemon in pokemons %}
+                                <div data-toggle="buttons">
+                                    <label class="btn btn-primary col-xs-3 col-md-2 text-center hodowla-btn" name="{{ pokemon.id }}">
+                                        <input autocomplete="off" name="{{ pokemon.id }}" type="checkbox" class="d_none hodowla" />
+                                        <img class="img-responsive center"
+                                             src="{{ asset('img/poki/srednie/'~ (pokemon.shiny ? 's' : '') ~ pokemon.idPokemon ~'.png') }}" />
+                                        <span>{{ pokemon.name }} ({{ pokemon.level }})</span><br />
+                                        <span id="{{ pokemon.id }}_wartosc" class="wartosc">
+                                            {{ pokemon.value|number_format(0, '', '.') }}
+                                        </span> &yen;
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if ajax == 0 %}
+    <div class="d_none menu_dr" id="menu_hodowla">
+        <ul class="dropdown-menu dropdown-menu_dr">
+            <li class="info kursor"><a>INFO</a></li>
+            <li class="sprzedaj_jeden kursor"><a>SPRZEDAJ</a></li>
+        </ul>
+    </div>
+    <div class="modal fade in" id="pokemon_modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <span name="pokemon_modal" class="modal-title"></span>
+                </div>
+                <div name="pokemon_modal"  class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

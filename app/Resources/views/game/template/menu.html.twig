@@ -1,0 +1,148 @@
+<div id="menu_div">
+    <nav>
+        <a id="resp-menu" class="responsive-menu" href="#"><i class="fa fa-reorder"></i>Menu</a>
+        <ul class="menu">
+
+            <li>
+                <a class="kursor"><i class="fa fa-home"></i>POSTAĆ</a>
+                <ul class="sub-menu">
+                    <li><a href="{{ path("game_user_profile") }}">PROFIL</a></li>
+                    <li><a href="{{ path("game_user_pack") }}">PLECAK</a></li>
+                    <li><a class="kursor">STATYSTYKI</a>
+                        <ul>
+                            <li><a href="{{ path('game_statistics_today') }}">DZIEJSZE</a></li>
+                            <li><a href="{{ path('game_statistics') }}">OGÓLNE</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{{ path('game_achievements') }}">OSIĄGNIĘCIA</a></li>
+                    <li><a href="{{ path('activity_training') }}">TRENING</a>
+                        {% if app.user.activity == 'training' %}
+                            <ul>
+                                <li><a href="{{ path('activity_training_stop') }}">ZAKOŃCZ</a></li>
+                            </ul>
+                        {% else %}
+                            <ul>
+                                <li><a href="{{ path('activity_training_start') }}">ROZPOCZNIJ</a></li>
+                            </ul>
+                        {% endif %}
+
+                    </li>
+                    <li><a href="{{ path('game_exchange') }}">WYMIANA</a></li>
+                    <li><a href="{{ path('game_friends') }}">ZNAJOMI</a></li>
+                    <!--li><a href="stowarzyszenie.php">STOWARZYSZENIE</a></li-->
+                </ul>
+            </li>
+
+            <li><a class="kursor"><i class="fa fa-user"></i>POKEMONY</a>
+                <ul class="sub-menu">
+                    <li><a href="{{ path('game_user_pokemons') }}">TWOJE POKEMONY</a></li>
+                    <li><a class="kursor">STAN</a>
+                        <ul>
+                            {% for i in 0..5 %}
+                                {% if app.session.get('pokemon'~i) %}
+                                    <li>
+                                        <span>
+                                            <img src="
+                                                {{ asset('img/poki/' ~ (app.session.get('pokemon'~i).shiny ? 's' : '') ~
+                                                app.session.get('pokemon'~i).idPokemon ~ '.png') }}" class="menu_pok"
+                                            />
+                                            <a href="{{ path('game_pokemon', {'id' : app.session.get('pokemon'~i).id }) }}">
+                                               {{ app.session.get('pokemon'~i).name }}
+                                            </a>
+                                        </span>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li><a class="kursor">SALA TRENINGOWA</a>
+                        <ul>
+                            {% for i in 0..5 %}
+                                {% if app.session.get('pokemon'~i) %}
+                                    <li>
+                                        <span>
+                                            <img src="
+                                                {{ asset('img/poki/' ~ (app.session.get('pokemon'~i).shiny ? 's' : '') ~
+                                            app.session.get('pokemon'~i).idPokemon ~ '.png') }}" class="menu_pok"
+                                            />
+                                            <a href="{{ path('game_training', {'id' : app.session.get('pokemon'~i).id }) }}">
+                                               {{ app.session.get('pokemon'~i).name }}
+                                            </a>
+                                        </span>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    <li><a href="{{ path('game_user_collection') }}">KOLEKCJA</a></li>
+                    <li><a href="{{ path('game_user_pokemons_exchange') }}">WYMIANA</a></li>
+                </ul>
+
+            </li>
+
+            <li><a class="kursor"><i class="fa fa-camera"></i>
+                {% if app.user.region == 1 %}
+                    KANTO
+                {% else %}
+                    JOHTO
+                {% endif %}
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="{{ path('game_hunting_index') }}">DZICZE</a></li>
+                    <li><a href="{{ path('game_shop') }}">POKESKLEP</a></li>
+                    <li><a href="{{ path("game_hospital") }}">LECZNICA</a></li>
+                    <li><a href="{{ path("game_merchant") }}">KUPIEC POKEMON</a></li>
+                    <li><a href="{{ path('game_lottery') }}">LOTERIA</a></li>
+                    <li><a href="#">SALE POKEMON</a></li>
+                    {#<li><a href="{{ path('game_travel') }}">PODRÓŻ</a></li>#}
+                    <!--li><a href="stowarzyszenie.php?lista">LISTA STOWARZYSZEŃ</a></li-->
+                </ul>
+
+            </li>
+            <li><a class="kursor"><i class="fa fa-bullhorn"></i>TARG</a>
+                <ul class="sub-menu">
+                    <li><a href="{{ path('game_market') }}">KUP PRZEDMIOT</a></li>
+                    <li><a href="{{ path('game_market_pokemon') }}">KUP POKEMONA</a></li>
+                    <li><a href="{{ path('game_market_item_sell') }}">SPRZEDAJ PRZEDMIOT</a></li>
+                    <li><a href="{{ path('game_market_pokemon_sell') }}">SPRZEDAJ POKEMONA</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <!--
+		<?php
+                if (isset($_SESSION['ogloszenie']))
+                    echo '';
+                else echo '';
+                ?>
+                -->
+                {% if app.user.announcements > 0 %}
+                    <a class="kursor red" href="{{ path('game_announcement') }}"><i class="fa fa-tags"></i>OGŁOSZENIA</a>
+                {% else %}
+                    <a class="kursor"><i class="fa fa-envelope"></i>INNE</a>
+                {% endif %}
+
+                <ul class="sub-menu">
+                    <!--
+			<?php
+                    if (isset($_SESSION['ogloszenie']))
+                        echo '<li><a class="kursor" style="color:red" href="ogloszenia.php"><i class="fa fa-tags"></i>OGŁOSZENIA</a></li>';
+                    else echo '';
+                    ?>
+                    -->
+                    <li><a href="{{ path('game_announcement') }}">OGŁOSZENIA</a></li>
+                    <li><a href="#">WALKI</a></li>
+                    <li><a href="#">FORUM</a></li>
+                    <li><a class="kursor">POKEDEX</a></li>
+                    <li><a href="{{ path('game_settings') }}">USTAWIENIA</a></li>
+                    {% if app.user.admin %}
+                        <li><a href="#admin">PANEL ADMINISTRATORA</a></li>
+                    {% endif %}
+                    <li><a href="{{ path('game_bugs') }}">ZGŁOŚ BŁĄD</a></li>
+                </ul>
+            </li>
+            <li><a href="{{ path('logout') }}"><i class="fa fa-sitemap"></i>WYLOGUJ</a></li>
+        </ul>
+    </nav>
+</div>
+<div class="container-fluid">
+    <div class="row">

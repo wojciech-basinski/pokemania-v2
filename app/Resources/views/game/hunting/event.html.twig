@@ -1,0 +1,13 @@
+{% extends 'game/hunting/base.html.twig' %}
+
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading">
+            <span>POLOWANIE</span>
+        </div>
+        <div id="dzicz_ajax" class="d_none">{{ place }}</div>
+        <div class="panel-body" id="panel_polowanie">
+            {% include 'game/template/flashes.html.twig' %}
+        </div>
+    </div>
+{% endblock %}

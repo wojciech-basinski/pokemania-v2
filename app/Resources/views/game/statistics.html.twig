@@ -1,0 +1,139 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block gamebody %}
+<div class="panel panel-success jeden_ttlo">
+    <div class="panel-heading">
+        <span>STATYSTYKI</span>
+    </div>
+    <div class="panel-body">
+        <div class="panel-body">
+            <div class="row nomargin padding_lr">
+                <div class="col-xs-12">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#dzicze">Wyprawy do dziczy</a></li>
+                        <li><a data-toggle="tab" href="#lapanie">Łapanie Pokemonów</a></li>
+                        <li><a data-toggle="tab" href="#pojedynki">Pojedynki</a></li>
+                        <li><a data-toggle="tab" href="#inne">Inne</a>
+                        <li><a data-toggle="tab" href="#konto">Konto</a>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tab-content">
+
+                <div id="dzicze" class="tab-pane fade in active">
+                    <div class="panel panel-success jeden_ttlo">
+                        <div class="panel-heading text-medium"><span>WYPRAWY DO DZICZY</span></div>
+                        <div class="panel-body">
+                            <div class="jeden statystyki">
+                                Wypraw na polanę: {{ statistics.polana }}
+                            </div>
+                            <div class="dwa statystyki">
+                                Wypraw na wyspę: {{ statistics.wyspa }}
+                            </div>
+                            <div class="jeden statystyki">
+                                Wypraw na grotę: {{ statistics.grota }}
+                            </div>
+                            <div class="dwa statystyki">
+                                Wypraw do domu strachu: {{ statistics.domStrachow }}
+                            </div>
+                            <div class="jeden statystyki">
+                                Wypraw w góry: {{ statistics.gory }}
+                            </div>
+                            <div class="dwa statystyki">
+                                Wypraw do wodospadu: {{ statistics.wodospad }}
+                            </div>
+                            <div class="jeden statystyki">
+                                Wypraw na safari: {{ statistics.safari }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="lapanie" class="tab-pane fade">
+                    <div class="panel panel-success jeden_ttlo">
+                        <div class="panel-heading text-medium"><span>ŁAPANIE POKEMONÓW</span></div>
+                        <div class="panel-body">
+                            <div class="jeden statystyki">
+                                Złapanych shiny Pokemonów: {{ statistics.catchedShiny }}
+                            </div>
+                            <div class="dwa statystyki">
+                                Łącznie złapanych pokemonów: {{ statistics.catchedPokemons }}
+                            </div>
+                            <div class="jeden statystyki">
+                                Pokemonów złapanych w pokeballe: {{ statistics.catchedPokeball }}
+                            </div>
+                            <div class="dwa statystyki">
+                                Pokemonów złapanych w nestballe: {{ statistics.catchedNestball }}
+                            </div>
+                            <div class="jeden statystyki">
+                                Pokemonów złapanych w greatballe: {{ statistics.catchedGreatball }}
+                            </div>
+                            <div class="dwa statystyki">
+                                Pokemonów złapanych w ultraballe: {{ statistics.catchedUltraball }}
+                            </div>
+                            <div class="jeden statystyki">
+                                Pokemonów złapanych w duskballe: {{ statistics.catchedDuskball }}
+                            </div>
+                            <div class="dwa statystyki">
+                                Pokemonów złapanych w lureballe: {{ statistics.catchedLureball }}
+                            </div>
+                            <div class="jeden statystyki">
+                                Pokemonów złapanych w cherishballe: {{ statistics.catchedCherishball }}
+                            </div>
+                            <div class="dwa statystyki">
+                                Pokemonów złapanych w repeatballe: {{ statistics.catchedRepeatball }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pojedynki" class="tab-pane fade">
+                    <div class="panel panel-success jeden_ttlo">
+                        <div class="panel-heading text-medium"><span>POJEDYNKI</span></div>
+                        <div class="panel-body">
+                            <div class="dwa statystyki">
+                                Pokonanych trenerów: {{ statistics.winsWithTrainers }}
+                            </div>
+                            <div class="jeden statystyki">
+                                Pokonanych pokemonow: {{ statistics.winsWithPokemons }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="inne" class="tab-pane fade">
+                    <div class="panel panel-success jeden_ttlo">
+                        <div class="panel-heading text-medium"><span>INNE</span></div>
+                        <div class="panel-body">
+                            <div class="dwa statystyki">
+                                Zebranych jagód: {{ statistics.beggedBerrys }}
+                            </div>
+                            <div class="jeden statystyki">
+                                Zjedzonych przysmaków: {{ statistics.snacks }}
+                            </div>
+                            <div class="dwa statystyki">
+                                Treningów z pokemonami: {{ statistics.trainingsWithPokemons }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="konto" class="tab-pane fade">
+                    <div class="panel panel-success jeden_ttlo">
+                        <div class="panel-heading text-medium"><span>KONTO</span></div>
+                        <div class="panel-body">
+                            <div class="jeden statystyki">
+                                Czas online: {{ app.user.getOnlineTimeAsText() }}
+                            </div>
+                            <div class="dwa statystyki">
+                                Czas online dzisiaj: {{ app.user.getOnlineTimeAsText(1) }}
+                            </div>
+                            <div class="jeden statystyki">
+                                <div>Zjedzonych jagód dodających MPA: {{ app.user.berryPa }}
+                                </div>
+                                <div>Dodano {{ (app.user.berryPa/15)|round(0, 'floor') }} MPA.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block gamebody %}
+<div class="panel panel-success jeden_ttlo">
+    <div class="panel-heading"><span>STATYSTYKI DZISIEJSZE</span></div>
+    <div class="panel-body">
+        <div class="row nomargin">
+            {% if app.session.get('desktop') %}
+                <div class="row row-centered hidden-md hidden-lg"><button class="btn btn-lg btn-info desktop" name="off">Włącz wersję mobilną</button></div>
+            {% else %}
+                <div class="row row-centered hidden-md hidden-lg"><button class="btn btn-lg btn-info desktop" name="on">Włącz wersję na komputer</button></div>
+            {% endif %}
+            <div class="col-xs-12">
+                <div class="well well-primary jeden_ttlo">
+                    Złapanych pokemonów dzisiaj: {{ statistics.catched }}
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="well well-primary jeden_ttlo">
+                    Pozostałe losy z loterii: {{ statistics.lottery }}
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="well well-primary jeden_ttlo">
+                    Pozostałe kupony na Safari: {{ statistics.cupons }}
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="well well-primary jeden_ttlo">
+                    Wypraw do dziczy dzisiaj: {{ statistics.travels }}
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="well well-primary jeden_ttlo">
+                    Czas online dzisiaj: {{ app.user.getOnlineTimeAsText(1) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'game/gamebase.html.twig' %}
+{% block scripts %}
+    <script src="{{ asset('js/friends.js') }}" type="text/javascript"></script>
+{% endblock %}
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading">
+            <span>ZNAJOMI</span>
+        </div>
+        <div class="panel-body">
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    <span>
+                    {{ message }}
+                    </span>
+                </div>
+            {% endfor %}
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    <span>
+                    {{ message }}
+                    </span>
+                </div>
+            {% endfor %}
+
+            {% if friends %}
+                <div class="alert alert-success"><span>Znajomi ({{ friends|length }})</span></div>
+                <div class="row nomargin">
+                    <div class="col-xs-12 margin-top">
+                        {% for friend in friends %}
+                            <div class="row nomargin">
+                                <a class="col-xs-4 col-lg-3 btn btn-success" href="profil/{{ friend.whoId }}">{# friend.userInfo.login #}</a>
+                                <a class="btn btn-primary" href="'.URL.'wiadomosci/nowa/{# friend.userInfo.login #}">Wyślij wiadomość</a>
+                                <button class="btn btn-primary nakarm" id="' . $value['karmienie'] . '">Nakarm Pokemony</button>
+                                <button class="btn btn-danger usun" data-id="{{ path('game_friends_delete', {'id' : friend.id}) }}">Usuń ze znajomych</button>
+                            </div>
+                        {% endfor %}
+                        {#if ($value['id_sesji']) {
+                        echo '<img src="img/dost.png" data-toggle="tooltip" data-title="ONLINE" />';
+                        } else {
+                        echo '<img src="img/nied.png" data-toggle="tooltip" data-title="OFFLINE" />';
+                        }#}
+                    </div>
+                    <div id="karmienie"></div>
+                </div>
+            {% else %}
+                <div class="alert alert-warning"><span>Brak znajomych</span></div>
+            {% endif %}
+
+            {% if invitations %}
+                <div class="alert alert-success margin-top"><span>Otrzymane zaproszenia do znajomych</span></div>
+                <div class="row nomargin">
+                {% for invitation in invitations %}
+                    <div class="col-xs-12 margin-top">
+                        <a class="btn btn-primary" href="{{ path('game_user_profile', {'id' : invitation.userId}) }}">Zaproszenie od {# invitation.userInfo.login #}</a>
+                        <button class="btn btn-success zaakceptuj" data-id="{{ path('game_friends_accept', {'id' : invitation.id}) }}">Zaakceptuj</button>
+                        <button class="btn btn-danger odrzuc" data-id="{{ path('game_friends_reject', {'id' : invitation.id}) }}">Odrzuć</button>
+                    </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if invitationsSent %}
+                <div class="alert alert-success margin-top"><span>Wysłane zaproszenia do znajomych</span></div>
+                <div class="row nomargin">
+                    {% for invitation in invitationsSent %}
+                    <div class="col-xs-12 margin-top">
+                        <a class="btn btn-primary" href="{{ path('game_user_profile', {'id' : invitation.whoId}) }}">Zaproszenie dla gracza {# invitation.userInfo.login #}</a>
+                        <button class="btn btn-danger anuluj" data-id="{{ path('game_friends_cancel', {'id' : invitation.id}) }}">Anuluj zaproszenie</button></div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

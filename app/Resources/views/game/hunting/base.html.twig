@@ -1,0 +1,12 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block scripts %}
+    <script>
+        var continueHref = "{{ path("game_hunting_place", {'place' : 'replace'}) }}";
+        var battleHref = "{{ path("game_hunting_battle") }}";
+        var catchHref = "{{ path("game_hunting_catch") }}";
+        var showBattleHref = "{{ path("game_show_battle") }}";
+        var showBattleTrainerHref = "{{ path("game_show_battle_trainer") }}";
+    </script>
+    <script type="text/javascript" src="{{ asset('js/hunting.js') }}"></script>
+{% endblock %}

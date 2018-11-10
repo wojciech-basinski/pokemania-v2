@@ -1,0 +1,123 @@
+{% extends 'game/hunting/base.html.twig' %}
+
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading"><span>POLOWANIE</span></div>
+        <div class="panel-body" id="panel_polowanie">
+            <div id="dzicz_ajax" class="d_none">{{ place }}</div>
+            {% if hunting.pokemonInfo.met == 0 %}
+                <div class="alert alert-success"><span>Pierwszy raz spotykasz takiego Pokemona.</span></div>
+            {% endif %}
+            <div class="d_none" id="id_poka">{{ hunting.pokemon.idPokemon }}</div>
+            <div class="alert alert-info text-medium text-center"><span>Na Twojej drodze staje dziki Pokemon</span></div>
+            <div class="panel panel-primary {{ hunting.pokemon.shiny ? 'shiny_tlo' : 'dwa_ttlo' }} noborder">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 text-center">
+                        <img src="{{ asset('img/poki/' ~ (hunting.pokemon.shiny ? 's' : '') ~ hunting.pokemon.idPokemon ~ '.png') }}"
+                             class="polowanie_img margin-top" data-original-title="{{ hunting.pokemon.name }}" data-toggle="tooltip" />
+                    </div>
+                    <div class="col-xs-9 col-sm-8 text-center text-medium">
+                        <span class="span_nazwa">
+                            {{ hunting.pokemon.shiny ? 'Shiny ' : '' }}{{ hunting.pokemon.name}}
+                        </span>
+                        {{ hunting.pokedex ? (' na poziomie: <span class="span_nazwa">' ~ hunting.pokemon.level ~ '</span><br />')|raw : '' }}
+                        {{ hunting.pokedex > 2 ? ('Jakość: <span class="pogrubienie">' ~ hunting.pokemon.quality ~ '%</span><br />')|raw : '' }}
+
+                        <div class="polowanie_trudnosc {{ hunting.pokemon.info.trudnosc < 3 ? 'zielony-tlo' :
+                        (hunting.pokemon.info.trudnosc < 5 ? 'zolty-tlo' : 'czerwony-tlo')}}" data-original-title="trudność łapania:{#TODO#} <?= $this->trudnoscOpis ?>"
+                             data-toggle="tooltip">{{ hunting.pokemon.info.trudnosc }}</div>
+
+                        <img src="{{ asset('img/zl/' ~ (hunting.pokemonInfo.caught ? '1' : '0') ~ '.png') }}"
+                             data-original-title="{{ hunting.pokemonInfo.caught ? 'Złapany' : 'Nie złapany' }}" data-toggle="tooltip" />
+
+                        <img src="{{ asset('img/typy/' ~  hunting.pokemon.info.typ1 ~ '.gif') }}"
+                             data-original-title="{{ hunting.pokemon.info.type1Description }}" data-toggle="tooltip"/>
+                        {% if hunting.pokemon.info.typ2 %}
+                            <img src="{{ asset('img/typy/' ~  hunting.pokemon.info.typ2 ~ '.gif') }}"
+                                 data-original-title="{{ hunting.pokemon.info.type2Description }}" data-toggle="tooltip"/>
+                        {% endif %}
+
+                        {% if hunting.pokemon.gender == 0 %}
+                            <span class="icon-mars text-extra-big" data-title="Płeć męska" data-toggle="tooltip"></span>
+                        {% elseif hunting.pokemon.gender == 1 %}
+                            <span class="icon-venus text-extra-big" data-title="Płeć żeńska" data-toggle="tooltip"></span>
+                        {% else %}
+                            <span title="Pokemon jest bezpłciowy">!</span>
+                        {% endif %}
+
+                        <img src="{{ asset('img/przedmioty/pokedex.png') }}" class="polowanie_pokedex kursor"
+                             id="polowanie_pokedex" data-original-title="Przeczytaj więcej o pokemonie"
+                             data-toggle="tooltip"/>
+
+                        <div class="col-xs-12 text-center margin-top">
+                            {% if hunting.pokedex %}
+                                <div class="col-xs-6 text-right margin-top">
+                                    <span data-original-title="Atak"
+                                          data-toggle="tooltip">Atak: {{ hunting.pokemon.attack }}</span><br/>
+                                    <span data-original-title="Obrona"
+                                          data-toggle="tooltip">Obrona: {{ hunting.pokemon.defence }}</span><br/>
+                                    <span data-original-title="Szybkość"
+                                          data-toggle="tooltip">Szybkość: {{ hunting.pokemon.speed }}</span>
+                                </div>
+                                <div class="col-xs-6 text-left margin-top">
+                                    <span data-original-title="Specjalny Atak"
+                                          data-toggle="tooltip">Sp.Atak: {{ hunting.pokemon.spAttack }}</span><br/>
+                                    <span data-original-title="Specjalna Obrona"
+                                          data-toggle="tooltip">Sp.Obrona: {{ hunting.pokemon.spDefence }}</span><br/>
+                                    <span data-original-title="Życie" data-toggle="tooltip">Życie: {{ hunting.pokemon.getHpToTable }}</span>
+                                </div>
+                            {% else %}
+                                Aby dowiedzieć się więcej o Pokemonie, kup lepszy Pokedex.
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="well well-stan alert-success noborder padding text-center margin-bottom"><span>WYBIERZ POKEMONA DO WALKI</span>
+            </div>
+            <div class="row row-centered">
+                <div class="btn-group">
+                    {% for i in 0..5 %}
+                        {% if app.session.get('pokemon'~i) %}
+                            {% set pokemon = app.session.get('pokemon'~i) %}
+                            <button class="btn btn-primary padding_button_walka
+                            {% if pokemon.actualHP and pokemon.hunger <= 90 %}
+                                polowanie_wlasny_pok" data-id="{{ pokemon.id }}">
+                                    <img src="{{ asset('img/poki/' ~(pokemon.shiny ? 's' : '')~ pokemon.idPokemon ~'.png') }}"
+                                         class="img-responsive width100 walka_pok_img" />
+                            {% else %}
+                                disabled padding_button_walka" id="{{ pokemon.id }}"
+                                    data-original-title="Ten pokemon nie może walczyć!'
+                                    {% if pokemon.actualHp == 0 %}<br />Pokemon ma 0 HP!
+                                    {% elseif pokemon.hunger > 90 %}<br />Pokemon jest zbyt głodny by walczyć!
+                                    {% endif %}"
+                                data-toggle="tooltip">
+                                <img src="{{ asset('img/poki/bw/'~ pokemon.idPokemon ~'.png') }}" class="img-responsive width100 walka_pok_img" />
+                            {% endif %}
+                                <br />{{ pokemon.name }}
+                                <div class="progress progress-gra prog_HP">
+                                    <div class="progress-bar progress-bar-success progBarHP" role="progressbar" aria-valuenow="40" aria-valuemin="0"
+                                         aria-valuemax="100" style="width:{{ (pokemon.actualHp / pokemon.hpToTable * 100)|round(0, 'floor') }}%;">
+                                        <span>HP: {{ (pokemon.actualHp / pokemon.hpToTable * 100)|round(0, 'floor') }}%</span>
+                                    </div>
+                                </div>
+                                <div class="progress progress-gra {{ (pokemon.hunger <= 60) ? 'prog_EXP' : 'prog_HP' }}">
+                                    <div class="progress-bar progress-bar-success {{ (pokemon.hunger <= 60) ? 'progBarEXP' : 'progBarHP' }}" role="progressbar" aria-valuenow="40"
+                                         aria-valuemin="0" aria-valuemax="100" style="width:{{ pokemon.hunger }}%;">
+                                        <span>GŁÓD: {{ pokemon.hunger }}%</span>
+                                    </div>
+                                </div>
+                            </button>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-xs-12 text-center">
+                <button data-place="{{ place }}" type="button" class="btn btn-primary btn-lg button_kontynuuj margin-top">
+                    POMIŃ I KONTYNUUJ
+                </button>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block scripts %}
+    <script>
+        var searchHref = "{{ path('game_market_pokemon_search') }}";
+        var buyHref = "{{ path('game_market_pokemon_buy') }}";
+    </script>
+    <script src="{{ asset('js/jquery.simplePagination.js') }}"></script>
+    <script src="{{ asset('js/marketPokemon.js') }}"></script>
+{% endblock %}
+
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading">
+            <span>TARG - KUP POKEMONA</span>
+        </div>
+        <div class="panel-body">
+            {% include 'game/template/flashes.html.twig' %}
+            <div class="row nomargin text-center">
+                <div class="col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3">
+                    <input type="text" value="{{ formInfo['ID'] }}" id="ID" class="center form-control nomargin" placeholder="ID Pokemona" />
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3">
+                    <input type="text" id="min_level" value="{{ formInfo['minLevel'] }}" class="form-control nomargin" placeholder="Min. Poziom" />
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3">
+                    <input type="text" id="max_level" value="{{ formInfo['maxLevel'] }}" class="form-control nomargin" placeholder="Max. Poziom" />
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3">
+                    <input type="text" id="min_value" value="{{ formInfo['minValue'] }}" class="form-control nomargin" placeholder="Min. Cena" />
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3">
+                    <input type="text" id="max_value" value="{{ formInfo['maxValue'] }}" class="form-control nomargin" placeholder="Max. Cena" />
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-xs-12 margin-top margin-bottom">
+                    <button class="szukaj btn btn-primary center">SZUKAJ</button>
+                </div>
+            </div>
+            <div id="zawartosc">
+                {% block oferts %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

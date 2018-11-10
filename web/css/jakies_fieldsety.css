@@ -1,0 +1,136 @@
+
+fieldset
+{
+	display: block;
+	border: none;
+	border-top: 1px solid #333;
+}
+
+fieldset legend
+{
+	font-weight: bold;
+	font-size: 13px;
+	padding-right: 10px;
+	color: #999;
+}
+
+fieldset form
+{
+	padding-top: 15px;
+}
+
+fieldset p label
+{
+	float: left;
+	width: 150px;
+}
+
+form input, form select, form textarea
+{
+	background-color: #333;
+	padding: 5px;
+	color: #333333;
+	border: 1px solid #333;
+	border-right:1px solid #444;
+	border-bottom:1px solid #444;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+}
+
+form input.formbutton
+{
+	border: none;
+  background-color: #990000;
+	color: #ffffff;
+	font-weight: bold;
+	padding: 6px 10px;
+	font-size: 12px;
+	letter-spacing: 1px;
+	width: auto;
+	overflow: visible;
+}
+
+form.searchform input
+{
+  font-size: 15px;
+    padding: 6px;
+}
+
+form.searchform p
+{
+	margin: 5px 0;
+}
+
+
+footer
+{
+	margin-bottom:80px;
+	background: #222;
+	border-top: 10px solid #800000;
+}
+
+footer p {
+	text-align: left;
+	color: #ccc;
+	font-size: 12px;
+	margin: 0;
+	padding: 0;
+}
+
+footer p a {
+	color: #ccc;
+	font-weight: bold;
+}
+
+.footer-content {
+	padding: 20px 25px 30px;
+}
+
+footer .footer-content ul {
+	width: 260px;
+	list-style: none;
+	margin: 0 65px 0 0;
+	padding: 0;
+	float: left;
+}
+
+footer .footer-content li {
+	padding: 5px 5px;
+}
+
+footer .footer-content li a, footer .footer-content h4 {
+}
+
+footer .footer-content li a {
+ color: #505050;
+    font-size: 0.8em;
+    text-decoration: underline;
+}
+
+footer .footer-content li a:hover {
+	color: #909090;
+}
+
+footer .footer-content h4 {
+   color: #999;
+    font-size: 1.3em;
+    font-weight: bold;
+    padding-bottom: 0;
+}
+
+footer .footer-content ul.endfooter {
+	margin-right: 0;
+}
+footer .footer-bottom {
+	padding: 10px;
+	text-align: center;
+	background-color: #111111;
+}
+
+footer .footer-bottom p {
+	text-align: center;
+}
+
+footer .footer-bottom p, footer .footer-bottom p a {
+	color: #666;
+}

@@ -1,0 +1,86 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block scripts %}
+    <script src="{{ asset('js/hospital.js') }}"></script>
+{% endblock %}
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading"><span>LECZNICA POKEMON</span></div>
+        <div class="panel-body">
+            <div class="row nomargin margin-top">
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger">
+                    <span>
+                    {{ message }}
+                    </span>
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                    <span>
+                    {{ message }}
+                    </span>
+                    </div>
+                {% endfor %}
+                <div class="col-xs-12 col-sm-4">
+                    <img class="img-responsive" src="{{ asset('img/glowne/centrum.png') }}"/>
+                </div>
+                <div class="col-xs-12 col-md-8">
+                    <div class="alert alert-success text-center">
+                        <span>
+                            Witaj w Lecznicy Pokemon! Możesz oddać tutaj swoje pokemony, by wyzdrowiały.
+                            Wykwalifikowany personel medyczny  zadba o to by nastąpiło to jak najszybciej.
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    {% if freeHeals %}
+                        <div class="alert alert-success margin-top"><span>Możesz wyleczyć za darmo drużynę {{ freeHeals }} razy.</span></div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row nomargin margin-top" id="lecznica">
+                <div class="col-xs-12">
+                {% for pokemon in pokemons %}
+                {% set pokemonSession = app.session.get('pokemon'~pokemon.i) %}
+                    <div class="col-xs-6 col-sm-4 margin-top">
+                        <div class="padding_small jeden">
+                            <div class="row nomargin">
+                                <div class="col-xs-4 col-sm-3">
+                                    {%  if pokemonSession.shiny %}
+                                        <img src="{{ asset('img/poki/s'~pokemonSession.idPokemon~'.png') }}" class="lecznica_img img_responsive" />
+                                    {% else %}
+                                        <img src="{{ asset('img/poki/'~pokemonSession.idPokemon~'.png') }}" class="lecznica_img img_responsive" />
+                                    {% endif %}
+                                </div>
+                                <div class="col-xs-8 col-sm-9">
+                                    <div class="text-center">{{ pokemonSession.name }}</div>
+                                    <div class="progress progress-gra prog_HP" data-original-title="Życie pokemona"
+                                         data-toggle="tooltip" data-placement="top">
+                                        <div class="progress-bar progress-bar-success progBarHP" role="progressbar" aria-valuenow="40"
+                                             aria-valuemin="0" aria-valuemax="100"
+                                             style="width: {{ ((pokemonSession.actualHp / pokemonSession.getHpToTable * 10000) / 100)|round(2, 'floor') }}%;">
+                                            <span>{{ pokemonSession.actualHp }} / {{ pokemonSession.getHpToTable }} HP</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <span>Koszt :{{ pokemon.cost }} &yen;</span>
+                                         <button type="button" class="btn btn-success noborder wylecz btn-sm"
+                                            data-href="{{ path('game_hospital_heal_one', {'i' : pokemon.i}) }}" >Wylecz</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="col-xs-12">
+                    <div class="text-center margin-top">
+                        <button type="button" class="btn btn-success noborder wylecz btn-sm"
+                           data-href="{{ path('game_hospital_heal_all') }}">Wylecz wszystkie</button>
+                    </div>
+                </div>
+            </div>
+    </div>
+        </div>
+    </div>
+{% endblock %}

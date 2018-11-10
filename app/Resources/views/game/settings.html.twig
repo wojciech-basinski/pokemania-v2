@@ -1,0 +1,281 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block scripts %}
+    {% if ajax == 0 %}
+        <script type="text/javascript" src="{{ asset('js/settings.js') }}"></script>
+        <script>
+            var settingsUrl = "{{ path("game_settings_change") }}";
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading text-medium">
+            <span>USTAWIENIA</span>
+        </div>
+        <div class="panel-body">
+            <div class="row nomargin padding_lr">
+                <ul class="nav nav-tabs">
+                    <li {{ active == 1 ? 'class="active"' : '' }}><a data-toggle="tab" href="#konto">Profil</a></li>
+                    <li {{ active == 2 ? 'class="active"' : '' }}><a data-toggle="tab" href="#dane">Konto</a></li>
+                    <li {{ active == 3 ? 'class="active"' : '' }}><a data-toggle="tab" href="#wyglad">Wygląd</a></li>
+                </ul>
+                <div id="info">
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger">
+                    <span>
+                    {{ message|raw }}
+                    </span>
+                        </div>
+                    {% endfor %}
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                    <span>
+                    {{ message|raw }}
+                    </span>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="tab-content">
+                    <div id="konto" class="tab-pane fade {{ active == 1 ? 'in active' }}">
+
+                        <div class="alert alert-info margin-top">
+                            <span>Dodaj avatar </span><span>(Avatar musi mieć wymiary 250x300px)</span></div>
+                        <input type="text" placeholder="Podaj link do obrazka" name="link_a"
+                        value="{{ app.user.avatar }}"/>
+                        <button class="btn btn-info nomargin kursor" id="dodaj_avatar">Dodaj</button>
+                        <button class="btn btn-info nomargin kursor" id="usun_avatar">Usuń avatar</button>
+                    </div>
+
+                    <div id="dane" class="tab-pane fade {{ active == 2 ? 'in active' }}">
+
+                        <div class="alert alert-warning margin-top"><span>Zmień hasło</span></div>
+                        <div class="alert alert-info"><span>Nowe hasło musi posiadać co najmniej 8 znaków.</span></div>
+                        <input type="password" size="15" placeholder="Podaj stare hasło" name="stare" class="form-control"/>
+                        <input type="password" size="15" placeholder="Podaj nowe hasło" name="haslo" class="form-control"/>
+                        <input type="password" size="15" placeholder="Potwierdź nowe hasło" name="haslo2" class="form-control"/>
+                        <button class="btn btn-info nomargin kursor" id="zmien_haslo">Zmień hasło</button>
+
+
+                        <div class="alert alert-info margin-top"><span>Wyświetlaj podpowiedzi</span></div>
+                        <div class="btn-group">
+                            <button type="button" id="zmien/podpowiedz/0/?active=2" class="btn btn-primary
+        <?= $this->podp == 0 ? 'primary-active' : '' ?>
+        ">NIE
+                            </button>
+                            <button type="button" id="zmien/podpowiedz/1/?active=2" class="btn btn-primary
+        <?= $this->podp == 1 ? 'primary-active' : '' ?>
+        ">TAK
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div id="wyglad" class="tab-pane fade {{ active == 3 ? 'in active' }}">
+
+                        <div class="alert alert-info margin-top"><span>Widok drużyny w profilu</span></div>
+                        <div class="btn-group">
+                            <button type="button" data-value="0" data-what="team" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getTeam == 0 ? 'primary-active' : ''}}">
+                                NIE
+                            </button>
+                            <button type="button" data-value="1" data-what="team" data-active="3"  class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getTeam ? 'primary-active' : ''}}">
+                                TAK
+                            </button>
+                        </div>
+
+                        <div class="alert alert-info margin-top"><span>Pokazuj moje oferty na targu</span></div>
+                        <div class="btn-group">
+                            <button type="button" data-value="0" data-what="market" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getMarket == 0 ? 'primary-active' : ''}}">
+                                NIE
+                            </button>
+                            <button type="button" data-value="1" data-what="market" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getMarket ? 'primary-active' : ''}}">
+                                TAK
+                            </button>
+                        </div>
+
+                        <div class="alert alert-info margin-top"><span>Wyświetlaj zegar</span></div>
+                        <div class="btn-group">
+                            <button type="button" data-value="0" data-what="clock" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getClock == 0 ? 'primary-active' : ''}}">
+                                NIE
+                            </button>
+                            <button type="button" data-value="1" data-what="clock" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getClock ? 'primary-active' : ''}}">
+                                TAK
+                            </button>
+                        </div>
+
+                        <div class="alert alert-info margin-top"><span>Wyświetlaj tooltipy</span></div>
+                        <div class="btn-group">
+                            <button type="button" data-value="0" data-what="tooltip" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getTooltip == 0 ? 'primary-active' : ''}}">
+                                NIE
+                            </button>
+                            <button type="button" data-value="1" data-what="tooltip" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getTooltip ? 'primary-active' : ''}}">
+                                TAK
+                            </button>
+                        </div>
+
+                        <div class="alert alert-info margin-top"><span>Kolor paneli</span></div>
+                        <div class="btn-group">
+                            <button type="button" data-value="0" data-what="panels" data-active="3" class="change btn btn-primary
+                                {{ app.session.get('userSession').userSettings.getPanels == 0 ? 'primary-active' : ''}}">
+                                ZIELONY(domyślny)
+                            </button>
+                            <button type="button" data-value="1" data-what="panels" data-active="3"  class="change btn btn-primary
+                                {{ app.session.get('userSession').userSettings.getPanels == 1 ? 'primary-active' : ''}}">
+                                NIEBIESKI
+                            </button>
+                            <button type="button" data-value="2" data-what="panels" data-active="3" class="change btn btn-primary
+                                {{ app.session.get('userSession').userSettings.getPanels == 2 ? 'primary-active' : ''}}">
+                                POMARAŃCZOWY
+                            </button>
+                            <button type="button" data-value="3" data-what="panels" data-active="3" class="change btn btn-primary
+                                {{ app.session.get('userSession').userSettings.getPanels == 3 ? 'primary-active' : ''}}">
+                                CZERWONY
+                            </button>
+                            <button type="button" data-value="4" data-what="panels" data-active="3" class="change btn btn-primary
+                                {{ app.session.get('userSession').userSettings.getPanels == 4 ? 'primary-active' : ''}}">
+                                BŁĘKITNY
+                            </button>
+                            <button type="button" data-value="5" data-what="panels" data-active="3" class="change btn btn-primary
+                                {{ app.session.get('userSession').userSettings.getPanels == 5 ? 'primary-active' : ''}}">
+                                ŻÓŁTY
+                            </button>
+                            <button type="button" data-value="6" data-what="panels" data-active="3" class="change btn btn-primary
+                                {{ app.session.get('userSession').userSettings.getPanels == 6 ? 'primary-active' : ''}}">
+                                FIOLETOWY
+                            </button>
+                        </div>
+
+                        <div class="alert alert-info margin-top"><span>Kolor tła</span></div>
+                        <div class="btn-group">
+                            <button type="button" data-value="0" data-what="background" data-active="3" class="change btn btn-primary">Domyślne</button>
+                            <input id="colorpicker" value="{{ app.session.get('userSession').userSettings.getBackground ? app.session.get('userSession').userSettings.getBackground : '#1c5b4e' }}"
+                                   type="color" class="kursor"/>
+                            <button type="button" id="color" class="btn btn-primary">Ustaw</button>
+                        </div>
+
+                        <div class="alert alert-info margin-top"><span>Tabelka z informacjami</span></div>
+                        <div class="btn-group">
+                            <button type="button" data-value="0" data-what="table" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getTable == 0 ? 'primary-active' : ''}}">
+                                Po lewej stronie
+                            </button>
+                            <button type="button" data-value="1" data-what="table" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getTable ? 'primary-active' : ''}}">
+                                Po prawej stronie
+                            </button>
+                        </div>
+
+                        <div class="alert alert-info margin-top"><span>Motyw</span></div>
+                        <div class="btn-group">
+                            <button type="button" data-value="0" data-what="style" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getStyle == 0 ? 'primary-active' : ''}}">
+                                Jasny
+                            </button>
+                            <button type="button" data-value="1" data-what="style" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getStyle == 1 ? 'primary-active' : ''}}">
+                                Ciemny
+                            </button>
+                        </div>
+
+
+                        <div class="alert alert-warning margin-top-big text-medium"><span>Ustawienia stopki</span></div>
+
+                        <div class="alert alert-info margin-top"><span>Wyświetlaj przycisk leczenia</span></div>
+                        <div class="btn-group">
+                            <button type="button" data-value="0" data-what="heal" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getHeal == 0 ? 'primary-active' : ''}}">
+                                NIE
+                            </button>
+                            <button type="button" data-value="1" data-what="heal" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getHeal ? 'primary-active' : ''}}">
+                                TAK
+                            </button>
+                        </div>
+
+                        <div class="alert alert-info margin-top"><span>Wyświetlaj przycisk wypij sodę</span></div>
+                        <div class="btn-group">
+                            <button type="button" data-value="0" data-what="soda" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getSoda == 0 ? 'primary-active' : ''}}">
+                                NIE
+                            </button>
+                            <button type="button" data-value="1" data-what="soda" data-active="3" class="change btn btn-primary ';
+                            {{ app.session.get('userSession').userSettings.getSoda ? 'primary-active' : ''}}">
+                                TAK
+                            </button>
+                        </div>
+
+                        <div class="alert alert-info margin-top"><span>Wyświetlaj przycisk wypij wodę</span></div>
+                        <div class="btn-group">
+                            <button type="button" data-value="0" data-what="water" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getWater == 0 ? 'primary-active' : ''}}">
+                                NIE
+                            </button>
+                            <button type="button" data-value="1" data-what="water" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getWater ? 'primary-active' : ''}}">
+                                TAK
+                            </button>
+                        </div>
+
+                        <div class="alert alert-info margin-top"><span>Wyświetlaj przycisk wypij lemoniadę</span></div>
+                        <div class="btn-group">
+                            <button type="button" data-value="0" data-what="lemonade" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getLemonade == 0 ? 'primary-active' : ''}}">
+                                NIE
+                            </button>
+                            <button type="button" data-value="1" data-what="lemonade" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getLemonade ? 'primary-active' : ''}}">
+                                TAK
+                            </button>
+                        </div>
+
+                        <div class="alert alert-info margin-top"><span>Wyświetlaj przycisk ulecz drużynę Cheri Berry</span></div>
+                        <div class="btn-group">
+                            <button type="button" data-value="0" data-what="cheri" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getCheri == 0 ? 'primary-active' : ''}}">
+                                NIE
+                            </button>
+                            <button type="button" data-value="1" data-what="cheri" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getCheri ? 'primary-active' : ''}}">
+                                TAK
+                            </button>
+                        </div>
+
+                        <div class="alert alert-info margin-top"><span>Wyświetlaj przycisk ulecz drużynę Wiki Berry</span></div>
+                        <div class="btn-group">
+                            <button type="button" data-value="0" data-what="wiki" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getWiki == 0 ? 'primary-active' : ''}}">
+                                NIE
+                            </button>
+                            <button type="button" data-value="1" data-what="wiki" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getWiki ? 'primary-active' : ''}}">
+                                TAK
+                            </button>
+                        </div>
+
+                        <div class="alert alert-info margin-top"><span>Wyświetlaj przycisk nakarm drużynę</span></div>
+                        <div class="btn-group">
+                            <button type="button" data-value="0" data-what="feed" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getFeed == 0 ? 'primary-active' : ''}}">
+                                NIE
+                            </button>
+                            <button type="button" data-value="1" data-what="feed" data-active="3" class="change btn btn-primary
+                            {{ app.session.get('userSession').userSettings.getFeed ? 'primary-active' : ''}}">
+                                TAK
+                            </button>
+                        </div>
+                    </div>
+
+
+                    </div>
+            </div>
+        </div>
+{% endblock %}

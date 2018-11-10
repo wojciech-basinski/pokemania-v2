@@ -1,0 +1,64 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block scripts %}
+    <script src="{{ asset('js/bugs.js') }}"></script>
+    <script>
+        var listHref = "{{ path('game_bugs_list') }}";
+        var addHref = "{{ path('game_bugs_add') }}";
+        var homeAddingHref = "{{ path('game_bugs') }}";
+    </script>
+    {% if app.user.admin %}
+        <script>
+            var adminHref = "{{ path('game_bugs_admin') }}";
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading">
+            <span>ZGŁOŚ BŁĄD</span>
+        </div>
+        <div class="panel-body">
+            {% include 'game/template/flashes.html.twig' %}
+            <div class="row nomargin">
+                <div class="col-xs-12 text-center">
+                    <button class="btn btn-primary wyswietl margin-bottom">Zobacz zgłoszone przez siebie błędy.</button>
+                </div>
+            </div>
+
+            <div class="row row-centered">
+                <div class="col-xs-12 col-md-8 col-centered">
+                    <textarea placeholder="Tytuł" class="form-control" name="tytul">{{ titleBug }}</textarea>
+                </div>
+            </div>
+
+            <div class="row row-centered">
+                <div class="col-xs-12 col-md-8 col-centered">
+                    <textarea placeholder="Opis" class="form-control" name="opis">{{ contentBug }}</textarea>
+                </div>
+            </div>
+
+            <div class="row nomargin">
+                <div class="col-xs-12 margin-bottom text-center">
+                    <button class="btn btn-info zglos margin-bottom">ZGŁOŚ</button>
+                </div>
+            </div>
+
+            <div class="row nomargin">
+                <div class="well well-primary jeden_ttlo">
+                    Oto lista rzeczy, które jeszcze nie działają:<br />
+                    1.Niektóre ataki, które wymagają osobnego oskrypotowania.<br />
+                    2.Punkty do wykorzystania.<br />
+                    3.Efekt osiągnięć i odznak.<br />
+                    4.Niektóre wydarzenia w dziczy.<br />
+                    Dodatkowe informacje.<br />
+                    Jak zgłosić błąd:<br />
+                    W Menu wybierz opcję inne > zgłoś błąd.<br />
+                    Ewentualnie napisać PW do gracza o nicku: admin1<br />
+                    Opis błędu powinien zawierać miejsce, w którym występuje oraz jak najdokładniejszy opis jak do błędu doszło
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

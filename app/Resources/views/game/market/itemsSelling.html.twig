@@ -1,0 +1,224 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block scripts %}
+    <script src="{{ asset('js/market.js') }}"></script>
+    <script>
+        var removeItemHref = "{{ path('game_market_item_remove') }}";
+        var sellingItemHref = "{{ path('game_market_item_selling') }}";
+    </script>
+{% endblock %}
+
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading"><span>TARG - WYSTAW PRZEDMIOT</span></div>
+        <div class="panel-body">
+            <ul class="nav nav-tabs">
+                <li {{ (active) == 1 ? 'class="active"' }}><a data-toggle="tab" href="#wystaw">Wystaw ofartę</a></li>
+                <li {{ (active) == 2 ? 'class="active"' }}><a data-toggle="tab" href="#wlasne">Wystawione oferty</a></li>
+            </ul>
+            <div class="tab-content">
+                {% include 'game/template/flashes.html.twig' %}
+                <div id="wystaw" class="tab-pane fade{{ (active == 1) ? ' in active' }}">
+                    <div class="panel panel-success jeden_ttlo">
+                        <div class="panel-heading">
+                            <span>Wystaw ofertę</span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row nomargin text-center">
+                                <div class="alert alert-info"><span>Opłata za wystawienie produktów na targu wynosi 1% całkowitej ceny.</span></div>
+                                <div class="col-xs-12">
+                                    <div class="col-xs-2 col-xs-offset-2">Przedmiot</div>
+                                    <div class="col-xs-2">Posiadana ilość</div>
+                                    <div class="col-xs-2">Ilość</div>
+                                    <div class="col-xs-2">Cena</div>
+                                    <div class="col-xs-2">Wystaw</div>
+                                </div>
+                            </div>
+                            {% for berry in berrys %}
+                                <div class="row nomargin text-center">
+                                    <div class="col-xs-12 nopadding">
+                                        <div class="well targ_oferta nopadding">
+                                            <div class="row nomargin">
+                                                <div class="col-xs-2 targ-line">
+                                                    <img src="{{ asset('img/jagody/'~berry['name']~'.png') }}" class="img-responsive center" />
+                                                </div>
+                                                <div class="col-xs-2 pogrubienie targ-line">
+                                                    {{ berry['name2'] }}
+                                                </div>
+                                                <div class="col-xs-2 pogrubienie targ-line">
+                                                    {{ berry['value'] }}
+                                                </div>
+                                                <div class="col-xs-2 targ-line">
+                                                    <input type="text" placeholder="Ilość"
+                                                           class="wystaw_przedmiot_ilosc form-control margin-top-big" data-id="ilosc_{{ berry.name }}" />
+                                                </div>
+                                                <div class="col-xs-2 targ-line">
+                                                    <input type="text" placeholder="Min. cena: {{ berry['minValue'] }}&yen;"
+                                                           class="wystaw_przedmiot_cena form-control margin-top-big" data-id="cena_{{ berry.name }}" />
+                                                </div>
+                                                <div class="col-xs-2 targ-line">
+                                                    <button class="wystaw_przedmiot btn btn-primary" data-id="{{ berry.name }}">WYSTAW</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            {% for pokeball in pokeballs %}
+                                <div class="row nomargin text-center">
+                                    <div class="col-xs-12 nopadding">
+                                        <div class="well targ_oferta nopadding">
+                                            <div class="row nomargin">
+                                                <div class="col-xs-2 targ-line">
+                                                    <img src="{{ asset('img/balle/'~pokeball['name']~'.png') }}" class="img-responsive center" />
+                                                </div>
+                                                <div class="col-xs-2 pogrubienie targ-line">
+                                                    {{ pokeball['name'] }}
+                                                </div>
+                                                <div class="col-xs-2 pogrubienie targ-line">
+                                                    {{ pokeball['value'] }}
+                                                </div>
+                                                <div class="col-xs-2 targ-line">
+                                                    <input type="text" placeholder="Ilość"
+                                                           class="wystaw_przedmiot_ilosc form-control margin-top-big" data-id="ilosc_{{ pokeball['name'] }}"/>
+                                                </div>
+                                                <div class="col-xs-2 targ-line">
+                                                    <input type="text" placeholder="Min. cena: {{ pokeball['minValue'] }}&yen;"
+                                                           class="wystaw_przedmiot_cena form-control margin-top-big" data-id="cena_{{ pokeball['name'] }}"/>
+                                                </div>
+                                                <div class="col-xs-2 targ-line">
+                                                    <button class="wystaw_przedmiot btn btn-primary" data-id="{{ pokeball['name'] }}">WYSTAW</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            {% for item in others %}
+                                <div class="row nomargin text-center">
+                                    <div class="col-xs-12 nopadding">
+                                        <div class="well targ_oferta nopadding">
+                                            <div class="row nomargin">
+                                                <div class="col-xs-2 targ-line">
+                                                    <img src="{{ asset('img/przedmioty/'~item['namePl']|lower~'.png') }}" class="img-responsive center" />
+                                                </div>
+                                                <div class="col-xs-2 pogrubienie targ-line">
+                                                    {{ item['namePl'] }}
+                                                </div>
+                                                <div class="col-xs-2 pogrubienie targ-line">
+                                                    {{ item['value'] }}
+                                                </div>
+                                                <div class="col-xs-2 targ-line">
+                                                    <input type="text" placeholder="Ilość"
+                                                           class="wystaw_przedmiot_ilosc form-control margin-top-big" data-id="ilosc_{{ item['name'] }}"/>
+                                                </div>
+                                                <div class="col-xs-2 targ-line">
+                                                    <input type="text" placeholder="Min. cena {{ item['minValue'] }}&yen;"
+                                                           class="wystaw_przedmiot_cena form-control margin-top-big" data-id="cena_{{ item['name'] }}"/>
+                                                </div>
+                                                <div class="col-xs-2 targ-line">
+                                                    <button class="wystaw_przedmiot btn btn-primary" data-id="{{ item['name'] }}">WYSTAW</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            {% for stone in stones %}
+                                <div class="row nomargin text-center">
+                                    <div class="col-xs-12 nopadding">
+                                        <div class="well targ_oferta nopadding">
+                                            <div class="row nomargin">
+                                                <div class="col-xs-2 targ-line">
+                                                    <img src="{{ asset('img/kamienie/'~stone['name']~'.png') }}" class="img-responsive center" />
+                                                </div>
+                                                <div class="col-xs-2 pogrubienie targ-line">
+                                                    Kamienie {{ stone['namePl'] }}
+                                                </div>
+                                                <div class="col-xs-2 pogrubienie targ-line">
+                                                    {{ stone['value'] }}
+                                                </div>
+                                                <div class="col-xs-2 targ-line">
+                                                    <input type="text" placeholder="Ilość"
+                                                           class="wystaw_przedmiot_przedmiot_ilosc form-control margin-top-big" data-id="ilosc_{{ stone['name'] }}"/>
+                                                </div>
+                                                <div class="col-xs-2 targ-line">
+                                                    <input type="text" placeholder="Min. cena {{ stone['minValue'] }}&yen;"
+                                                           class="wystaw_przedmiot_przedmiot_cena form-control margin-top-big" data-id="cena_{{ stone['name'] }}"/>
+                                                </div>
+                                                <div class="col-xs-2 targ-line">
+                                                    <button class="wystaw_przedmiot btn btn-primary" data-id="{{ stone['name'] }}">WYSTAW</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div id="wlasne" class="tab-pane fade{{ (active == 2) ? ' in active' }}">
+                    <div class="panel panel-success jeden_ttlo">
+                        <div class="panel-heading">
+                            <span>Własne oferty</span>
+                        </div>
+                        <div class="panel-body">
+                            {% if onMarket %}
+                            <div class="alert alert-success">
+                                <span>Wystawione przedmioty</span>
+                            </div>
+                            <div class="row nomargin text-center">
+                                <div class="col-xs-2 col-xs-offset-2">Przedmiot</div>
+                                <div class="col-xs-2">Ilość</div>
+                                <div class="col-xs-2">Cena</div>
+                            </div>
+                            {% for ofert in onMarket %}
+                                <div class="row nomargin text-center">
+                                    <div class="col-xs-12 nopadding">
+                                        <div class="well targ_oferta nopadding">
+                                            <div class="row nomargin">
+                                                <div class="col-xs-2 targ-line">
+                                                    {% if ofert.kind == 'Berry' %}
+                                                        <img src="{{ asset('img/jagody/'~ofert.name~'.png') }}"
+                                                        class="img-responsive targ_pok center" />
+                                                    {% elseif ofert.kind == 'Pokeball' %}
+                                                        <img src="{{ asset('img/balle/'~ofert.name~'.png') }}"
+                                                        class="img-responsive targ_pok center" />
+                                                    {% elseif ofert.kind == 'Items' %}
+                                                        <img src="{{ asset('img/przedmioty/'~ofert.namePl|lower~'.png') }}"
+                                                        class="img-responsive targ_pok center" />
+                                                    {% else %}
+                                                        <img src="{{ asset('img/kamienie/'~ofert.name~'.png') }}"
+                                                             class="img-responsive targ_pok center" />
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-xs-2 targ-line">
+                                                    <span class="pogrubienie">
+                                                        {{ ofert.namePl }}
+                                                    </span>
+                                                </div>
+                                                <div class="col-xs-2 targ-line">
+                                                    {{ ofert.quantity }}
+                                                </div>
+                                                <div class="col-xs-2 targ-line">
+                                                    {{ ofert.value }} &yen;
+                                                </div>
+                                                <div class="col-xs-2 targ-line">
+                                                    <button class="wycofaj btn btn-primary" data-id="{{ ofert.id }}">WYCOFAJ</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            {% else %}
+                                <div class="alert alert-info"><span>Brak wystawionych ofert</span></div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

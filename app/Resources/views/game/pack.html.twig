@@ -1,0 +1,841 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block styles %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="{{ asset('css/select.css') }}">
+{% endblock %}
+
+{% block scripts %}
+    {% if ajax == 0 %}
+        <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="{{ asset('js/pack.js') }}"></script>
+        <script>
+            var packUse = "{{ path("game_user_pack_use") }}";
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading"><span>PLECAK</span></div>
+        <div class="panel-body">
+            <ul class="nav nav-tabs">
+                <li {{ active == 1 ? 'class="active"' : '' }}>
+                    <a data-toggle="tab" href="#przedmioty">Użytkowe</a>
+                </li>
+                <li {{ active == 2 ? 'class="active"' : '' }}>
+                    <a data-toggle="tab" href="#pokeballe">Pokeballe</a>
+                </li>
+                <li {{ active == 3 ? 'class="active"' : '' }}>
+                    <a data-toggle="tab" href="#jagody">Jagody</a>
+                </li>
+                <li {{ active == 4 ? 'class="active"' : '' }}>
+                    <a data-toggle="tab" href="#ewolucyjne">Ewolucyjne</a>
+                </li>
+                <li {{ active == 5 ? 'class="active"' : '' }}>
+                    <a data-toggle="tab" href="#tm">TM</a>
+                </li>
+                <li {{ active == 6 ? 'class="active"' : '' }}>
+                    <a data-toggle="tab" href="#inne">Inne</a>
+                </li>
+                <li {{ active == 7 ? 'class="active"' : '' }}>
+                    <a data-toggle="tab" href="#karty">Karty</a>
+                </li>
+            </ul>
+
+            {% include 'game/template/flashes.html.twig' %}
+
+            <div class="tab-content">
+
+                <div id="przedmioty" class="tab-pane fade {{ active == 1 ? 'in active' : '' }}">
+                    <div class="row">
+                        {% if items.lemonade %}
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                             data-target="#lemonade_opis">
+                            <div class="jeden kursor" id="lemoniada"
+                                 title="Przywraca 100% punktów PA ({{ app.user.mpa }} PA)">
+                                <img src="{{ asset('img/przedmioty/lemoniada.png') }}"/>
+                                <div>Lemoniada<br/>x {{ items.lemonade }}</div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="lemonade_opis" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Lemoniada</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="{{ asset('img/przedmioty/lemoniada.png') }}"
+                                                     class="img-responsive"/></div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Przywraca 100% punktów PA ({{ app.user.mpa }} PA)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <button class="btn btn-info nomargin kursor wypij" data-value="1" data-what="lemonade" data-active="1">Wypij</button>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if items.soda %}
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                             data-target="#soda_opis">
+                            <div class="jeden kursor" id="soda"
+                                 title="Przywraca 50% punktów PA ({{ app.user.mpa / 2 }} PA)">
+                                <img src="{{ asset('img/przedmioty/soda.png') }}"/>
+                                <div>Soda<br/>x {{ items.soda }}</div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="soda_opis" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Soda</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="{{ asset('img/przedmioty/soda.png') }}" class="img-responsive"/>
+                                            </div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Przywraca 50% punktów PA ({{ (app.user.mpa / 2)|round }} PA)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <input type="text" size="15" id="soda_ilosc" class="ilosc_wypij"
+                                               placeholder="Ilość, domyślnie 1">
+                                        <button class="btn btn-info nomargin kursor wypij" data-what="soda" data-active="1">Wypij</button>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if items.water %}
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                             data-target="#water_opis">
+                            <div class="jeden kursor" id="water"
+                                 title="Przywraca 25% punktów PA ({{ app.user.mpa / 4 }} PA)">
+                                <img src="{{ asset('img/przedmioty/water.png') }}"/>
+                                <div>Woda<br/>x {{ items.water }}</div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="water_opis" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Woda</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="{{ asset('img/przedmioty/water.png') }}" class="img-responsive"/>
+                                            </div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Przywraca 25% punktów PA ({{ (app.user.mpa / 4)|round }} PA)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <input type="text" size="15" id="water_ilosc" class="ilosc_wypij"
+                                               placeholder="Ilość, domyślnie 1">
+                                        <button class="btn btn-info nomargin kursor wypij" data-what="water" data-active="1">Wypij</button>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if items.pokemonFood %}
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                             data-target="#food_opis">
+                            <div class="jeden kursor" id="food"
+                                 title="Pokemony w drużynie muszą jeść karmę, aby miały siłę do walki.">
+                                <img src="{{ asset('img/przedmioty/karma.png') }}"/>
+                                <div>Pudełko karmy<br/>x {{ items.pokemonFood }}</div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="food_opis" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Karma</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="{{ asset('img/przedmioty/karma.png') }}" class="img-responsive"/>
+                                            </div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Pokemony w drużynie muszą jeść karmę, aby miały siłę do walki.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <fieldset>
+                                            <label for="food_pok">Wybierz Pokemona:</label>
+                                            <select id="food_pok" name="karma_pok">
+                                                {% for pokemon in pokemonsToSelect %}
+                                                    <option data-class="id_{{ pokemon.shiny ? 's' : '' }}{{ pokemon.idPokemon }}" value="{{ pokemon.id }}">{{ pokemon.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </fieldset>
+                                        <input type="text" size="15" id="food_ilosc" class="ilosc_wypij"
+                                               placeholder="Ilość, domyślnie 1">
+                                        <button class="btn btn-info nomargin kursor wypij" data-what="food" data-active="1">Zjedz</button>
+                                        <button class="btn btn-info nomargin kursor wypij_all" data-what="food" data-active="1">Nakarm wszystkie
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if items.bar %}
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                             data-target="#bar_opis">
+                            <div class="jeden kursor" id="bar" title="Zwiększa nieznacznie przywiązanie pokemona.">
+                                <img src="{{ asset('img/przedmioty/baton.png') }}"/>
+                                <div>Baton<br/>x {{ items.bar }}</div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="bar_opis" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Baton</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="{{ asset('img/przedmioty/baton.png') }}" class="img-responsive"/>
+                                            </div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Zwiększa nieznacznie przywiązanie pokemona.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <fieldset>
+                                            <label for="bar_pok">Wybierz Pokemona:</label>
+                                            <select id="bar_pok" name="baton_pok">
+                                                {% for pokemon in pokemonsToSelect %}
+                                                    <option data-class="id_{{ pokemon.shiny ? 's' : '' }}{{ pokemon.idPokemon }}" value="{{ pokemon.id }}">{{ pokemon.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </fieldset>
+                                        <input type="text" size="15" id="bar_ilosc" class="ilosc_wypij"
+                                               placeholder="Ilość, domyślnie 1">
+                                        <button class="btn btn-info nomargin kursor wypij" data-what="bar" data-active="1">Zjedz</button>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if items.cookie %}
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                             data-target="#cookie_opis">
+                            <div class="jeden kursor" id="ciastko" title="Zwiększa przywiązanie pokemona.">
+                                <img src="{{ asset('img/przedmioty/ciastko.png') }}"/>
+                                <div>Ciastko<br/>x {{ items.cookie }}</div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="cookie_opis" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Ciastko</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="{{ asset('img/przedmioty/ciastko.png') }}" class="img-responsive"/>
+                                            </div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Zwiększa przywiązanie pokemona.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <fieldset>
+                                            <label for="cookie_pok">Wybierz Pokemona:</label>
+                                            <select id="cookie_pok" name="ciastko_pok">
+                                                {% for pokemon in pokemonsToSelect %}
+                                                    <option data-class="id_{{ pokemon.shiny ? 's' : '' }}{{ pokemon.idPokemon }}" value="{{ pokemon.id }}">{{ pokemon.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </fieldset>
+                                        <input type="text" size="15" id="cookie_ilosc" class="ilosc_wypij"
+                                               placeholder="Ilość, domyślnie 1">
+                                        <button class="btn btn-info nomargin kursor wypij" data-what="cookie" data-active="1">Zjedz</button>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if items.candy %}
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                             data-target="#candy_opis">
+                            <div class="jeden kursor" id="candy" title="Zwiększa proziom Pokemona.">
+                                <img src="{{ asset('img/przedmioty/candy.png') }}"/>
+                                <div>Rare Candy<br/>x {{ items.candy }}</div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="candy_opis" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Rare Candy</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="{{ asset('img/przedmioty/candy.png') }}" class="img-responsive"/>
+                                            </div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Zwiększa proziom Pokemona.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <fieldset>
+                                            <label for="candy_pok">Wybierz Pokemona:</label>
+                                            <select id="candy_pok" name="candy_pok">
+                                                {% for pokemon in pokemonsToSelect %}
+                                                    <option data-class="id_{{ pokemon.shiny ? 's' : '' }}{{ pokemon.idPokemon }}" value="{{ pokemon.id }}">{{ pokemon.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </fieldset>
+                                        <button class="btn btn-info nomargin kursor wypij" data-what="candy" data-active="1">Użyj</button>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div id="pokeballe" class="tab-pane fade {{ active == 2 ? 'in active' : '' }}">
+                    <div class="row">
+                        {% for pokeball in pokeballsDescription %}
+                            {% if attribute(pokeballs, pokeball.nazwa~'s') %}
+                                <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal" data-target="#{{ pokeball.nazwa }}_opis">
+                                    <div class="jeden kursor" id="{{ pokeball.nazwa }}" title="{{ pokeball.opis }}">
+                                        <img src="{{ asset('img/balle/'~pokeball.nazwa|capitalize~'.png' ) }}"/>
+
+                                        <div>{{ pokeball.nazwa|capitalize }}<br />x {{ attribute(pokeballs, pokeball.nazwa~'s') }}</div>
+                                    </div>
+                                </div>
+
+                        <div class="modal fade" id="{{ pokeball.nazwa }}_opis" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">{{ pokeball.nazwa|capitalize }}</span>
+                                        </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="{{ asset('img/balle/'~pokeball.nazwa~'.png' ) }}" class="img-responsive"/>
+                                            </div>
+                                            <div class="col-xs-12 col-md-9 text-center">
+                                                {{ pokeball.opis }}
+                                                <br />Posiadasz {{ attribute(pokeballs, pokeball.nazwa~'s') }} sztuk.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div id="jagody" class="tab-pane fade {{ active == 3 ? 'in active' : '' }}">
+                    <div class="row">
+                        {% for berry in berrysDescription %}
+                            {% if attribute(berrys, berry.nazwa|replace({'_':''})) %}
+                                <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal" data-target="#{{ berry.nazwa }}_opis">
+                                    <div class="jeden kursor" title="{{ berry.opis }}">
+                                        <img src="{{ asset('img/jagody/' ~ berry.nazwa ~ '.png') }}"/>
+                                        <div>{{ berry.nazwa2 }}<br />x {{ attribute(berrys, berry.nazwa|replace({'_':''})) }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="{{ berry.nazwa }}_opis" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <span class="text-medium">{{ berry.nazwa }}</span>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-xs-3">
+                                                        <img src="{{ asset('img/jagody/' ~ berry.nazwa ~ '.png') }}" class="img-responsive"/>
+                                                    </div>
+                                                    <div class="col-xs-12 col-md-9">
+                                                        {{ berry.opis }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                {% if berry.rodzaj == 1 or berry.rodzaj == 3 %}
+                                                    <fieldset>
+                                                        <label for="{{ berry.nazwa }}_pok">Wybierz Pokemona:</label>
+                                                        <select id="{{ berry.nazwa }}_pok" name="{{ berry.nazwa }}_pok">
+                                                            {% for pokemon in pokemonsToSelect %}
+                                                                <option data-class="id_{{ pokemon.shiny ? 's' : '' }}{{ pokemon.idPokemon }}" value="{{ pokemon.id }}">{{ pokemon.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </fieldset>
+                                                {% endif %}
+                                                <input type="text" size="15" id="{{ berry.nazwa }}_ilosc" class="ilosc_jagoda" placeholder="Ilość, domyślnie 1">
+                                                <button class="btn btn-info nomargin jagoda" data-what="{{ berry.nazwa }}" data-active="3">Zjedz</button>
+                                                <button class="btn btn-info nomargin jagoda_max" data-what="{{ berry.nazwa }}" data-active="3">Zjedz max</button>
+                                                {% if berry.rodzaj == 1 %}
+                                                    <button class="btn btn-info nomargin jagoda_all" data-what="{{ berry.nazwa }}" data-active="3">Ulecz wszystkie</button>
+                                                {% endif %}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div id="ewolucyjne" class="tab-pane fade {{ active == 4 ? 'in active' : '' }}">
+                    <div class="row">
+                        {% for stone in stonesDescription %}
+                            {% if attribute(stones, stone.db~'stone') %}
+                                <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal" data-target="#{{ stone.nazwa }}_opis">
+                                    <div class="jeden kursor" id="{{ stone.nazwa }}" title="{{ stone.opis }}">
+                                        <img src="{{ asset('img/kamienie/'~stone.nazwa~'.png') }}"/>
+                                        <div>Kamień {{ stone.nazwa2 }}<br />x {{ attribute(stones, stone.db~'stone') }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="{{ stone.nazwa }}_opis" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <span class="text-medium">Kamień {{ stone.nazwa2 }}</span>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-xs-3">
+                                                        <img src="{{ asset('img/kamienie/'~stone.nazwa~'.png') }}" class="img-responsive"/>
+                                                    </div>
+                                                    <div class="col-xs-12 col-md-9 text-center">
+                                                        {{ stone.opis }}
+                                                        <br />Posiadasz {{ attribute(stones, stone.db~'stone') }} sztuk.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                <fieldset>
+                                                    <label for="{{ stone.nazwa }}_pok">Wybierz Pokemona:</label>
+                                                    <select id="{{ stone.nazwa }}_pok" name="{{ stone.nazwa }}_pok">
+                                                        {% for pokemon in pokemonsToSelect %}
+                                                            <option data-class="id_{{ pokemon.shiny ? 's' : '' }}{{ pokemon.idPokemon }}" value="{{ pokemon.id }}">{{ pokemon.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </fieldset>
+                                                <div class="kursor kamien walka_button" data-what="{{ stone.nazwa }}" data-active="4">Daj kamień</div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div id="tm" class="tab-pane fade {{ active == 5 ? 'in active' : '' }}">
+                    <div class="row">
+                        TMy jeszcze nie działają.
+                    </div>
+                </div>
+
+                <div id="inne" class="tab-pane fade {{ active == 6 ? 'in active' : '' }}">
+                    <div class="row">
+                        {% if items.flashlight %}
+                            <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                                 data-target="#latarka_opis">
+                                <div class="jeden kursor" title="Niezbędna w wyprawach do groty.">
+                                    <img src="{{ asset('img/przedmioty/latarka.png') }}"/>
+                                    <div><span style="color:transparent">a</span></div>
+                                    <div>Latarka</div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="latarka_opis" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times</button>
+                                            <span class="text-medium">Latarka</span>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <img src="{{ asset('img/przedmioty/latarka.png') }}" class="img-responsive"/>
+                                                </div>
+                                                <div class="col-xs-12 col-md-9 text-center">
+                                                    Niezbędna w wyprawach do groty.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if items.battery %}
+                                <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                                     data-target="#baterie_opis">
+                                    <div class="jeden kursor" title="Latarka nie będzie działać bez baterii.">
+                                        <img src="{{ asset('img/przedmioty/bateria.png') }}"/>
+                                        <div>Baterie<br>{{ items.battery }} sztuk</div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="baterie_opis" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times</button>
+                                                <span class="text-medium">Baterie</span>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-xs-3">
+                                                        <img src="{{ asset('img/przedmioty/bateria.png') }}"
+                                                             class="img-responsive"/></div>
+                                                    <div class="col-xs-12 col-md-9 text-center">
+                                                        Latarka nie będzie działać bez baterii.
+                                                        <br/>Posiadasz {{ items.battery }} sztuk.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal" data-target="#magazyn_opis">
+                            <div class="jeden kursor" title="Pozwala przechowywać do {{ app.user.magazine }} pokemonów.">
+                                <img src="{{ asset('img/przedmioty/box.png') }}"/>
+                                <div>Magazyn na Pokemony <br/>{{ items.box }} poziomu</div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="magazyn_opis" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times</button>
+                                        <span class="text-medium">Magazyn na Pokemony {{ items.box }} poziomu</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="{{ asset('img/przedmioty/box.png') }}" class="img-responsive"/></div>
+                                            <div class="col-xs-12 col-md-9 text-center">
+                                                Pozwala przechowywać do {{ app.user.magazine }} pokemonów.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% if items.pokedex %}
+                            <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                                 data-target="#pokedex_opis">
+                                <div class="jeden kursor" title="Zwiększa szansę złapania pokemona o {{ items.pokedex * 10 }} %">
+                                    <img src="{{ asset('img/przedmioty/pokedex'~items.pokedex~'.png') }}"/>
+                                    <div>Pokedex <br/>{{ items.pokedex }} poziomu</div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="pokedex_opis" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times</button>
+                                            <span class="text-medium">Pokedex {{ items.pokedex }} poziomu</span>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <img src="{{ asset('img/przedmioty/pokedex'~items.pokedex~'.png') }}"
+                                                         class="img-responsive"/></div>
+                                                <div class="col-xs-12 col-md-9 text-center">
+                                                    Zwiększa szansę złapania pokemona o {{ items.pokedex * 10 }} %
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if items.kit %}
+                            <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                                 data-target="#apteczka_opis">
+                                <div class="jeden kursor" title="Zmniejsza koszt leczenia o {{ items.kit * 10 }} %.">
+                                    <img src="{{ asset('img/przedmioty/apteczka'~items.kit~'.png') }}"/>
+                                    <div>Apteczka <br/>{{ items.kit }} poziomu</div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="apteczka_opis" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times</button>
+                                            <span class="text-medium">Apteczka {{ items.kit }} poziomu</span>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <img src="{{ asset('img/przedmioty/apteczka'~items.kit~'.png') }}"
+                                                         class="img-responsive"/></div>
+                                                <div class="col-xs-12 col-md-9 text-center">
+                                                    Zmniejsza koszt leczenia o {{ items.kit * 10 }} %.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if items.shovel %}
+                            <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                                 data-target="#lopata_opis">
+                                <div class="jeden kursor" title="Bez łopaty nie możesz wykopać cennych przedmiotów na safari.">
+                                    <img src="{{ asset('img/przedmioty/lopata.png') }}"/>
+                                    <div><span style="color:transparent">a</span></div>
+                                    <div>Złota łopata</div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="lopata_opis" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <span class="text-medium">Złota łopata</span>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <img src="{{ asset('img/przedmioty/lopata.png') }}" class="img-responsive"/>
+                                                </div>
+                                                <div class="col-xs-12 col-md-9 text-center">
+                                                    Bez łopaty nie możesz wykopać cennych przedmiotów na safari.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if items.parts %}
+                            <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                                 data-target="#czesci_opis">
+                                <div class="jeden kursor" data-toggle="tooltip"
+                                     data-title="Części skamieliny można wymienić na Pokemona skamielinę.">
+                                    <img src="{{ asset('img/przedmioty/skamielina.png') }}"/>
+                                    <div>Część skamieliny <br/> x {{ items.parts }}</div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="czesci_opis" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <span class="text-medium">Część skamieliny</span>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <img src="{{ asset('img/przedmioty/skamielina.png') }}"
+                                                         class="img-responsive"/></div>
+                                                <div class="col-xs-12 col-md-9 text-center">
+                                                    Części skamieliny można wymienić na Pokemona skamielinę.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <button class="btn btn-primary wymien" name="1">Wymień</button>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if items.coins %}
+                            <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                                 data-target="#dukaty_opis">
+                                <div class="jeden kursor" data-toggle="tooltip" data-title="Dukaty">
+                                    <img src="{{ asset('img/przedmioty/dukat.png') }}"/>
+                                    <div>Dukaty <br/> x {{ items.coins }}</div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="dukaty_opis" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <span class="text-medium">DUKATY</span>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <img src="{{ asset('img/przedmioty/dukat.png') }}" class="img-responsive"/>
+                                                </div>
+                                                <div class="col-xs-12 col-md-9 text-center">
+                                                    Dukaty
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <button class="btn btn-primary wymien" name="2">Wymień</button>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if ajax %}
+        <script type="text/javascript">
+            select();
+        </script>
+    {% endif %}
+{% endblock %}

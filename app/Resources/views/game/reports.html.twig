@@ -1,0 +1,58 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block scripts %}
+<script type="text/javascript" src="{{ asset('js/reports.js') }}"></script>
+{% endblock %}
+
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading text-medium">
+            <span>RAPORTY</span>
+        </div>
+        <div class="panel-body">
+            <div class="row nomargin">
+                <div class="col-xs-12 text-center">
+                    <button class="btn btn-primary usun_w margin-bottom">USUŃ WSZYSTKIE RAPORTY</button>
+                </div>
+                <div class="col-xs-12" id="info"></div>
+
+                {% for report in reports %}
+                <div class="wiadomosc col-xs-12 kursor raport-line" data-id="{{ report.id }}" data-href="{{ path('game_reports_show', {id: report.id}) }}">
+                    <div  class="well well-primary jeden_ttlo padding_small margin_2">
+                        <div class="row nomargin text-center">
+                            <div class="col-xs-3">
+                                {% if report.isRead == 0 %}<span class="czerwony new-report">NOWY!</span>{% endif %}
+                                {{ report.time|date }}
+                            </div>
+                            <div class="col-xs-6{% if report.isRead == 0 %} pogrubienie{% endif %}" >
+                                {{ report.title }}
+                            </div>
+                            <div class="col-xs-3" >
+                                <button class="btn btn-danger usun pull-right btn-sm margin-top" data-href="{{ path('game_reports_delete', {id: report.id}) }}">USUŃ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+    {% if ajax == false %}
+        <div class="modal fade in" id="raport_modal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <div class="modal-title pogrubienie text-center"></div>
+                    </div>
+                    <div class="modal-body text-center-alert"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Zamknij</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block scripts %}
+    <script src="{{ asset('js/pokemonExchange.js') }}"></script>
+    <script>
+        var exchangeAction = "{{ path('game_user_pokemons_exchange_action') }}";
+    </script>
+{% endblock %}
+
+{% block gamebody %}
+
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading"><span>WYMIANA</span></div>
+        <div class="panel-body">
+            {% if inExchange %}
+                <div class="alert alert-info text-center">
+                    <span>Pokemony oddane do ewolucji:</span>
+                </div>
+            {% for pokemon in inExchange %}
+                <div class="well well-primary jeden_ttlo">
+                    <div class="row nomargin">
+                        <div class="col-xs-2">
+                            <img src="{{ asset('img/poki/' ~ pokemon.pokemonId ~ '.png') }}" class="img-responsive targ_pok"/>
+                        </div>
+                        <div class="col-xs-2 targ-line">
+                            {{ pokemon.name }}
+                        </div>
+                        <div class="col-xs-8 targ-line">
+                            {% if (pokemon.time - date().timestamp) > 0 %}
+                                Pozostało: {{ time2string(pokemon.time - date().timestamp) }}
+                            {% else %}
+                                <button class="btn btn-primary oddaj" data-id="{{ pokemon.id }}">
+                                    Odbierz Pokemona
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% endif %}
+
+            {% include 'game/template/flashes.html.twig' %}
+
+            {% if toExchange %}
+            {% for pokemon in toExchange %}
+                <div class="panel panel-success jeden_ttlo">
+                    <div class="panel-heading">
+                        <span>{{ pokemon['pokemon'].name }} ({{ pokemon['pokemon'].level }} poziom)</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="alert alert-info">
+                            <span>
+                                Przedmioty wymagane do ewolucji:
+                                <br/> 1x Runa ewolucyjna<img src="{{ asset('img/przedmioty/runa.png') }}"/>
+                                <br/>1x {{ pokemon['item'] }}
+                                        <img src="{{ asset('img/przedmioty/' ~ pokemon['item'] ~ '.png') }}"/>
+                            </span>
+                        </div>
+                        {% if pokemon['evoLevel'] <= pokemon['pokemon'].level %}
+                            {% set item = pokemon['itemEn'] %}
+                            {% if stones.runes and attribute(stones, item) %}
+                            <div class="row row-centered">
+                                <button class="btn btn-primary ewoluuj" data-id="{{ pokemon['pokemon'].id }}"><img src="{{ asset('img/poki/' ~ pokemon['pokemon'].idPokemon ~ '.png' ) }}" /><br />
+                                    Ewoluuj {{ pokemon['pokemon'].name }}</button></div>
+                            {% else %}
+                                <div class="alert alert-warning"><span>Nie posiadasz przedmiotów do ewolucji Pokemona.</span></div>
+                            {% endif %}
+                        {% else %}
+                            <div class="alert alert-warning">
+                                <span>Pokemon ma zbyt niski poziom do ewolucji. Potrzebny {{ pokemon['evoLevel'] }} poziom.</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+            {% else %}
+                <div class="alert alert-info">
+                    <span>Nie posiadasz w drużynie Pokemonów, które można ewoluować przez wymianę</span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

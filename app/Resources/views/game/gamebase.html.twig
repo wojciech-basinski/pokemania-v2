@@ -1,0 +1,38 @@
+{%  if ajax == false %}
+    {% include 'game/template/header.html.twig' %}
+    {% block scripts %}{% endblock %}
+    {% block styles %}{% endblock %}
+    <script>
+        var pokemonInfoHref = "{{ path('game_pokemon', {'id' : 'replace'}) }}";
+        var leftHref = "{{ path('game_left') }}";
+        var URL = "{{ path('homepage') }}";
+        var settings = {
+            'clock' : {{ app.session.get('userSession').userSettings.getClock }},
+            'tooltip' : {{ app.session.get('userSession').userSettings.getTooltip }}
+            };
+
+    </script>
+    </head>
+    <body>
+    {% include 'game/template/menu.html.twig' %}
+    <div class="col-xs-12 col-sm-4 col-md-3" id="lewo">
+        <div id="clock"></div>
+        <div id="tabelka">
+            {% block table %}
+                {{ render(controller('AppBundle:OtherSpecial:left')) }}
+            {% endblock %}
+        </div>
+    </div>
+    {% include 'game/template/modals.html.twig' %}
+    <div class="col-xs-12 col-sm-8 col-md-9" id="prawo">
+{% endif %}
+
+{% block gamebody %}
+{% endblock %}
+
+{%  if ajax == false %}
+    {% include 'game/template/footer.html.twig' %}
+    </div>
+    </body>
+    </html>
+{%  endif %}

@@ -1,0 +1,33 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block scripts %}
+    <script src="{{ asset('js/travel.js') }}"></script>
+    <script>
+        var changeRegion = "{{ path('game_travel_change') }}";
+    </script>
+{% endblock %}
+
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading"><span>PODRÓŻ</span></div>
+        <div class="panel-body" id="podroz-body">
+            {% include 'game/template/flashes.html.twig' %}
+            {% if app.user.region != 2 %}
+                <div class="well well-primary jeden_ttlo text-center">[Tu będzie obrazek statku?] Podróżuj statkiem do Johto<br />
+                    <div class="row margin-top"><button class="btn btn-primary podroz" data-region="2" >Podróż za 250000 &yen;</button></div>
+                </div>
+            {% endif %}
+            {% if app.user.region != 1 %}
+                <div class="well well-primary jeden_ttlo text-center">[Tu będzie obrazek statku?] Podróżuj statkiem do Kanto<br />
+                    <div class="row margin-top"><button class="btn btn-primary podroz" data-region="1" >Podróż za 250000 &yen;</button></div>
+                </div>
+            {% endif %}
+            {% if app.user.region != 3 %}
+                <div class="well well-primary jeden_ttlo text-center">[Tu będzie obrazek statku?] Podróżuj statkiem do Hoenn<br />
+                    <div class="row margin-top"><button class="btn btn-primary podroz" data-region="3" >Podróż za 250000 &yen;</button></div>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}

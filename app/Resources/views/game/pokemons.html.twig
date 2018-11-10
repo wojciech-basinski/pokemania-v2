@@ -1,0 +1,251 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block scripts %}
+        <script>
+            var reserveHref = "{{ path('game_user_pokemons_reserve') }}";
+            var teamHref = "{{ path('game_user_pokemons_team') }}";
+            var waitingHref = "{{ path('game_user_pokemons_waiting') }}";
+            var orderHref = "{{ path('game_user_pokemons_order') }}";
+            var sellPokemonHref = "{{ path('game_market_pokemon_sell') }}";
+        </script>
+        <script type="text/javascript" src="{{ asset('js/pokemons.js') }}"></script>
+{% endblock %}
+
+{% block gamebody %}
+        <div class="panel panel-success jeden_ttlo">
+            <div class="panel-heading text-medium">
+                <span>POKEMONY</span>
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-tabs">
+                    <li {{ active == 1 ? 'class="in active"' }}><a data-toggle="tab" href="#druzyna">Drużyna</a></li>
+                    <li {{ active == 2 ? 'class="in active"' }}><a data-toggle="tab" href="#rezerwa">Rezerwa</a></li>
+                    <li {{ active == 3 ? 'class="in active"' }}><a data-toggle="tab" href="#poczekalnia">Poczekalnia</a></li>
+                    <li {{ active == 4 ? 'class="in active"' }}><a data-toggle="tab" href="#targ">Targ</a>
+                    </li>
+                </ul>
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger">
+                    <span>
+                    {{ message }}
+                    </span>
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                    <span>
+                    {{ message|raw }}
+                    </span>
+                    </div>
+                {% endfor %}
+                <div class="tab-content" id="content">
+                    <div id="druzyna" class="tab-pane fade {{ active == 1 ? 'in active' }}">
+                        <div class="panel panel-success jeden_ttlo">
+                            <div class="panel-heading"><span>DRUŻYNA</span></div>
+                            <div class="panel-body">
+                                <div class="alert alert-success text-center text-medium"><span>Pokemony w drużynie:({{ numberOfPokemonsInTeam }}/6)</span></div>
+                                <div class="row nomargin">
+                                    {% for i in 0..6 %}
+                                        {% if app.session.get('pokemon'~i) %}
+                                        {% set pokemon = app.session.get('pokemon'~i) %}
+                                        <div class="col-xs-12 {{ i%2 ? 'jeden' : 'dwa' }}">
+                                        <div class="row nomargin">
+                                            <div class="col-xs-3 col-lg-2">
+                                                <img src="{{ asset('img/poki/srednie/' ~ (pokemon.shiny ? 's') ~ pokemon.idPokemon ~ '.png') }}"
+                                                class="img-responsive center" />
+                                            </div>
+                                            <div class="col-xs-7 col-lg-8">
+                                                <span class="text-medium kursywa pogrubienie" data-toggle="tooltip" data-title="Imię Pokemona">
+                                                    {{ pokemon.name }}
+                                                </span>
+                                                {{ pokemon.gender == 0 ? '<span class="icon-mars text-extra-big" data-original-title="płeć męska" data-toggle="tooltip"></span>'
+                                                : (pokemon.gender == 1 ? '<span class="icon-venus text-extra-big" data-original-title="płeć żeńska" data-toggle="tooltip"></span>' :
+                                                '<span title="Pokemon jest bezpłciowy">!</span>')}}
+                                                <br />
+                                                <span class="pogrubienie">Poziom: {{ pokemon.level }}</span>
+                                                ({{ pokemon.exp }}{{ pokemon.level < 100 ? (' / ' ~ pokemon.expOnLevel) }} PD)<br />
+                                                <span class="pogrubienie">Życie: {{ pokemon.actualHp }} / {{ pokemon.getHpToTable }}</span><br />
+                                                <span class="pogrubienie">Przywiązanie: {{ pokemon.getCountedAttachment }}%</span>
+                                            </div>
+                                            <div class="col-xs-2 margin-top">
+                                                <div class="row nomargin">
+                                                    <div class="col-xs-2">
+                                                        <button type="button" class="btn btn-info rezerwa" data-title="Wyślij Pokemona do rezerwy" data-toggle="tooltip" pok-id="{{ i }}">R</button>
+                                                        <a class="btn btn-info sprawdz" data-title="Sprawdź dane Pokemona" data-toggle="tooltip" target="_blank" href="{{ path('game_pokemon', {'id' : pokemon.id }) }}">?</a>
+                                                    </div>
+                                                    <div class="col-xs-2">
+                                                        {% if i != 0 %}
+                                                            <button type="button" class="btn btn-info up" pok-id="{{ i }}"
+                                                                    data-title="Zmień priorytet tego Pokemona na wyższy"
+                                                                    data-toggle="tooltip"><span class="icon-up"></span>
+                                                            </button>
+                                                       {% else %}
+                                                            <button type="button" class="btn btn-info disabled"
+                                                                    data-title="Nie możesz zmienić priotytetu tego Pokemona na wyższy"
+                                                                    data-toggle="tooltip"><span class="icon-up"></span>
+                                                            </button>
+                                                        {% endif %}
+                                                        {% if i != (numberOfPokemonsInTeam - 1) %}
+                                                            <button type="button" class="btn btn-info down" pok-id="{{ i }}"
+                                                                    data-title="Zmień priorytet tego Pokemona na niższy"
+                                                                    data-toggle="tooltip" ><span class="icon-down"></span>
+                                                            </button>
+                                                        {% else %}
+                                                            <button type="button" class="btn btn-info disabled"
+                                                                    data-title="Nie możesz zmienić priotytetu tego Pokemona na niższy"
+                                                                    data-toggle="tooltip"><span class="icon-down"></span>
+                                                            </button>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="rezerwa" class="tab-pane fade {{ active == 2 ? 'in active' }}">
+                        <div class="panel panel-success jeden_ttlo">
+                            <div class="panel-heading"><span>REZERWA</span></div>
+                            <div class="panel-body">
+                                {% if pokemonsInReserve == null %}
+                                    <div class="alert alert-info"><span>Brak Pokemonów w rezerwie</span></div>
+                                {% else %}
+                                    <div class="alert alert-success text-center text-medium">
+                                        <span>Pokemony w rezerwie: {{ pokemonsInReserve|length }}</span>
+                                    </div>
+                                    <div class="row nomargin">
+                                        <div data-toggle="buttons">
+                                        <div id="zaznaczonych_rezerwa" class="d_none alert alert-info"></div>
+                                        {% for pokemon in pokemonsInReserve %}
+                                            <label class="btn btn-primary col-xs-3 col-md-2 text-center rezerwa-btn" name="{{ pokemon.id }}">
+                                                <input autocomplete="off" name="{{ pokemon.id }}" type="checkbox" class="d_none rezerwa_zaz" />
+                                                <img src="{{ asset('img/poki/srednie/' ~ (pokemon.shiny ? 's') ~ pokemon.idPokemon ~ '.png') }}"
+                                                     class="img-responsive center" />
+                                                <span>{{ pokemon.name }}
+                                                    {{ pokemon.gender == 0 ? '<span class="icon-mars text-extra-big" data-original-title="płeć męska" data-toggle="tooltip"></span>'
+                                                    : (pokemon.gender == 1 ? '<span class="icon-venus text-extra-big" data-original-title="płeć żeńska" data-toggle="tooltip"></span>' :
+                                                    '<span title="Pokemon jest bezpłciowy">!</span>')}}
+                                                    ({{ pokemon.level }})
+                                                </span>
+                                            </label>
+                                        {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div id="poczekalnia" class="tab-pane fade {{ active == 3 ? 'in active' }}">
+                        <div class="panel panel-success jeden_ttlo">
+                            <div class="panel-heading"><span>POCZEKALNIA</span></div>
+                            <div class="panel-body">
+                                {% if pokemonsInWaiting == null %}
+                                    <div class="alert alert-info"><span>Brak Pokemonów w poczekalni</span></div>
+                                {% else %}
+                                    <div class="alert alert-success text-center text-medium">
+                                        <span>Pokemony w poczekalni: {{ pokemonsInWaiting|length }}</span>
+                                    </div>
+                                    <div class="row nomargin">
+                                        <div data-toggle="buttons">
+                                        <div id="zaznaczonych_poczekalnia" class="d_none alert alert-info"></div>
+                                    {% for pokemon in pokemonsInWaiting %}
+                                        <label class="btn btn-primary col-xs-3 col-md-2 text-center poczekalnia-btn" name="{{ pokemon.id }}">
+                                            <input autocomplete="off" name="{{ pokemon.id }}" type="checkbox" class="d_none poczekalnia_zaz" />
+                                                <img src="{{ asset('img/poki/srednie/' ~ (pokemon.shiny ? 's') ~ pokemon.idPokemon ~ '.png') }}"
+                                                     class="img-responsive center" />
+                                                <span>{{ pokemon.name }}
+                                                    {{ pokemon.gender == 0 ? '<span class="icon-mars text-extra-big" data-original-title="płeć męska" data-toggle="tooltip"></span>'
+                                                    : (pokemon.gender == 1 ? '<span class="icon-venus text-extra-big" data-original-title="płeć żeńska" data-toggle="tooltip"></span>' :
+                                                    '<span title="Pokemon jest bezpłciowy">!</span>')}}
+                                                    ({{ pokemon.level }})
+                                                </span>
+                                            </label>
+                                    {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div id="targ" class="tab-pane fade {{ active == 4 ? 'in active' }}">
+                        <div class="panel panel-success jeden_ttlo">
+                            <div class="panel-heading"><span>POKEMONY WYSTAWIONE NA TARG</span></div>
+                            <div class="panel-body">
+                                {% if pokemonsInMarket == null %}
+                                    <div class="alert alert-info"><span>Brak Pokemonów wystawionych na targ</span></div>
+                                {% else %}
+                                    <div class="alert alert-success text-center text-medium">
+                                        <span>Pokemony wystawione na targ: {{ pokemonsInMarket|length }}</span>
+                                    </div>
+                                    <div class="row nomargin">
+                                        <div data-toggle="buttons">
+                                        {% for pokemon in pokemonsInMarket %}
+                                            <label class="btn btn-primary col-xs-3 col-md-2 text-center targ-btn" name="{{ pokemon.id }}">
+                                                <img src="{{ asset('img/poki/srednie/' ~ (pokemon.shiny ? 's') ~ pokemon.idPokemon ~ '.png') }}"
+                                                     class="img-responsive center" />
+                                                <span>{{ pokemon.name }}
+                                                    {{ pokemon.gender == 0 ? '<span class="icon-mars text-extra-big" data-original-title="płeć męska" data-toggle="tooltip"></span>'
+                                                    : (pokemon.gender == 1 ? '<span class="icon-venus text-extra-big" data-original-title="płeć żeńska" data-toggle="tooltip"></span>' :
+                                                    '<span title="Pokemon jest bezpłciowy">!</span>')}}
+                                                    ({{ pokemon.level }})
+                                                </span>
+                                            </label>
+                                        {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% if ajax == 0 %}
+    </div>
+    <div class="d_none menu_dr" id="menu_poczekalnia">
+        <ul class="dropdown-menu dropdown-menu_dr">
+            <li class="info kursor"><a>INFO</a></li>
+            <li class="divider"></li>
+            <li class="dropdown-header">PRZENIEŚ DO:</li>
+            <li class="przenies_pocz kursor" id="druzynaa"><a>DRUŻYNY</a></li>
+            <li><a class="przenies_pocz kursor" id="rezerwaa">REZERWY</a></li>
+            <li class="divider"></li>
+            <li class="hodowla kursor"><a>SPRZEDAJ</a></li>
+            <li class="divider"></li>
+            <li class="targ kursor wystaw"><a>WYSTAW NA TARG</a></li>
+        </ul>
+    </div>
+    <div class="d_none menu_dr" id="menu_rezerwa">
+        <ul class="dropdown-menu dropdown-menu_dr">
+            <li class="info kursor"><a>INFO</a></li>
+            <li class="divider"></li>
+            <li class="dropdown-header">PRZENIEŚ DO:</li>
+            <li class="przenies_rez kursor" id="druzynaa"><a>DRUŻYNY</a></li>
+            <li><a class="przenies_rez kursor" id="poczekalniaa">POCZEKALNI</a></li>
+        </ul>
+    </div>
+
+    <div class="modal fade in" id="pokemon_modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <span name="pokemon_modal" class="modal-title"></span>
+                </div>
+                <div name="pokemon_modal" class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if ajax %}
+        <script>
+            n();
+        </script>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'game/hunting/base.html.twig' %}
+
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading"><span>POLOWANIE</span></div>
+        <div class="panel-body" id="panel_polowanie">
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    <span>
+                    {{ message }}
+                    </span>
+                </div>
+            {% endfor %}
+        {% for place in places %}
+            <div class="well well-primary jeden_ttlo">
+                <div class="row nomargin">
+                    <div class="col-xs-6 col-sm-3">
+                        <img class="img-responsive dzicz_img kursor" data-place="{{ place['name'] }}" src="{{ asset('img/dzicze/' ~ loop.index ~ 'd.jpg') }}" />
+                    </div>
+                    <div class="col-xs-6 col-sm-9">
+                        <p class="text-big">
+                            {{ place.namePl }}
+                        </p>
+                        <p>{{ place.description }}</p>
+                        <p>Pokemony do złapania:</p>
+                        <p>
+                            {% for pokemon in place.pokemons %}
+                            <span data-title="{{ pokemon.met ? pokemon.name : '???' }}" data-toggle="tooltip">
+                                    <img src="{{ asset('img/poki/min/'~(pokemon.met == 0 ? 'b/' : (pokemon.caught == 0 ? 'bw/'))~ pokemon.id ~ '.png') }}"/>
+                            </span>
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}

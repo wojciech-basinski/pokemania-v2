@@ -1,0 +1,59 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block scripts %}
+    <script src="{{ asset('js/jquery.simplePagination.js') }}"></script>
+    <script src="{{ asset('js/announcements.js') }}"></script>
+    <script>
+        var loadHref = "{{ path('game_announcement') }}";
+        $(document).ready(function(){
+            $('#pagination-announcement').pagination({
+                items: {{ count/20|round(0, 'ceil') }},
+                itemOnPage: 20,
+                currentPage: {{ page }},
+                cssStyle: '',
+                prevText: '<span aria-hidden="true">&laquo;</span>',
+                nextText: '<span aria-hidden="true">&raquo;</span>',
+                onPageClick: function (page, evt) {
+                    loadAnnouncement(page);
+                    afterAjax();
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block gamebody %}
+    {% if ajax == 0 %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading"><span>OGŁOSZENIA</span></div>
+        <div class="panel-body">
+            <div id="content">
+    {% endif %}
+                {% for announcement in announcements %}
+                    <div class="panel {{ (notReadAnnouncements > 0) ? 'panel-primary' : 'panel-success' }} jeden_ttlo nopadding">
+                        <div class="panel-heading text-medium">
+                            <span>{{ announcement.title }}</span>
+                        </div>
+                        <div class="panel-body">
+                        <span class="{{ (notReadAnnouncements > 0) ? 'pogrubienie text-medium' }}">
+                            {{ announcement.content }}
+                        </span>
+                        </div>
+                        <div class="panel-footer dwa_ttlo">
+                        <span>
+                            {{ announcement.date|date }}
+                        </span>
+                        </div>
+                    </div>
+                    {% set notReadAnnouncements = notReadAnnouncements - 1 %}
+                {% endfor %}
+    {% if ajax == 0 %}
+            </div>
+            <div class="text-center">
+                <ul id="pagination-announcement" class="pagination pagination-announcement">
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,52 @@
+</div>
+<footer class="footer">
+    <div style="margin-left:auto; margin-right:auto;  display: inline-block; text-align: center; padding-top:6px;">
+        <div id="leczenie_pokaz">
+        </div>
+        <div style="float:left; min-width:368px;">
+            {% if app.user.region == 1 %}
+                {% include 'game/template/kanto.html.twig' %}
+            {% elseif app.user.region == 2 %}
+                {% include 'game/template/johto.html.twig' %}
+            {% endif %}
+
+            <span id="footer-links" style="margin-left:30px;">
+                {% if app.session.get('userSession').userSettings.getHeal %}
+                    <a href="{{ path('game_footer_heal') }}">
+                        <img src="{{ asset('img/poki/113.png') }}" data-toggle="tooltip" data-title="Wylecz Pokemony" class="kursor footer-img"/>
+                    </a>
+                {% endif %}
+                {% if app.session.get('userSession').userSettings.getSoda %}
+                    <a href="{{ path('game_footer_soda') }}">
+                        <img src="{{ asset('img/przedmioty/soda.png') }}" data-toggle="tooltip" data-title="Wypij sodę" class="kursor footer-img"/>
+                    </a>
+                {% endif %}
+                {% if app.session.get('userSession').userSettings.getWater %}
+                    <a href="{{ path('game_footer_water') }}">
+                        <img src="{{ asset('img/przedmioty/water.png') }}" data-toggle="tooltip" data-title="Wypij wodę" class="kursor footer-img"/>
+                    </a>
+                {% endif %}
+                {% if app.session.get('userSession').userSettings.getLemonade %}
+                    <a href="{{ path('game_footer_lemonade') }}">
+                        <img src="{{ asset('img/przedmioty/lemoniada.png') }}" data-toggle="tooltip" data-title="Wypij lemoniadę" class="kursor footer-img"/>
+                    </a>
+                {% endif %}
+                {% if app.session.get('userSession').userSettings.getCheri %}
+                    <a href="{{ path('game_footer_cheriberry') }}">
+                        <img src="{{ asset('img/jagody/Cheri_Berry.png') }}" data-toggle="tooltip" data-title="Ulecz drużynę używając Cheri Berry" class="kursor footer-img"/>
+                    </a>
+                {% endif %}
+                {% if app.session.get('userSession').userSettings.getWiki %}
+                    <a href="{{ path('game_footer_wikiberry') }}">
+                        <img src="{{ asset('img/jagody/Wiki_Berry.png') }}" data-toggle="tooltip" data-title="Ulecz drużynę używając Wiki Berry" class="kursor footer-img"/>
+                    </a>
+                {% endif %}
+                {% if app.session.get('userSession').userSettings.getFeed %}
+                    <span id="nakarm_stopka">
+                        <img src="{{ asset('img/przedmioty/karma.png') }}" data-toggle="tooltip" data-title="Nakarm drużynę" class="kursor footer-img"/>
+                    </span>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+</footer>

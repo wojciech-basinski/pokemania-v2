@@ -1,0 +1,36 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ asset('js/lottery.js') }}"></script>
+{% endblock %}
+
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading text-medium">
+            <span>LOTERIA</span>
+        </div>
+        <div class="panel-body">
+            <div id="wynik"></div>
+            <div id="loteria_body" class="row nomargin">
+                <div class="col-xs-12">
+                    <div class="well well-sm well-stan dwa_ttlo noborder">Pozostało Ci <span id="tickets">{{ tickets }}</span> losów.</div>
+                    <div class="well well-sm well-stan dwa_ttlo noborder">Codziennie w nocy otrzymujesz 2 losy na loterię. Losy
+                        możesz również kupić w PokeSklepie
+                    </div>
+                </div>
+                {% if tickets %}
+                <div class="col-xs-12 text-center  margin-top">
+                    <a type="button" class="btn btn-success noborder losuj" data-href="{{ path('game_lottery_play') }}">LOSUJ</a>
+                </div>
+                {% else %}
+                    <div class="col-xs-12 text-center margin-top">
+                        <div class="btn btn-success noborder disabled" data-original-title="Nie masz już losów na loterii"
+                             data-toggle="tooltip" data-placement="top">LOSUJ
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

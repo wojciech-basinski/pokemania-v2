@@ -1,0 +1,110 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading"><span>OSIĄGNIĘCIA</span></div>
+        <div class="panel-body">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#glowne">Główne</a></li>
+                <li><a data-toggle="tab" href="#poboczne">Poboczne</a></li>
+                <li><a data-toggle="tab" href="#kanto">Kanto</a></li>
+            </ul>
+            <div class="tab-content">
+                {% include 'game/template/flashes.html.twig' %}
+                <div id="glowne" class="tab-pane fade in active">
+                    <div class="row nomargin">
+                        {% for main in main %}
+                            <div class="col-xs-12 col-md-6">
+                                <div class="panel panel-success text-center {{ main['background'] }}">
+                                    <div class="panel-heading">
+                                        <span class="text-medium">{{ main['name'] }}</span><br />
+                                        <span>Poziom: <span class="pogrubienie">{{ main['level'] }}</span></span>
+                                    </div>
+                                    <div class="panel-body">
+                                        {%  if main['max'] %}
+                                           {{ main['echo'] }}: {{ main['table1'] }}
+                                        {% else %}
+                                        {{ main['echo'] }} ( {{ main['table1'] }} / {{ main['requirements'] }})<br />
+                                        <div class="progress progress-gra prog_HP">
+                                            <div class="progress-bar progress-bar-success progBarHP" role="progressbar" aria-valuenow="40"
+                                                 aria-valuemin="0" aria-valuemax="100" style="width:{{ (main['table1'] / main['requirements'] * 100)|round() }}%;">
+                                                <span>{{ (main['table1'] / main['requirements'] * 100)|round() }}%</span>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div id="poboczne" class="tab-pane fade">
+                    <div class="row nomargin">
+                        {% for secondary in secondary %}
+                            <div class="col-xs-12 col-md-6">
+                                <div class="panel panel-success text-center {{ secondary['background'] }}">
+                                    <div class="panel-heading">
+                                        <span class="text-medium">{{ secondary['name'] }}</span><br />
+                                        <span>Poziom: <span class="pogrubienie">{{ secondary['level'] }}</span></span>
+                                    </div>
+                                    <div class="panel-body">
+                                        {%  if secondary['max'] %}
+                                            {{ secondary['echo'] }}: {{ secondary['table1'] }}
+                                        {% else %}
+                                            {{ secondary['echo'] }} ( {{ secondary['table1'] }} / {{ secondary['requirements'] }})<br />
+                                            <div class="progress progress-gra prog_HP">
+                                                <div class="progress-bar progress-bar-success progBarHP" role="progressbar" aria-valuenow="40"
+                                                     aria-valuemin="0" aria-valuemax="100" style="width:{{ (secondary['table1'] / secondary['requirements'] * 100)|round() }}%;">
+                                                    <span>{{ (secondary['table1'] / secondary['requirements'] * 100)|round() }}%</span>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                </div>
+            </div>
+                <div id="kanto" class="tab-pane fade">
+                    <div class="row nomargin">
+                        <div class="col-xs-12 col-md-6">
+                            <div class="panel panel-success text-center {{ kantoMaster['background'] }}">
+                                <div class="panel-heading"><span
+                                            class="text-medium">{{ kantoMaster['name'] }}</span>
+                                    <br/><span>Poziom: <span
+                                                class="pogrubienie">{{ kantoMaster['level'] }}</span></span>
+                                </div>
+                                <div class="panel-body">
+                                    {{ kantoMaster['echo'] }}
+                                </div>
+                            </div>
+                        </div>
+                        {% for kanto in kanto %}
+                            <div class="col-xs-12 col-md-6">
+                                <div class="panel panel-success text-center {{ kanto['background'] }}">
+                                    <div class="panel-heading">
+                                        <span class="text-medium">{{ kanto['name'] }}</span><br />
+                                        <span>Poziom: <span class="pogrubienie">{{ kanto['level'] }}</span></span>
+                                    </div>
+                                    <div class="panel-body">
+                                        {%  if kanto['max'] %}
+                                            {{ kanto['echo'] }}: {{ kanto['table1'] }}
+                                        {% else %}
+                                            {{ kanto['echo'] }} ( {{ kanto['table1'] }} / {{ kanto['requirements'] }})<br />
+                                            <div class="progress progress-gra prog_HP">
+                                                <div class="progress-bar progress-bar-success progBarHP" role="progressbar" aria-valuenow="40"
+                                                     aria-valuemin="0" aria-valuemax="100" style="width:{{ (kanto['table1'] / kanto['requirements'] * 100)|round() }}%;">
+                                                    <span>{{ (kanto['table1'] / kanto['requirements'] * 100)|round() }}%</span>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

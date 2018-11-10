@@ -1,0 +1,174 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block scripts %}
+    <script>
+        var sellHref = "{{ path('game_market_pokemon_selling') }}";
+        var removeFromMarketHref = "{{ path('game_market_pokemon_remove') }}";
+    </script>
+    <script src="{{ asset('js/marketPokemon.js') }}"></script>
+{% endblock %}
+
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading"><span>TARG - WYSTAW POKEMONA</span></div>
+        <div class="panel-body">
+            <ul class="nav nav-tabs">
+                <li {{ active == 1 ? 'class="active"' }}><a data-toggle="tab" href="#wystaw">Wystaw Pokemona</a></li>
+                <li {{ active == 2 ? 'class="active"' }}><a data-toggle="tab" href="#wlasne">Wystawione Pokemony</a></li>
+            </ul>
+            {% include 'game/template/flashes.html.twig' %}
+            <div class="tab-content">
+                <div id="wystaw" class="tab-pane fade{{ active == 1 ? ' in active' }}">
+                    <div class="panel panel-success jeden_ttlo">
+                        <div class="panel-heading">
+                            <span>Wystaw Pokemona</span>
+                        </div>
+                        <div class="panel-body">
+                            {% if pokemonsThatCanBeSold %}
+                                <div class="row nomargin text-center">
+                                    <div class="alert alert-info"><span>Opłata za wystawienie Pokemona na targu wynosi 1% ceny.</span></div>
+                                    <div class="col-xs-2 col-xs-offset-2 targ-line">Imię (lvl)</div>
+                                    <div class="col-xs-3 targ-line">Wartość</div>
+                                    <div class="col-xs-1 targ-line">Płeć i info</div>
+                                    <div class="col-xs-3 targ-line">Cena i opis</div>
+                                    <div class="col-xs-1 targ-line">Wystaw</div>
+                                </div>
+                                {% for pokemon in pokemonsThatCanBeSold %}
+                                    <div class="row nomargin text-center">
+                                        <div class="col-xs-12 nopadding">
+                                            <div class="well nopadding targ_oferta{{ (pokemonMarked == pokemon.id) ? ('_wlasna" data-scroll="'~pokemonMarked)|raw : '' }}">
+                                                {% if pokemonMarked == pokemon.id %}
+                                                    <script>
+                                                        $(document).ready(function(){$.scrollTo('[data-scroll={{ pokemonMarked }}]', 150, {offset:-100})});
+                                                    </script>
+                                                {% endif %}
+                                                <div class="row nomargin">
+                                                    <div class="col-xs-2 targ-line">
+                                                        <img src="{{ asset('img/poki/srednie/'~(pokemon.shiny ? 's')~pokemon.idPokemon~'.png') }}" class="img-responsive center targ_pok" />
+                                                    </div>
+                                                    <div class="col-xs-2 targ-line">{{ pokemon.name }} ({{ pokemon.level }})</div>
+                                                    <div class="col-xs-3 targ-line">{{ pokemon.value }} &yen;</div>
+                                                    <div class="col-xs-1 targ-line">
+                                                        <div class="btn-group">
+                                                            {% if pokemon.gender == 0 %}
+                                                                <button class="btn btn-primary btn-sm" data-title="Płeć męska" data-toggle="tooltip"><span class="icon-mars"></span></button>
+                                                            {% elseif pokemon.gender == 1 %}
+                                                                <button class="btn btn-primary btn-sm" data-title="Płeć żeńska" data-toggle="tooltip"><span class="icon-venus"></span></button>
+                                                            {% else %}
+                                                                <button class="btn btn-primary btn-sm" data-title="Pokemon bezpłciowy" data-toggle="tooltip">BP</button>
+                                                            {% endif %}
+
+                                                            <button class="btn btn-primary btn-sm data_pok_info" data-pok-id="{{ pokemon.id }}" data-toggle="tooltip"
+                                                            data-title="Atak: {{ pokemon.getAttackToTable }}<br />
+                                                            Sp.Atak: {{ pokemon.getSpAttackToTable }}<br />
+                                                            Obrona: {{ pokemon.getDefenceToTable }}<br />
+                                                            Sp.Obrona: {{ pokemon.getSpDefenceToTable }}<br />
+                                                            Szybkość: {{ pokemon.getSpeedToTable }}<br />
+                                                            Życie: {{ pokemon.getHpToTable }}<br />
+                                                            Celność: {{ pokemon.accuracy }}%">?
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-3 targ-line">
+                                                        <input class="cena_pok form-control margin-top" data-id="cena_pok_{{ pokemon.id }}" placeholder="Cena minimalna: {{ (1.2 * pokemon.value)|round }}&yen;" type="text" />
+                                                        <input class="wiadomosc_pok form-control" data-id="wiadomosc_pok_{{ pokemon.id }}" type="text" placeholder="Opis, nieobowiązkowy" />
+                                                    </div>
+                                                    <div class="col-xs-1 targ-line">
+                                                        <button class="wystaw_poka btn btn-primary" data-id="{{ pokemon.id }}">WYSTAW</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="alert alert-warning"><span>Brak Pokemonów, które można wystawić na targ.</span></div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div id="wlasne" class="tab-pane fade{{ active == 2 ? ' in active' }}">
+                    <div class="panel panel-success jeden_ttlo">
+                        <div class="panel-heading">
+                            <span>Wystawione Pokemony</span>
+                        </div>
+                        <div class="panel-body">
+                            {% if pokemonsAddToSell %}
+                                <div class="row nomargin text-center">
+                                    <div class="col-xs-2 col-xs-offset-2 targ-line">Imię (lvl)</div>
+                                    <div class="col-xs-3 targ-line">Wartość</div>
+                                    <div class="col-xs-1 targ-line">Płeć i info</div>
+                                    <div class="col-xs-3 targ-line">Cena</div>
+                                    <div class="col-xs-1 targ-line">Wycofaj</div>
+                                </div>
+                                {% for pokemon in pokemonsAddToSell %}
+                                    <div class="row nomargin text-center">
+                                        <div class="col-xs-12 nopadding">
+                                            <div class="well targ_oferta nopadding">
+                                                <div class="row nomargin">
+                                                    <div class="col-xs-2 targ-line">
+                                                        <img src="{{ asset('img/poki/srednie/'~(pokemon.shiny ? 's' : '')~pokemon.idPokemonBase)~'.png' }}"
+                                                             class="img-responsive center targ_pok" />
+                                                    </div>
+                                                    <div class="col-xs-2 targ-line">{{ pokemon.pokemonInfo.getInfo['nazwa'] }} ({{ pokemon.level }})</div>
+                                                    <div class="col-xs-3 targ-line">{{ pokemon.pokemonInfo.value }}&yen;</div>
+                                                    <div class="col-xs-1 targ-line">
+                                                        <div class="btn-group">
+                                                            {% if pokemon.pokemonInfo.gender == 0 %}
+                                                                <button class="btn btn-primary btn-sm" data-title="Płeć męska" data-toggle="tooltip"><span class="icon-mars"></span></button>
+                                                            {% elseif pokemon.pokemonInfo.gender == 1 %}
+                                                                <button class="btn btn-primary btn-sm" data-title="Płeć żeńska" data-toggle="tooltip"><span class="icon-venus"></span></button>
+                                                            {% else %}
+                                                                <button class="btn btn-primary btn-sm" data-title="Pokemon bezpłciowy" data-toggle="tooltip">BP</button>
+                                                            {% endif %}
+
+                                                            <button class="btn btn-primary btn-sm data_pok_info" data-pok-id="{{ pokemon.idPokemon }}" data-toggle="tooltip"
+                                                                    data-title="Atak: {{ pokemon.pokemonInfo.getAttackToTable }}<br />
+                                                                    Sp.Atak: {{ pokemon.pokemonInfo.getSpAttackToTable }}<br />
+                                                                    Obrona: {{ pokemon.pokemonInfo.getDefenceToTable }}<br />
+                                                                    Sp.Obrona: {{ pokemon.pokemonInfo.getSpDefenceToTable }}<br />
+                                                                    Szybkość: {{ pokemon.pokemonInfo.getSpeedToTable }}<br />
+                                                                    Życie: {{ pokemon.pokemonInfo.getHpToTable }}<br />
+                                                                    Celność: {{ pokemon.pokemonInfo.accuracy }}%">?
+                                                            </button>
+
+                                                            <button class="btn btn-primary btn-sm" data-toggle="tooltip"
+                                                                    data-title="{{ pokemon.message ? 'Dodatkowe informacje:<br />'~pokemon.message : 'Brak dodatkowych informacji' }}">D
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-3 targ-line">{{ pokemon.value }} &yen;</div>
+                                                    <div class="col-xs-1 targ-line">
+                                                        <button class="wycofaj_poka btn btn-primary" data-id="{{ pokemon.id }}">WYCOFAJ</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="alert alert-warning"><span>Brak wystawionych Pokemonów.</span></div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade in" id="pokemon_modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <span class="modal-title"></span>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,579 @@
+{% extends 'game/gamebase.html.twig' %}
+
+{% block scripts %}
+        <script type="text/javascript" src="{{ asset('js/shop.js') }}"></script>
+        <script>
+            var buyHref = "{{ path('game_shop_buy') }}";
+        </script>
+{% endblock %}
+
+{% block gamebody %}
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading text-medium">
+            <span>SKLEP</span>
+        </div>
+        <div class="panel-body">
+            {% include 'game/template/flashes.html.twig' %}
+            <ul class="nav nav-tabs">
+                <li {{ active == 1 ? 'class="active"' : '' }}>
+                    <a data-toggle="tab" href="#pokeballe">Pokeballe</a>
+                </li>
+                <li {{ active == 2 ? 'class="active"' : '' }}>
+                    <a data-toggle="tab" href="#inne">Inne</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+
+                <div id="pokeballe" class="tab-pane fade {{ active == 1 ? 'in active' : '' }}">
+                    <div class="row noborder nomargin">
+                        {% for pokeball in pokeballsDescription %}
+                            <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                                data-target="#{{ pokeball.nazwa }}_opis">
+                                <div class="jeden kursor" data-title="{{ pokeball.opis }}" data-toggle="tooltip">
+                                    <img src="{{ asset('img/balle/'~ pokeball.nazwa|capitalize ~'.png') }}" />
+                                    <div>
+                                        {{ pokeball.nazwa|capitalize }}<br />Posiadasz {{ attribute(pokeballs, pokeball.nazwa~'s') }}
+                                            <br />{{ pokeball.cena }} &yen; za sztukę
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="{{ pokeball.nazwa }}_opis" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <span class="text-medium">{{ pokeball.nazwa|capitalize }}</span>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <img src="{{ asset('img/balle/'~ pokeball.nazwa|capitalize ~'.png') }}" class="img-responsive"/>
+                                                </div>
+                                                <div class="col-xs-12 col-md-9">
+                                                    {{ pokeball.opis }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="text" size="15" id="{{ pokeball.nazwa }}_ilosc" class="ilosc_kup" placeholder="Ilość, domyślnie 1">
+                                            x {{ pokeball.cena }} &yen;
+                                            <button class="btn btn-info nomargin kursor kup_pokeball" id="{{ pokeball.nazwa }}">Kup</button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div id="inne" class="tab-pane fade {{ active == 2 ? 'in active' : '' }}">
+                    <div class="row noborder nomargin">
+                        {% if items.items.mpa < 10 %}
+                        {% set cena = (2 ** (items.items.mpa)) * 25000 %}
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal" data-target="#mpa_opis">
+                            <div class="jeden kursor" title="Przedmiot zwiększa Maksymalne Punkty Akcji o 10.">
+                                <img src=""/>
+                                <div>
+                                    Przedmiot do MPA<br />Poziom {{ items.items.mpa + 1 }}<br />Cena: {{ cena }} &yen;
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="mpa_opis" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Przedmiot do MPA</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="" class="img-responsive"/>
+                                            </div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Przedmiot zwiększa Maksymalne Punkty Akcji o 10.<br />Cena: {{ cena }} &yen;
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <button class="btn btn-info nomargin kursor kup_przedmiot" id="mpa">Kup</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal" data-target="#safari_opis">
+                            <div class="jeden kursor" title="Na Safari nie możesz wejść bez kuponu.">
+                                <img src=""/>
+                                <div>Kupon na safari <br/>Posiadasz {{ items.statistics.cupons }}<br/>Cena: 15000 &yen; za sztukę.</div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="safari_opis" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Kupon na Safari</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="" class="img-responsive"/></div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Na Safari nie możesz wejść bez kuponu.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" size="15" id="safari_ilosc" class="ilosc_kup_przedmiot"
+                                               placeholder="Ilość, domyślnie 1"/> x 15000 &yen;
+                                        <button class="btn btn-info nomargin kursor kup_przedmiot" id="safari">Kup</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal" data-target="#pokemonFood_opis">
+                            <div class="jeden kursor" title="Pokemony w drużynie muszą jeść karmę, aby miały siłę do walki.">
+                                <img src="{{ asset('img/przedmioty/karma.png') }}"/>
+                                <div>Pudełko karmy <br/>Posiadasz {{ items.items.pokemonFood }}<br/>Cena: 1500 &yen; za sztukę.</div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="pokemonFood_opis" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Karma</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="{{ asset('img/przedmioty/karma.png') }}" class="img-responsive"/></div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Pokemony w drużynie muszą jeść karmę, aby miały siłę do walki.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" size="15" id="pokemonFood_ilosc" class="ilosc_kup_przedmiot"
+                                               placeholder="Ilość, domyślnie 1"/> x 1500 &yen;
+                                        <button class="btn btn-info nomargin kursor kup_przedmiot" id="pokemonFood">Kup</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal" data-target="#lottery_opis">
+                            <div class="jeden kursor" title="Nie możesz brać udziału w loterii bez kuponu.">
+                                <img src=""/>
+                                <div>Kupon na loterię <br/>Posiadasz {{ items.statistics.lottery }}<br/>Cena: 60000 &yen; za sztukę.</div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="lottery_opis" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Kupon na loterię</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="" class="img-responsive"/></div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Nie możesz brać udziału w loterii bez kuponu.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" size="15" id="lottery_ilosc" class="ilosc_kup_przedmiot"
+                                               placeholder="Ilość, domyślnie 1"/> x 60000 &yen;
+                                        <button class="btn btn-info nomargin kursor kup_przedmiot" id="lottery">Kup</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal" data-target="#bars_opis">
+                            <div class="jeden kursor" title="Zwiększa nieznacznie przywiązanie pokemona.">
+                                <img src="{{ asset('img/przedmioty/baton.png') }}"/>
+                                <div>Baton <br/>Posiadasz {{ items.items.bar }}<br/>Cena: 400 &yen; za sztukę.</div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="bars_opis" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Baton</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="{{ asset('img/przedmioty/baton.png') }}" class="img-responsive"/></div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Zwiększa nieznacznie przywiązanie pokemona.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" size="15" id="bars_ilosc" class="ilosc_kup_przedmiot"
+                                               placeholder="Ilość, domyślnie 1"/> x 400 &yen;
+                                        <button class="btn btn-info nomargin kursor kup_przedmiot" id="bars">Kup</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal" data-target="#cookies_opis">
+                            <div class="jeden kursor" title="Zwiększa przywiązanie pokemona.">
+                                <img src="{{ asset('img/przedmioty/ciastko.png') }}"/>
+                                <div>Ciastko <br/>Posiadasz {{ items.items.cookie }}<br/>Cena: 2100 &yen; za sztukę.</div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="cookies_opis" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Ciastko</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="{{ asset('img/przedmioty/ciastko.png') }}" class="img-responsive"/>
+                                            </div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Zwiększa przywiązanie pokemona.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" size="15" id="cookies_ilosc" class="ilosc_kup_przedmiot"
+                                               placeholder="Ilość, domyślnie 1"/> x 2100 &yen;
+                                        <button class="btn btn-info nomargin kursor kup_przedmiot" id="cookies">Kup</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if items.items.box < 5 %}
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal" data-target="#box_opis">
+                            <div class="jeden kursor" title="Pozwala przechowywać {{ app.user.magazine * 2 }} Pokemonów.">
+                                <img src="{{ asset('img/przedmioty/box.png') }}"/>
+                                <div>Magazyn na Pokemony poziom {{ items.items.box + 1 }}<br/>Cena: {{ items.items.box * 150000 }}&yen;.</div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="box_opis" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Magazyn na pokemony poziom {{ items.items.box + 1 }}</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="{{ asset('img/przedmioty/box.png') }}" class="img-responsive"/>
+                                            </div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Pozwala przechowywać {{ app.user.magazine * 2 }}
+                                                Pokemonów.<br/>Cena: {{ items.items.box * 150000 }} &yen;.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <button class="btn btn-info nomargin kursor kup_przedmiot" id="box">Kup</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if items.items.pokedex < 3 %}
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                             data-target="#pokedex_opis">
+                            <div class="jeden kursor"
+                                 title="Zwiększa szansę złapania pokemona o <?= (($przedmiot + 1) * 10) ?> %.">
+                                <img src="{{ asset('img/przedmioty/pokedex'~ (items.items.pokedex + 1) ~'.png') }}"/>
+                                <div>Pokedex <br/>Poziom {{ items.items.pokedex + 1 }}
+                                    <br/>Cena: {{ (5 ** (items.items.pokedex + 1)) * 10000 }} &yen;.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="pokedex_opis" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Pokedex <br/>poziom {{ items.items.pokedex + 1 }}</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="{{ asset('img/przedmioty/pokedex'~ (items.items.pokedex + 1) ~'.png') }}"
+                                                     class="img-responsive"/>
+                                            </div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Zwiększa szansę złapania pokemona o {{ (items.items.pokedex + 1) * 10 }}
+                                                %.<br/>Cena: {{ (5 ** (items.items.pokedex + 1)) * 10000 }} &yen;.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <button class="btn btn-info nomargin kursor kup_przedmiot" id="pokedex">Kup</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if items.items.kit < 3 %}
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                             data-target="#kit_opis">
+                            <div class="jeden kursor"
+                                 title="Zmniejsza koszt leczenia pokemonów o <?= (($przedmiot + 1) * 10) ?> %.">
+                                <img src="{{ asset('img/przedmioty/apteczka'~ (items.items.kit + 1) ~'.png') }}"/>
+                                <div>Apteczka poziom {{ items.items.kit + 1 }}<br/>Cena:
+                                    {{ (items.items.kit == 0) ? '25000' :
+                                    ((items.items.kit == 1) ? '180000' : 800000)}}
+                                    &yen;.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="kit_opis" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Apteczka poziom {{ items.items.kit + 1 }}</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="{{ asset('img/przedmioty/apteczka'~ (items.items.kit + 1) ~'.png') }}"
+                                                     class="img-responsive"/></div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Zmniejsza koszt leczenia pokemonów o {{ (items.items.kit + 1) * 10 }}
+                                                %.<br/>Cena:
+                                                {{ (items.items.kit == 0) ? '25000' :
+                                                ((items.items.kit == 1) ? '180000' : 800000)}}
+                                                &yen;.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <button class="btn btn-info nomargin kursor kup_przedmiot" id="kit">Kup</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if items.items.shovel == 0 %}
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                             data-target="#shovel_opis">
+                            <div class="jeden kursor" title="Bez łopaty nie możesz wykopać cennych przedmiotów na safari.">
+                                <img src="{{ asset('img/przedmioty/lopata.png') }}"/>
+                                <div>Złota łopata<br/>Cena: 500000 &yen;</div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="shovel_opis" role="dialog">
+                            <div class="modal-dialog">
+
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Łopata</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="{{ asset('img/przedmioty/lopata.png') }}" class="img-responsive"/>
+                                            </div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Bez łopaty nie możesz wykopać cennych przedmiotów na safari.<br/>Cena: 500000 &yen;
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <button class="btn btn-info nomargin kursor kup_przedmiot" id="shovel">Kup</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        {% endif %}
+
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal" data-target="#rune_opis">
+                            <div class="jeden kursor" title="Niezbędna do ewolucji niektórych Pokemonów.">
+                                <img src="{{ asset('img/przedmioty/runa.png') }}"/>
+                                <div>Runa ewolucyjna <br/>Posiadasz {{ items.stones.runes }}<br/>100000 &yen; za sztukę.</div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="rune_opis" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Runa ewolucyjna</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="{{ asset('img/przedmioty/runa.png') }}" class="img-responsive"/></div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Runa ewolucyjna jest niezbędna do ewolucji niektórych Pokemonów.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" size="15" id="rune_ilosc" class="ilosc_kup_przedmiot"
+                                               placeholder="Ilość, domyślnie 1"/> x 100000 &yen;
+                                        <button class="btn btn-info nomargin kursor kup_przedmiot" id="rune">Kup</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if items.items.flashlight == 0 %}
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                             data-target="#flashLight_opis">
+                            <div class="jeden kursor" title="Wyprawy do groty są niemożliwe bez latarki.">
+                                <img src="{{ asset('img/przedmioty/latarka.png') }}"/>
+                                <div>Latarka<br/>Cena: 5000 &yen;</div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="flashLight_opis" role="dialog">
+                            <div class="modal-dialog">
+
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Latarka</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="{{ asset('img/przedmioty/latarka.png') }}" class="img-responsive"/>
+                                            </div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Wyprawy do groty są niemożliwe bez latarki.<br/>Cena: 5000 &yen;
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <button class="btn btn-info nomargin kursor kup_przedmiot" id="flashLight">Kup</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="col-xs-4 col-sm-3 col-md-2 text-center padding" data-toggle="modal"
+                             data-target="#battery_opis">
+                            <div class="jeden kursor" title="Latarka nie będzie działać bez baterii.">
+                                <img src="{{ asset('img/przedmioty/bateria.png') }}"/>
+                                <div>Baterie <br/>Posiadasz {{ items.items.battery }}<br/>Cena: 55 &yen; za sztukę.</div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="battery_opis" role="dialog">
+                            <div class="modal-dialog">
+
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <span class="text-medium">Baterie</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <img src="{{ asset('img/przedmioty/bateria.png') }}" class="img-responsive"/>
+                                            </div>
+                                            <div class="col-xs-12 col-md-9">
+                                                Latarka nie będzie działać bez baterii.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" size="15" id="battery_ilosc" class="ilosc_kup_przedmiot"
+                                               placeholder="Ilość, domyślnie 1"/> x 55 &yen;
+                                        <button class="btn btn-info nomargin kursor kup_przedmiot" id="battery">Kup</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

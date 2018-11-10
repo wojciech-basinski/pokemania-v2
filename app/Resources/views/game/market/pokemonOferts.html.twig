@@ -1,0 +1,99 @@
+{% extends 'game/market/pokemon.html.twig' %}
+
+{% block oferts %}
+    <script>
+        $(document).ready(function(){
+            $('#pagination-oferts').pagination({
+                items: {{ count/30|round(0, 'ceil') }},
+                itemOnPage: 30,
+                currentPage: {{ page }},
+                cssStyle: '',
+                prevText: '<span aria-hidden="true">&laquo;</span>',
+                nextText: '<span aria-hidden="true">&raquo;</span>',
+                onPageClick: function (page, evt) {
+                    pokemonsOferts(page);
+                    afterAjax();
+                }
+            });
+        });
+    </script>
+    <div class="panel panel-success jeden_ttlo">
+        <div class="panel-heading">
+            <span>OFERTY POKEMONÓW</span>
+        </div>
+        <div class="panel-body text-center">
+            {% if count == 0 %}
+                <div class="alert alert-warning"><span>Brak ofert.</span></div>
+            {% else %}
+                <div class="row nomargin">
+                    <div class="alert alert-success">
+                        <span>Znaleziono {{ count }} ofert.</span>
+                    </div>
+                    <div class="col-xs-2 col-xs-offset-2">Gatunek (lvl)</div>
+                    <div class="col-xs-3">Wartość</div>
+                    <div class="col-xs-1">Płeć i info</div>
+                    <div class="col-xs-3">Cena</div>
+                    <div class="col-xs-1">Kup</div>
+                </div>
+                {% for pokemon in oferts %}
+                    <div class="row nomargin text-center">
+                        <div class="col-xs-12 nopadding">
+                            {% if app.user.id == pokemon.ownerId %}
+                                <div class="well targ_oferta_wlasna nopadding">
+                            {% else %}
+                                <div class="well targ_oferta nopadding">
+                            {% endif %}
+                                <div class="row nomargin">
+                                    <div class="col-xs-2 targ-line">
+                                        <img src="{{ asset('img/poki/srednie/'~(pokemon.shiny ? 's' : '')~pokemon.idPokemonBase)~'.png' }}"
+                                             class="img-responsive center targ_pok" />
+                                    </div>
+                                    <div class="col-xs-2 targ-line">{{ pokemon.pokemonInfo.getInfo['nazwa'] }} ({{ pokemon.level }})</div>
+                                    <div class="col-xs-3 targ-line">{{ pokemon.value }}&yen;</div>
+                                    <div class="col-xs-1 targ-line">
+                                        <div class="btn-group">
+                                            {% if pokemon.pokemonInfo.gender == 0 %}
+                                                <button class="btn btn-primary btn-sm" data-title="Płeć męska" data-toggle="tooltip"><span class="icon-mars"></span></button>
+                                            {% elseif pokemon.pokemonInfo.gender == 1 %}
+                                                <button class="btn btn-primary btn-sm" data-title="Płeć żeńska" data-toggle="tooltip"><span class="icon-venus"></span></button>
+                                            {% else %}
+                                                <button class="btn btn-primary btn-sm" data-title="Pokemon bezpłciowy" data-toggle="tooltip">BP</button>
+                                            {% endif %}
+
+                                            <button class="btn btn-primary btn-sm data_pok_info" data-pok-id="{{ pokemon.idPokemon }}" data-toggle="tooltip"
+                                                    data-title="Atak: {{ pokemon.pokemonInfo.getAttackToTable }}<br />
+                                                                Sp.Atak: {{ pokemon.pokemonInfo.getSpAttackToTable }}<br />
+                                                                Obrona: {{ pokemon.pokemonInfo.getDefenceToTable }}<br />
+                                                                Sp.Obrona: {{ pokemon.pokemonInfo.getSpDefenceToTable }}<br />
+                                                                Szybkość: {{ pokemon.pokemonInfo.getSpeedToTable }}<br />
+                                                                Życie: {{ pokemon.pokemonInfo.getHpToTable }}<br />
+                                                                Celność: {{ pokemon.pokemonInfo.accuracy }}%">?
+                                            </button>
+
+                                            <button class="btn btn-primary btn-sm" data-toggle="tooltip"
+                                                    data-title="{{ pokemon.message ? 'Dodatkowe informacje:<br />'~pokemon.message : 'Brak dodatkowych informacji' }}">D
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 targ-line">{{ pokemon.value }} &yen;</div>
+                                    <div class="col-xs-1 targ-line">
+                                        {% if app.user.id == pokemon.ownerId %}
+                                            <button class="btn btn-primary disabled" data-toggle="tooltip" data-title="To Twoja oferta">KUP</button>
+                                        {% else %}
+                                            <button class="kup_pokemon btn btn-primary" id="{{ pokemon.id }}">KUP</button>
+                                            <a href="{{ path('game_user_profile', {'id' : pokemon.ownerId}) }}" style="float:left;">?</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                    <div class="text-center">
+                        <ul id="pagination-oferts" class="pagination pagination-oferts">
+                        </ul>
+                    </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

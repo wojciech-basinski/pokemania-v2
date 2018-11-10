@@ -1,0 +1,139 @@
+{% extends 'game/hunting/base.html.twig' %}
+
+{% block gamebody %}
+<div class="panel panel-success jeden_ttlo">
+    <div class="panel-heading"><span>POLOWANIE - WALKA</span></div>
+    <div class="panel-body" id="panel_polowanie">
+        <div id="dzicz_ajax" class="d_none">{{ place }}</div>
+
+        <div class="row nomargin">
+            <div class="col-xs-12">
+                <div class="panel panel-primary jeden_ttlo noborder">
+                    <div class="row nomargin">
+                        {#Pokemon gracza#}
+                        <div class="col-xs-12 col-md-6">
+                            <div class="row nomargin">
+                                <div class="col-xs-6 col-md-4 col-lg-3 padding_top">
+                                    <img src="{{ asset('img/poki/srednie/' ~ (battle['pokemonUser'].shiny ? 's') ~
+                                            battle['pokemonUser'].idPokemon ~ '.png') }}" data-toggle="tooltip"
+                                         data-title="{{ battle['pokemonUser'].name }}" class="center img-responsive" />
+                                </div>
+                                <div class="col-xs-6 col-md-8 col-lg-9">
+                                    <div class="well well-stan noborder padding_2 margin_2 text-center alert-success">
+                                        <span>{{ battle['pokemonUser'].shiny ? 'Shiny ' }}{{ battle['pokemonUser'].name }} ({{ battle['pokemonUser'].level }})
+                                            {{ battle['pokemonUser'].gender == 0 ? '<span class="icon-mars text-extra-big" data-original-title="płeć męska" data-toggle="tooltip"></span>'
+                                            : (battle['pokemonUser'].gender == 1 ? '<span class="icon-venus text-extra-big" data-original-title="płeć żeńska" data-toggle="tooltip"></span>' :
+                                            '<span title="Pokemon jest bezpłciowy">!</span>')}}
+                                        </span>
+                                    </div>
+
+                                    <div class="well well-stan jeden_ttlo noborder padding_2 margin_2 text-center">
+                                        A: {{ battle['pokemonUser'].getAttackToTable }}
+                                        Sp.A: {{ battle['pokemonUser'].getSpAttackToTable }}
+                                    </div>
+                                    <div class="well well-stan jeden_ttlo noborder padding_2 margin_2 text-center">
+                                        O: {{ battle['pokemonUser'].getDefenceToTable }}
+                                        Sp.O: {{ battle['pokemonUser'].getSpDefenceToTable }}
+                                    </div>
+                                    <div class="well well-stan jeden_ttlo noborder padding_2 margin_2 text-center">
+                                        SZ: {{ battle['pokemonUser'].getSpeedToTable }}
+                                        C: {{ battle['pokemonUser'].accuracy }}%
+                                    </div>
+                                    <div class="progress progress-gra prog_HP" data-original-title="Życie pokemona" data-toggle="tooltip" data-placement="top">
+                                        <div class="progress-bar progress-bar-success progBarHP" role="progressbar" aria-valuenow="40"
+                                        aria-valuemin="0" aria-valuemax="100" style="width:{{ (battle['begginingHp'] / battle['pokemonUser'].getHpToTable) * 100 }}%;">
+                                            <span>{{ battle['begginingHp'] }} / {{ battle['pokemonUser'].getHpToTable }} PŻ</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {#przeciwnik#}
+                        <div class="col-xs-12 col-md-6">
+                            <div class="row nomargin">
+                                <div class="col-xs-6 col-md-4 col-lg-3 padding_top">
+                                    <img src="{{ asset('img/poki/srednie/' ~ (battle['pokemonInPlace'].shiny ? 's') ~
+                                    battle['pokemonInPlace'].idPokemon ~ '.png') }}" data-toggle="tooltip"
+                                         data-title="{{ battle['pokemonInPlace'].name }}" class="center img-responsive" />
+                                </div>
+                                <div class="col-xs-6 col-md-8 col-lg-9">
+                                    <div class="well well-stan noborder padding_2 margin_2 text-center alert-success">
+                                    <span>{{ battle['pokemonInPlace'].shiny ? 'Shiny ' }}{{ battle['pokemonInPlace'].name }} ({{ battle['pokemonInPlace'].level }})
+                                        {{ battle['pokemonInPlace'].gender == 0 ? '<span class="icon-mars text-extra-big" data-original-title="płeć męska" data-toggle="tooltip"></span>'
+                                        : (battle['pokemonInPlace'].gender == 1 ? '<span class="icon-venus text-extra-big" data-original-title="płeć żeńska" data-toggle="tooltip"></span>' :
+                                        '<span title="Pokemon jest bezpłciowy">!</span>')}}
+                                    </span>
+                                    </div>
+
+                                    <div class="well well-stan jeden_ttlo noborder padding_2 margin_2 text-center">
+                                        A: {{ battle['pokemonInPlace'].getAttackToTable }}
+                                        Sp.A: {{ battle['pokemonInPlace'].getSpAttackToTable }}
+                                    </div>
+                                    <div class="well well-stan jeden_ttlo noborder padding_2 margin_2 text-center">
+                                        O: {{ battle['pokemonInPlace'].getDefenceToTable }}
+                                        Sp.O: {{ battle['pokemonInPlace'].getSpDefenceToTable }}
+                                    </div>
+                                    <div class="well well-stan jeden_ttlo noborder padding_2 margin_2 text-center">
+                                        SZ: {{ battle['pokemonInPlace'].getSpeedToTable }}
+                                        C: {{ battle['pokemonInPlace'].accuracy }}%
+                                    </div>
+                                    <div class="progress progress-gra prog_HP" data-original-title="Życie pokemona" data-toggle="tooltip" data-placement="top">
+                                        <div class="progress-bar progress-bar-success progBarHP" role="progressbar" aria-valuenow="40"
+                                             aria-valuemin="0" aria-valuemax="100" style="width:100%;">
+                                            <span>{{ battle['pokemonInPlace'].getHpToTable }} / {{ battle['pokemonInPlace'].getHpToTable }} PŻ</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {#przeciwnik koniec#}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <button id="wyswietl_walke_pokemon" type="button" class="btn btn-info btn-lg">Wyświetl przebieg walki</button>
+            </div>
+        </div>
+        <div id="walka"></div>
+        {% if battle['score'] == 1 %}
+            {#menu z pokeballami#}
+            <div class="alert alert-success text-big margin-top"><span>WYNIK WALKI: Wygrana</span></div>
+            <div class="walka_alert alert alert-info text-medium margin-top text-center-alert">
+                <span>Walka nauczyła coś twojego Pokemona, zyskuje on {{ battle['pokemonExp'] }} punktów doświadczenia
+                    <br />Dzięki walce zyskujesz {{ battle['userExp'] }} punktów doświadczenia.</span>
+            </div>
+            {% if app.session.get('pokemonHunting').getInfo['trudnosc'] < 10 %}
+                <div class="walka_alert alert alert-success text-medium text-center-alert margin-top">
+                    <span class="span-text-center">Pokemon jest ogłuszony, możesz rzucić w niego pokeball</span>
+                </div>
+                {% include 'game/hunting/pokeballs.html.twig' %}
+            {% else %}
+                <div class="walka_alert alert alert-warning text-medium margin-top text-center-alert">
+                    <span>Pokemon jest pod ochroną i nie możesz go łapać.</span>
+                </div>
+            {% endif %}
+        {% elseif battle['score'] == -1 %}
+            <div class="alert alert-warning text-big  margin-top"><span>WYNIK WALKI: Remis</span></div>
+            <div class="alert alert-info text-medium margin-top walka_alert text-center-alert">
+                <span>Walka nauczyła coś Twojego Pokemona, zyskuje on 5 punktów doświadczenia.
+                    <br />Dzięki walce zyskujesz 3 punkty doświadczenia.</span>
+            </div>
+        {% else %}
+            <div class="alert alert-danger text-big margin-top"><span>WYNIK WALKI: Porażka</span></div>
+            <div class="alert alert-info text-medium text-center-alert margin-top walka_alert">
+                <span>Walka nauczyła coś Twojego Pokemona, zyskuje on 2 punkty doświadczenia.
+                    <br />Dzięki walce zyskujesz 1 punkt doświadczenia.</span>
+            </div>
+
+        {% endif %}
+        <div class="col-xs-12 text-center">
+            <button data-place="{{ place }}" type="button" class="btn btn-primary btn-lg button_kontynuuj margin-top">
+                KONTYNUUJ
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

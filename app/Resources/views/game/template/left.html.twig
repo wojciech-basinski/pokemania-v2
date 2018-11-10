@@ -1,0 +1,147 @@
+{#
+    <?= $this->podpowiedz ?>
+        <?php endif; ?>#}
+        <div class="panel panel-success jeden_ttlo">
+            <div class="panel-heading text-medium">
+                <span>{{ app.user.login|upper }}</span>
+            </div>
+            <div class="row nomargin margin-top">
+
+                <div class="col-xs-12 nopadding">
+                    <div class="progress progress-gra prog_EXP progress2" data-title="Punkty Akcji" data-toggle="tooltip"
+                         data-placement="top">
+                        <div class="progress-bar progress-bar-success progBarEXP line30" role="progressbar"
+                             aria-valuenow="40"
+                             aria-valuemin="0" aria-valuemax="100" style="width:{{ (app.user.pa / app.user.mpa)*100 }}%;">
+                            <span>{{ app.user.pa }} / {{ app.user.mpa }} PA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 nopadding">
+                    <div class="progress progress-gra prog_HP progress2" data-title="Doświadczenie trenera"
+                         data-toggle="tooltip" data-placement="top">
+                        <div class="btn btn-danger btn-lvl" data-title="Poziom Trenera" data-toggle="tooltip"
+                             data-placement="top">{{ app.user.trainerlevel }}</div>
+                        <div class="progress-bar progress-bar-success progBarHP line30" role="progressbar"
+                             aria-valuenow="40"
+                             aria-valuemin="0" aria-valuemax="100" style="width:{{ (app.user.experience / app.session.get('userSession').expOnNextLevel)*100 }}%;">
+                            <span>{{ app.user.experience }} / {{ app.session.get('userSession').expOnNextLevel }} PD</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-xs-12 nopadding">
+                    <div class="progress progress-gra prog_M progress2" data-original-title="Magazyn na Pokemony"
+                         data-toggle="tooltip" data-placement="top">
+                        <div class="progress-bar progress-bar-success progBarM line30" role="progressbar" aria-valuenow="40"
+                             aria-valuemin="0" aria-valuemax="100" style="width:{{ (app.session.get('pokemonsInReserve') / app.user.magazine) * 100 }}%;">
+                            <span>{{ app.session.get('userSession').PokemonInReserve }} / {{ app.user.magazine }} MAG</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 nopadding">
+                    <div class="well well-stan dwa_ttlo noborder">
+                        <div class="row nomargin">
+                            <div class="col-xs-12 nopadding text-center" data-toggle="tooltip" data-title="Pieniądze">
+                                {{ app.user.cash|number_format(0, '', '.') }}
+                                <span class="glyphicon glyphicon-yen"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 nopadding">
+                    <div class="row nomargin">
+                        <div class="col-xs-12">
+                            <div class="btn-group">
+                                <a class="btn btn-primary" href="{{ path('game_messages') }}">
+                                    {% if app.session.get('userSession').messages %}
+                                        <span class="icon-mail-alt"></span>
+                                        <span class="badge">{{ app.session.get('userSession').messages }}</span>
+                                    {% else %}
+                                        <span class="icon-mail"></span>
+                                    {% endif %}
+                                </a>
+                                <a class="btn btn-primary" href="{{ path('game_reports') }}">
+                                    {% if app.session.get('userSession').reports %}
+                                        <span class="icon-doc-text-inv"></span>
+                                        <span class="badge">{{ app.session.get('userSession').reports }}</span>
+                                    {% else %}
+                                        <span class="icon-doc-text"></span>
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-success jeden_ttlo panel-pokemony-bottom">
+            <div class="panel-heading panel-pokemony">
+                <span>DRUŻYNA</span>
+            </div>
+            <div class="table table-stripped">
+                {% for pokemon in pokemonsInTeam %}
+                <form id="pokemony" data-id="{{ pokemon.id }}" class="jeden tr" data-i="{{ loop.index }}"
+                      action="{{ path('game_pokemon') }}" data-name="{{ pokemon.name }}" method="post">
+                    <label for="pok{{ pokemon.id }}">
+                        <div class="td stan kursor">
+                            <img src="{{ asset('img/poki/' ~ (pokemon.shiny ? 's' : '') ~  pokemon.idPokemon ~ '.png') }}" class="img-responsive" />
+                        </div>
+                        <div class="td stan2 kursor">
+                           {{ pokemon.name }}
+                            {% if pokemon.gender == 0 %}
+                                <i class="icon-mars text-extra-big" data-original-title="płeć męska" data-toggle="tooltip"></i>
+                            {% elseif pokemon.gender == 1 %}
+                                <i class="icon-venus text-extra-big" data-original-title="płeć żeńska" data-toggle="tooltip"></i>
+                            {% else %}
+                                <span title="Pokemon jest bezpłciowy">!</span>
+                            {% endif %}
+                            <span data-title="poziom" data-toggle="tooltip">({{ pokemon.level }})</span>
+                            <span data-title="
+                            {{ (pokemon.hunger <= 50) ? 'Pokemon nie jest głodny' :
+                            ((pokemon.hunger <= 90) ? 'Pokemon jest głodny' : 'Pokemon jest bardzo głodny!')}}
+                            ({{ pokemon.hunger|round }}%)" data-toggle="tooltip">
+                                <span class="
+                                {{ (pokemon.hunger <= 50) ? 'zielony_g' :
+                                ((pokemon.hunger <= 90) ? 'zolty' : 'czerwony')}}">
+                                    G
+                                </span>
+                            </span>
+                            <div class="progress progress-gra prog_HP" data-original-title="Życie Pokemona" data-toggle="tooltip" data-placement="top">
+                                <div class="progress-bar progress-bar-success progBarHP" role="progressbar" aria-valuenow="40"
+                                aria-valuemin="0" aria-valuemax="100" style="width:{{ ((pokemon.actualHp / pokemon.getHpToTable * 100))|round(2, 'floor') }}%;">
+                                    <span>{{ pokemon.actualHp }} / {{ pokemon.getHpToTable }} HP</span>
+                                </div>
+                            </div>
+                            <div class="progress progress-gra prog_M" data-original-title="Doświadczenie Pokemona" data-toggle="tooltip" data-placement="top">
+                                <div class="progress-bar progress-bar-success progBarM" role="progressbar" aria-valuenow="40"
+                                aria-valuemin="0" aria-valuemax="100"
+                                 style="width:{{ pokemon.level == 100 ? '100' : (pokemon.exp / pokemon.expOnLevel ) * 100|round(2, 'floor') }}%">
+                                    <span>{{ pokemon.exp }}
+                                        {% if pokemon.level < 100 %}
+                                            / {{ pokemon.expOnLevel }}
+                                        {% endif %}
+                                        PD
+                                    </span>
+                                </div>
+                            </div>
+                            <input type="hidden" name="id" value="{{ pokemon.id }}" />
+                            <input type="submit" style="display:none" id="pok{{ pokemon.id }}"/>
+                        </div>
+                    </label>
+                </form>
+                {% endfor %}
+            </div>
+        </div>
+        <form id="gracz" method="post" action="<?=URL?>profil">
+            <input class="form-control" type="text" name="gracz" placeholder="Znajdź gracza">
+            <input class="form-control" type="submit" value="Wyszukaj">
+        </form>
+    {#<?= $this->karta ?>
+<?= isset($this->beta) ? $this->beta : '' ?>#}
+
+
