@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Achievement;
@@ -80,7 +79,7 @@ class AuthenticationService
         return 1;
     }
 
-    public function loginUser(int $userId)
+    public function loginUser()
     {
         $this->setSession();
     }

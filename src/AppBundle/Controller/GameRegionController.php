@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class GameRegionController extends Controller
 {
@@ -55,13 +56,15 @@ class GameRegionController extends Controller
      * @Route("/lecznica", name="game_hospital")
      * @param GameHospital $hospitalService
      *
+     * @param SessionInterface $session
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function hospitalAction(GameHospital $hospitalService)
+    public function hospitalAction(GameHospital $hospitalService, SessionInterface $session)
     {
         //TODO:
         //ODZNAKA NR 5 Z KANTO
-        $freeHeals = $this->get('session')->get('userSession')->getUserItems()->getHeals();
+        $freeHeals = $session->get('userSession')->getUserItems()->getHeals();
         $pokemons = $hospitalService->getPokemonsToView($this->getUser());
 
         return $this->render('game/hospital.html.twig', [
