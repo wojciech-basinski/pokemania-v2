@@ -5,12 +5,14 @@ namespace AppBundle\Entity;
 use AppBundle\Utils\GameTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * User
  *
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @Gedmo\Loggable
  */
 class User implements UserInterface
 {
@@ -55,6 +57,7 @@ class User implements UserInterface
      * @var int
      *
      * @ORM\Column(name="trainer_level", type="integer")
+     * @Gedmo\Versioned
      */
     private $trainerLevel;
 
@@ -258,6 +261,7 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="session_id", type="string", length=80, nullable=true)
+     * @Gedmo\Versioned
      */
     private $sessionId;
 
@@ -272,6 +276,13 @@ class User implements UserInterface
      * @ORM\Column(name="activity_time", type="integer", nullable=true)
      */
     private $activityTime;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=15, nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $ip;
 
     /**
      * Get id
@@ -1142,5 +1153,24 @@ class User implements UserInterface
     public function setActivity(string $activity)
     {
         $this->activity = $activity;
+    }
+
+    /**
+     * @param string $ip
+     *
+     * @return User
+     */
+    public function setIp(string $ip): User
+    {
+        $this->ip = $ip;
+        return $this;
+}
+
+    /**
+     * @return string
+     */
+    public function getIp(): string
+    {
+        return $this->ip;
     }
 }

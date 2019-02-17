@@ -55,7 +55,7 @@ class GameMerchant
         $valueOfPokemons = 0;
 
         foreach ($pokemonsAvailableToSell as $pokemon) {
-            $pokemonsToSell[] = $pokemon->getId();
+            $pokemonsToSell[] = $pokemon;
             $valueOfPokemons += $pokemon->getValue();
         }
 
@@ -77,7 +77,7 @@ class GameMerchant
         $valueOfPokemons = 0;
         foreach ($pokemonsAvailableToSell as $pokemon) {
             if (in_array($pokemon->getId(), $selected)) {
-                $pokemonsToSell[] = $pokemon->getId();
+                $pokemonsToSell[] = $pokemon;
                 $valueOfPokemons += $pokemon->getValue();
             }
         }
@@ -86,10 +86,11 @@ class GameMerchant
 
     public function sellPokemonsFromArray(array $pokemons, int $value, User $user)
     {
+        $count = count($pokemons);
         $this->em->getRepository('AppBundle:Pokemon')->deletePokemons($pokemons);
         $user->setCash($user->getCash() + $value);
-        $this->session->set('pokemonsInReserve', $this->session->get('pokemonsInReserve') - count($pokemons));
-        $this->session->getFlashBag()->add('success', 'Sprzedano ' . count($pokemons) .
+        $this->session->set('pokemonsInReserve', $this->session->get('pokemonsInReserve') - $count);
+        $this->session->getFlashBag()->add('success', 'Sprzedano ' . $count .
             ' Pokemonów za cenę ' . number_format($value, 0, '', '.') . ' &yen;');
     }
 }

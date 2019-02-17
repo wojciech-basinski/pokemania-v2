@@ -19,6 +19,8 @@ use AppBundle\Utils\User\UserSession;
 use AppBundle\Utils\User\UserSettings;
 use AppBundle\Utils\User\UserSkills;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -44,19 +46,25 @@ class AuthenticationService
      * @var PokemonHelper
      */
     private $pokemonHelper;
+    /**
+     * @var Request
+     */
+    private $request;
 
     public function __construct(
         SessionInterface $session,
         EntityManagerInterface $em,
         TokenStorageInterface $tokenStorage,
         UserExperience $userExperience,
-        PokemonHelper $pokemonHelper
+        PokemonHelper $pokemonHelper,
+        RequestStack $request
     ) {
         $this->session = $session;
         $this->em = $em;
         $this->tokenStorage = $tokenStorage;
         $this->userExperience = $userExperience;
         $this->pokemonHelper = $pokemonHelper;
+        $this->request = $request->getCurrentRequest();
     }
 
     public function registerUser(User $user, int $starterId): bool
@@ -105,6 +113,7 @@ class AuthenticationService
         if ($user->getPa() > $user->getMpa()) {
             $user->setPa($user->getMpa());
         }
+        $user->setIp($this->request->server->get('REMOTE_ADDR'));
         $this->em->flush();
         $this->pokemonsToTeam($user->getId());
         $this->createUserInSession($user);
