@@ -311,7 +311,7 @@ class GameSettings
 
     private function setPanelsInSession(int $value, User $user):int
     {
-        $settings = get('userSession')->getUserSettings();
+        $settings = $this->session->get('userSession')->getUserSettings();
         if (!in_array($value, [0, 1, 2, 3, 4, 5, 6])) {
             $value = $settings->getPanels();
         }
