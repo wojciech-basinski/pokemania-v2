@@ -4,12 +4,15 @@ namespace AppBundle\Entity;
 
 use AppBundle\Utils\PokemonHelper;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Pokemons
  *
  * @ORM\Table(name="pokemons")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PokemonRepository")
+ * @Gedmo\Loggable
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  */
 class Pokemon
 {
@@ -26,6 +29,7 @@ class Pokemon
      * @var int
      *
      * @ORM\Column(name="id_pokemon", type="smallint")
+     * @Gedmo\Versioned
      */
     private $idPokemon;
 
@@ -33,6 +37,7 @@ class Pokemon
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=40)
+     * @Gedmo\Versioned
      */
     private $name;
 
@@ -40,6 +45,7 @@ class Pokemon
      * @var int
      *
      * @ORM\Column(name="level", type="smallint")
+     * @Gedmo\Versioned
      */
     private $level;
 
@@ -61,6 +67,7 @@ class Pokemon
      * @var int
      *
      * @ORM\Column(name="owner", type="integer")
+     * @Gedmo\Versioned
      */
     private $owner;
 
@@ -293,6 +300,12 @@ class Pokemon
      * @ORM\JoinColumn(name="id", referencedColumnName="id")
      */
     private $training;
+
+    /**
+     * @var null|\DateTimeInterface
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $deletedAt;
 
     /**
      * @var array
@@ -1267,7 +1280,6 @@ class Pokemon
     {
         return (round($this->quality * $this->speed / 100) + floor($this->training->getBerrySpeed() / 5) + $this->training->getTr5());
     }
-
 
     public function getCountedAttachment()
     {

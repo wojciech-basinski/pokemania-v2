@@ -19,6 +19,7 @@ class AppKernel extends Kernel
 
             new EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle(),
             new Cron\CronBundle\CronCronBundle(),
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

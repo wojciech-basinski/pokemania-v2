@@ -37,3 +37,15 @@ services:
         class: AppBundle\EventListener\CheckExpAndInfoBeforeController
         tags:
             - { name: kernel.event_subscriber }
+
+    gedmo.listener.loggable:
+        class: Gedmo\Loggable\LoggableListener
+        tags:
+        - { name: doctrine.event_subscriber, connection: default }
+#        calls:
+#        - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+    gedmo.listener.softdeleteable:
+        class: Gedmo\SoftDeleteable\SoftDeleteableListener
+        tags:
+        - { name: doctrine.event_subscriber, connection: default }

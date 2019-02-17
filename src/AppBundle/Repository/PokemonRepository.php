@@ -113,19 +113,10 @@ class PokemonRepository extends \Doctrine\ORM\EntityRepository
 
     public function deletePokemons(array $pokemons)
     {
-        $this->_em->createQueryBuilder()
-            ->delete('AppBundle:Pokemon', 'p')
-            ->where('p.id in(:ids)')
-            ->setParameter(':ids', $pokemons)
-            ->getQuery()
-            ->execute();
-
-        $this->_em->createQueryBuilder()
-            ->delete('AppBundle:PokemonTraining', 'p')
-            ->where('p.id in (:ids)')
-            ->setParameter(':ids', $pokemons)
-            ->getQuery()
-            ->execute();
+        foreach ($pokemons as $pokemon) {
+            $this->_em->remove($pokemon);
+        }
+        $this->_em->flush();
     }
 
     public function getOrderedPokemonsFromReserve(int $userId)
