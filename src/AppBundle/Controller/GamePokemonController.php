@@ -5,9 +5,11 @@ namespace AppBundle\Controller;
 use AppBundle\Utils\AttackHelper;
 use AppBundle\Utils\GamePack;
 use AppBundle\Utils\GamePokemon;
+use AppBundle\Utils\GamePokemonChange;
 use AppBundle\Utils\GamePokemons;
 use AppBundle\Utils\GamePokemonsExchange;
 use AppBundle\Utils\GameTraining;
+use AppBundle\Utils\GameTrainingPokemon;
 use AppBundle\Utils\PokemonHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -67,15 +69,17 @@ class GamePokemonController extends Controller
     /**
      * @Route("pokemon/change/", name="game_pokemon_change")
      * @Method("POST")
+     * @param GamePokemonChange $gamePokemonChange
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function pokemonChangeAction()
+    public function pokemonChangeAction(GamePokemonChange $gamePokemonChange)
     {
         $what = $this->request->request->get('what');
         $value = $this->request->request->get('value');
         $id = $this->request->request->get('id', 0);
 
-        $changeService = $this->get('game.pokemon.change');
-        $changeService->changeCheck($what, $value, $id, $this->getUser());
+        $gamePokemonChange->changeCheck($what, $value, $id, $this->getUser());
 
         return $this->redirectToRoute('game_pokemon', [
             'id' => $id
@@ -283,13 +287,15 @@ class GamePokemonController extends Controller
 
         return $this->redirectToRoute('game_user_pokemons_exchange');
     }
+
     /**
      * @Route("/trening", name="activity_training")
+     * @param GameTrainingPokemon $training
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function trainingWithPokemonsAction()
+    public function trainingWithPokemonsAction(GameTrainingPokemon $training)
     {
-        $training = $this->get('game.training.pokemons');
-
         return $this->render('game/trainingPokemons.html.twig', [
             'ajax' => $this->request->isXmlHttpRequest(),
             'title' => 'Trening',
@@ -300,30 +306,35 @@ class GamePokemonController extends Controller
 
     /**
      * @Route("/trening/start", name="activity_training_start")
+     * @param GameTrainingPokemon $training
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function trainingWithPokemonsStartAction()
+    public function trainingWithPokemonsStartAction(GameTrainingPokemon $training)
     {
         $user = $this->getUser();
         if ($user->getActivity() != '' && $user->getActivity() != 'training') {
             return $this->redirectToRoute('activity'.$user->getActivity());
         }
 
-        $training = $this->get('game.training.pokemons');
         $training->startTraining($this->getUser());
 
         return $this->redirectToRoute('activity_training');
     }
+
     /**
      * @Route("/trening/koniec", name="activity_training_stop")
+     * @param GameTrainingPokemon $training
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function trainingWithPokemonsStopAction()
+    public function trainingWithPokemonsStopAction(GameTrainingPokemon $training)
     {
         $user = $this->getUser();
         if ($user->getActivity() != '' && $user->getActivity() != 'training') {
             return $this->redirectToRoute('activity'.$user->getActivity());
         }
 
-        $training = $this->get('game.training.pokemons');
         $training->stopTraining($this->getUser());
 
         return $this->redirectToRoute('activity_training');
