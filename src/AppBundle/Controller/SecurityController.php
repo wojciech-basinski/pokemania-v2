@@ -4,23 +4,26 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
+use AppBundle\Utils\AuthenticationService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends Controller
 {
     /**
      * @Route("/login", name="login")
+     * @param AuthenticationUtils $authenticationUtils
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function loginAction()
+    public function loginAction(AuthenticationUtils $authenticationUtils)
     {
         // redirect user to homepage if user is logged in
         if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('game_index');
         }
-
-        $authenticationUtils = $this->get('security.authentication_utils');
 
         $errors = $authenticationUtils->getLastAuthenticationError();
         $lastUserName = $authenticationUtils->getLastUsername();
@@ -34,18 +37,18 @@ class SecurityController extends Controller
     /**
      * @Route("/logout", name="logout")
      */
-    public function logoutAction()
-    {
-    }
+    public function logoutAction() {}
 
     /**
      * @Route("/register", name="register")
      * @param Request $request
+     * @param AuthenticationService $registerUserService
+     *
      * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
      */
-    public function registerAction(Request $request)
+    public function registerAction(Request $request, AuthenticationService $registerUserService)
     {
-        $em = $this->getDoctrine()->getManager();
         $user = new User();
 
         $form = $this->createForm(UserType::class, $user);
@@ -54,8 +57,6 @@ class SecurityController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $passwordEncoder = $this->get('security.password_encoder');
             $user->setPassword($passwordEncoder->encodePassword($user, $user->getPassword()));
-
-            $registerUserService = $this->get('authentication_service');
 
             $starterId = $request->request->all()['user']['pokemon'];
             if (!$registerUserService->registerUser($user, $starterId)) {
