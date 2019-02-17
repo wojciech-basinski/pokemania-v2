@@ -15,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class GamePokemonController extends Controller
 {
@@ -33,6 +34,7 @@ class GamePokemonController extends Controller
      * @param PokemonHelper $pokemonHelper
      * @param AttackHelper $attackHelper
      * @param GamePokemon $pokemonService
+     * @param SessionInterface $session
      * @param int $id
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -41,12 +43,13 @@ class GamePokemonController extends Controller
         PokemonHelper $pokemonHelper,
         AttackHelper $attackHelper,
         GamePokemon $pokemonService,
-        int $id = 0)
-    {
+        SessionInterface $session,
+        int $id = 0
+    ) {
         if (!$id) {
             $id = $this->request->get('id');
             if (!$id) {
-                $id = $this->get('session')->get('pokemon0')->getId();
+                $id = $session->get('pokemon0')->getId();
             }
         }
         $pokemonAndInfoAboutPokemon = $pokemonService->

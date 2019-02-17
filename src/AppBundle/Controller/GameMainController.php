@@ -5,9 +5,9 @@ namespace AppBundle\Controller;
 use AppBundle\Utils\Bugs;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class GameMainController extends Controller
 {
@@ -42,11 +42,15 @@ class GameMainController extends Controller
 
     /**
      * @Route("/desktop/{desktop}", name="game_set_desktop_mode")
+     * @param int $desktop
+     * @param SessionInterface $session
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function desktopAction(int $desktop)
+    public function desktopAction(int $desktop, SessionInterface $session)
     {
         if ($desktop == 1) {
-            $this->get('session')->set('desktop', 1);
+            $session->set('desktop', 1);
         }
         return $this->redirectToRoute('game_index');
     }

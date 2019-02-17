@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
+use AppBundle\Utils\GameHuntingBattleBetweenPokemons;
 use AppBundle\Utils\GameIndex;
 use AppBundle\Utils\LeftTable;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -31,10 +32,13 @@ class OtherSpecialController extends Controller
     /**
      * @Route("/podglad/walka", name="game_show_battle")
      * @Method("POST")
+     * @param GameHuntingBattleBetweenPokemons $battle
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showBattleBetweenPokemonsAction()
+    public function showBattleBetweenPokemonsAction(GameHuntingBattleBetweenPokemons  $battle)
     {
-        $battle = $this->get('game.hunting.battle.pokemons')->showBattle($this->getUser()->getId());
+        $battle = $battle->showBattle($this->getUser()->getId());
         return $this->render('game/hunting/battleShow.html.twig', [
             'battle' => $battle
         ]);
@@ -43,10 +47,13 @@ class OtherSpecialController extends Controller
     /**
      * @Route("/podglad/walka/trener", name="game_show_battle_trainer")
      * @Method("POST")
+     * @param GameHuntingBattleBetweenPokemons $battle
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showBattleWithTrainerAction()
+    public function showBattleWithTrainerAction(GameHuntingBattleBetweenPokemons $battle)
     {
-        $battle = $this->get('game.hunting.battle.pokemons')->showBattle($this->getUser()->getId(), 1);
+        $battle = $battle->showBattle($this->getUser()->getId(), 1);
         return $this->render('game/hunting/battleShow.html.twig', [
             'battle' => $battle
         ]);

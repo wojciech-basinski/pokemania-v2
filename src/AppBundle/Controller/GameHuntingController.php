@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class GameHuntingController extends Controller
 {
@@ -103,21 +104,22 @@ class GameHuntingController extends Controller
      * @Method("POST")
      * @param GameHuntingCatch $catch
      *
+     * @param SessionInterface $session
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function gameHuntingCatchAction(GameHuntingCatch $catch)
+    public function gameHuntingCatchAction(GameHuntingCatch $catch, SessionInterface $session)
     {
         $pokeball = $this->request->get('pokeball');
 
         $catch->catch($pokeball, $this->getUser());
 
-        $repeatballs = $this->get('session')->get('huntingChangeRepeatball');
+        $repeatballs = $session->get('huntingChangeRepeatball');
         if ($repeatballs) {
             $pokeballs = $this->getDoctrine()
                 ->getRepository('AppBundle:Pokeball')
                 ->find($this->getUser()->getId());
         }
-
 
         return $this->render('game/hunting/catch.html.twig', [
             'place' => $this->request->get('place'),

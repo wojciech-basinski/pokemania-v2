@@ -8,6 +8,7 @@ use AppBundle\Utils\Reports;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class GameMessageController extends Controller
 {
@@ -22,14 +23,16 @@ class GameMessageController extends Controller
      * @Route("/raporty", name="game_reports")
      * @param Reports $reportsService
      *
+     * @param SessionInterface $session
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showReportsAction(Reports $reportsService)
+    public function showReportsAction(Reports $reportsService, SessionInterface $session)
     {
         $usersReports = $reportsService->getReports($this->getUser()->getId());
 
         $reportsService->markReportsAsRead($this->getUser()->getId());
-        $this->get('session')->get('userSession')->setReports(0);
+        $session->get('userSession')->setReports(0);
 
         return $this->render('game/reports.html.twig', [
             'ajax' => $this->request->isXmlHttpRequest(),
@@ -88,14 +91,16 @@ class GameMessageController extends Controller
      * @Route("/wiadomosci", name="game_messages")
      * @param Messages $messageService
      *
+     * @param SessionInterface $session
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showMessagesAction(Messages $messageService)
+    public function showMessagesAction(Messages $messageService, SessionInterface $session)
     {
         $messages = $messageService->getAllUserMessages($this->getUser()->getId());
 
         $messageService->markMessagesAsRead($this->getUser()->getId());
-        $this->get('session')->get('userSession')->setMessages(0);
+        $session->get('userSession')->setMessages(0);
 
         return $this->render('game/messages.html.twig', [
            'ajax' => $this->request->isXmlHttpRequest(),
