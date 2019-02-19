@@ -892,8 +892,6 @@ class GameHuntingHelper
             $table['event'] = 1024; //pokemon
         }
 
-        $table['event'] = -999;
-
         return $table;
     }
 
@@ -912,8 +910,6 @@ class GameHuntingHelper
         } elseif ($l <= 1000) {
             $table['event'] = 1024; //pokemon
         }
-
-        $table['event'] = 1024;
 
         return $table;
     }
