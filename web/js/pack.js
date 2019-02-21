@@ -271,6 +271,6 @@ $(document).ready(function()
   $('#prawo').on('click', '.wymien', function()
   { 
       var active = $(this).attr('name');
-      window.location='wymien/?active='+active;
+      window.location= $(this).attr('data-href') + '?active='+active;
   });
 });
