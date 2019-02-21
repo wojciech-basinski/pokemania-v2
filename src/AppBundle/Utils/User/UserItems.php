@@ -65,7 +65,7 @@ class UserItems
     }
 
     /**
-     * @return bool
+     * @return int
      */
     public function getShovel(): int
     {

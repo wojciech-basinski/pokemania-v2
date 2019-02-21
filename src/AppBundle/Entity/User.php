@@ -1164,7 +1164,7 @@ class User implements UserInterface
     {
         $this->ip = $ip;
         return $this;
-}
+    }
 
     /**
      * @return string

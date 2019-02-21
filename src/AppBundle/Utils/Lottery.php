@@ -212,7 +212,7 @@ class Lottery
         $dratini->setMarket(0);
         $dratini->setBlockView(0);
         $dratini->setHunger(0.0);
-        $dratini->setTr_6(0);
+        $dratini->setTr6(0);
         $dratini->setDescription('');
         $dratini->setExchange(0);
         $dratini->setAttack(11);

@@ -177,40 +177,50 @@ class GameHunting
                 'name' => 'polana',
                 'namePl' => 'Polana',
                 'description' => 'Przemierzając ten obszar można natknąć się na pachnące drzewa z jagodami. 
-                Dzicz ze względu na brak negatywnych wydarzeń jest dobrym miejscem na wyprawy dla początkujących trenerów. 
-                Niewykluczone, że na naszej drodze stanie mędrzec, który pomoże zwiększyć doświadczenie nasze i naszych pokemonów.',
+                Dzicz ze względu na brak negatywnych wydarzeń jest 
+                dobrym miejscem na wyprawy dla początkujących trenerów. 
+                Niewykluczone, że na naszej drodze stanie mędrzec, który pomoże 
+                zwiększyć doświadczenie nasze i naszych pokemonów.',
                 'pokemons' => $this->pokemonCatchedInPlaces('Polana')
             ],
             'wyspa' => [
                 'name' => 'wyspa',
                 'namePl' => 'Wyspa',
                 'description' => 'Na obszarze wyspy znajdują się oazy, gdzie wraz z pokemonami można odpocząć 
-                    i zwiększyć ich przywiązanie do trenera. Należy jednak pamiętać, aby nie zapuszczać się zbyt daleko od brzegu, 
+                    i zwiększyć ich przywiązanie do trenera. 
+                    Należy jednak pamiętać, aby nie zapuszczać się zbyt daleko od brzegu, 
                     bo do odnalezienia drogi powrotnej trzeba będzie przeznaczyć większą ilość energii.',
                 'pokemons' => $this->pokemonCatchedInPlaces('Wyspa')
             ],
             'grota' => [
                 'name' => 'grota',
                 'namePl' => 'Grota',
-                'description' => 'Łowcy z całego regionu przybywają tutaj na poszukiwanie skarbów. Jednak schodząc do środka 
-                    łatwo zgubić się w ciemnych komnatach, gdzie znalezienie wyjścia powoduje utratę dodatkowych punktów akcji. 
-                    Do zwiedzania tego miejsca należy zaopatrzyć się w latarkę. Nie zapomnij kupić baterii w pokesklepie, ponieważ zejście 
+                'description' => 'Łowcy z całego regionu przybywają tutaj na poszukiwanie skarbów. 
+                Jednak schodząc do środka 
+                    łatwo zgubić się w ciemnych komnatach, gdzie znalezienie wyjścia
+                     powoduje utratę dodatkowych punktów akcji. 
+                    Do zwiedzania tego miejsca należy zaopatrzyć się w latarkę. 
+                    Nie zapomnij kupić baterii w pokesklepie, ponieważ zejście 
                     do groty nie będzie możliwe.',
                 'pokemons' => $this->pokemonCatchedInPlaces('Grota')
             ],
             'dom_strachow' => [
                 'name' => 'domstrachow',
                 'namePl' => 'Dom strachów',
-                'description' => 'Budynek nie zamieszkiwany od wielu lat przez ludzi, niektórzy twierdzą, że jest nawiedzony. 
-                W środku znajduje się wiele sekretnych pomieszczeń a w nich ukryte są cenne przedmioty. Spotkanie przyjaznych 
+                'description' => 'Budynek nie zamieszkiwany od wielu lat przez ludzi, 
+                niektórzy twierdzą, że jest nawiedzony. 
+                W środku znajduje się wiele sekretnych pomieszczeń a w nich ukryte są cenne przedmioty. 
+                Spotkanie przyjaznych 
                 duchów zwiększa przywiązanie pokemonów.',
                 'pokemons' => $this->pokemonCatchedInPlaces('DomStrachow')
             ],
             'gory' => [
                 'name' => 'gory',
                 'namePl' => 'Góry',
-                'description' => 'Najbardziej kolorowe miejsce w regionie dzięki wszechobecnym jagodom. Można znaleźć tu bardzo rzadkie ich odmiany. 
-                Poruszanie się po stromej powierzchni jest dość uciążliwe, dlatego zużycie energii jest większe niż podczas normalnej wyprawy.',
+                'description' => 'Najbardziej kolorowe miejsce w regionie dzięki wszechobecnym jagodom. 
+                Można znaleźć tu bardzo rzadkie ich odmiany. 
+                Poruszanie się po stromej powierzchni jest dość uciążliwe, 
+                dlatego zużycie energii jest większe niż podczas normalnej wyprawy.',
                 'pokemons' => $this->pokemonCatchedInPlaces('Gory')
             ],
             'wodospad' => [
@@ -224,9 +234,11 @@ class GameHunting
             'safari' => [
                 'name' => 'safari',
                 'namePl' => 'Safari',
-                'description' => 'Wejście na teren safari możliwy jest poprzez okazanie odpowiedniego kuponu strażnikowi. 
+                'description' => 'Wejście na teren safari możliwy jest poprzez okazanie 
+                odpowiedniego kuponu strażnikowi. 
                 Jest to miejsce występowania rzadkich gatunków pokemonów. Znajdują się tu również cenne przedmioty, 
-                które można wydobyć za pomocą łopaty. Uważaj jednak na dzikiego Psyducka, który wykrada jagody z plecaków.',
+                które można wydobyć za pomocą łopaty. Uważaj jednak na dzikiego Psyducka, 
+                który wykrada jagody z plecaków.',
                 'pokemons' => $this->pokemonCatchedInPlaces('Safari')
             ]
         ];
@@ -237,9 +249,15 @@ class GameHunting
         $this->place = strtolower($place);
         switch ($user->getRegion()) {
             case 1:
-                return in_array($this->place, ['polana', 'grota', 'wyspa', 'domstrachow', 'gory', 'safari', 'wodospad']);
+                return in_array(
+                    $this->place,
+                    ['polana', 'grota', 'wyspa', 'domstrachow', 'gory', 'safari', 'wodospad']
+                );
             case 2:
-                return in_array($this->place, ['laka', 'lodowiec', 'mokradla', 'wulkan', 'JOHTO5', 'jezioro', 'mrocznylas']);
+                return in_array(
+                    $this->place,
+                    ['laka', 'lodowiec', 'mokradla', 'wulkan', 'JOHTO5', 'jezioro', 'mrocznylas']
+                );
             default:
                 return false;
         }
@@ -254,7 +272,9 @@ class GameHunting
     {
         for ($i = 0; $i < 6; $i++) {
             if ($this->session->get('pokemon' . $i)) {
-                if ($this->session->get('pokemon' . $i)->getActualHp() && $this->session->get('pokemon' . $i)->getHunger() <= 90) {
+                if ($this->session->get('pokemon' . $i)->getActualHp()
+                    && $this->session->get('pokemon' . $i)->getHunger() <= 90
+                ) {
                     return true;
                 }
             }
@@ -329,7 +349,10 @@ class GameHunting
             return 0;
         }
         if (!$this->checkPokemonsCondition()) {
-            $this->session->getFlashBag()->add('error', 'Nie możesz podróżować jeśli wszystkie Twoje pokemony są ranne lub głodne.');
+            $this->session->getFlashBag()->add(
+                'error',
+                'Nie możesz podróżować jeśli wszystkie Twoje pokemony są ranne lub głodne.'
+            );
             return 0;
         }
 
@@ -393,7 +416,10 @@ class GameHunting
                 $this->trainer($user);
                 break;
             case 100:
-                $this->session->getFlashBag()->add('error', 'Do mrocznego lasu można wejść tylko w godzinach 21-6');
+                $this->session->getFlashBag()->add(
+                    'error',
+                    'Do mrocznego lasu można wejść tylko w godzinach 21-6'
+                );
                 return 0;
 
             case 1024:
@@ -513,7 +539,8 @@ class GameHunting
     private function catchedLaka(): array
     {
         $pokemons = [
-            43, 44, 152, 153, 154, 161, 162, 165, 166, 172, 177, 178, 179, 180, 181, 182, 187, 188, 189, 191, 192, 204, 205, 209, 210, 241
+            43, 44, 152, 153, 154, 161, 162, 165, 166, 172, 177,
+            178, 179, 180, 181, 182, 187, 188, 189, 191, 192, 204, 205, 209, 210, 241
         ];
         return $this->checkCatched($pokemons);
     }
@@ -521,7 +548,8 @@ class GameHunting
     private function catchedPolana(): array
     {
         $pokemons = [
-            1, 2, 3, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23, 24, 25, 26, 37, 38, 43, 44, 45, 69, 70, 71, 102, 103, 108, 114, 133
+            1, 2, 3, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23, 24, 25, 26,
+            37, 38, 43, 44, 45, 69, 70, 71, 102, 103, 108, 114, 133
         ];
         return $this->checkCatched($pokemons);
     }
@@ -529,7 +557,8 @@ class GameHunting
     private function catchedWyspa(): array
     {
         $pokemons = [
-            19, 20, 23, 24, 29, 30, 31, 32, 33, 34, 46, 47, 48, 49, 52, 53, 58, 59, 79, 80, 96, 97, 98, 99, 100, 101, 108, 124
+            19, 20, 23, 24, 29, 30, 31, 32, 33, 34, 46, 47, 48, 49, 52,
+            53, 58, 59, 79, 80, 96, 97, 98, 99, 100, 101, 108, 124
         ];
         return $this->checkCatched($pokemons);
     }
@@ -561,7 +590,8 @@ class GameHunting
     private function catchedWodospad(): array
     {
         $pokemons = [
-            7, 8, 9, 54, 55, 60, 61, 62, 72, 73, 79, 80, 86, 87, 90, 91, 98, 99, 116, 117, 118, 119, 120, 121, 129, 130, 131
+            7, 8, 9, 54, 55, 60, 61, 62, 72, 73, 79, 80, 86, 87, 90, 91,
+            98, 99, 116, 117, 118, 119, 120, 121, 129, 130, 131
         ];
         return $this->checkCatched($pokemons);
     }
@@ -569,7 +599,8 @@ class GameHunting
     private function catchedSafari(): array
     {
         $pokemons = [
-            21, 22, 46, 47, 48, 49, 54, 55, 83, 84, 85, 102, 103, 108, 111, 112, 113, 114, 115, 123, 124, 125, 126, 127, 128
+            21, 22, 46, 47, 48, 49, 54, 55, 83, 84, 85, 102, 103, 108, 111,
+            112, 113, 114, 115, 123, 124, 125, 126, 127, 128
         ];
         return $this->checkCatched($pokemons);
     }
@@ -648,7 +679,11 @@ class GameHunting
                 $berrys = 'Rawst Berry';
             }
         }
-        $this->session->getFlashBag()->add('success', "Na swojej drodze znalazłeś drzewko z <strong>{$berrys}</strong> Zbierasz z niego <strong>{$quantity}</strong> sztuk.");
+        $this->session->getFlashBag()->add(
+            'success',
+            "Na swojej drodze znalazłeś drzewko z <strong>{$berrys}</strong> 
+Zbierasz z niego <strong>{$quantity}</strong> sztuk."
+        );
         $berrys = str_replace(' ', '', $berrys);
         $berry = $this->em->find('AppBundle:Berry', $userId);
         $berry->{'set' . $berrys}($berry->{'get' . $berrys}() + $quantity);
@@ -656,10 +691,15 @@ class GameHunting
 
     private function sagePolana(User $user)
     {
-        $this->session->getFlashBag()->add('success', '<Na swojej drodze spotykasz mędrca, który przekazuje Tobie i Twoim Pokemonom część swojej wiedzy.<br />Otrzymujesz 5 pkt doświadczenia, a każdy Pokemon z Twojej drużyny dostaje 15 pkt doświadczenia.');
+        $this->session->getFlashBag()->add(
+            'success',
+            '<Na swojej drodze spotykasz mędrca, który przekazuje Tobie i Twoim Pokemonom część swojej wiedzy.
+<br />Otrzymujesz 5 pkt doświadczenia, a każdy Pokemon z Twojej drużyny dostaje 15 pkt doświadczenia.'
+        );
         for ($i = 0; $i < 6; $i++) {
             if ($this->session->get('pokemon' . $i)) {
-                $this->session->get('pokemon' . $i)->setExp($this->session->get('pokemon' . $i)->getExp() + 15);
+                $this->session->get('pokemon' . $i)
+                    ->setExp($this->session->get('pokemon' . $i)->getExp() + 15);
             }
         }
         $user->setExperience($user->getExperience() + 5);
@@ -674,10 +714,14 @@ class GameHunting
 
     private function oasaWyspa(int $userId)
     {
-        $this->session->getFlashBag()->add('success', 'Znalazłeś oazę. Odpoczywasz razem z Pokemonami co skutkuje zwiększeniem ich zaufania.');
+        $this->session->getFlashBag()->add(
+            'success',
+            'Znalazłeś oazę. Odpoczywasz razem z Pokemonami co skutkuje zwiększeniem ich zaufania.'
+        );
         for ($i = 0; $i < 6; $i++) {
             if ($this->session->get('pokemon' . $i)) {
-                $this->session->get('pokemon' . $i)->setAttachment($this->session->get('pokemon' . $i)->getAttachment() + 10);
+                $this->session->get('pokemon' . $i)
+                    ->setAttachment($this->session->get('pokemon' . $i)->getAttachment() + 10);
             }
         }
         $this->em->getRepository('AppBundle:Pokemon')->addAtachmentToPokemonsInTeam($userId, 10);
@@ -698,10 +742,15 @@ class GameHunting
 
     private function pokemonsDomStrachow(int $userId)
     {
-        $this->session->getFlashBag()->add('success', 'Na drodze spotykasz przyjazną grupę Pokemonów duchów, które chętnie bawią się z Twoimi Pokemonami.<br />Zaufanie Twoich Pokemonów w drużynie zwiększa się.');
+        $this->session->getFlashBag()->add(
+            'success',
+            'Na drodze spotykasz przyjazną grupę Pokemonów duchów, które chętnie bawią się z Twoimi Pokemonami.
+<br />Zaufanie Twoich Pokemonów w drużynie zwiększa się.'
+        );
         for ($i = 0; $i < 6; $i++) {
             if ($this->session->get('pokemon' . $i)) {
-                $this->session->get('pokemon' . $i)->setAttachment($this->session->get('pokemon' . $i)->getAttachment() + 10);
+                $this->session->get('pokemon' . $i)
+                    ->setAttachment($this->session->get('pokemon' . $i)->getAttachment() + 10);
             }
         }
         $this->em->getRepository('AppBundle:Pokemon')->addAtachmentToPokemonsInTeam($userId, 10);
@@ -755,7 +804,11 @@ class GameHunting
                 $berrys = 'Rawst Berry';
             }
         }
-        $this->session->getFlashBag()->add('success', "Na swojej drodze znalazłeś drzewko z <strong>{$berrys}</strong>. Zbierasz z niego <strong>{$quantity}</strong> sztuk.");
+        $this->session->getFlashBag()->add(
+            'success',
+            "Na swojej drodze znalazłeś drzewko z <strong>{$berrys}</strong>. 
+Zbierasz z niego <strong>{$quantity}</strong> sztuk."
+        );
         $berrys = str_replace(' ', '', $berrys);
         $berry = $this->em->find('AppBundle:Berry', $userId);
         $berry->{'set' . $berrys}($berry->{'get' . $berrys}() + $quantity);
@@ -768,7 +821,10 @@ class GameHunting
 
     private function stealSafari(int $userId)
     {
-        $this->session->getFlashBag()->add('error', 'Zobaczyłeś Psyducka, który zagląda do Twojego plecaka.');
+        $this->session->getFlashBag()->add(
+            'error',
+            'Zobaczyłeś Psyducka, który zagląda do Twojego plecaka.'
+        );
         //cheri, chesto, pecha, rawst
         $berrys = $this->em->find('AppBundle:Berry', $userId);
         $berry = [
@@ -780,7 +836,10 @@ class GameHunting
         $what = mt_rand(1, 5);
 
         if ($what != 5 && $berrys->{'get' . $berry[$what]['name']}()) {
-            $this->session->getFlashBag()->add('error', "Okazało się, że Pokemon zabrał z plecaka {$berry[$what]['text']}");
+            $this->session->getFlashBag()->add(
+                'error',
+                "Okazało się, że Pokemon zabrał z plecaka {$berry[$what]['text']}"
+            );
             $berrys->{'set' . $berry[$what]['name']}($berrys->{'get' . $berry[$what]['name']}() - 1);
             $what = 6;
         } elseif ($what != 5) {
@@ -803,9 +862,15 @@ class GameHunting
             }
         }
         if ($what == 5) {
-            $this->session->getFlashBag()->add('error', 'Po obejrzeniu plecaka okazało się, że Pokemon niczego nie zabrał.');
+            $this->session->getFlashBag()->add(
+                'error',
+                'Po obejrzeniu plecaka okazało się, że Pokemon niczego nie zabrał.'
+            );
         } elseif ($what < 5) {
-            $this->session->getFlashBag()->add('error', "Niestety Pokemon zabrał z plecaka {$berry[$what]['$text']}");
+            $this->session->getFlashBag()->add(
+                'error',
+                "Niestety Pokemon zabrał z plecaka {$berry[$what]['$text']}"
+            );
             $berrys->{'set' . $berry[$what]}($berrys->{'get' . $berry[$what]['name']}() - 1);
         }
     }
@@ -828,9 +893,15 @@ class GameHunting
         }
 
         if (!$flying) {
-            $this->session->getFlashBag()->add('error', 'Niestety nie masz w drużynie latającego Pokemona, więc musisz ruszyć w dalszą podróż.');
+            $this->session->getFlashBag()->add(
+                'error',
+                'Niestety nie masz w drużynie latającego Pokemona, więc musisz ruszyć w dalszą podróż.'
+            );
         } else {
-            $this->session->getFlashBag()->add('success', 'Posyłasz swojego Pokemona, by zbadał to miejsce.');
+            $this->session->getFlashBag()->add(
+                'success',
+                'Posyłasz swojego Pokemona, by zbadał to miejsce.'
+            );
             $losuj = mt_rand(1, 1000);
             if ($losuj == 1) {//kamień
                 $kamien = mt_rand(1, 6);
@@ -858,7 +929,10 @@ class GameHunting
                 $this->session->getFlashBag()->add('success', "Pokemon przyniósł kamień {$kamien}");
             } elseif ($losuj <= 600) {
                 $value = floor((mt_rand(1900, 8000) / 11000) * $user->getTrainerLevel() * 950);
-                $this->session->getFlashBag()->add('success', "Pokemon przyniósł kawałek srebra o wartości {$value} &yen;");
+                $this->session->getFlashBag()->add(
+                    'success',
+                    "Pokemon przyniósł kawałek srebra o wartości {$value} &yen;"
+                );
                 $user->setCash($user->getCash() + $value);
             } elseif ($losuj <= 610) {
                 $this->session->getFlashBag()->add('success', 'Pokemon przyniósł puszkę wody.');
@@ -866,7 +940,10 @@ class GameHunting
                 $items->setWater($items->getWater() + 1);
                 $this->em->persist($items);
             } else {
-                $this->session->getFlashBag()->add('error', 'Niestety okazuje się, że to tylko słońce odbiło się w wodzie, a Pokemon wrócił z niczym.');
+                $this->session->getFlashBag()->add(
+                    'error',
+                    'Niestety okazuje się, że to tylko słońce odbiło się w wodzie, a Pokemon wrócił z niczym.'
+                );
             }
         }
     }
@@ -904,7 +981,10 @@ class GameHunting
                 $stones->{'set' . $name}($stones->{'get' . $name}() + 1);
                 $this->session->getFlashBag()->add('success', "Znalazłeś kamień {$prz}!");
             } elseif ($r < 35) {//karta
-                $this->session->getFlashBag()->add('success', 'Znalazłeś kartę!<br />To będzie jeszcze dopracowane...');
+                $this->session->getFlashBag()->add(
+                    'success',
+                    'Znalazłeś kartę!<br />To będzie jeszcze dopracowane...'
+                );
             } elseif ($r < 45) {//soda
                 $this->session->getFlashBag()->add('success', 'Znalazłeś sodę!');
                 $items = $this->em->find('AppBundle:Items', $user->getId());
@@ -948,7 +1028,10 @@ class GameHunting
                 $pokeballs = $this->em->find('AppBundle:Pokeball', $user->getId());
                 $pokeballs->{'set' . $name}($pokeballs->{'get' . $name}() + $quantity);
             } else { //tu będą te gorsze
-                $this->session->getFlashBag()->add('success', 'Znalazłeś jakiś przedmiot!<br />To też będzie dopracowane');
+                $this->session->getFlashBag()->add(
+                    'success',
+                    'Znalazłeś jakiś przedmiot!<br />To też będzie dopracowane'
+                );
             }
             break;
         }
@@ -982,7 +1065,10 @@ class GameHunting
                 $event[0]--;
             } else if ($random <= 350) {
                 $value = floor((mt_rand(1900, 8000) / 11000) * $user->getTrainerLevel() * 950);
-                $this->session->getFlashBag()->add('info', "Wykopałeś kawałek srebra o wartości {$value} &yen;");
+                $this->session->getFlashBag()->add(
+                    'info',
+                    "Wykopałeś kawałek srebra o wartości {$value} &yen;"
+                );
                 $event[1] += $value;
             } else if ($random <= (351 + $event[0])) {
                 $this->session->getFlashBag()->add('info', 'Wykopałeś kamień ognisty.');
@@ -1010,23 +1096,35 @@ class GameHunting
                 $event[15]++;
             } else if ($random <= 475) {
                 $rand = mt_rand(5, 19);
-                $this->session->getFlashBag()->add('info', "Wykopałeś {$rand} owoców Chesto Berry prawdopodobnie 
-                        zakopanych wcześniej przez jakiegoś Pokemona.");
+                $this->session->getFlashBag()->add(
+                    'info',
+                    "Wykopałeś {$rand} owoców Chesto Berry prawdopodobnie 
+                        zakopanych wcześniej przez jakiegoś Pokemona."
+                );
                 $event[9] += $rand;
             } else if ($random <= 550) {
                 $rand = mt_rand(4, 10);
-                $this->session->getFlashBag()->add('info', "Wykopałeś {$rand} owoców Aspear Berry prawdopodobnie 
-                        zakopanych wcześniej przez jakiegoś Pokemona.");
+                $this->session->getFlashBag()->add(
+                    'info',
+                    "Wykopałeś {$rand} owoców Aspear Berry prawdopodobnie 
+                        zakopanych wcześniej przez jakiegoś Pokemona."
+                );
                 $event[10] += $rand;
             } else if ($random <= 600) {
                 $rand = mt_rand(5, 15);
-                $this->session->getFlashBag()->add('info', "Wykopałeś {$rand} owoców Lapapa Berry prawdopodobnie 
-                        zakopanych wcześniej przez jakiegoś Pokemona.");
+                $this->session->getFlashBag()->add(
+                    'info',
+                    "Wykopałeś {$rand} owoców Lapapa Berry prawdopodobnie 
+                        zakopanych wcześniej przez jakiegoś Pokemona."
+                );
                 $event[11] += $rand;
             } else if ($random <= 660) {
                 $rand = mt_rand(5, 15);
-                $this->session->getFlashBag()->add('info', "Wykopałeś {$rand} owoców Aguav Berry prawdopodobnie 
-                        zakopanych wcześniej przez jakiegoś Pokemona.");
+                $this->session->getFlashBag()->add(
+                    'info',
+                    "Wykopałeś {$rand} owoców Aguav Berry prawdopodobnie 
+                        zakopanych wcześniej przez jakiegoś Pokemona."
+                );
                 $event[12] += $rand;
             } else if ($random <= 670) {
                 $this->session->getFlashBag()->add('info', 'Wykopałeś lemoniadę.');
@@ -1037,31 +1135,58 @@ class GameHunting
                 $event[14] += $rand;
             }
             if ($random > 800) {//zakopał się dół
-                $this->session->getFlashBag()->add('error', 'Zauważyłeś, że ziemia zaczęła się osuwać i musiałeś uciekać z dołu. 
-                        Niestety podczas ucieczki upuściłeś wszystkie znalezione rzeczy.');
-                $this->session->getFlashBag()->add('info2', '<div class="col-xs-12 text-center margin-top"><button data-place="' . $this->place .
-                    '" class="btn btn-primary btn-lg button_kontynuuj">KONTYNUUJ</button></div>');
+                $this->session->getFlashBag()->add(
+                    'error',
+                    'Zauważyłeś, że ziemia zaczęła się osuwać i musiałeś uciekać z dołu. 
+                        Niestety podczas ucieczki upuściłeś wszystkie znalezione rzeczy.'
+                );
+                $this->session->getFlashBag()->add(
+                    'info2',
+                    '<div class="col-xs-12 text-center margin-top"><button data-place="' . $this->place .
+                    '" class="btn btn-primary btn-lg button_kontynuuj">KONTYNUUJ</button></div>'
+                );
                 $this->session->remove('eventHunting');
                 $this->session->remove('eventHunting_set');
             } else {
-                $this->session->getFlashBag()->add('info2', '<div class="col-xs-12 margin_2"><button type="button" class="btn btn-primary btn-block 
-                        wydarzenie text-center kursor" name="1">Kop głębiej</button></div>');
-                $this->session->getFlashBag()->add('info2', '<div class="col-xs-12 margin_2"><button type="button" class="btn btn-primary btn-block 
-                        wydarzenie text-center kursor" name="2">Nie chcę dłużej kopać i zabieram wszystkie znalezione przedmioty ze sobą.</button></div>');
+                $this->session->getFlashBag()->add(
+                    'info2',
+                    '<div class="col-xs-12 margin_2"><button type="button" class="btn btn-primary btn-block 
+                        wydarzenie text-center kursor" name="1">Kop głębiej</button></div>'
+                );
+                $this->session->getFlashBag()->add(
+                    'info2',
+                    '<div class="col-xs-12 margin_2"><button type="button" class="btn btn-primary btn-block 
+                        wydarzenie text-center kursor" name="2">
+                        Nie chcę dłużej kopać i zabieram wszystkie znalezione przedmioty ze sobą.</button></div>'
+                );
                 $event[0]++;
                 $this->session->set('eventHunting_set', implode('|', $event));
             }
         } else {
             if ($this->session->get('userSession')->getUserItems()->getShovel()) {
-                $this->session->getFlashBag()->add('info', 'Trafiasz na grząską glebę. Możesz poświęcić 5PA, żeby zacząć w niej kopać.');
-                $this->session->getFlashBag()->add('info2', '<div class="col-xs-12 margin_2"><button type="button" class="btn btn-primary btn-block wydarzenie text-center kursor" name="1">
-                        Chcę kopać</button></div>');
-                $this->session->getFlashBag()->add('info2', '<div class="col-xs-12 margin_2"><button type="button" class="btn btn-primary btn-block wydarzenie text-center kursor" name="2">
-                        Nie chcę kopać i idę przed siebie.</button></div>');
+                $this->session->getFlashBag()->add(
+                    'info',
+                    'Trafiasz na grząską glebę. Możesz poświęcić 5PA, żeby zacząć w niej kopać.'
+                );
+                $this->session->getFlashBag()->add(
+                    'info2',
+                    '<div class="col-xs-12 margin_2"><button type="button" 
+class="btn btn-primary btn-block wydarzenie text-center kursor" name="1">
+                        Chcę kopać</button></div>'
+                );
+                $this->session->getFlashBag()->add(
+                    'info2',
+                    '<div class="col-xs-12 margin_2"><button type="button" 
+class="btn btn-primary btn-block wydarzenie text-center kursor" name="2">
+                        Nie chcę kopać i idę przed siebie.</button></div>'
+                );
                 $this->session->set('eventHunting', -18);
                 $this->session->set('eventHunting_set', '0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0');
             } else {
-                $this->session->getFlashBag()->add('error', 'Trafiasz na grząską glebę, ale nie posiadasz łopaty, żeby w niej kopać.');
+                $this->session->getFlashBag()->add(
+                    'error',
+                    'Trafiasz na grząską glebę, ale nie posiadasz łopaty, żeby w niej kopać.'
+                );
             }
         }
     }
@@ -1084,7 +1209,8 @@ class GameHunting
                         $sum += $event[$i];
                     }
                     if ($sum) {
-                        $info = '<div class="well well-primary jeden_ttlo text-medium text-center">Wykopane przedmioty, które zabierasz ze sobą:<br />';
+                        $info = '<div class="well well-primary jeden_ttlo text-medium text-center">
+Wykopane przedmioty, które zabierasz ze sobą:<br />';
                         if ($event[1]) {
                             $info .= "Bryłki srebra o wartości {$event[1]} &yen;<br />";
                             $user->setCash($user->getCash() + $event[1]);

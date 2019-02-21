@@ -46,7 +46,8 @@ class UserSettings
     {
         $get = $this->team . '|' . $this->market . '|' . $this->clock . '|' . $this->tooltip . '|' . $this->heal . '|' .
             $this->soda . '|' . $this->water . '|' . $this->lemonade . '|' . $this->cheri . '|' . $this->wiki . '|' .
-            $this->prompt . '|' . $this->panels . '|' . $this->feed .'|' . $this->background . '|' . $this->table . '|' .$this->style;
+            $this->prompt . '|' . $this->panels . '|' . $this->feed .'|' . $this->background . '|' . $this->table . '|'
+            .$this->style;
         return $get;
     }
 

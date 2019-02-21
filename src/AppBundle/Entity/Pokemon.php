@@ -1094,7 +1094,7 @@ class Pokemon
      *
      * @return Pokemon
      */
-    public function setTr_6(int $tr6)
+    public function setTr6(int $tr6)
     {
         $this->tr6 = $tr6;
 
@@ -1258,27 +1258,47 @@ class Pokemon
 
     public function getAttackToTable(): int
     {
-        return (round($this->quality * $this->attack / 100) + floor($this->training->getBerryAttack() / 5) + $this->training->getTr1());
+        return (round(
+            $this->quality * $this->attack / 100) +
+            floor($this->training->getBerryAttack() / 5) +
+            $this->training->getTr1()
+        );
     }
 
     public function getSpAttackToTable(): int
     {
-        return (round($this->quality * $this->spAttack / 100) + floor($this->training->getBerrySpAttack() / 5) + $this->training->getTr2());
+        return (round(
+            $this->quality * $this->spAttack / 100) +
+            floor($this->training->getBerrySpAttack() / 5) +
+            $this->training->getTr2()
+        );
     }
 
     public function getDefenceToTable(): int
     {
-        return (round($this->quality * $this->defence / 100) + floor($this->training->getBerryDefence() / 5) + $this->training->getTr3());
+        return (round(
+            $this->quality * $this->defence / 100) +
+            floor($this->training->getBerryDefence() / 5) +
+            $this->training->getTr3()
+        );
     }
 
     public function getSpDefenceToTable(): int
     {
-        return (round($this->quality * $this->spDefence / 100) + floor($this->training->getBerrySpDefence() / 5) + $this->training->getTr4());
+        return (round(
+            $this->quality * $this->spDefence / 100) +
+            floor($this->training->getBerrySpDefence() / 5) +
+            $this->training->getTr4()
+        );
     }
 
     public function getSpeedToTable(): int
     {
-        return (round($this->quality * $this->speed / 100) + floor($this->training->getBerrySpeed() / 5) + $this->training->getTr5());
+        return (round(
+            $this->quality * $this->speed / 100) +
+            floor($this->training->getBerrySpeed() / 5) +
+            $this->training->getTr5()
+        );
     }
 
     public function getCountedAttachment()

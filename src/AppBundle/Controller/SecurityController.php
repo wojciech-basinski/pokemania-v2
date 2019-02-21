@@ -1,4 +1,5 @@
 <?php
+
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
@@ -36,7 +37,9 @@ class SecurityController extends Controller
     /**
      * @Route("/logout", name="logout")
      */
-    public function logoutAction() {}
+    public function logoutAction()
+    {
+    }
 
     /**
      * @Route("/register", name="register")

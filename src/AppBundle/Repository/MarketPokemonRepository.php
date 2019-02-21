@@ -12,8 +12,15 @@ use AppBundle\Entity\MarketPokemon;
  */
 class MarketPokemonRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function countOfers(?int $id, ?int $minLevel, ?int $maxLevel, ?int $minValue, ?int $maxValue, bool $own, int $userId): int
-    {
+    public function countOfers(
+        ?int $id,
+        ?int $minLevel,
+        ?int $maxLevel,
+        ?int $minValue,
+        ?int $maxValue,
+        bool $own,
+        int $userId
+    ): int {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('COUNT(pokemon.id)');
         $qb->from('AppBundle:MarketPokemon', 'pokemon');
@@ -59,8 +66,16 @@ class MarketPokemonRepository extends \Doctrine\ORM\EntityRepository
      *
      * @return MarketPokemon|MarketPokemon[]|null
      */
-    public function getOferts(?int $id, ?int $minLevel, ?int $maxLevel, ?int $minValue, ?int $maxValue, bool $own, int $userId, int $page)
-    {
+    public function getOferts(
+        ?int $id,
+        ?int $minLevel,
+        ?int $maxLevel,
+        ?int $minValue,
+        ?int $maxValue,
+        bool $own,
+        int $userId,
+        int $page
+    ): array {
         $onPage = 30;
 
         $qb = $this->_em->createQueryBuilder();
