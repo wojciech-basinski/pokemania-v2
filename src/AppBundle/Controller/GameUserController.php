@@ -270,6 +270,27 @@ class GameUserController extends Controller
     }
 
     /**
+     * @Route("/profil/points", name="game_user_profile_points")
+     * @Method("POST")
+     * @param GameProfile $gameProfile
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function userProfilePointsAction(GameProfile $gameProfile): Response
+    {
+        $id = (int)$this->request->request->get('i');
+        if (!is_numeric($id)) {
+            $this->addFlash('error', 'Błędne id umiejętności');
+        } else {
+            $gameProfile->usePoints($id, $this->getUser());
+        }
+
+        return $this->redirectToRoute('game_user_profile', [
+            'id' => $this->getUser()->getId()
+        ]);
+    }
+
+    /**
      * @Route("/profil/{id}", name="game_user_profile")
      * @param GameProfile $profileService
      * @param int $id
@@ -308,27 +329,6 @@ class GameUserController extends Controller
             'battle' => $battle ?? null,
             'friend' => $friend ?? null,
             'skills' => $skills ?? null
-        ]);
-    }
-
-    /**
-     * @Route("/profil/points", name="game_user_profile_points")
-     * @Method("POST")
-     * @param GameProfile $gameProfile
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function userProfilePointsAction(GameProfile $gameProfile): Response
-    {
-        $id = (int)$this->request->request->get('i');
-        if (!is_numeric($id)) {
-            $this->addFlash('error', 'Błędne id umiejętności');
-        } else {
-            $gameProfile->usePoints($id, $this->getUser());
-        }
-
-        return $this->redirectToRoute('game_user_profile', [
-            'id' => $this->getUser()->getId()
         ]);
     }
 
