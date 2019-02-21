@@ -125,7 +125,9 @@ class Friends
     private function insertMessageAboutCancelInvitation(int $userId, string $userName)
     {
         $report = new Report();
-        $report->setContent('<div class="text-center">Gracz ' . $userName . ' cofnął prośbę o dodanie do znajomych.</div>');
+        $report->setContent(
+            '<div class="text-center">Gracz ' . $userName . ' cofnął prośbę o dodanie do znajomych.</div>'
+        );
         $report->setTitle($userName . ' cofnął zaproszenie.');
 
         $this->insertMessage($userId, $report);
@@ -134,7 +136,9 @@ class Friends
     private function insertMessageAboutReject(int $userId, string $userName)
     {
         $report = new Report();
-        $report->setContent('<div class="text-center">Gracz ' . $userName . ' odrzucił Twoje zaproszenie do znajomych.</div>');
+        $report->setContent(
+            '<div class="text-center">Gracz ' . $userName . ' odrzucił Twoje zaproszenie do znajomych.</div>'
+        );
         $report->setTitle($userName . ' odrzucił zaproszenie.');
 
         $this->insertMessage($userId, $report);
@@ -152,7 +156,9 @@ class Friends
     private function insertMessageAboutAccept(int $userId, string $userName)
     {
         $report = new Report();
-        $report->setContent('<div class="text-center">Gracz ' . $userName . ' zaakceptował Twoje zaproszenie do znajomych.</div>');
+        $report->setContent(
+            '<div class="text-center">Gracz ' . $userName . ' zaakceptował Twoje zaproszenie do znajomych.</div>'
+        );
         $report->setTitle($userName . ' zaakceptował zaproszenie.');
 
         $this->insertMessage($userId, $report);

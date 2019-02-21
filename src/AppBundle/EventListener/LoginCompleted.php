@@ -38,7 +38,9 @@ class LoginCompleted implements EventSubscriberInterface
         $this->auth->loginUser($user->getId());
         //$this->em->persist($user);
         //$this->em->flush();
-        //$newtoken = new \Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken($user,null,'main', $user->getRoles());
+        //$newtoken =
+        // new \Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken(
+        //$user,null,'main', $user->getRoles());
         //$this->tokenStorage->setToken($newtoken);
 
 
@@ -141,8 +143,12 @@ class LoginCompleted implements EventSubscriberInterface
               $lvl = $wiersz2['poziom']+1;
               if($lvl <= 100)$exp_next = $exp_na_poziom[$lvl];
               else $exp_next = 9999999999;
-              $pok = $wiersz['pok'.$j] . '|' . $wiersz2['exp'] . '|' . $wiersz2['poziom'] . '|' . $wiersz2['id_poka'] . '|' . $wiersz2['imie'] . '|' . (round($wiersz2['jakosc'] * $wiersz2['HP'] / 100) + $wiersz2['Jag_HP'] + $wiersz2['tr_6'] * 5)
-                     . '|' . $wiersz2['ewolucja'] . '|' . $wiersz2['akt_HP'] . '|' . $wiersz2['shiny'] . '|' . $exp_next . '|';
+              $pok = $wiersz['pok'.$j] . '|' .
+        $wiersz2['exp'] . '|' . $wiersz2['poziom'] . '|' . $wiersz2['id_poka'
+        ] . '|' . $wiersz2['imie'] . '|' . (round($wiersz2['jakosc'] * $wiersz2[
+        'HP'] / 100) + $wiersz2['Jag_HP'] + $wiersz2['tr_6'] * 5)
+                     . '|' . $wiersz2['ewolucja'] . '|' . $wiersz2['akt_HP'] . '|' . $
+        wiersz2['shiny'] . '|' . $exp_next . '|';
               Session::_set('pok'.$j, $pok);
               $poke[$j]['id'] = $wiersz2['id_poka'];
               $poke[$j]['imie'] = $wiersz2['imie'];

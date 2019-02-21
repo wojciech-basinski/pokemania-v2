@@ -165,8 +165,10 @@ class GameAchievements
 
     private function prepareFromDb()
     {
-        $this->achievements = $this->em->getRepository('AppBundle:Achievement')->findOneBy(['id' => $this->user->getId()]);
-        $this->performance = $this->em->getRepository('AppBundle:Performance')->findOneBy(['id' => $this->user->getId()]);
+        $this->achievements =
+            $this->em->getRepository('AppBundle:Achievement')->findOneBy(['id' => $this->user->getId()]);
+        $this->performance =
+            $this->em->getRepository('AppBundle:Performance')->findOneBy(['id' => $this->user->getId()]);
     }
 
     private function checkAchievements(string $what)
@@ -242,7 +244,8 @@ class GameAchievements
         $report->setUserId($userId);
         $report->setIsRead(0);
         $report->setTime(new \DateTime());
-        $report->setContent("<div class=\"row nomargin text-center\"><div class=\"col-xs-12\">Zdobyłeś nowe osiągnięcie: <span class=\"pogrubienie\">
+        $report->setContent("<div class=\"row nomargin text-center\"><div class=\"col-xs-12\">
+Zdobyłeś nowe osiągnięcie: <span class=\"pogrubienie\">
         {$performance}</div></div>");
         $this->em->persist($report);
     }

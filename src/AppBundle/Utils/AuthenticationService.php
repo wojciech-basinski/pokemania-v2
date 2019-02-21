@@ -1,4 +1,5 @@
 <?php
+
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Achievement;
@@ -100,7 +101,9 @@ class AuthenticationService
         $pokemonCounts = count($pokemonsAndTrainings['pokemons']);
 
         for ($i = 0; $i < $pokemonCounts; $i++) {
-            $pokemonsAndTrainings['pokemons'][$i]->setExpOnLevel($this->pokemonHelper->getExperienceOnLevel($pokemonsAndTrainings['pokemons'][$i]->getLevel()));
+            $pokemonsAndTrainings['pokemons'][$i]->setExpOnLevel(
+                $this->pokemonHelper->getExperienceOnLevel($pokemonsAndTrainings['pokemons'][$i]->getLevel())
+            );
             $this->session->set('pokemon'.$i, $pokemonsAndTrainings['pokemons'][$i]);
         }
     }
@@ -132,7 +135,18 @@ class AuthenticationService
         $messages = $this->setUserMessages($user->getId());
         $expOnNextLevel = $this->setUserExpToNextLevel($user->getTrainerLevel());
 
-        $this->session->set('userSession', new UserSession($pokemonInReserve, $reports, $messages, $expOnNextLevel, $userItems, $userSkills, $userSettings));
+        $this->session->set(
+            'userSession',
+            new UserSession(
+                $pokemonInReserve,
+                $reports,
+                $messages,
+                $expOnNextLevel,
+                $userItems,
+                $userSkills,
+                $userSettings
+            )
+        );
     }
 
     private function createUserItemsInSession(int $userId): UserItems
@@ -210,7 +224,9 @@ class AuthenticationService
         $user->setPokemonFeeded(0);
         $user->setPokemonFeededIp('');
         $user->setTutorial(0);
-        $user->setBadges('00-00-0000;00-00-0000;00-00-0000;00-00-0000;00-00-0000;00-00-0000;00-00-0000;00-00-0000');
+        $user->setBadges(
+            '00-00-0000;00-00-0000;00-00-0000;00-00-0000;00-00-0000;00-00-0000;00-00-0000;00-00-0000'
+        );
 
         return $user;
 
@@ -261,7 +277,7 @@ class AuthenticationService
         $starter->setMarket(0);
         $starter->setBlockView(0);
         $starter->setHunger(0.0);
-        $starter->setTr_6(0);
+        $starter->setTr6(0);
         $starter->setDescription('');
         $starter->setExchange(0);
         $starter->setTraining($this->pokemonTraining());
@@ -440,7 +456,18 @@ class AuthenticationService
     private function createUserCollection()
     {
         $collection = new Collection();
-        $collection->setCollection('0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;');
+        $collection->setCollection(
+            '0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;
+            0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;
+            0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;
+            0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;
+            0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;
+            0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;
+            0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;
+            0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;
+            0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;
+            0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;'
+        );
 
         $this->em->persist($collection);
     }

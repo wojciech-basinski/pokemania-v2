@@ -852,7 +852,7 @@ class PokemonHelper
         $pokemon->setMarket(0);
         $pokemon->setBlockView(0);
         $pokemon->setHunger(0);
-        $pokemon->setTr_6(0);
+        $pokemon->setTr6(0);
         $pokemon->setDescription('');
         $pokemon->setExchange(0);
         $pokemon->setEwolution(0);

@@ -108,7 +108,7 @@ class GameTraining
             if ($training < 6) {
                 $pokemon->getTraining()->{'setTr'.$training}($pokemon->getTraining()->{'getTr'.$training}() + $wyt);
             } else {
-                $pokemon->setTr_6($pokemon->getTr6() + $wyt);
+                $pokemon->setTr6($pokemon->getTr6() + $wyt);
                 $pokemon->setActualHp($pokemon->getActualHp() + $wyt * 5);
             }
             $this->em->persist($pokemon);

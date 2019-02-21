@@ -359,7 +359,7 @@ class GameHuntingBattleBetweenPokemons
             $this->userPokemon->getTraining()->setBerrySpDefence(0);
             $this->userPokemon->getTraining()->setBerrySpeed(0);
             $this->userPokemon->setBerrysHp(0);
-            $this->userPokemon->setTr_6(0);
+            $this->userPokemon->setTr6(0);
         }
 
         if (!$this->pokemonInPlaceStats->isPrepared()) {

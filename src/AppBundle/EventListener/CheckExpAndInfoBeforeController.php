@@ -120,7 +120,8 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
             $this->addMessage($user, $points);
             $user->setTrainerLevel($user->getTrainerLevel() + 1);
             $user->setExperience($user->getExperience() - $expOnNextLevel);
-            $this->session->get('userSession')->setExpOnNextLevel($this->userExperience->getExperienceOnLevel($user->getTrainerLevel()));
+            $this->session->get('userSession')
+                ->setExpOnNextLevel($this->userExperience->getExperienceOnLevel($user->getTrainerLevel()));
         }
     }
 
@@ -190,7 +191,9 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
         $report->setTime(new \DateTime());
         $report->setIsRead(0);
         $report->setUserId($user->getId());
-        $raport = '<div class="row nomargin text-center"><div class="col-xs-12">Awansowałeś na kolejny, ' . ($user->getTrainerLevel() + 1) . ' poziom.</div><div class="col-xs-12"> Otrzymujesz '.$points.' punkty umiejętności.</div><div class="col-xs-12">';
+        $raport = '<div class="row nomargin text-center"><div class="col-xs-12">
+Awansowałeś na kolejny, ' . ($user->getTrainerLevel() + 1) . ' poziom.</div><div class="col-xs-12"> 
+Otrzymujesz '.$points.' punkty umiejętności.</div><div class="col-xs-12">';
         if ($lemonade == 1) {
             $raport .= 'Otrzymujesz także '.$lemonade.' lemoniadę';
         } else {
@@ -219,7 +222,8 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
 
     private function checkEvolution(Pokemon &$pokemon): bool
     {
-        if (!$pokemon->getEwolution() && $this->pokemonHelper->getInfo($pokemon->getIdPokemon())['ewolucja_p']) {//sprawdzenie ewolucji
+        if (!$pokemon->getEwolution() && $this->pokemonHelper->getInfo($pokemon->getIdPokemon())['ewolucja_p']) {
+            //sprawdzenie ewolucji
             $id = $this->pokemonHelper->getInfo($pokemon->getIdPokemon())['ewolucja_p'];///zeby pobrac id ewo
             if ($id == 80000199) {
                 $id = 80;
@@ -282,12 +286,15 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
                 $pokemon->setName($newName);
             }
             $report->setTitle('Twój Pokemon '.$oldName.' ewoluował w '.$newName.'.');
-            $content = '<div class="row nomargin text-center"><div class="col-xs-12">Twój Pokemon <span class="pogrubienie">'.$oldName.'</span> ewoluował w <span class="pogrubienie">'.$newName.'</span>.</div>
+            $content = '<div class="row nomargin text-center"><div class="col-xs-12">
+Twój Pokemon <span class="pogrubienie">'.$oldName.'</span> ewoluował w 
+<span class="pogrubienie">'.$newName.'</span>.</div>
                 <div class="col-xs-12 pogrubienie">';
             $this->checkCollection($pokemon);
         } else {
             $report->setTitle('Twój Pokemon '.$oldName.' awansował na kolejny, '.$pokemon->getLevel().' poziom.');
-            $content = '<div class="row nomargin text-center"><div class="col-xs-12">Twój Pokemon <span class="pogrubienie">'.$oldName.'</span> awansował na kolejny, '.$pokemon->getLevel().' poziom.</div>
+            $content = '<div class="row nomargin text-center"><div class="col-xs-12">
+Twój Pokemon <span class="pogrubienie">'.$oldName.'</span> awansował na kolejny, '.$pokemon->getLevel().' poziom.</div>
                 <div class="col-xs-12 pogrubienie">';
         }
         if ($pokemon->getGender() == 1) {
@@ -296,9 +303,11 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
             $content .= 'Jego';
         }
         $content .= ' statystyki rosną:</div><div class="col-xs-12"><div class="row nomargin">
-            <div class="col-xs-4">Atak +'.$attack.'</div><div class="col-xs-4">Sp. Atak +'.$spAttack.'</div><div class="col-xs-4">Obrona +'.$defence.'</div></div></div> 
+            <div class="col-xs-4">Atak +'.$attack.'</div><div class="col-xs-4">
+            Sp. Atak +'.$spAttack.'</div><div class="col-xs-4">Obrona +'.$defence.'</div></div></div> 
             <div class="col-xs-12"><div class="row nomargin">
-            <div class="col-xs-4">Sp.Obrona +'.$spDefence.'</div><div class="col-xs-4">Szybkość +'.$speed.'</div><div class="col-xs-4">HP +'.$hp.'</div></div></div></div>';
+            <div class="col-xs-4">Sp.Obrona +'.$spDefence.'</div><div class="col-xs-4">Szybkość +'.$speed.'</div>
+            <div class="col-xs-4">HP +'.$hp.'</div></div></div></div>';
         $report->setContent($content);
 
         $this->em->persist($pokemon->getTraining());
