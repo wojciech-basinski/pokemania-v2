@@ -18,7 +18,7 @@ class MarketRepository extends \Doctrine\ORM\EntityRepository
         $qb->where('ofert.name = :name');
         $qb->andWhere('ofert.kind = :kind');
         if (!$own) {
-            $qb->andWhere('pokemon.ownerId <> :idUser');
+            $qb->andWhere('ofert.userId <> :idUser');
             $qb->setParameter(':idUser', $userId);
         }
         $qb->setParameter(':name', $name);
