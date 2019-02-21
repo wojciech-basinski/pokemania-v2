@@ -14,9 +14,13 @@
     </script>
     </head>
     <body>
-    {% include 'game/template/menu.html.twig' %}
+    {% block menu %}
+        {% include 'game/template/menu.html.twig' %}
+    {% endblock %}
     <div class="col-xs-12 col-sm-4 col-md-3" id="lewo">
-        <div id="clock"></div>
+        {% block clock %}
+            <div id="clock"></div>
+        {% endblock %}
         <div id="tabelka">
             {% block table %}
                 {{ render(controller('AppBundle:OtherSpecial:left')) }}

@@ -27,7 +27,7 @@ class GameUserController extends Controller
     /**
      * @Route("/statystyki/ogolne", name="game_statistics")
      */
-    public function gameStatisticsAction()
+    public function gameStatisticsAction(): Response
     {
         $statistics  = $this->getDoctrine()->getRepository('AppBundle:Achievement')->find($this->getUser()->getId());
 
@@ -41,7 +41,7 @@ class GameUserController extends Controller
     /**
     * @Route("/osiagniecia", name="game_achievements")
     */
-    public function gameAchievementsAction()
+    public function gameAchievementsAction(): Response
     {
         $achievements  = $this->getDoctrine()->getRepository('AppBundle:Achievement')->find($this->getUser()->getId());
 
@@ -55,7 +55,7 @@ class GameUserController extends Controller
     /**
      * @Route("/znajomi", name="game_friends")
      */
-    public function gameFriendsAction()
+    public function gameFriendsAction(): Response
     {
         $friendsRepository = $this->getDoctrine()->getRepository('AppBundle:Friend');
 
@@ -79,7 +79,7 @@ class GameUserController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function gameFriendsDeleteAction(int $id, Friends $friendsService)
+    public function gameFriendsDeleteAction(int $id, Friends $friendsService): Response
     {
         $status = $friendsService->deleteFriendship($id, $this->getUser()->getId(), $this->getUser()->getLogin());
 
@@ -99,7 +99,7 @@ class GameUserController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function gameFriendsAcceptAction(int $id, Friends $friendsService)
+    public function gameFriendsAcceptAction(int $id, Friends $friendsService): Response
     {
         $status = $friendsService->acceptFriendship($id, $this->getUser()->getId(), $this->getUser()->getLogin());
 
@@ -119,7 +119,7 @@ class GameUserController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function gameFriendsRejectAction(int $id, Friends $friendsService)
+    public function gameFriendsRejectAction(int $id, Friends $friendsService): Response
     {
         $status = $friendsService->rejectFriendship($id, $this->getUser()->getId(), $this->getUser()->getLogin());
 
@@ -139,7 +139,7 @@ class GameUserController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function gameFriendsCancelAction(int $id, Friends $friendsService)
+    public function gameFriendsCancelAction(int $id, Friends $friendsService): Response
     {
         $status = $friendsService->cancelInvitation($id, $this->getUser()->getId(), $this->getUser()->getLogin());
 
@@ -159,7 +159,7 @@ class GameUserController extends Controller
      *
      * @return Response
      */
-    public function gameFriendsAddAction(int $id, Friends $friendsService)
+    public function gameFriendsAddAction(int $id, Friends $friendsService): Response
     {
         $status = $friendsService->addFriend($id, $this->getUser());
 
@@ -172,7 +172,7 @@ class GameUserController extends Controller
      *
      * @return Response
      */
-    public function userCollectionAction(Collection $collection)
+    public function userCollectionAction(Collection $collection): Response
     {
         $collectionAsArray = $collection->getUserCollection($this->getUser()->getId());
 
@@ -187,7 +187,7 @@ class GameUserController extends Controller
      * @Route("/ustawienia", name="game_settings")
      * @Method("GET")
      */
-    public function userSettingAction()
+    public function userSettingAction(): Response
     {
         return $this->render('game/settings.html.twig', [
             'title' => 'Ustawienia',
@@ -203,7 +203,7 @@ class GameUserController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function userChangeSettingsAction(GameSettings $settings)
+    public function userChangeSettingsAction(GameSettings $settings): Response
     {
         $what = $this->request->get('what') ?? '';
         $value = $this->request->get('value') ?? '';
@@ -222,7 +222,7 @@ class GameUserController extends Controller
      *
      * @return Response
      */
-    public function userPackAction(GamePack $packService)
+    public function userPackAction(GamePack $packService): Response
     {
         $userId = $this->getUser()->getId();
 
@@ -256,7 +256,7 @@ class GameUserController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function userPackUseAction(GamePack $pack)
+    public function userPackUseAction(GamePack $pack): Response
     {
         $item = $this->request->get('item') ?? '';
         $value = $this->request->get('value') ?? 1;
@@ -271,22 +271,25 @@ class GameUserController extends Controller
 
     /**
      * @Route("/profil/{id}", name="game_user_profile")
-     * @Method("GET")
      * @param GameProfile $profileService
      * @param int $id
      *
      * @return Response
      */
-    public function userProfileAction(GameProfile $profileService, int $id = 0)
+    public function userProfileAction(GameProfile $profileService, int $id = 0): Response
     {
         if (!$id) {
-            $user = $this->getUser();
-            $profileService->setUser($user);
+            if ($this->request->request->get('username')) {
+                $user = $profileService->getUserProfileFromUsername($this->request->request->get('username'));
+            } else {
+                $user = $this->getUser();
+            }
         } else {
             $user = $profileService->getUserProfile($id, $this->getUser()->getId());
         }
 
         if ($user) {
+            $profileService->setUser($user);
             $team = $profileService->getUsersTeam();
             $badges = $profileService->getBadges();
             $friend = $profileService->getFriend();
@@ -309,13 +312,13 @@ class GameUserController extends Controller
     }
 
     /**
-     * @Route("/profil", name="game_user_profile_points")
+     * @Route("/profil/points", name="game_user_profile_points")
      * @Method("POST")
      * @param GameProfile $gameProfile
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function userProfilePointsAction(GameProfile $gameProfile)
+    public function userProfilePointsAction(GameProfile $gameProfile): Response
     {
         $id = (int)$this->request->request->get('i');
         if (!is_numeric($id)) {
@@ -336,7 +339,7 @@ class GameUserController extends Controller
      *
      * @return Response
      */
-    public function exchangeAction(GameExchange $exchange)
+    public function exchangeAction(GameExchange $exchange): Response
     {
         return $this->render('game/exchange.html.twig', [
             'ajax' => $this->request->isXmlHttpRequest(),
@@ -355,7 +358,7 @@ class GameUserController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function exchangeCoinsOrPartsAction(GameExchange $exchange)
+    public function exchangeCoinsOrPartsAction(GameExchange $exchange): Response
     {
         $id = $this->request->request->get('id');
         $confirm = $this->request->request->get('confirm') ?? 0;
@@ -373,8 +376,11 @@ class GameUserController extends Controller
     /**
      * @Route("/wymiana/odbierz", name="game_exchange_get_pokemon")
      * @Method("POST")
+     * @param GameExchange $exchange
+     *
+     * @return Response
      */
-    public function exchangeGetPokemon(GameExchange $exchange)
+    public function exchangeGetPokemon(GameExchange $exchange): Response
     {
         $id = $this->request->request->get('id') ?? 0;
         $exchange->getPokemon($id, $this->getUser());
@@ -388,7 +394,7 @@ class GameUserController extends Controller
      *
      * @return Response
      */
-    public function achievementsAction(GameAchievements $achievements)
+    public function achievementsAction(GameAchievements $achievements): Response
     {
         $achievements->execute($this->getUser());
 

@@ -144,6 +144,12 @@ class GameProfile
         return 3;
     }
 
+    public function getUserProfileFromUsername(string $userName): ?User
+    {
+        return $this->em->getRepository(User::class)
+            ->findOneBy(['login' => $userName]);
+    }
+
     private function checkIfUserBlockedTeamView(): bool
     {
         $u = explode("|", $this->user->getSettings());

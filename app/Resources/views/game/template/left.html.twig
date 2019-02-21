@@ -137,8 +137,8 @@
                 {% endfor %}
             </div>
         </div>
-        <form id="gracz" method="post" action="<?=URL?>profil">
-            <input class="form-control" type="text" name="gracz" placeholder="Znajdź gracza">
+        <form method="post" action="{{ path('game_user_profile') }}">
+            <input class="form-control" type="text" name="username" placeholder="Znajdź gracza">
             <input class="form-control" type="submit" value="Wyszukaj">
         </form>
     {#<?= $this->karta ?>
