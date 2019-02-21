@@ -38,7 +38,7 @@ class MarketRepository extends \Doctrine\ORM\EntityRepository
         $qb->where('ofert.name = :name');
         $qb->andWhere('ofert.kind = :kind');
         if (!$own) {
-            $qb->andWhere('ofer.userId <> :userId');
+            $qb->andWhere('ofert.userId <> :userId');
             $qb->setParameter(':userId', $userId);
         }
         $qb->setParameter(':name', $name);
