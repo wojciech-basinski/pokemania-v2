@@ -108,13 +108,6 @@
             </li>
 
             <li>
-                <!--
-		<?php
-                if (isset($_SESSION['ogloszenie']))
-                    echo '';
-                else echo '';
-                ?>
-                -->
                 {% if app.user.announcements > 0 %}
                     <a class="kursor red" href="{{ path('game_announcement') }}"><i class="fa fa-tags"></i>OGŁOSZENIA</a>
                 {% else %}
