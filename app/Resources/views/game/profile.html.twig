@@ -170,7 +170,7 @@
                                                     <span class="pogrubienie">Poziom {{ skill['level']+1 }}:</span>
                                                     <br />Wymagania: {{ attribute(skill['skillInfo'], (skill['level']+1)~'_need') }}
                                                     {{ skill['skillInfo']['need_description'] }}<br />
-                                                    {% if skill['userQuantity'] > attribute(skill['skillInfo'], (skill['level']+1)~'_need') %}
+                                                    {% if skill['userQuantity'] >= attribute(skill['skillInfo'], (skill['level']+1)~'_need') %}
                                                         <span class="pogrubienie zielony">Wymagania spełnione</span>
                                                         <br />Wykup umiejętność za: {{ skill['skillInfo'][skill.level+1] }} pkt umiejętności.<br />
                                                         {% if app.user.points >= skill['skillInfo'][skill.level+1] %}
