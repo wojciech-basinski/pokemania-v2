@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class GamePokemonController extends Controller
@@ -46,7 +47,7 @@ class GamePokemonController extends Controller
         GamePokemon $pokemonService,
         SessionInterface $session,
         int $id = 0
-    ) {
+    ): Response {
         if (!$id) {
             $id = $this->request->get('id');
             if (!$id) {
@@ -77,7 +78,7 @@ class GamePokemonController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function pokemonChangeAction(GamePokemonChange $gamePokemonChange)
+    public function pokemonChangeAction(GamePokemonChange $gamePokemonChange): Response
     {
         $what = $this->request->request->get('what');
         $value = $this->request->request->get('value');
@@ -99,7 +100,7 @@ class GamePokemonController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function trainingAction(AttackHelper $attackHelper, GameTraining $trainingService, int $id = 0)
+    public function trainingAction(AttackHelper $attackHelper, GameTraining $trainingService, int $id = 0): Response
     {
         $pokemonExists = $trainingService->checkId($id);
         $pokemons = $trainingService->getPokemons($this->getUser()->getId())['pokemons'];
@@ -123,7 +124,7 @@ class GamePokemonController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function trainingPokemonAction(GameTraining $trainingService)
+    public function trainingPokemonAction(GameTraining $trainingService): Response
     {
         $value = $this->request->request->get('value') ?? 1;
         $training = $this->request->request->get('training');
@@ -143,7 +144,7 @@ class GamePokemonController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function trainingChangeAttackAction(GameTraining $trainingService)
+    public function trainingChangeAttackAction(GameTraining $trainingService): Response
     {
         $id = $this->request->request->get('id') ?? 0;
         $attackId = $this->request->request->get('attackId') ?? 0;
@@ -162,7 +163,7 @@ class GamePokemonController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function userPokemonsAction(GamePokemons $pokemons)
+    public function userPokemonsAction(GamePokemons $pokemons): Response
     {
         $numberOfPokemonsInTeam = $pokemons->getNumberOfPokemonsInTeam();
         $pokemonsInReserve = $pokemons->getPokemonsFromReserveOrdered($this->getUser());
@@ -187,7 +188,7 @@ class GamePokemonController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function userPokemonToReserveAction(GamePokemons $pokemons)
+    public function userPokemonToReserveAction(GamePokemons $pokemons): Response
     {
         if ($this->request->request->get('fromTeam')) {
             $id = $this->request->request->get('id');
@@ -209,7 +210,7 @@ class GamePokemonController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function userPokemonsToTeamAction(GamePokemons $pokemons)
+    public function userPokemonsToTeamAction(GamePokemons $pokemons): Response
     {
         $pokemonsToTeam = $this->request->request->get('selected');
 
@@ -227,7 +228,7 @@ class GamePokemonController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function userPokemonsToWaitingAction(GamePokemons $pokemons)
+    public function userPokemonsToWaitingAction(GamePokemons $pokemons): Response
     {
         $pokemonsToWaiting = $this->request->request->get('selected');
 
@@ -245,7 +246,7 @@ class GamePokemonController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function changeOrderPokemonAction(GamePokemons $pokemons)
+    public function changeOrderPokemonAction(GamePokemons $pokemons): Response
     {
         $i = $this->request->request->get('i');
         $this->request->request->get('up') ?
@@ -264,7 +265,7 @@ class GamePokemonController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function pokemonExchangeAction(GamePokemonsExchange $pokemonsExchange, GamePack $gamePack)
+    public function pokemonExchangeAction(GamePokemonsExchange $pokemonsExchange, GamePack $gamePack): Response
     {
         return $this->render('game/pokemons_exchange.html.twig', [
             'title' => 'Pokemony wymiana',
@@ -282,7 +283,7 @@ class GamePokemonController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function pokemonExchangeAddAction(GamePokemonsExchange $pokemonsExchange)
+    public function pokemonExchangeAddAction(GamePokemonsExchange $pokemonsExchange): Response
     {
         $id = $this->request->request->get('id');
         $what = $this->request->request->get('mode');
@@ -298,7 +299,7 @@ class GamePokemonController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function trainingWithPokemonsAction(GameTrainingPokemon $training)
+    public function trainingWithPokemonsAction(GameTrainingPokemon $training): Response
     {
         return $this->render('game/trainingPokemons.html.twig', [
             'ajax' => $this->request->isXmlHttpRequest(),
@@ -314,7 +315,7 @@ class GamePokemonController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function trainingWithPokemonsStartAction(GameTrainingPokemon $training)
+    public function trainingWithPokemonsStartAction(GameTrainingPokemon $training): Response
     {
         $user = $this->getUser();
         if ($user->getActivity() != '' && $user->getActivity() != 'training') {
@@ -332,7 +333,7 @@ class GamePokemonController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function trainingWithPokemonsStopAction(GameTrainingPokemon $training)
+    public function trainingWithPokemonsStopAction(GameTrainingPokemon $training): Response
     {
         $user = $this->getUser();
         if ($user->getActivity() != '' && $user->getActivity() != 'training') {
@@ -342,5 +343,20 @@ class GamePokemonController extends Controller
         $training->stopTraining($this->getUser());
 
         return $this->redirectToRoute('activity_training');
+    }
+
+    /**
+     * @Route("/pokemon/nakarm/{id}", name="game_pokemon_feed")
+     * @param int $id
+     *
+     * @param GamePokemon $pokemonService
+     *
+     * @return Response
+     */
+    public function feedPokemon(int $id, GamePokemon $pokemonService): Response
+    {
+        $pokemonService->feedPokemon($id, $this->getUser(), $this->request->server->get('REMOTE_ADDR'));
+
+        return $this->render('game/pokemonFeed.html.twig');
     }
 }
