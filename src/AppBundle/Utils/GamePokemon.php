@@ -44,7 +44,7 @@ class GamePokemon
         }
 
         $owner = $this->em->getRepository(User::class)->find($pokemon->getOwner());
-        if ($this->checkIps($owner, $ip)) {
+        if ($this->checkIfFeededToday($owner, $ip)) {
             $this->session->getFlashBag()->add('error', 'Karmiłeś już dzisiaj Pokemony tego gracza.');
             return;
         }
@@ -105,7 +105,7 @@ class GamePokemon
         return $this->em->getRepository(Pokemon::class)->find($id);
     }
 
-    private function checkIps(User $owner, string $ip): bool
+    private function checkIfFeededToday(User $owner, string $ip): bool
     {
         $feedingIps = explode('|', $owner->getPokemonFeededIp());
         $count = count($feedingIps);
