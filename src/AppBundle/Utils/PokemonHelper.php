@@ -837,7 +837,6 @@ class PokemonHelper
         $pokemon->setLevel($level);
         $pokemon->setQuality(self::pokemonQuality());
         $pokemon->setGender(self::getGender(self::$pokemonInfo[$id]['plec_k'], self::$pokemonInfo[$id]['plec_m']));
-        $pokemon->setInfo(self::getInfo($id));
         $pokemon->setName(self::$pokemonInfo[$id]['nazwa']);
         $pokemon->setValue(self::getValue(self::$pokemonInfo[$id]['trudnosc'], $level));
         //TODO
