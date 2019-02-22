@@ -81,10 +81,6 @@ class GamePokemon
             $pokemon = $this->getPokemonsFromTeam($user->getId())['pokemons'];
         }
 
-        foreach ($pokemon as $pokemonn) {
-            $pokemonn->setInfo($this->pokemonHelper->getInfo($pokemonn->getIdPokemon()));
-        }
-
         $owner = $this->em->getRepository('AppBundle:User')->find($pokemon[0]->getOwner())->getLogin();
 
         return [
