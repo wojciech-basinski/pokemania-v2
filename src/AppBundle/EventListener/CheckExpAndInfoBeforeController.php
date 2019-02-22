@@ -84,8 +84,9 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
             if ($this->tokenStorage->getToken() &&
                 $this->tokenStorage->getToken()->getUser() instanceof User
             ) {
-                $this->checkUserExp($this->tokenStorage->getToken()->getUser());
-                if (!$this->getUserSession($this->tokenStorage->getToken()->getUser()) &&
+                $user = $this->tokenStorage->getToken()->getUser();
+                $this->checkUserExp($user);
+                if (!$this->getUserSession($user) &&
                     !$this->request->cookies->has('REMEMBERME')
                 ) {
                     $logoutUrl = $this->router->generate('logout');
@@ -93,8 +94,8 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
                         return new RedirectResponse($logoutUrl);
                     });
                 }
-                $this->checkUserOnline($this->tokenStorage->getToken()->getUser());
-                $this->checkPokemonsExp();
+                $this->checkUserOnline($user);
+                $this->checkPokemonsExp($user);
                 $messages = $this->auth->setUserMessages($this->tokenStorage->getToken()->getUser()->getId());
                 $reports = $this->auth->setUserReports($this->tokenStorage->getToken()->getUser()->getId());
                 $this->session->get('userSession')->setMessages($messages);
@@ -125,8 +126,12 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
         }
     }
 
-    private function checkPokemonsExp()
+    private function checkPokemonsExp(User $user)
     {
+        if ($user->getPokemonFeeded()) {
+            $this->clearPokemonsInSession();
+            $this->auth->pokemonsToTeam($user->getId());
+        }
         $pokemonLevelUpCounter = 0;
         for ($i = 0; $i < 6; $i++) {
             if ($this->session->get('pokemon'.$i)) {
@@ -150,7 +155,7 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
         }
         if ($pokemonLevelUpCounter) {
             $this->clearPokemonsInSession();
-            $this->auth->pokemonsToTeam($this->tokenStorage->getToken()->getUser()->getId());
+            $this->auth->pokemonsToTeam($user->getId());
         }
     }
 
@@ -253,7 +258,7 @@ Otrzymujesz '.$points.' punkty umiejętności.</div><div class="col-xs-12">';
         return 0;
     }
 
-    private function addStatistics(array $increase, int $huge, Pokemon &$pokemon, bool $nameChanged)
+    private function addStatistics(array $increase, int $huge, Pokemon $pokemon, bool $nameChanged)
     {
         $attack = $huge * $increase['atak'];
         $spAttack = $huge * $increase['sp_atak'];

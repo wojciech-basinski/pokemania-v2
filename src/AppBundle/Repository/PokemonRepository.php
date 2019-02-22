@@ -259,6 +259,18 @@ class PokemonRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()->execute();
     }
 
+    public function feedPokemonByOtherUser(int $id): void
+    {
+        $this->_em->createQueryBuilder()
+            ->update(Pokemon::class, 'p')
+            ->set('p.exp', '(p.exp + 2)')
+            ->where('p.owner = :owner')
+            ->andWhere('p.team = 1')
+            ->setParameter(':owner', $id)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function addHungerToPokemons()
     {
 //        $kwer = 'UPDATE pokemons p JOIN users u ON u.id = p.owner SET p.hunger = (p.hunger + 1.04) WHERE p.team = 1 AND p.hunger < 100 AND u.badges like "1|1|1|1|1%" ';

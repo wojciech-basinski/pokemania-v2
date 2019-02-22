@@ -51,8 +51,9 @@ $(document).ready(function()
     });
     $('#prawo').on('click', '.nakarm', function()
     {
-        var id = $(this).attr('pokemon-id');
-        $('#nakarm_'+id).load('pokemon.php?ajax&nakarm='+id);
+        var id = $(this).attr('data-id');
+        var href = $(this).attr('data-href');
+        $('#nakarm_'+id).load(href);
     });
 
 

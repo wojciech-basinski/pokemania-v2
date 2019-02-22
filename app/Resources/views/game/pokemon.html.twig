@@ -184,7 +184,10 @@
                                                 </div>
                                                 {% endif %}
                                                     <div class="col-xs-12 text-center margin-top">
-                                                        <button class="btn btn-primary nakarm" data-id="{{ pokemon.id }}">Nakarm Pokemona</button>
+                                                        <button class="btn btn-primary nakarm" data-href="{{ path
+                                                            ('game_pokemon_feed', {'id' : pokemon.id}) }}"
+                                                                data-id="{{
+                                                        pokemon.id }}">Nakarm Pokemona</button>
                                                     </div>
                                                     <div id="nakarm_{{ pokemon.id }}"></div>
                                                 </div>
