@@ -189,7 +189,7 @@ class GameTraining
         /** @var Pokemon $pokemon */
         $pokemon = $this->session->get('pokemon'.$this->i);
         $pokemon = $this->em->merge($pokemon);
-        dump($pokemon);
+
         $attackArray = $pokemon->getInfo()['attackArray'];
         $attackI = $this->checkAttack($attackId, $attackArray);
         if ($attackI < 0) {
