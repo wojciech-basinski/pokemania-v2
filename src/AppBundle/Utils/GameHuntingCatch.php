@@ -69,7 +69,7 @@ class GameHuntingCatch
             $this->deleteRepeatballFromSession();
             $this->addStatistics($user->getId(), $pokeball);
             $this->addExpToUser($user, $this->pokemon->getInfo()['trudnosc']);
-        } elseif ($pokeball == 'Repeatball') {
+        } elseif ($pokeball === 'Repeatball') {
             $this->session->getFlashBag()->add('info', 'Repeatball ogłuszył Pokemona, masz szansę rzucić w niego kolejny pokeball');
         } else {
             $this->session->getFlashBag()->add('error', 'Niestety Pokemon uwolnił się i uciekł');
@@ -171,17 +171,16 @@ class GameHuntingCatch
         }
         /////losowanie czy złapano poka
         $rate = round($rate * 100);////bierzemy pod uwagę tylko dwie liczby po przecinku.
-        if ($pokeball == "masterball") {
+        if ($pokeball === "Masterball") {
             $rate = 100 * 100;
         }
-        echo 'szansa złapania: ',$rate/100,'%<br />';
         return $rate;
     }
 
     private function draw(float $rate): bool
     {
         $draw = mt_rand(0, 10000);
-        return ($draw <= $rate) ? true : false;
+        return $draw <= $rate;
     }
 
     private function catchPokemon(User $user, string $pokeball): bool
@@ -251,7 +250,9 @@ class GameHuntingCatch
     private function addStatistics(int $userId, string $pokeball)
     {
         $this->em->getRepository('AppBundle:Statistic')->addCatchedOnePokemon($userId);
-        $this->em->getRepository('AppBundle:Achievement')->addCatchedOnePokemon($userId, $pokeball);
+        if ($pokeball !== 'Masterball') {
+            $this->em->getRepository('AppBundle:Achievement')->addCatchedOnePokemon($userId, $pokeball);
+        }
     }
 
     private function addExpToUser(User $user, int $difficulty)
