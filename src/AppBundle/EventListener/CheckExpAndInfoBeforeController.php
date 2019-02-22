@@ -129,6 +129,7 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
     private function checkPokemonsExp(User $user)
     {
         if ($user->getPokemonFeeded()) {
+            $user->setPokemonFeeded(false);
             $this->clearPokemonsInSession();
             $this->auth->pokemonsToTeam($user->getId());
         }
