@@ -250,8 +250,7 @@ class GameUserController extends Controller
     }
 
     /**
-     * @Route("/plecak", name="game_user_pack_use")
-     * @Method("POST")
+     * @Route("/plecak/uzyj", name="game_user_pack_use")
      * @param GamePack $pack
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -260,7 +259,7 @@ class GameUserController extends Controller
     {
         $item = $this->request->get('item') ?? '';
         $value = $this->request->get('value') ?? 1;
-        $pokemon = $this->request->get('pokemon') ?? '';
+        $pokemon = $this->request->get('pokemon') ?? null;
 
         $pack->useItem($item, $value, $this->getUser(), $pokemon);
 
