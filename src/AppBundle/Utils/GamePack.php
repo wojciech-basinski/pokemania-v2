@@ -861,11 +861,12 @@ class GamePack
     
     private function lemonadeUse($value, User $user)
     {
-        if ($user->getPa() > 10 && !$this->request->getCurrentRequest()->get('confirm')) {
+        if ($user->getPa() > 10 && !$this->request->getCurrentRequest()->query->get('confirm')) {
             $this->session->getFlashBag()->add(
                 'info',
-                'Czy napewno chcesz wypić lemoniadę? Po jej spożyciu ilość PA przekroczy Twoją maksymalną ilość, więc część zostanie zmarnowana!
-                    <br /><button class="btn btn-primary" id="plecak/rodzaj/lemoniada/?potwierdzenie&ajax">Wypij mimo to</button>'
+                'Czy napewno chcesz wypić lemoniadę? Po jej spożyciu ilość PA przekroczy Twoją maksymalną ilość, 
+więc część zostanie zmarnowana!<br />
+<button class="btn btn-primary confirmDrink" data-add="?item=lemonade&confirm=1">Wypij mimo to</button>'
             );
         } else {
             $items = $this->getItems($user->getId());
@@ -901,11 +902,15 @@ class GamePack
         $restorePercent = $value * 0.25;
         $restoredPa = round($restorePercent * $user->getMpa());
 
-        if (($user->getPa() + $restoredPa) > ($user->getMpa() + 9) && !$this->request->getCurrentRequest()->get('confirm')) {
+        if (($user->getPa() + $restoredPa) > ($user->getMpa() + 9) &&
+            !$this->request->getCurrentRequest()->query->get('confirm')
+        ) {
             $this->session->getFlashBag()->add(
                 'info',
-                'Czy napewno chcesz wypić wodę? Po jej spożyciu ilość PA przekroczy Twoją maksymalną ilość, więc część zostanie zmarnowana!
-            <br /><button class="btn btn-primary potwieredzeniewypicia" id="plecak/rodzaj/woda/' . $value . '?potwierdzenie&ajax">Wypij mimo to</button>'
+                'Czy napewno chcesz wypić wodę? Po jej spożyciu ilość PA przekroczy Twoją maksymalną ilość, 
+                więc część zostanie zmarnowana!
+            <br /><button class="btn btn-primary confirmDrink" 
+            data-add="?item=water&value=' . $value . '&confirm=1">Wypij mimo to</button>'
             );
         } else {
             $items->setWater($items->getWater() - $value);
@@ -913,7 +918,8 @@ class GamePack
 
             $this->session->getFlashBag()->add(
                 'success',
-                'Wypito ' . $value . ' wod' . (($value == 1) ? 'ę' : 'y') . '. Przywrócono ' . $restoredPa . ' PA.'
+                'Wypito ' . $value . ' wod' . (($value == 1) ? 'ę' : 'y') . '. 
+                Przywrócono ' . $restoredPa . ' PA.'
             );
         }
     }
@@ -937,11 +943,15 @@ class GamePack
         $restorePercent = $value * 0.5;
         $restoredPa = round($restorePercent * $user->getMpa());
 
-        if (($user->getPa() + $restoredPa) > ($user->getMpa() + 9) && !$this->request->getCurrentRequest()->get('confirm')) {
+        if (($user->getPa() + $restoredPa) > ($user->getMpa() + 9) &&
+            !$this->request->getCurrentRequest()->query->get('confirm')
+        ) {
             $this->session->getFlashBag()->add(
                 'info',
-                'Czy napewno chcesz wypić sodę? Po jej spożyciu ilość PA przekroczy Twoją maksymalną ilość, więc część zostanie zmarnowana!
-            <br /><button class="btn btn-primary potwieredzeniewypicia" id="plecak/rodzaj/soda/' . $value . '?potwierdzenie&ajax">Wypij mimo to</button>'
+                'Czy napewno chcesz wypić sodę? Po jej spożyciu ilość PA przekroczy Twoją maksymalną ilość, 
+więc część zostanie zmarnowana!
+            <br /><button class="btn btn-primary confirmDrink" 
+            data-add="?item=soda&value=' . $value . '&confirm=1">Wypij mimo to</button>'
             );
         } else {
             $items->setSoda($items->getSoda() - $value);
@@ -949,7 +959,8 @@ class GamePack
 
             $this->session->getFlashBag()->add(
                 'success',
-                'Wypito ' . $value . ' sod' . (($value == 1) ? 'ę' : 'y') . '. Przywrócono ' . $restoredPa . ' PA.'
+                'Wypito ' . $value . ' sod' . (($value == 1) ? 'ę' : 'y') .
+                '. Przywrócono ' . $restoredPa . ' PA.'
             );
         }
     }

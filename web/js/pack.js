@@ -193,9 +193,11 @@ $(document).ready(function()
     }
    laduj('plecak/jagoda/'+co+'/?active=3&ajax');
   }
-  $('#prawo').on('click', '.potwieredzeniewypicia', function()
+  $('#prawo').on('click', '.confirmDrink', function()
   {
-      $('.tab-content').load(this.id);
+      var href = packUse + $(this).attr('data-add');
+      $('#prawo').load(href);
+      $('#tabelka').load(leftHref);
   });
   $('#prawo').on('click', '.karta', function()
   {
