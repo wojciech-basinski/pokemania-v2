@@ -27,14 +27,14 @@ class GameMerchant
 
     /**
      * @param int $userId
-     * @return null|array|Pokemon
+     * @return array
      */
-    public function getPokemonsAvailableToSell(int $userId)
+    public function getPokemonsAvailableToSell(int $userId): array
     {
         return $this->em->getRepository('AppBundle:Pokemon')->getPokemonsAvailableToSell($userId);
     }
 
-    public function sellPokemons(bool $all, User $user, ?array $selected, $confirm)
+    public function sellPokemons(bool $all, User $user, ?array $selected, $confirm): void
     {
         if ($all) {
             $this->sellAllPokemons($user, $confirm);
@@ -48,7 +48,7 @@ class GameMerchant
         $this->em->flush();
     }
 
-    private function sellAllPokemons(User $user, $confirm)
+    private function sellAllPokemons(User $user, $confirm): void
     {
         $pokemonsAvailableToSell = $this->getPokemonsAvailableToSell($user->getId());
         $pokemonsToSell = [];
@@ -69,7 +69,7 @@ class GameMerchant
         }
     }
 
-    private function sellSelectedPokemons(User $user, ?array $selected)
+    private function sellSelectedPokemons(User $user, ?array $selected): void
     {
         $pokemonsAvailableToSell = $this->getPokemonsAvailableToSell($user->getId());
 
@@ -84,12 +84,14 @@ class GameMerchant
         $this->sellPokemonsFromArray($pokemonsToSell, $valueOfPokemons, $user);
     }
 
-    public function sellPokemonsFromArray(array $pokemons, int $value, User $user)
+    public function sellPokemonsFromArray(array $pokemons, int $value, User $user): void
     {
         $count = count($pokemons);
         $this->em->getRepository('AppBundle:Pokemon')->deletePokemons($pokemons);
         $user->setCash($user->getCash() + $value);
-        $this->session->set('pokemonsInReserve', $this->session->get('pokemonsInReserve') - $count);
+        $this->session->get('userSession')->setPokemonInReserve(
+            $this->session->get('userSession')->getPokemonInReserve() - $count
+        );
         $this->session->getFlashBag()->add('success', 'Sprzedano ' . $count .
             ' Pokemonów za cenę ' . number_format($value, 0, '', '.') . ' &yen;');
     }
