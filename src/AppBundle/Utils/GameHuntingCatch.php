@@ -199,6 +199,7 @@ class GameHuntingCatch
         $this->pokemon->setDateOfCatch(new \DateTime());
         $this->pokemon->setDescription('');
         $this->pokemon->setCatched($pokeball);
+        $this->pokemon->setActualHp(0);
 
         $this->em->persist($this->pokemon);
         return true;
