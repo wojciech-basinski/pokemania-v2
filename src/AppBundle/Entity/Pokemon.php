@@ -179,7 +179,7 @@ class Pokemon
     /**
      * @var int
      *
-     * @ORM\Column(name="value", type="integer")
+     * @ORM\Column(name="value", type="bigint")
      */
     private $value;
 
