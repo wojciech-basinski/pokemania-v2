@@ -139,9 +139,9 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
                 $pokemon = $this->session->get('pokemon'.$i);
                 while ($pokemon->getExp() >= $pokemon->getExpOnLevel() && $pokemon->getLevel() < 100) {
                     $pokemonLevelUpCounter++;
+                    /** @var Pokemon $pokemon */
                     $pokemon = $this->em->merge($pokemon);
 
-                    $evolutionId = $this->pokemonHelper->getInfo($pokemon->getIdPokemon())['ewolucja_p'];
                     $evolution = $this->checkEvolution($pokemon);
                     $nameChanged = $this->checkName($pokemon);
                     if ($evolution) {
@@ -154,7 +154,7 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
                 }
             }
         }
-        if ($pokemonLevelUpCounter) {
+        if ($pokemonLevelUpCounter > 0) {
             $this->clearPokemonsInSession();
             $this->auth->pokemonsToTeam($user->getId());
         }
@@ -226,7 +226,7 @@ Otrzymujesz '.$points.' punkty umiejętności.</div><div class="col-xs-12">';
         $userItems->setWater($userItems->getWater() + $water);
     }
 
-    private function checkEvolution(Pokemon &$pokemon): bool
+    private function checkEvolution(Pokemon $pokemon): bool
     {
         if (!$pokemon->getEwolution() && $this->pokemonHelper->getInfo($pokemon->getIdPokemon())['ewolucja_p']) {
             //sprawdzenie ewolucji
@@ -236,7 +236,7 @@ Otrzymujesz '.$points.' punkty umiejętności.</div><div class="col-xs-12">';
                 //$pokemon->setEwolution(80);
             }//slowpoke
             if ($id > 10000) {
-                return 0;
+                return false;
                 //brak ewo przez poziom.
             } else {
                 $data = $this->pokemonHelper->getInfo($id);
@@ -247,16 +247,16 @@ Otrzymujesz '.$points.' punkty umiejętności.</div><div class="col-xs-12">';
                     case 998:
                         if ($pokemon->getCountedAttachment() >= 90) {
                             $pokemon->setIdPokemon($id);
-                            return 1;
+                            return true;
                         }
-                        return 0;
+                        return false;
                     case 0:
                         $pokemon->setIdPokemon($id);
-                        return 1;
+                        return true;
                 }
             }
         }
-        return 0;
+        return false;
     }
 
     private function addStatistics(array $increase, int $huge, Pokemon $pokemon, bool $nameChanged)
@@ -316,7 +316,6 @@ Twój Pokemon <span class="pogrubienie">'.$oldName.'</span> awansował na kolejn
             <div class="col-xs-4">HP +'.$hp.'</div></div></div></div>';
         $report->setContent($content);
 
-        $this->em->persist($pokemon->getTraining());
         $this->em->persist($pokemon);
         $this->em->persist($report);
     }

@@ -313,11 +313,6 @@ class Pokemon
     private $effectiveness = null;
 
     /**
-     * @var array
-     */
-    private $info = null;
-
-    /**
      * @return PokemonTraining
      */
     public function getTraining(): PokemonTraining
@@ -1321,19 +1316,9 @@ class Pokemon
         return $attachment;
     }
 
-    public function setInfo(array $info)
-    {
-        $this->info = $info;
-
-        return $this;
-    }
-
     public function getInfo(): array
     {
-        if ($this->info === null) {
-            $this->info = PokemonHelper::getInfo($this->idPokemon);
-        }
-        return $this->info;
+        return PokemonHelper::getInfo($this->idPokemon);
     }
 
     public function getEffectiveness()
