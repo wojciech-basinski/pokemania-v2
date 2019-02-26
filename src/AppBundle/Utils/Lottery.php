@@ -207,6 +207,9 @@ class Lottery
         $dratini->setAccuracy(80);
         $dratini->setDateOfCatch(new \DateTime());
         $dratini->setShiny(0);
+        if (mt_rand(0, 100) === 1) {
+            $dratini->setShiny(1);
+        }
         $dratini->setAttachment(750);
         $dratini->setExp(0);
         $dratini->setTeam(0);
