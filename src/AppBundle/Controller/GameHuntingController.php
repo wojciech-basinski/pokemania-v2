@@ -32,13 +32,13 @@ class GameHuntingController extends Controller
                 return $this->render('game/hunting/region.html.twig', [
                     'ajax' => $this->request->isXmlHttpRequest(),
                     'title' => 'Polowanie - Kanto',
-                    'places' => $hunting->getPlacesKanto($this->getUser()->getId())
+                    'places' => $hunting->getPlacesKanto($this->getUser())
                 ]);
             default:
                 return $this->render('game/hunting/region.html.twig', [
                     'ajax' => $this->request->isXmlHttpRequest(),
                     'title' => 'Polowanie - Johto',
-                    'places' => $hunting->getPlacesJohto($this->getUser()->getId())
+                    'places' => $hunting->getPlacesJohto($this->getUser())
                 ]);
         }
     }
