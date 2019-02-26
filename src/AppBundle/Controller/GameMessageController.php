@@ -8,6 +8,7 @@ use AppBundle\Utils\Reports;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class GameMessageController extends Controller
@@ -27,7 +28,7 @@ class GameMessageController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showReportsAction(Reports $reportsService, SessionInterface $session)
+    public function showReportsAction(Reports $reportsService, SessionInterface $session): Response
     {
         $usersReports = $reportsService->getReports($this->getUser()->getId());
 
@@ -48,7 +49,7 @@ class GameMessageController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function showOneReportAction(int $id, Reports $reportsService)
+    public function showOneReportAction(int $id, Reports $reportsService): Response
     {
         $report = $reportsService->getOneReport($this->getUser()->getId(), $id);
 
@@ -62,13 +63,28 @@ class GameMessageController extends Controller
     }
 
     /**
+     * @Route("/raporty/usun/wszystkie", name="game_reports_delete_all")
+     * @param Reports $reportsService
+     *
+     * @return Response
+     */
+    public function deleteAllReportsAction(Reports $reportsService): Response
+    {
+        $reportsService->deleteAllReports($this->getUser()->getId());
+
+        return $this->json([
+            'ok'
+        ]);
+    }
+
+    /**
      * @Route("/raporty/usun/{id}", name="game_reports_delete")
      * @param int $id
      * @param Reports $reportsService
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function deleteOneReportAction(int $id, Reports $reportsService)
+    public function deleteOneReportAction(int $id, Reports $reportsService): Response
     {
         $status = $reportsService->deleteOneReport($this->getUser()->getId(), $id);
 
@@ -79,15 +95,6 @@ class GameMessageController extends Controller
     }
 
     /**
-     * @Route("/raporty/usun/wszystkie/{confirm}", name="game_reports_delete_all")
-     */
-    public function deleteAllReportsAction(int $confirm = 0)
-    {
-        die;
-        //todo
-    }
-
-    /**
      * @Route("/wiadomosci", name="game_messages")
      * @param Messages $messageService
      *
@@ -95,7 +102,7 @@ class GameMessageController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showMessagesAction(Messages $messageService, SessionInterface $session)
+    public function showMessagesAction(Messages $messageService, SessionInterface $session): Response
     {
         $messages = $messageService->getAllUserMessages($this->getUser()->getId());
 
@@ -112,7 +119,7 @@ class GameMessageController extends Controller
     /**
      * @Route("wiadomosci/{id}/{last}", name="game_message_show")
      */
-    public function showOneMessageAction(int $id, int $last = 0)
+    public function showOneMessageAction(int $id, int $last = 0): Response
     {
         return $this->json([
             'title' => 'userName',
@@ -128,7 +135,7 @@ class GameMessageController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function announcementAction(GameAnnouncement $announcement)
+    public function announcementAction(GameAnnouncement $announcement): Response
     {
         $countNewAnnouncements = $this->getUser()->getAnnouncements();
         $countAllAnnouncements = $announcement->countAnnouncements();

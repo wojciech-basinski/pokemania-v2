@@ -1,7 +1,11 @@
 {% extends 'game/gamebase.html.twig' %}
 
 {% block scripts %}
-<script type="text/javascript" src="{{ asset('js/reports.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/reports.js') }}"></script>
+    <script>
+        var deleteAllPath = "{{ path('game_reports_delete_all') }}";
+        var reportsPath = "{{ path('game_reports') }}";
+    </script>
 {% endblock %}
 
 {% block gamebody %}

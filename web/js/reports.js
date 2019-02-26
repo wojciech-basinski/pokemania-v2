@@ -18,18 +18,26 @@ $(document).ready(function()
     });
     $('#prawo').on('click', '.usun_w', function()
     {
-        $("#info").laduj(URL+'raporty/usunAll/?ajax', 1);
+        $("#info").html('<div class="alert alert-info"><span>' +
+            'Czy chcesz usunąć wszystkie raporty?<br />' +
+            '<buttion class="tak btn btn-info">TAK</buttion> <button class="nie btn btn-info">NIE</button>' +
+            '</span></div>');
     });
+
     $('#prawo').on('click', '.tak', function()
     {
-        $("#info").load(URL+'raporty/usunAll/?ajax&potw=1', function (){
-            $('.panel-body').load(URL+'poczta/?ajax');
+        $.getJSON(deleteAllPath);
+        $('#prawo').load(reportsPath, function() {
+            $("#info").text('Usunięto wszystkie raporty');
         });
     });
+
     $('#prawo').on('click', '.nie', function()
     {
         $("#info").text('');
     });
+
+
     $('#prawo').on('click', '.wiadomosc', function()
     {
         if(u == 0)
