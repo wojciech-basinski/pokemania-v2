@@ -27,7 +27,7 @@ class Reports
         $this->em->getRepository('AppBundle:Report')->markReportsAsRead($userId);
     }
 
-    public function getOneReport(int $userId, int $reportId): bool
+    public function getOneReport(int $userId, int $reportId): ?Report
     {
         return $this->em->getRepository('AppBundle:Report')->getOneReport($userId, $reportId);
     }
