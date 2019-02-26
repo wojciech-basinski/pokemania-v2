@@ -117,6 +117,12 @@ klucz_polowanie = function(e)
 //var ilosc = 1;
 $(document).ready(function()
 {
+    if (settings.hints) {
+        $('#hintContent').load($('#hint').attr('data-href'), function() {
+            $('#hint').removeClass('hidden');
+        });
+    }
+
     klucz = klucz_default;
     $(document).keydown(function(e)
     {
@@ -279,13 +285,7 @@ $(document).ready(function()
         $('#beta').html(tekst);
         $('#beta_modal').modal("show");
     }
-    if($('#podpowiedz_').length)
-    {
-        var div = $( "<div id='podpowiedz'></div>" );
-        $('#prawo').prepend( div );
-        $('#podpowiedz').load(URL+'podpowiedzi.php');
-        //$('#podpowiedz').load();
-    }
+
 	if($('#witaj').length)
 	{
 		var wys_czas = '';

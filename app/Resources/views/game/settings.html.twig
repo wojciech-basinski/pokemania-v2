@@ -60,13 +60,13 @@
 
                         <div class="alert alert-info margin-top"><span>Wyświetlaj podpowiedzi</span></div>
                         <div class="btn-group">
-                            <button type="button" id="zmien/podpowiedz/0/?active=2" class="btn btn-primary
-        <?= $this->podp == 0 ? 'primary-active' : '' ?>
-        ">NIE
+                            <button type="button" data-value="0" data-what="hints" data-active=2 class="change btn btn-primary
+                             {{ app.session.get('userSession').userSettings.getHints == 0 ? 'primary-active' : ''}}">
+                                NIE
                             </button>
-                            <button type="button" id="zmien/podpowiedz/1/?active=2" class="btn btn-primary
-        <?= $this->podp == 1 ? 'primary-active' : '' ?>
-        ">TAK
+                            <button type="button" data-value="1" data-what="hints" data-active=2 class="change btn btn-primary
+                             {{ app.session.get('userSession').userSettings.getHints == 1 ? 'primary-active' : ''}}">
+                                TAK
                             </button>
                         </div>
 
