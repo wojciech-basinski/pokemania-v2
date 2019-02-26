@@ -22,15 +22,19 @@ class Lottery
     private $session;
 
     /**
-     * Quantity of user's tickets
      * @var Statistic
      */
     private $userStatistics;
+    /**
+     * @var Collection
+     */
+    private $collection;
 
-    public function __construct(EntityManagerInterface $em, SessionInterface $session)
+    public function __construct(EntityManagerInterface $em, SessionInterface $session, Collection $collection)
     {
         $this->em = $em;
         $this->session = $session;
+        $this->collection = $collection;
     }
 
     public function countUserTickets(int $userId): int
@@ -174,6 +178,8 @@ class Lottery
     {
         $dratini = new Pokemon();
         $training = new PokemonTraining();
+
+        $this->collection->addOneToPokemonCatchAndMet(147, $owner);
 
         $training->setTr1(0);
         $training->setTr2(0);
