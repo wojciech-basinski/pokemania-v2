@@ -175,7 +175,10 @@ class GameExchange
         $this->em->persist($pokemon);
     }
 
-    private function addConfirmFlashParts(int $id): void
+    /**
+     * @param $id int|string
+     */
+    private function addConfirmFlashParts($id): void
     {
         $parts = ($id == 142) ? 65 : 40;
         $name = $this->pokemonHelper->getInfo($id)['nazwa'];
