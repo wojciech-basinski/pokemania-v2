@@ -186,7 +186,7 @@ class Pokemon
     /**
      * @var int
      *
-     * @ORM\Column(name="attachment", type="smallint")
+     * @ORM\Column(name="attachment", type="integer")
      */
     private $attachment;
 
