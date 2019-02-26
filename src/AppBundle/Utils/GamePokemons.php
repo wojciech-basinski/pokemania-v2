@@ -94,10 +94,17 @@ class GamePokemons
         }
 
         $this->em->getRepository('AppBundle:Pokemon')->addPokemonsToTeam($pokemonsPossibleToTeam);
-        $this->em->getRepository('AppBundle:UserTeam')->addPokemonsToTeam($pokemonsPossibleToTeam, $pokemonsInTeam, $user->getId());
+        $this->em->getRepository('AppBundle:UserTeam')->addPokemonsToTeam(
+            $pokemonsPossibleToTeam,
+            $pokemonsInTeam,
+            $user->getId()
+        );
 
         $this->addPokemonsToSessionTeam($user->getId());
-        $this->session->getFlashBag()->add('success', 'Poprawnie dodano '. count($pokemonsPossibleToTeam) .' Pokemonów do drużyny.');
+        $this->session->getFlashBag()->add(
+            'success',
+            'Poprawnie dodano '. count($pokemonsPossibleToTeam) .' Pokemonów do drużyny.'
+        );
     }
 
     public function sendPokemonFromWaitinigToReserve(?array $pokemons, User $user)
@@ -107,7 +114,10 @@ class GamePokemons
         }
         $this->em->getRepository('AppBundle:Pokemon')->movePokemonsToReserve($pokemons);
 
-        $this->session->getFlashBag()->add('success', 'Pomyślnie przeniesiono '. count($pokemons) . ' do rezerwy.');
+        $this->session->getFlashBag()->add(
+            'success',
+            'Pomyślnie przeniesiono '. count($pokemons) . ' do rezerwy.'
+        );
     }
 
     public function sendPokemonsToWaiting(?array $pokemons, User $user)
@@ -117,7 +127,10 @@ class GamePokemons
         }
         $this->em->getRepository('AppBundle:Pokemon')->movePokemonsToWaiting($pokemons);
 
-        $this->session->getFlashBag()->add('success', 'Pomyślnie przeniesiono '. count($pokemons) . ' do poczekalni.');
+        $this->session->getFlashBag()->add(
+            'success',
+            'Pomyślnie przeniesiono '. count($pokemons) . ' do poczekalni.'
+        );
     }
 
     public function getOrderUp(int $i, int $userId)
