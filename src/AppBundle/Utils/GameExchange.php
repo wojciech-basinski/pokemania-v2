@@ -44,7 +44,7 @@ class GameExchange
         $this->collection = $collection;
     }
 
-    public function getPokemonsInExchange(User $user): arrray
+    public function getPokemonsInExchange(User $user): array
     {
         return $this->em->getRepository('AppBundle:Exchange')->findBy(['userId' => $user->getId()]);
     }
