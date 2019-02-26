@@ -27,30 +27,39 @@ class GameExchange
      * @var PokemonHelper
      */
     private $pokemonHelper;
+    /**
+     * @var Collection
+     */
+    private $collection;
 
-    public function __construct(EntityManagerInterface $em, SessionInterface $session, PokemonHelper $pokemonHelper)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        SessionInterface $session,
+        PokemonHelper $pokemonHelper,
+        Collection $collection
+    ) {
         $this->em = $em;
         $this->session = $session;
         $this->pokemonHelper = $pokemonHelper;
+        $this->collection = $collection;
     }
 
-    public function getPokemonsInExchange(User $user)
+    public function getPokemonsInExchange(User $user): arrray
     {
         return $this->em->getRepository('AppBundle:Exchange')->findBy(['userId' => $user->getId()]);
     }
 
-    public function getParts(User $user)
+    public function getParts(User $user): int
     {
         return $this->getItems($user->getId())->getParts();
     }
 
-    public function getCoins(User $user)
+    public function getCoins(User $user): int
     {
         return $this->getItems($user->getId())->getCoins();
     }
 
-    public function parts(?int $id, bool $confirm, User $user)
+    public function parts(?int $id, bool $confirm, User $user): void
     {
         if (!in_array($id, [138, 140, 142])) {
             $this->session->getFlashBag()->add('error', 'Błędny ID Pokemona');
@@ -69,7 +78,7 @@ class GameExchange
      * @param bool       $confirm
      * @param User       $user
      */
-    public function coins($id, bool $confirm, User $user)
+    public function coins($id, bool $confirm, User $user): void
     {
         if (!in_array($id, [133, 132, 'masterball', 'candy', 'part'])) {
             $this->session->getFlashBag()->add('error', 'Błędny przedmiot/Pokemon');
@@ -82,7 +91,7 @@ class GameExchange
         $this->makePokemonOrItemFromCoins($id, $user);
     }
 
-    public function getPokemon(int $id, User $user)
+    public function getPokemon(int $id, User $user): void
     {
         $pokemon = $this->em->getRepository('AppBundle:Exchange')->findOneBy(['id' => $id, 'userId' => $user->getId()]);
         if (!$pokemon) {
@@ -96,7 +105,10 @@ class GameExchange
         $this->addPokemonToReserve($pokemon->getPokemonId(), $user->getId());
         $this->em->remove($pokemon);
         $this->em->flush();
-        $this->session->getFlashBag()->add('success', 'Poprawnie odebrano Pokemona, znajdziesz go w swojej poczekalni');
+        $this->session->getFlashBag()->add(
+            'success',
+            'Poprawnie odebrano Pokemona, znajdziesz go w swojej poczekalni'
+        );
     }
 
     private function getItems(int $id): Items
@@ -107,7 +119,7 @@ class GameExchange
         return $this->items;
     }
 
-    private function makePokemonFromParts(int $id, User $user)
+    private function makePokemonFromParts(int $id, User $user): void
     {
         $parts = $this->getParts($user);
         $pokemon = $this->checkPokemonParts($id);
@@ -138,7 +150,7 @@ class GameExchange
         return $pok;
     }
 
-    private function addPokemon(int $id, int $userId)
+    private function addPokemon(int $id, int $userId): void
     {
         $exchange = new Exchange();
         $exchange->setUserId($userId);
@@ -147,8 +159,10 @@ class GameExchange
         $this->em->persist($exchange);
     }
 
-    private function addPokemonToReserve(int $id, int $userId)
+    private function addPokemonToReserve(int $id, int $userId): void
     {
+        $this->collection->addOneToPokemonCatchAndMet($id, $userId);
+
         $pokemon = $this->pokemonHelper->generatePokemon($id, 1);
         $pokemon->setOwner($userId);
         $pokemon->setFirstOwner($userId);
@@ -161,7 +175,7 @@ class GameExchange
         $this->em->persist($pokemon);
     }
 
-    private function addConfirmFlashParts(int $id)
+    private function addConfirmFlashParts(int $id): void
     {
         $parts = ($id == 142) ? 65 : 40;
         $name = $this->pokemonHelper->getInfo($id)['nazwa'];
@@ -175,7 +189,11 @@ class GameExchange
         );
     }
 
-    private function makePokemonOrItemFromCoins($id, User $user)
+    /**
+     * @param $id int|string
+     * @param User $user
+     */
+    private function makePokemonOrItemFromCoins($id, User $user): void
     {
         $coins = $this->getCoins($user);
         $item = $this->checkPokemonCoins($id);
@@ -219,7 +237,7 @@ class GameExchange
         return $item;
     }
 
-    private function createItemOrPokemon(array $item, User $user)
+    private function createItemOrPokemon(array $item, User $user): array
     {
         switch ($item['name']) {
             case 'Ditto':
@@ -246,7 +264,7 @@ class GameExchange
         return $item;
     }
 
-    private function addConfirmFlashCoins($id)
+    private function addConfirmFlashCoins(int $id): void
     {
         $item =  $this->checkPokemonCoins($id);
         $parts = $item['coinsRequired'];
@@ -261,20 +279,20 @@ class GameExchange
         );
     }
 
-    private function addMasterball(int $userId)
+    private function addMasterball(int $userId): void
     {
         $pokeballs = $this->em->getRepository('AppBundle:Pokeball')->find($userId);
         $pokeballs->setMasterballs($pokeballs->getMasterballs() + 1);
         $this->em->persist($pokeballs);
     }
 
-    private function addCandy()
+    private function addCandy(): void
     {
         $this->items->setCandy($this->items->getCandy() + 1);
         $this->em->persist($this->items);
     }
 
-    private function addPart()
+    private function addPart(): void
     {
         $this->items->setParts($this->items->getParts() + 1);
         $this->em->persist($this->items);
