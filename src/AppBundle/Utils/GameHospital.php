@@ -59,7 +59,6 @@ class GameHospital
                     $user->setCash($user->getCash() - $cost);
                     $this->em->persist($user);
                     $pokemon->setActualHp($pokemon->getHpToTable());
-                    $this->em->persist($pokemon->getTraining());
                     $this->em->persist($pokemon);
                     if (!$allFlashAsOne) {
                         $this->session->getFlashBag()->add('success', 'Pokemon wyleczony. Koszt '.$cost.' ¥');
@@ -114,7 +113,7 @@ class GameHospital
         } else {
             $cost = ceil(
                 ((900 * $pokemon->getLevel()) * 0.35)
-                * (1 - ($pokemon->getActualHp() / $pokemon->getHp()))
+                * (1 - ($pokemon->getHpToTable() / $pokemon->getHp()))
                 * ($pokemon->getLevel() / 90)
             );
 
