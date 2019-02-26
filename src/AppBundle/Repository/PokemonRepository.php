@@ -162,13 +162,18 @@ class PokemonRepository extends \Doctrine\ORM\EntityRepository
 
     public function addPokemonsToTeam(array $pokemons)
     {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->update('AppBundle:Pokemon', 'p')
-            ->set('p.team', 1)
-            ->where('p.id IN (:ids)')
-            ->setParameter('ids', $pokemons, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
+        $pokemonsEntities = $this->createQueryBuilder('p')
+            ->select('p')
+            ->where('p.id in (:ids)')
+            ->setParameter('ids', $pokemons)
             ->getQuery()
             ->getResult();
+
+        foreach ($pokemonsEntities as $pokemon) {
+            $pokemon->setTeam(1);
+            $this->_em->persist($pokemon);
+        }
+        $this->_em->flush();
     }
 
     public function deletePokemonFromTeam(int $id)
