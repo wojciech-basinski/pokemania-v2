@@ -1418,12 +1418,13 @@ więc część zostanie zmarnowana!
             $nameChanged = 1;
         }
         $increase = $this->pokemonHelper->getIncrease($id);
-        $attack = $increase['atak'] * 3;
-        $spAttack = $increase['sp_atak'] * 3;
-        $defence = $increase['obrona'] * 3;
-        $spDefence = $increase['sp_obrona'] * 3;
-        $speed = $increase['szybkosc'] * 3;
-        $hp = $increase['hp'] * 3;
+        $multiplier = 4;
+        $attack = $increase['atak'] * $multiplier;
+        $spAttack = $increase['sp_atak'] * $multiplier;
+        $defence = $increase['obrona'] * $multiplier;
+        $spDefence = $increase['sp_obrona'] * $multiplier;
+        $speed = $increase['szybkosc'] * $multiplier;
+        $hp = $increase['hp'] * $multiplier;
 
         $this->collection->addOneToPokemonCatchAndMet($id, $user->getId());
 
