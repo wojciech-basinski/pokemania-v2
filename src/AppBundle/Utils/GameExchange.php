@@ -267,7 +267,10 @@ class GameExchange
         return $item;
     }
 
-    private function addConfirmFlashCoins(int $id): void
+    /**
+     * @param $id int|string
+     */
+    private function addConfirmFlashCoins($id): void
     {
         $item =  $this->checkPokemonCoins($id);
         $parts = $item['coinsRequired'];
