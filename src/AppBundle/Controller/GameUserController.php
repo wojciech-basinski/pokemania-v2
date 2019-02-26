@@ -9,6 +9,7 @@ use AppBundle\Utils\GameExchange;
 use AppBundle\Utils\GamePack;
 use AppBundle\Utils\GameProfile;
 use AppBundle\Utils\GameSettings;
+use AppBundle\Utils\Hints;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -405,5 +406,16 @@ class GameUserController extends Controller
             'kanto' => $achievements->getKanto(),
             'kantoMaster' => $achievements->getKantoMaster()
         ]);
+    }
+
+    /**
+     * @Route("/podpowiedz", name="game_hint")
+     * @param Hints $hints
+     *
+     * @return Response
+     */
+    public function hintAction(Hints $hints)
+    {
+        return new Response($hints->getHint());
     }
 }

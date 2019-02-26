@@ -8,7 +8,8 @@
         var URL = "{{ path('homepage') }}";
         var settings = {
             'clock' : {{ app.session.get('userSession').userSettings.getClock }},
-            'tooltip' : {{ app.session.get('userSession').userSettings.getTooltip }}
+            'tooltip' : {{ app.session.get('userSession').userSettings.getTooltip }},
+            'hints' : {{ app.session.get('userSession').userSettings.getHints }}
             };
 
     </script>
@@ -29,6 +30,11 @@
     </div>
     {% include 'game/template/modals.html.twig' %}
     <div class="col-xs-12 col-sm-8 col-md-9" id="prawo">
+        {% block hint %}
+            <div id="hint" class="hidden alert alert-info" data-href="{{ path('game_hint') }}">
+                <span id="hintContent"></span>
+            </div>
+        {% endblock %}
 {% endif %}
 
 {% block gamebody %}

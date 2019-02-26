@@ -31,8 +31,12 @@ class GameSettings
      */
     private $request;
 
-    public function __construct(EntityManagerInterface $em, SessionInterface $session, UserPasswordEncoderInterface $encoder, RequestStack $request)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        SessionInterface $session,
+        UserPasswordEncoderInterface $encoder,
+        RequestStack $request
+    ) {
         $this->em = $em;
         $this->session = $session;
         $this->encoder = $encoder;
@@ -212,6 +216,16 @@ class GameSettings
         $this->setSettingInSession($value, $user, 'tooltip') ?
             $message = 'Tooltipy będą wyświetlane' :
             $message = 'Tooltipy nie będą wyświetlane';
+        $this->addSuccessMessage($message);
+
+        return true;
+    }
+
+    private function hintsChange(int $value, User $user): bool
+    {
+        $this->setSettingInSession($value, $user, 'hints') ?
+            $message = 'Podpowiedzi będą wyświetlane' :
+            $message = 'Podpowiedzi nie będą wyświetlane';
         $this->addSuccessMessage($message);
 
         return true;

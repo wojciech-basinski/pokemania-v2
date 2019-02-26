@@ -14,7 +14,7 @@ class UserSettings
     private $lemonade;
     private $cheri;
     private $wiki;
-    private $prompt;
+    private $hints;
     private $panels;
     private $background;
     private $table;
@@ -33,7 +33,7 @@ class UserSettings
         $this->lemonade = $u[7];
         $this->cheri = $u[8];
         $this->wiki = $u[9];
-        $this->prompt = $u[10];
+        $this->hints = $u[10];
         $this->panels = $u[11];
         $this->feed = $u[12];
         $this->background = $u[13];
@@ -46,7 +46,7 @@ class UserSettings
     {
         $get = $this->team . '|' . $this->market . '|' . $this->clock . '|' . $this->tooltip . '|' . $this->heal . '|' .
             $this->soda . '|' . $this->water . '|' . $this->lemonade . '|' . $this->cheri . '|' . $this->wiki . '|' .
-            $this->prompt . '|' . $this->panels . '|' . $this->feed .'|' . $this->background . '|' . $this->table . '|'
+            $this->hints . '|' . $this->panels . '|' . $this->feed .'|' . $this->background . '|' . $this->table . '|'
             .$this->style;
         return $get;
     }
@@ -86,17 +86,17 @@ class UserSettings
     /**
      * @return mixed
      */
-    public function getPrompt()
+    public function getHints()
     {
-        return $this->prompt;
+        return $this->hints;
     }
 
     /**
-     * @param mixed $prompt
+     * @param mixed $hints
      */
-    public function setPrompt($prompt)
+    public function setHints($hints)
     {
-        $this->prompt = $prompt;
+        $this->hints = $hints;
     }
 
     /**
