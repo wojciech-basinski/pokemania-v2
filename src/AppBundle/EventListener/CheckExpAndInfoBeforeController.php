@@ -153,7 +153,7 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
                     $evolution = $this->checkEvolution($pokemon);
                     $nameChanged = $this->checkName($pokemon);
                     if ($evolution) {
-                        $huge = 3;
+                        $huge = 4;
                     } else {
                         $huge = 1;
                     }
@@ -294,7 +294,7 @@ Otrzymujesz '.$points.' punkty umiejętności.</div><div class="col-xs-12">';
         $report->setIsRead(0);
 
         $oldName = $pokemon->getName();
-        if ($huge == 3) { //ewolucja
+        if ($huge == 4) { //ewolucja
             $newName = $this->pokemonHelper->getInfo($pokemon->getIdPokemon())['nazwa'];
             if (!$nameChanged) {
                 $pokemon->setName($newName);
