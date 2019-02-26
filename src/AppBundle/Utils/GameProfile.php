@@ -7,6 +7,7 @@ use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class GameProfile
 {
@@ -34,12 +35,21 @@ class GameProfile
      * @var Achievement|null
      */
     private $achievements = null;
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
 
-    public function __construct(EntityManagerInterface $em, SessionInterface $session, ProfileHelper $helper)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        SessionInterface $session,
+        ProfileHelper $helper,
+        TokenStorageInterface $tokenStorage
+    ) {
         $this->em = $em;
         $this->session = $session;
         $this->helper = $helper;
+        $this->tokenStorage = $tokenStorage;
     }
 
     public function getUserProfile(int $userId, int $yourId): ?User
@@ -56,7 +66,7 @@ class GameProfile
     public function setUser(User $user)
     {
         $this->user = $user;
-        $this->id = $user->getId();
+        $this->id = $this->tokenStorage->getToken()->getUser()->getId();
     }
 
     public function getUsersTeam(): ?array
