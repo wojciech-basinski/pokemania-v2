@@ -208,13 +208,13 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
         $raport = '<div class="row nomargin text-center"><div class="col-xs-12">
 Awansowałeś na kolejny, ' . ($user->getTrainerLevel() + 1) . ' poziom.</div><div class="col-xs-12"> 
 Otrzymujesz '.$points.' punkty umiejętności.</div><div class="col-xs-12">';
-        if ($lemonade == 1) {
+        if ($lemonade === 1) {
             $raport .= 'Otrzymujesz także '.$lemonade.' lemoniadę';
         } else {
             $raport .= 'Otrzymujesz także '.$lemonade.' lemoniady';
         }
         if ($water) {
-            if ($water == 3) {
+            if ($water === 3) {
                 $raport .= ' oraz '.$water.' puszki wody.';
             } else {
                 $raport .= ' oraz '.$water.' puszek wody.';
@@ -239,7 +239,7 @@ Otrzymujesz '.$points.' punkty umiejętności.</div><div class="col-xs-12">';
         if (!$pokemon->getEwolution() && $this->pokemonHelper->getInfo($pokemon->getIdPokemon())['ewolucja_p']) {
             //sprawdzenie ewolucji
             $id = $this->pokemonHelper->getInfo($pokemon->getIdPokemon())['ewolucja_p'];///zeby pobrac id ewo
-            if ($id == 80000199) {
+            if ($id === 80000199) {
                 $id = 80;
                 //$pokemon->setEwolution(80);
             }//slowpoke
@@ -294,7 +294,7 @@ Otrzymujesz '.$points.' punkty umiejętności.</div><div class="col-xs-12">';
         $report->setIsRead(0);
 
         $oldName = $pokemon->getName();
-        if ($huge == 4) { //ewolucja
+        if ($huge === 4) { //ewolucja
             $newName = $this->pokemonHelper->getInfo($pokemon->getIdPokemon())['nazwa'];
             if (!$nameChanged) {
                 $pokemon->setName($newName);
@@ -311,7 +311,7 @@ Twój Pokemon <span class="pogrubienie">'.$oldName.'</span> ewoluował w
 Twój Pokemon <span class="pogrubienie">'.$oldName.'</span> awansował na kolejny, '.$pokemon->getLevel().' poziom.</div>
                 <div class="col-xs-12 pogrubienie">';
         }
-        if ($pokemon->getGender() == 1) {
+        if ($pokemon->getGender() === 1) {
             $content .= 'Jej';
         } else {
             $content .= 'Jego';
@@ -331,7 +331,7 @@ Twój Pokemon <span class="pogrubienie">'.$oldName.'</span> awansował na kolejn
     private function checkName(Pokemon $pokemon): bool
     {
         $data = $this->pokemonHelper->getInfo($pokemon->getIdPokemon());
-        return $data['nazwa'] == $pokemon->getName();
+        return $data['nazwa'] === $pokemon->getName();
     }
 
     private function checkCollection(Pokemon $pokemon)
@@ -353,7 +353,7 @@ Twój Pokemon <span class="pogrubienie">'.$oldName.'</span> awansował na kolejn
 
     private function getUserSession(User $user)
     {
-        if ($user->getSessionId() && $user->getSessionId() == $this->session->getId()) {
+        if ($user->getSessionId() && $user->getSessionId() === $this->session->getId()) {
             return 1;
         }
         return 0;
