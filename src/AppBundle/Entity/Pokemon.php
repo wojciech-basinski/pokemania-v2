@@ -1306,7 +1306,7 @@ class Pokemon
             $attachment += ($this->attachment - 6000) * 0.00864818182;
         }
         $attachment = -200 / ($attachment + 1.98984) + 100.50054;
-        if ($this->attachment == 0) {
+        if ($this->attachment === 0) {
             $attachment = 0;
         }
         $attachment = round($attachment, 2);

@@ -242,25 +242,25 @@ class GameMarket
     {
         $pokeball = $this->getPokeballsDescription();
         foreach ($pokeball as $item) {
-            if ($name == $item['name']) {
+            if ($name === $item['name']) {
                 return 'Pokeball';
             }
         }
         $berry = $this->getBerrysDescription();
         foreach ($berry as $item) {
-            if ($name == $item['name']) {
+            if ($name === $item['name']) {
                 return 'Berry';
             }
         }
         $other = $this->getOtherDescription();
         foreach ($other as $item) {
-            if ($name == $item['name']) {
+            if ($name === $item['name']) {
                 return 'Items';
             }
         }
         $stones = $this->getStonesDescription();
         foreach ($stones as $item) {
-            if ($name == $item['name']) {
+            if ($name === $item['name']) {
                 return 'Stones';
             }
         }
@@ -325,7 +325,7 @@ class GameMarket
             $this->session->getFlashBag()->add('error', 'Oferta nie znaleziona');
             return;
         }
-        if ($ofert->getOwnerId() == $user->getId()) {
+        if ($ofert->getOwnerId() === $user->getId()) {
             $this->session->getFlashBag()->add('error', 'Nie możesz kupić swojego Pokemona');
             return;
         }
@@ -628,7 +628,7 @@ class GameMarket
     private function checkValue(string $value): ?int
     {
         $id = $this->request->request->get($value) ?? '';
-        if ($id == 0 || $id == '' || !is_numeric($id)) {
+        if ($id === 0 || $id === '' || !is_numeric($id)) {
             return null;
         }
         return $id;
@@ -739,7 +739,7 @@ class GameMarket
             case 'Pokeball':
                 $pokeball = $this->getPokeballsDescription();
                 foreach ($pokeball as $item) {
-                    if ($itemName == $item['name']) {
+                    if ($itemName === $item['name']) {
                         return $item['name'];
                     }
                 }
@@ -747,7 +747,7 @@ class GameMarket
             case 'Items':
                 $other = $this->getOtherDescription();
                 foreach ($other as $item) {
-                    if ($itemName == $item['name']) {
+                    if ($itemName === $item['name']) {
                         return $item['namePl'];
                     }
                 }
@@ -757,7 +757,7 @@ class GameMarket
         }
         $stones = $this->getStonesDescription();
         foreach ($stones as $item) {
-            if ($itemName == $item['name']) {
+            if ($itemName === $item['name']) {
                 return $item['namePl'];
             }
         }
@@ -832,7 +832,7 @@ class GameMarket
             case 'Pokeball':
                 $pokeball = $this->getPokeballsDescription();
                 foreach ($pokeball as $item) {
-                    if ($itemName == $item['name']) {
+                    if ($itemName === $item['name']) {
                         return ($item['minValue'] <= $value);
                     }
                 }
@@ -840,7 +840,7 @@ class GameMarket
             case 'Items':
                 $other = $this->getOtherDescription();
                 foreach ($other as $item) {
-                    if ($itemName == $item['name']) {
+                    if ($itemName === $item['name']) {
                         return ($item['minValue'] <= $value);
                     }
                 }
@@ -848,7 +848,7 @@ class GameMarket
             case 'Berry':
                 $berry = $this->getBerrysDescription();
                 foreach ($berry as $item) {
-                    if ($itemName == $item['name']) {
+                    if ($itemName === $item['name']) {
                         return ($item['minValue'] <= $value);
                     }
                 }
@@ -856,7 +856,7 @@ class GameMarket
             case 'Stones':
                 $stones = $this->getStonesDescription();
                 foreach ($stones as $item) {
-                    if ($itemName == $item['name']) {
+                    if ($itemName === $item['name']) {
                         return ($item['minValue'] <= $value);
                     }
                 }

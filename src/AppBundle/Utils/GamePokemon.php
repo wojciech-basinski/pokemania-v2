@@ -70,7 +70,7 @@ class GamePokemon
             return ['pokemon' => 0, 'isInTeam' => 0, 'isOwner' => 0];
         }
 
-        $isYourPokemon = ($user->getId() == $pokemon[0]->getOwner()) ? 1 : 0;
+        $isYourPokemon = ($user->getId() === $pokemon[0]->getOwner()) ? 1 : 0;
         if ($modal) {
             $isYourPokemon = 0;
         }

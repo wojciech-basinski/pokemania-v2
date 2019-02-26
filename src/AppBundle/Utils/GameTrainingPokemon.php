@@ -53,7 +53,7 @@ class GameTrainingPokemon
 
     public function startTraining(User $user)
     {
-        if ($user->getActivity() == 'training') {
+        if ($user->getActivity() === 'training') {
             $this->session->getFlashBag()->add('error', 'Już rozpocząłeś trening z Pokemonami');
             return;
         }

@@ -47,7 +47,7 @@ class GameHospital
         if ($this->session->get('pokemon'.$i)) {
             $pokemon = $this->session->get('pokemon'.$i);
 
-            if ($pokemon->getActualHp() == $pokemon->getHpToTable()) {
+            if ($pokemon->getActualHp() === $pokemon->getHpToTable()) {
                 if (!$allFlashAsOne) {
                     $this->session->getFlashBag()->add('success', 'Pokemon nie wymaga leczenia');
                 }
@@ -109,7 +109,7 @@ class GameHospital
 
     private function generateCostOfHealing(User $user, Pokemon $pokemon): int
     {
-        if ($pokemon->getActualHp() == $pokemon->getHpToTable() || $user->getTrainerLevel() <= 10) {
+        if ($pokemon->getActualHp() === $pokemon->getHpToTable() || $user->getTrainerLevel() <= 10) {
             $cost = 0;
         } else {
             $cost = ceil(

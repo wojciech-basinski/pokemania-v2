@@ -49,7 +49,7 @@ class GameMainController extends Controller
      */
     public function desktopAction(int $desktop, SessionInterface $session)
     {
-        if ($desktop == 1) {
+        if ($desktop === 1) {
             $session->set('desktop', 1);
         }
         return $this->redirectToRoute('game_index');
@@ -124,9 +124,9 @@ class GameMainController extends Controller
         }
         $mode = $this->request->request->get('mode');
         $id = $this->request->request->get('id');
-        if ($mode == 'delete') {
+        if ($mode === 'delete') {
             $bugs->delete($id);
-        } elseif ($mode == 'resolve') {
+        } elseif ($mode === 'resolve') {
             $bugs->setDone($id);
         }
         return $this->redirectToRoute('game_bugs');

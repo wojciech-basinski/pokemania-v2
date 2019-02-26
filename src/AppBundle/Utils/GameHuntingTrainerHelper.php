@@ -217,9 +217,9 @@ class GameHuntingTrainerHelper
 
 //            $this->em->persist($userPokemonInUse->getTraining());
 //            $this->em->persist($userPokemonInUse);
-            if ($battle['score'] == 1) {
+            if ($battle['score'] === 1) {
                 $trainerPokemonInUse = null;
-            } elseif ($battle['score'] == 0) {
+            } elseif ($battle['score'] === 0) {
                 $userPokemonInUse = null;
             } else {
                 $userPokemonInUse = null;
@@ -288,7 +288,7 @@ class GameHuntingTrainerHelper
         $count = count($this->getTrainerPokemons());
         for ($a = 0; $a < $count; $a++) {
             $trainerPokemon = $this->getTrainerPokemons()[$a];
-            if ($trainerPokemon->getShiny() == 1) {
+            if ($trainerPokemon->getShiny() === 1) {
                 $averageLevel += 2 * $trainerPokemon->getLevel();
             } else {
                 $averageLevel += $trainerPokemon->getLevel();
@@ -318,7 +318,7 @@ class GameHuntingTrainerHelper
     {
         $text = '<div class="row">';
         for ($i = 0; $i < 2; $i++) {
-            if ($i == 1) {
+            if ($i === 1) {
                 $pokemonUser = $pokemonTrainer;
             }
             $text .= '<div class="col-xs-12 col-md-6">';
@@ -332,9 +332,9 @@ class GameHuntingTrainerHelper
             <div class="well well-stan noborder padding_2 margin_2 text-center alert-success"><span >';
             $text .= $pokemonUser->getShiny() ? 'Shiny ' : '';
             $text .= "{$pokemonUser->getName()} ({$pokemonUser->getLevel()})";
-            if ($pokemonUser->getGender() == 0) {
+            if ($pokemonUser->getGender() === 0) {
                 $text .= '<span class="icon-mars text-extra-big" data-original-title="płeć męska" data-toggle="tooltip"></span>';
-            } elseif ($pokemonUser->getGender() == 1) {
+            } elseif ($pokemonUser->getGender() === 1) {
                 $text .= '<span class="icon-venus text-extra-big" data-original-title="płeć żeńska" data-toggle="tooltip"></span>';
             } else {
                 $text .= '<span title="Pokemon jest bezpłciowy">!</span>';

@@ -125,12 +125,12 @@ class GameProfile
 
     public function getBattle(): bool
     {
-        return ($this->id == $this->user->getId());
+        return ($this->id === $this->user->getId());
     }
 
     public function getFriend()
     {
-        if ($this->id == $this->user->getId()) {
+        if ($this->id === $this->user->getId()) {
             return 0;
         }
         $friend = $this->em->getRepository('AppBundle:Friend')->getOneFriendship($this->id, $this->user->getId());

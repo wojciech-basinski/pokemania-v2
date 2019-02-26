@@ -101,7 +101,7 @@ class GameAchievements
                     $quantity++;
                 }
             }
-            if ($quantity == 7) {
+            if ($quantity === 7) {
                 //update bazy i dodanie poziomu achievementa
                 $this->performance->setZnawcaKanto($requirements);
                 if ($requirements < 5) {
@@ -131,14 +131,14 @@ class GameAchievements
                     break;
             }
             for ($i = 0; $i < count($main); $i++) {
-                if ($main[$i]['table'] == '') {
+                if ($main[$i]['table'] === '') {
                     continue;
                 }
                 $nameInEntity = $main[$i]['inDb'];
                 $requirements = $this->performance->{'get'.$nameInEntity}() + 1;
                 if ($requirements <= (count($main[$i]) - 4)) {
                     $table = explode(';', $main[$i]['table']);
-                    if ($table[0] == 'users') {
+                    if ($table[0] === 'users') {
                         $table1 = $this->user->{'get'.$table[1]}();
                     } else {
                         $table1 = $this->{$table[0]}->{'get'.$table[1]}();
@@ -189,7 +189,7 @@ class GameAchievements
             $requirements = $this->performance->{'get'.$nameInEntity}() + 1; //Następny poziom :)
 
             $table = explode(';', $main[$i]['table']);
-            if ($table[0] == 'users') {
+            if ($table[0] === 'users') {
                 $table1 = $this->user->{'get'.$table[1]}();
             } else {
                 $table1 = $this->{$table[0]}->{'get'.$table[1]}();

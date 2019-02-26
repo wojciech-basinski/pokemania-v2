@@ -218,7 +218,7 @@ class GameTraining
     private function checkIdInSession(int $id): ?int
     {
         for ($i = 0; $i < 6; $i++) {
-            if ($this->session->get('pokemon'.$i) && $this->session->get('pokemon'.$i)->getId() == $id) {
+            if ($this->session->get('pokemon'.$i) && $this->session->get('pokemon'.$i)->getId() === $id) {
                 return $i;
             }
         }
@@ -257,7 +257,7 @@ class GameTraining
     {
         $count = count($attackArray);
         for ($i = 0; $i < $count; $i++) {
-            if ($attackId == $attackArray[$i]['id']) {
+            if ($attackId === $attackArray[$i]['id']) {
                 return $i;
             }
         }

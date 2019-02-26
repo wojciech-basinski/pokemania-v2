@@ -306,7 +306,7 @@ class GamePack
      */
     private function cheri_BerryUse($value, User $user, int $pokemon)
     {
-        if ($value == 'all') {
+        if ($value === 'all') {
             //TODO
             $jagody = $this->przedmioty['Cheri_Berry'];
             if ($jagody) {
@@ -315,7 +315,7 @@ class GamePack
                 for ($i = 1; $i < 7; $i++) {
                     if (User::_isset('pok', $i) && User::_get('pok', $i)->get('id') > 0) {
                         $a = User::_get('pok', $i)->get('id');
-                        if ($i == 1) {
+                        if ($i === 1) {
                             $kwer = $kwer . "'$a'";
                         } else {
                             $kwer = $kwer . ", '$a'";
@@ -344,16 +344,16 @@ class GamePack
                         $this->model->updatePokHP($hp, $wiersz['ID']);
                         User::_get('pok', $i)->edit('akt_zycie', $hp);
                         $jagody -= $ile_p;
-                        if ($exit == 1) {
+                        if ($exit === 1) {
                             break;
                         }
                     }
                 }
-                if ($jagody_u == 0) {
+                if ($jagody_u === 0) {
                     $this->view->komunikat = 'Pokemony nie wymagają leczenia.';
                 } else {
                     $this->model->updateJagody('Cheri_Berry', $jagody);
-                    if ($exit == 1) {
+                    if ($exit === 1) {
                         $this->view->komunikat = 'Użyto ' . $jagody_u . ' Cheri Berry, ale nie uleczono wszystkich Pokemonów.';
                     } else {
                         $this->view->komunikat = 'Użyto ' . $jagody_u . ' Cheri Berry, uleczono wszystkie Pokemony.';
@@ -394,7 +394,7 @@ class GamePack
      */
     private function wiki_BerryUse($value, User $user, int $pokemon)
     {
-        if ($value == 'all') {
+        if ($value === 'all') {
             //TODO
             $jagody = $this->przedmioty['Cheri_Berry'];
             if ($jagody) {
@@ -403,7 +403,7 @@ class GamePack
                 for ($i = 1; $i < 7; $i++) {
                     if (User::_isset('pok', $i) && User::_get('pok', $i)->get('id') > 0) {
                         $a = User::_get('pok', $i)->get('id');
-                        if ($i == 1) {
+                        if ($i === 1) {
                             $kwer = $kwer . "'$a'";
                         } else {
                             $kwer = $kwer . ", '$a'";
@@ -432,16 +432,16 @@ class GamePack
                         $this->model->updatePokHP($hp, $wiersz['ID']);
                         User::_get('pok', $i)->edit('akt_zycie', $hp);
                         $jagody -= $ile_p;
-                        if ($exit == 1) {
+                        if ($exit === 1) {
                             break;
                         }
                     }
                 }
-                if ($jagody_u == 0) {
+                if ($jagody_u === 0) {
                     $this->view->komunikat = 'Pokemony nie wymagają leczenia.';
                 } else {
                     $this->model->updateJagody('Cheri_Berry', $jagody);
-                    if ($exit == 1) {
+                    if ($exit === 1) {
                         $this->view->komunikat = 'Użyto ' . $jagody_u . ' Cheri Berry, ale nie uleczono wszystkich Pokemonów.';
                     } else {
                         $this->view->komunikat = 'Użyto ' . $jagody_u . ' Cheri Berry, uleczono wszystkie Pokemony.';
@@ -516,14 +516,14 @@ class GamePack
      */
     private function addPaBerry($value, User $user, string $berry, int $valueOfBerry)
     {
-        $berryAddPa = $berry == 'Chesto_Berry' ? 20 : 40;
+        $berryAddPa = $berry === 'Chesto_Berry' ? 20 : 40;
         $howMany = floor(($user->getMpa() - $user->getPa()) / $berryAddPa);
 
         if (!$howMany) {
             $this->session->getFlashBag()->add('success', 'Nie potrzebujesz'. str_replace('_', ' ', $berry));
             return false;
         }
-        if ($value == 'max' || $value > $howMany) {
+        if ($value === 'max' || $value > $howMany) {
             $value = $howMany;
         }
         if ($value > $valueOfBerry) {
@@ -590,13 +590,13 @@ class GamePack
      */
     private function addExpBerry(string $berry, Pokemon $pokemon, int $valueOfBerry, $value)
     {
-        if ($value == 'max') {
+        if ($value === 'max') {
             $value = $valueOfBerry;
         }
         if ($value > $valueOfBerry) {
             $value = $valueOfBerry;
         }
-        $addExp = ($berry == 'Pecha_Berry') ? 3 : 5;
+        $addExp = ($berry === 'Pecha_Berry') ? 3 : 5;
         $pokemon->setExp($pokemon->getExp() + $addExp * $value);
         $this->session->getFlashBag()->add('success', 'Pokemon zjada '.$value. ' ' . str_replace('_', ' ', $berry).
             ' i otrzymuje ' . ($addExp * $value) . ' punktów doświadczenia');
@@ -633,13 +633,13 @@ class GamePack
      */
     private function addExpUser($value, User $user, string $berry, int $valueOfBerry)
     {
-        if ($value == 'max') {
+        if ($value === 'max') {
             $value = $valueOfBerry;
         }
         if ($value > $valueOfBerry) {
             $value = $valueOfBerry;
         }
-        $addExp = ($berry == 'Rawst_Berry') ? 1 : 2;
+        $addExp = ($berry === 'Rawst_Berry') ? 1 : 2;
         $user->setExperience($user->getExperience() + $addExp * $value);
         $this->session->getFlashBag()->add('success', 'Zjedzono ' . $value . ' ' . str_replace('_', ' ', $berry) .
             ', dodano '. ($addExp * $value) . ' doświadczenia trenera.');
@@ -670,7 +670,7 @@ class GamePack
 
     private function addMpaUser($value, User $user, string $berry, int $valueOfBerry)
     {
-        if ($value == 'max') {
+        if ($value === 'max') {
             $value = $valueOfBerry;
         }
         if ($value > $valueOfBerry) {
@@ -680,7 +680,7 @@ class GamePack
             $this->session->getFlashBag()->add('error', 'Nie możesz zjeść więcej ' . str_replace('_', ' ', $berry));
             return 0;
         }
-        $valuePerBerry = ($berry == 'Aspear_Berry') ? 1 : 2;
+        $valuePerBerry = ($berry === 'Aspear_Berry') ? 1 : 2;
         $before = floor($user->getBerryPa() / 15);
         $after = floor(($user->getBerryPa() + $valuePerBerry * $value) / 15);
         if ($after > 200) {
@@ -800,7 +800,7 @@ class GamePack
             $this->session->getFlashBag()->add('error', 'Pokemon nie może zjeść więcej Figy Berry');
             return 0;
         }
-        if ($value == 'max') {
+        if ($value === 'max') {
             $value = $valueOfBerry;
         }
         if ($value > $valueOfBerry) {
@@ -832,7 +832,7 @@ class GamePack
             $this->session->getFlashBag()->add('error', 'Pokemon nie może zjeść więcej '.str_replace('_', ' ', $berry));
             return 0;
         }
-        if ($value == 'max') {
+        if ($value === 'max') {
             $value = $valueOfBerry;
         }
         if ($value > $valueOfBerry) {
@@ -918,7 +918,7 @@ więc część zostanie zmarnowana!<br />
 
             $this->session->getFlashBag()->add(
                 'success',
-                'Wypito ' . $value . ' wod' . (($value == 1) ? 'ę' : 'y') . '. 
+                'Wypito ' . $value . ' wod' . (($value === 1) ? 'ę' : 'y') . '. 
                 Przywrócono ' . $restoredPa . ' PA.'
             );
         }
@@ -959,7 +959,7 @@ więc część zostanie zmarnowana!
 
             $this->session->getFlashBag()->add(
                 'success',
-                'Wypito ' . $value . ' sod' . (($value == 1) ? 'ę' : 'y') .
+                'Wypito ' . $value . ' sod' . (($value === 1) ? 'ę' : 'y') .
                 '. Przywrócono ' . $restoredPa . ' PA.'
             );
         }
@@ -979,7 +979,7 @@ więc część zostanie zmarnowana!
         }
         $items = $this->getItems($user->getId());
 
-        if ($value == 'all') {
+        if ($value === 'all') {
             $usedFood = 0;
             $fedAll = 1;
             $hungry = 0;
@@ -1012,7 +1012,7 @@ więc część zostanie zmarnowana!
                         $items->setPokemonFood($items->getPokemonFood() - $quantity);
 
                         $flash .= $this->session->get('pokemon'.$i)->getName() . ' zjada ' . $quantity;
-                        $flash .= ($quantity == 1) ? ' pudełko.' : ' pudełka';
+                        $flash .= ($quantity === 1) ? ' pudełko.' : ' pudełka';
                         $flash .= '<br />';
 
                         $fedPokemons++;
@@ -1041,7 +1041,7 @@ więc część zostanie zmarnowana!
             }
             $j = -1;
             for ($i = 0; $i < 6; $i++) {
-                if ($this->session->get('pokemon'.$i) && $this->session->get('pokemon'.$i)->getId() == $pokemonId) {
+                if ($this->session->get('pokemon'.$i) && $this->session->get('pokemon'.$i)->getId() === $pokemonId) {
                     $j = $i;
                     break;
                 }
@@ -1158,7 +1158,7 @@ więc część zostanie zmarnowana!
      */
     private function checkValue($value): bool
     {
-        if ($value == 'all' || $value == 'max') {
+        if ($value === 'all' || $value === 'max') {
             return 1;
         }
         return (is_numeric($value) && $value > 0);
@@ -1205,7 +1205,7 @@ więc część zostanie zmarnowana!
     private function getPokemonFromSession(int $pokemon)
     {
         for ($i = 0; $i < 6; $i++) {
-            if ($this->session->get('pokemon'.$i) && $this->session->get('pokemon'.$i)->getId() == $pokemon) {
+            if ($this->session->get('pokemon'.$i) && $this->session->get('pokemon'.$i)->getId() === $pokemon) {
                 return $i;
             }
         }
@@ -1223,9 +1223,9 @@ więc część zostanie zmarnowana!
      */
     private function healPokemon(string $berry, Pokemon &$pokemon, int $valueOfBerry, $limit, bool $allFlashAsOne = false)
     {
-        $berryHealHp = ($berry == 'Cheri_Berry') ? 15 : 30;
+        $berryHealHp = ($berry === 'Cheri_Berry') ? 15 : 30;
         $howMany = ceil((round($pokemon->getHpToTable()) - $pokemon->getActualHp()) / $berryHealHp);
-        if ($limit == 'max' || $limit > $howMany) {
+        if ($limit === 'max' || $limit > $howMany) {
             $limit = $howMany;
         }
         if ($limit > $valueOfBerry) {
@@ -1237,7 +1237,7 @@ więc część zostanie zmarnowana!
             $pokemon->setActualHp($pokemon->getHpToTable());
         }
         if (!$allFlashAsOne) {
-            $cheriDescription = ($berry == 'Cheri_Berry') ? ' Cheri Berry' : ' Wiki Berry';
+            $cheriDescription = ($berry === 'Cheri_Berry') ? ' Cheri Berry' : ' Wiki Berry';
             $this->session->getFlashBag()->add('success', 'Pokemon uleczony! Użyto ' . $limit . $cheriDescription);
         }
         return $limit;
@@ -1363,39 +1363,39 @@ więc część zostanie zmarnowana!
         $id = 0;
         switch ($stoneName) {
             case 'FireStone':
-                if ($info['wymagania'] == 1) {
+                if ($info['wymagania'] === 1) {
                     $id = $info['ewolucja_p'];
-                } elseif ($info['wymagania'] == 123) {
+                } elseif ($info['wymagania'] === 123) {
                     $id = 136; //eevee
                 }
                 break;
             case 'WaterStone':
-                if ($info['wymagania'] == 2) {
+                if ($info['wymagania'] === 2) {
                     $id = $info['ewolucja_p'];
-                    if ($id == 62000186) {
+                    if ($id === 62000186) {
                         $id = 62;
                     }
-                } elseif ($info['wymagania'] == 123) {
+                } elseif ($info['wymagania'] === 123) {
                     $id = 134;
                 }
                 break;
             case 'ThunderStone':
-                if ($info['wymagania'] == 3) {
+                if ($info['wymagania'] === 3) {
                     $id = $info['ewolucja_p'];
-                } elseif ($info['wymagania'] == 123) {
+                } elseif ($info['wymagania'] === 123) {
                     $id = 135;
                 }
                 break;
             case 'LeafStone':
-                if ($info['wymagania'] == 4) {
+                if ($info['wymagania'] === 4) {
                     $id = $info['ewolucja_p'];
-                    if ($id == 45000182) {
+                    if ($id === 45000182) {
                         $id = 45;
                     }
                 }
                 break;
             case 'MoonStone':
-                if ($info['wymagania'] == 5) {
+                if ($info['wymagania'] === 5) {
                     $id = $info['ewolucja_p'];
                 }
                 break;
@@ -1412,7 +1412,7 @@ więc część zostanie zmarnowana!
         /** @var Pokemon $pokemon */
         $pokemon = $this->em->merge($pokemon);
         $newPokemon = $this->pokemonHelper->getInfo($id);
-        if ($pokemon->getName() == $info['nazwa']) {
+        if ($pokemon->getName() === $info['nazwa']) {
             $nameChanged = 0;
         } else {
             $nameChanged = 1;
@@ -1430,7 +1430,7 @@ więc część zostanie zmarnowana!
 
         $title = 'Twój Pokemon ' . $pokemon->getName() . ' ewoluował w ' . $newPokemon['nazwa'] . '.';
         $this->session->getFlashBag()->add('success', $title);
-        $genderText = ($pokemon->getGender() == 1) ? 'Jej' : 'Jego';
+        $genderText = ($pokemon->getGender() === 1) ? 'Jej' : 'Jego';
         $report = '<div class="row nomargin text-center"><div class="col-xs-12">Twój Pokemon <span class="pogrubienie">' . $pokemon->getName() . '</span> ewoluował w <span class="pogrubienie">' . $newPokemon['nazwa'] . '</span>.</div>'
             . '<div class="col-xs-12 pogrubienie">' . $genderText .' statystyki rosną:</div><div class="col-xs-12"><div class="row nomargin">'
             . '<div class="col-xs-4">Atak +' . $attack . '</div><div class="col-xs-4">Sp. Atak +' . $spAttack . '</div><div class="col-xs-4">Obrona +' . $defence . '</div></div></div> '
@@ -1477,7 +1477,7 @@ więc część zostanie zmarnowana!
         }
         /** @var Pokemon $pokemon */
         $pokemon = $this->session->get('pokemon'.$iPokemon);
-        if ($pokemon->getLevel() == 100) {
+        if ($pokemon->getLevel() === 100) {
             $this->session->getFlashBag()->add('error', 'Pokemon osiągnął już maksymalny poziom');
             return;
         }

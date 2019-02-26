@@ -314,7 +314,7 @@ class GameUserController extends Controller
             $badges = $profileService->getBadges();
             $friend = $profileService->getFriend();
             $battle = $profileService->getBattle();
-            if ($user->getId() == $this->getUser()->getId()) {
+            if ($user->getId() === $this->getUser()->getId()) {
                 $skills = $profileService->getUserSkills();
             }
         }
