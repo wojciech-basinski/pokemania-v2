@@ -30,7 +30,7 @@ class PokemonRepository extends \Doctrine\ORM\EntityRepository
             if ($userTeam->{'getPokemon' . $i}() > 0) {
                 //$rez = $rezultat[$i-1];
                 $a = $userTeam->{'getPokemon' . $i}();
-                if ($i == 1) {
+                if ($i === 1) {
                     $kwer .= "$a";
                 } else {
                     $kwer .= ", $a";

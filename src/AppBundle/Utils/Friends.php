@@ -33,7 +33,7 @@ class Friends
         }
 
         $secondUserId = $friendship->getUserId();
-        if ($secondUserId == $userId) {
+        if ($secondUserId === $userId) {
             $secondUserId = $friendship->getWhoId();
         }
         $this->em->remove($friendship);
@@ -51,7 +51,7 @@ class Friends
         }
 
         $secondUserId = $friendship->getUserId();
-        if ($secondUserId == $userId) {
+        if ($secondUserId === $userId) {
             $secondUserId = $friendship->getWhoId();
         }
         $friendship->setInvitation(0);
@@ -73,7 +73,7 @@ class Friends
         }
 
         $secondUserId = $friendship->getUserId();
-        if ($secondUserId == $userId) {
+        if ($secondUserId === $userId) {
             $secondUserId = $friendship->getWhoId();
         }
 
@@ -92,7 +92,7 @@ class Friends
         }
 
         $secondUserId = $friendship->getUserId();
-        if ($secondUserId == $userId) {
+        if ($secondUserId === $userId) {
             $secondUserId = $friendship->getWhoId();
         }
 
@@ -196,10 +196,10 @@ class Friends
 
     private function checkId(int $id, int $userId)
     {
-        if ($id == 0) {
+        if ($id === 0) {
             return 0;
         }
-        if ($id == $userId) {
+        if ($id === $userId) {
             return 0;
         }
         return 1;

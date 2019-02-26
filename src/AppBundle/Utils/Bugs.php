@@ -32,7 +32,7 @@ class Bugs
      */
     public function list(User $user)
     {
-        $admin = $user->getRoles() == ['ROLE_ADMIN'] ? 1 : 0;
+        $admin = $user->getRoles() === ['ROLE_ADMIN'] ? 1 : 0;
         if ($admin) {
             return $this->getBugsAdmin();
         } else {
@@ -42,11 +42,11 @@ class Bugs
 
     public function add(?string $title, ?string $content, int $userId): bool
     {
-        if ($title == '') {
+        if ($title === '') {
             $this->session->getFlashBag()->add('error', 'Tytuł nie może być pusty');
             return false;
         }
-        if ($content == '') {
+        if ($content === '') {
             $this->session->getFlashBag()->add('error', 'Treść nie może być pusta');
             return false;
         }

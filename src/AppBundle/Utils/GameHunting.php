@@ -307,14 +307,14 @@ class GameHunting
             return false;
         }
 
-        if ($this->place == 'safari') {
+        if ($this->place === 'safari') {
             $statistics = $this->em->getRepository('AppBundle:Statistic')->find($user->getId());
             if (!$statistics->getCupons()) {
                 $this->session->getFlashBag()->add('error', 'Niestety nie posiadasz kuponu na safari');
                 return false;
             }
             $statistics->setCupons($statistics->getCupons() - 1);
-        } elseif ($this->place == 'grota') {
+        } elseif ($this->place === 'grota') {
             $items = $this->em->getRepository('AppBundle:Items')->find($user->getId());
             if (!$items->getFlashlight()) {
                 $this->session->getFlashBag()->add('error', 'Niestety nie posiadasz latarki');
@@ -607,7 +607,7 @@ class GameHunting
 
     private function getCollection(int $userId)
     {
-        if ($this->userCollection == null) {
+        if ($this->userCollection === null) {
             $this->userCollection = $this->collection->getUserCollection($userId);
         }
     }
@@ -637,45 +637,45 @@ class GameHunting
         if ($r <= 1) {//tu będą te lepsze jagody, ilość od 1 do 3
             $r = mt_rand(1, 8);
             $quantity = mt_rand(1, 3);
-            if ($r == 1) {
+            if ($r === 1) {
                 $berrys = 'Leppa Berry';
-            } elseif ($r == 2) {
+            } elseif ($r === 2) {
                 $berrys = 'Oran Berry';
-            } elseif ($r == 3) {
+            } elseif ($r === 3) {
                 $berrys = 'Persim Berry';
-            } elseif ($r == 4) {
+            } elseif ($r === 4) {
                 $berrys = 'Lum Berry';
-            } elseif ($r == 5) {
+            } elseif ($r === 5) {
                 $berrys = 'Sitrus Berry';
-            } elseif ($r == 6) {
+            } elseif ($r === 6) {
                 $berrys = 'Figy Berry';
-            } elseif ($r == 7) {
+            } elseif ($r === 7) {
                 $berrys = 'Mago Berry';
-            } elseif ($r == 8) {
+            } elseif ($r === 8) {
                 $berrys = 'Razz Berry';
             }
         } elseif ($r <= 8) {//tu będą te średnie, ilość od 4 do 8
             $r = mt_rand(1, 5);
             $quantity = mt_rand(4, 8);
-            if ($r == 1) {
+            if ($r === 1) {
                 $berrys = 'Aspear Berry';
-            } elseif ($r == 2) {
+            } elseif ($r === 2) {
                 $berrys = 'Chesto Berry';
-            } elseif ($r == 3) {
+            } elseif ($r === 3) {
                 $berrys = 'Wiki Berry';
-            } elseif ($r == 4) {
+            } elseif ($r === 4) {
                 $berrys = 'Aguav Berry';
-            } elseif ($r == 5) {
+            } elseif ($r === 5) {
                 $berrys = 'Lapapa Berry';
             }
         } else { //tu będą te gorsze, ilość od 9 do 20
             $r = mt_rand(1, 3);
             $quantity = mt_rand(9, 20);
-            if ($r == 1) {
+            if ($r === 1) {
                 $berrys = 'Cheri Berry';
-            } elseif ($r == 2) {
+            } elseif ($r === 2) {
                 $berrys = 'Pecha Berry';
-            } elseif ($r == 3) {
+            } elseif ($r === 3) {
                 $berrys = 'Rawst Berry';
             }
         }
@@ -762,45 +762,45 @@ Zbierasz z niego <strong>{$quantity}</strong> sztuk."
         if ($r <= 8) { //tu będą te lepsze jagody, ilość od 2 do 6
             $r = mt_rand(1, 8);
             $quantity = mt_rand(2, 6);
-            if ($r == 1) { //leppa
+            if ($r === 1) { //leppa
                 $berrys = 'Leppa Berry';
-            } elseif ($r == 2) { //oran
+            } elseif ($r === 2) { //oran
                 $berrys = 'Oran Berry';
-            } elseif ($r == 3) { //Persim
+            } elseif ($r === 3) { //Persim
                 $berrys = 'Persim Berry';
-            } elseif ($r == 4) { //Lum
+            } elseif ($r === 4) { //Lum
                 $berrys = 'Lum Berry';
-            } elseif ($r == 5) { //Sitrus
+            } elseif ($r === 5) { //Sitrus
                 $berrys = 'Sitrus Berry';
-            } elseif ($r == 6) { //Figy
+            } elseif ($r === 6) { //Figy
                 $berrys = 'Figy Berry';
-            } elseif ($r == 7) { //Mago
+            } elseif ($r === 7) { //Mago
                 $berrys = 'Mago Berry';
-            } elseif ($r == 8) { //Razz
+            } elseif ($r === 8) { //Razz
                 $berrys = 'Razz Berry';
             }
         } elseif ($r <= 15) {//tu będą te średnie, ilość od 5 do 10
             $r = mt_rand(1, 5);
             $quantity = mt_rand(5, 10);
-            if ($r == 1) { //aspear
+            if ($r === 1) { //aspear
                 $berrys = 'Aspear Berry';
-            } elseif ($r == 2) { //chesto
+            } elseif ($r === 2) { //chesto
                 $berrys = 'Chesto Berry';
-            } elseif ($r == 3) { //wiki
+            } elseif ($r === 3) { //wiki
                 $berrys = 'Wiki Berry';
-            } elseif ($r == 4) { //aguav
+            } elseif ($r === 4) { //aguav
                 $berrys = 'Aguav Berry';
-            } elseif ($r == 5) { //lapapa
+            } elseif ($r === 5) { //lapapa
                 $berrys = 'Lapapa Berry';
             }
         } else { //tu będą te gorsze, ilość od 7 do 14
             $r = mt_rand(1, 3);
             $quantity = mt_rand(7, 14);
-            if ($r == 1) { //cheri berry
+            if ($r === 1) { //cheri berry
                 $berrys = 'Cheri Berry';
-            } elseif ($r == 2) { //pecha berry
+            } elseif ($r === 2) { //pecha berry
                 $berrys = 'Pecha Berry';
-            } elseif ($r == 3) { //rawst
+            } elseif ($r === 3) { //rawst
                 $berrys = 'Rawst Berry';
             }
         }
@@ -855,13 +855,13 @@ Zbierasz z niego <strong>{$quantity}</strong> sztuk."
                     $j++;
                     $i[$j] = $what;
                 }
-                if ($j == 4) {
+                if ($j === 4) {
                     $what = 5;
                     break;
                 }
             }
         }
-        if ($what == 5) {
+        if ($what === 5) {
             $this->session->getFlashBag()->add(
                 'error',
                 'Po obejrzeniu plecaka okazało się, że Pokemon niczego nie zabrał.'
@@ -885,7 +885,7 @@ Zbierasz z niego <strong>{$quantity}</strong> sztuk."
             if ($pokemon) {
                 $type1 = $pokemon->getInfo()['typ1'];
                 $type2 = $pokemon->getInfo()['typ2'];
-                if ($type1 == 6 || $type2 == 6) {
+                if ($type1 === 6 || $type2 === 6) {
                     $flying = 1;
                     break;
                 }
@@ -903,24 +903,24 @@ Zbierasz z niego <strong>{$quantity}</strong> sztuk."
                 'Posyłasz swojego Pokemona, by zbadał to miejsce.'
             );
             $losuj = mt_rand(1, 1000);
-            if ($losuj == 1) {//kamień
+            if ($losuj === 1) {//kamień
                 $kamien = mt_rand(1, 6);
-                if ($kamien == 1) {
+                if ($kamien === 1) {
                     $kamien = 'ognisty';
                     $name = 'FireStone';
-                } elseif ($kamien == 2) {
+                } elseif ($kamien === 2) {
                     $kamien = 'wodny';
                     $name = 'WaterStone';
-                } elseif ($kamien == 3) {
+                } elseif ($kamien === 3) {
                     $kamien = 'gromu';
                     $name = 'ThunderStone';
-                } elseif ($kamien == 4) {
+                } elseif ($kamien === 4) {
                     $kamien = 'roślinny';
                     $name = 'LeafStone';
-                } elseif ($kamien == 5) {
+                } elseif ($kamien === 5) {
                     $kamien = 'księżycowy';
                     $name = 'MoonStone';
-                } elseif ($kamien == 6) {
+                } elseif ($kamien === 6) {
                     $kamien = 'słoneczny';
                     $name = 'FireStone';
                 }
@@ -958,22 +958,22 @@ Zbierasz z niego <strong>{$quantity}</strong> sztuk."
                 $this->session->getFlashBag()->add('success', 'Znalazłeś Masterballa');
             } elseif ($r < 3) {
                 $r2 = mt_rand(1, 5);
-                if ($r2 == 1) {
+                if ($r2 === 1) {
                     $prz = 'ognisty';
                     $name = 'FireStone';
-                } elseif ($r2 == 2) {
+                } elseif ($r2 === 2) {
                     $name = 'WaterStone';
                     $prz = 'wodny';
-                } elseif ($r2 == 3) {
+                } elseif ($r2 === 3) {
                     $name = 'LeafStone';
                     $prz = 'roslinny';
-                } elseif ($r2 == 4) {
+                } elseif ($r2 === 4) {
                     $name = 'ThunderStone';
                     $prz = 'gromu';
-                } elseif ($r2 == 5) {
+                } elseif ($r2 === 5) {
                     $name = 'MoonStone';
                     $prz = 'ksiezycowy';
-                } elseif ($r2 == 6) {
+                } elseif ($r2 === 6) {
                     $name = 'SunStone';
                     $prz = 'słoneczny';
                 }
@@ -1039,9 +1039,9 @@ Zbierasz z niego <strong>{$quantity}</strong> sztuk."
 
     private function digingSafari(User $user)
     {
-        if ($this->session->get('eventHunting') && $this->session->get('eventHunting') == -18) {
+        if ($this->session->get('eventHunting') && $this->session->get('eventHunting') === -18) {
             $event = explode('|', $this->session->get('eventHunting_set'));
-            if ($event[0] == 0) {
+            if ($event[0] === 0) {
                 if ($user->getPa() < 5) {
                     $this->session->getFlashBag()->add('error', 'Posiadasz za mało PA, żeby kopać.');
                     return;
@@ -1201,7 +1201,7 @@ class="btn btn-primary btn-block wydarzenie text-center kursor" name="2">
                 break;
             case -18:
                 $mode = $this->request->getCurrentRequest()->query->get('mode');
-                if ($mode == 2 || $mode == 0) {
+                if ($mode === 2 || $mode === 0) {
                     $event = explode('|', $this->session->get('eventHunting_set'));
                     $sum = 0;
                     $count = count($event);

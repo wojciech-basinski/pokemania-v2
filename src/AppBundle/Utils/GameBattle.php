@@ -122,7 +122,7 @@ class GameBattle
 
     private function presentation(): void
     {
-        if ($this->round == 1) {
+        if ($this->round === 1) {
             $this->addLuckInfo();
             $this->addAttachmentInfo();
             $this->addShinyInfo();
@@ -216,7 +216,7 @@ class GameBattle
                     $pokemon[$kto]->atak_runda_jeden = rand($l1, $l2);
                 } else
                     $pokemon[$kto]->atak_runda_jeden = $pokemon[$kto]->ataki[$at[$kto]]['ile_runda'];
-                if ($id_ataku == 198) { //fury cutter
+                if ($id_ataku === 198) { //fury cutter
                     $pokemon[$kto]->fury = 1;
                     $pokemon[$kto]->fury_t = 1;
                 }
@@ -246,18 +246,18 @@ class GameBattle
 
             if (!empty($this->stats[$attacking]->getStatePokemon())) {
                 ////////////////////////otępienie//////////////////////////////////////
-                if ($pokemon[$kto]->stan == 3) {
+                if ($pokemon[$kto]->stan === 3) {
                     $pokemon[$kto]->runda++;
                     if ($pokemon[$kto]->runda > 0) {
                         $ff = rand() % 3;
-                        if ($ff == 0 && $pokemon[$kto]->runda > 1) {
+                        if ($ff === 0 && $pokemon[$kto]->runda > 1) {
                             $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> nie jest już otępiony./sdiv';
                             $pokemon[$kto]->stan = 0;
                             $pokemon[$kto]->runda = 0;
                             $can = 1;
                         } else {
                             $rr = rand() % 2;
-                            if ($rr == 0) {
+                            if ($rr === 0) {
                                 $can = 1;
                             } else {  ////////pokemon może atakować
                                 ////pokemon atakuje sam siebie
@@ -273,11 +273,11 @@ class GameBattle
                         }
                     }
                 } else { ////////////////////oszołomienie//////////////////////////////////////
-                    if ($pokemon[$kto]->stan == 9) {
+                    if ($pokemon[$kto]->stan === 9) {
                         $pokemon[$kto]->runda++;
                         if ($pokemon[$kto]->runda < 3) {
                             $ff = rand() % 3;
-                            if ($ff == 0 && $pokemon[$kto]->runda > 1) {
+                            if ($ff === 0 && $pokemon[$kto]->runda > 1) {
                                 $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> nie jest już oszołomiony./sdiv';
                                 $pokemon[$kto]->stan = 0;
                                 $pokemon[$kto]->runda = 0;
@@ -293,9 +293,9 @@ class GameBattle
                         }
                     } ///////////////////zakochanie/////////////////////////////////////////
                     else {
-                        if ($pokemon[$kto]->stan == 10) {
+                        if ($pokemon[$kto]->stan === 10) {
                             $ff = rand() % 5;
-                            if ($ff == 0 && $pokemon[$kto]->runda > 1) {
+                            if ($ff === 0 && $pokemon[$kto]->runda > 1) {
                                 $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> nie jest już zakochany./sdiv';
                                 $pokemon[$kto]->stan = 0;
                                 $pokemon[$kto]->runda = 0;
@@ -310,9 +310,9 @@ class GameBattle
                             }
                         } //////////////////pułapka/////////////////////////////////////////////
                         else {
-                            if ($pokemon[$kto]->stan == 7 && $pokemon[$kto]->pulapka > 0) {
+                            if ($pokemon[$kto]->stan === 7 && $pokemon[$kto]->pulapka > 0) {
                                 $ff = rand() % 4;
-                                if ($ff == 0 && $pokemon[$kto]->runda > 1) {
+                                if ($ff === 0 && $pokemon[$kto]->runda > 1) {
                                     $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> wydostał się z pułapki./sdiv';
                                     $pokemon[$kto]->stan = 0;
                                     $pokemon[$kto]->runda = 0;
@@ -338,14 +338,14 @@ class GameBattle
             /////////////ZROBIONE/////////////////////////////////////////
             if ($this->stats[$attacking]->getStatePhysical()) {
                 /////////////////////paraliż//////////////////////////////////////////
-                if ($this->stats[$attacking]->getStatePhysical() == 2) {
+                if ($this->stats[$attacking]->getStatePhysical() === 2) {
                     $can = $this->checkPokemonParalysis($attacking);
                 }  ////////////////////////sen///////////////////////////////////////////
-                elseif ($this->stats[$attacking]->getStatePhysical() == 6) {
+                elseif ($this->stats[$attacking]->getStatePhysical() === 6) {
                     $can = $this->checkPokemonSleep($attacking);
                 } /////////////////////zamrożenie//////////////////////////////////////
                 else {
-                    if ($this->stats[$attacking]->getStatePhysical() == 8) {
+                    if ($this->stats[$attacking]->getStatePhysical() === 8) {
                         $can = $this->checkPokemonFreezed($attacking);
                     }
                 }
@@ -356,39 +356,39 @@ class GameBattle
             if ($can) {
                 $hit = 1;
                 $twoRounds = 0;
-                if (($attackId == 497) && ($this->stats[$attacking]->getAttackRound() == 2)) {//solar beam
+                if (($attackId === 497) && ($this->stats[$attacking]->getAttackRound() === 2)) {//solar beam
                     $twoRounds = 1;
                     $hit = 0;
                     $this->attackSolarBeam($attacking);
                 }
 
-                if (($attackId == 253) && ($this->stats[$attacking]->getAttackRound() == 1)) {//hyper beam
+                if (($attackId === 253) && ($this->stats[$attacking]->getAttackRound() === 1)) {//hyper beam
                     $hit = 0;
                     $this->attackHyperBeam($attacking);
                 }
 
-                if (($attackId == 107) && ($this->stats[$attacking]->getAttackRound() == 1)) {//dig 2 tura, usunięcie nietykalności
+                if (($attackId === 107) && ($this->stats[$attacking]->getAttackRound() === 1)) {//dig 2 tura, usunięcie nietykalności
                     $this->stats[$attacking]->setImmune(0);
                 }
 
-                if (($attackId == 107) && ($this->stats[$attacking]->getAttackRound() == 2)) {//dig 1 tura, dodanie nietykalnosci
+                if (($attackId === 107) && ($this->stats[$attacking]->getAttackRound() === 2)) {//dig 1 tura, dodanie nietykalnosci
                     $twoRounds = 1;
                     $this->stats[$attacking]->setImmune(1);
                     $hit = 0;
                     $this->attackDig($attacking);
                 }
-                if (($attackId == 182) && ($this->stats[$attacking]->getAttackRound() == 1)) {//fly 2 tura, usunięcie nietykalności
+                if (($attackId === 182) && ($this->stats[$attacking]->getAttackRound() === 1)) {//fly 2 tura, usunięcie nietykalności
                     $this->stats[$attacking]->setImmune(0);
                 }
-                if (($attackId == 182) && ($this->stats[$attacking]->getAttackRound() == 2)) {//fly 1 tura, dodanie nietykalnosci
+                if (($attackId === 182) && ($this->stats[$attacking]->getAttackRound() === 2)) {//fly 1 tura, dodanie nietykalnosci
                     $twoRounds = 1;
                     $hit = 0;
                     $this->attackFly($attacking);
                 }
-                if (($attackId == 111) && ($this->stats[$attacking]->getAttackRound() == 1)) {//dive 2 tura, usunięcie nietykalności
+                if (($attackId === 111) && ($this->stats[$attacking]->getAttackRound() === 1)) {//dive 2 tura, usunięcie nietykalności
                     $this->stats[$attacking]->setImmune(0);
                 }
-                if (($attackId == 111) && ($this->stats[$attacking]->getAttackRound() == 2)) {//dive 1 tura, dodanie nietykalnosci
+                if (($attackId === 111) && ($this->stats[$attacking]->getAttackRound() === 2)) {//dive 1 tura, dodanie nietykalnosci
                     $twoRounds = 1;
                     $hit = 0;
                     $this->attackDive($attacking);
@@ -406,12 +406,12 @@ class GameBattle
                     $hit = 0;
                     $this->battleText .= 'alert.info.b' . $this->pokemon[$attacking]->getName() . '</span> nie trafia przeciwnika atakiem <span class="pogrubienie">' . $this->currentAttack['nazwa'] . '</span>!/sdiv';
                     $this->decreaseRound($attacking);
-                } elseif ($this->stats[$second]->isImmune() && $attackId == 107 && ($attackId != 136)) {//jeśli nietykalność
+                } elseif ($this->stats[$second]->isImmune() && $attackId === 107 && ($attackId != 136)) {//jeśli nietykalność
                     $hit = 0;
                     $this->battleText .= 'alert.info<span class="pogrubienie">' . $this->pokemon[$attacking]->getName() . '</span> nie trafia przeciwnika atakiem <span class="pogrubienie">' . $this->currentAttack['nazwa'] . '</span>!/sdiv';
                     $this->decreaseRound($attacking);
-                } elseif ($this->currentAttack['rodzaj'] == 'statusowy' &&
-                    ($this->currentAttackSpecial['kogo'] == 1 || $this->currentAttackSpecial['kto'] == 1)
+                } elseif ($this->currentAttack['rodzaj'] === 'statusowy' &&
+                    ($this->currentAttackSpecial['kogo'] === 1 || $this->currentAttackSpecial['kto'] === 1)
                 ) {
                     $hit = 1;
                 } elseif ($attackAccuracy < 100 && $attackId != 610 && !$twoRounds) {
@@ -436,14 +436,14 @@ class GameBattle
                         $this->battleText .= 'alert.info<span class="pogrubienie">' . $this->pokemon[$attacking]->getName() . '</span> używa ataku <span class="pogrubienie">' . $this->attacks->getAttack(
                             $attackId
                         )['nazwa'] . '</span>.';
-                        if ($attackId == 290) {//LEECH SEED
+                        if ($attackId === 290) {//LEECH SEED
                             $this->attackLeechSeed($second);
-                        } elseif ($attackId == 147) {//ENDEAVOUR
+                        } elseif ($attackId === 147) {//ENDEAVOUR
                             $this->attackEndeavour($attacking, $second);
-                        } elseif ($attackId == 20 || $attackId == 231) {//AROMATHERAPY i HEAL BELL
+                        } elseif ($attackId === 20 || $attackId === 231) {//AROMATHERAPY i HEAL BELL
                             //TODO
                             //$this->attackAromatherapy($attacking);
-                        } elseif ($attackId == 189) {//FORESIGHT
+                        } elseif ($attackId === 189) {//FORESIGHT
                             $this->attackForesight($second);
                         }
                         $this->battleText .= '/sdiv';
@@ -458,12 +458,12 @@ class GameBattle
                         $secondAttack = $this->stats[$second]->getAttack();
                         /*if ($at[$aaaa] > 0 && $at[$aaaa] < 5) {
                             $atak_oo = $at[$aaaa];
-                            if (($id_ataku == '107') && ($id_ataku == '136')) {
+                            if (($id_ataku === '107') && ($id_ataku === '136')) {
                                 $obrazenia *= 2;
                                 $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> jest zakopany, <span class="pogrubienie">Earthquake</span> zadaje podwójne obrażenia./sdiv';
                             }
                         $at[$kto]++;
-                    if ($kto == 1) {
+                    if ($kto === 1) {
                         $kto = 2;
                         $tlo = 'alert-success';
                     } else {
@@ -474,18 +474,18 @@ class GameBattle
                         }*/
                         $this->battleText .= 'alert.info<span class="pogrubienie">' . $this->pokemon[$attacking]->getName() . '</span> używa ataku <span class="pogrubienie">' . $this->currentAttack['nazwa'] . '</span>.<br />';
                         //////SPECJALNE ATAKI Z INNYMI OBRAŻENIAMI ITP.///////////////////////
-                        if ($attackId == 56) {//BRINE
+                        if ($attackId === 56) {//BRINE
                             $damage *= $this->attackBrine($second);
-                        } elseif ($attackId == 166) {//Final Gambit
+                        } elseif ($attackId === 166) {//Final Gambit
                             $damage = $this->attackFinalGambit($second);
                         }
                         //////SPECJALNE ATAKI Z INNYMI OBRAŻENIAMI ITP.////// KONIEC///////////////////////
                         ///obrażenia lub pokonanie przez KO
                         if (in_array($attackId, [171, 220, 247, 466]) && $damage) {/////ataki KO
                             $this->attackKO($second);
-                        } elseif ($attackId == 130) {//Dream Eater
+                        } elseif ($attackId === 130) {//Dream Eater
                             //TODO $this->attackDreamEater($attacking, $second);
-                        } else if ($attackId == 89) {//COUNTER
+                        } else if ($attackId === 89) {//COUNTER
                             $damage = $this->attackCounter($i, $attacking, $second);
                         } else {
                             $this->attackResults($second, $damage);
@@ -506,42 +506,42 @@ class GameBattle
                         /*
                           /////////szansa na stan specjalny -> podpalenie itp. ///////////////
                           if ($pokemon[$kto]->ataki[$at[$kto]]['stan'] > 0 && (($pokemon[1]->hp) > 0 && ($pokemon[2]->hp > 0))) {
-                              if ($id_ataku == 168 && $a == 1)//fire fang
+                              if ($id_ataku === 168 && $a === 1)//fire fang
                               {
                                   $s = 10;
                                   $ab = $this->obliczenieCelnosci($s);///////obliczenie czy pok ma mieć nałożony stan.
-                                  if ($ab == 2) {
-                                      if ($pokemon[$aaaa]->stan == 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
+                                  if ($ab === 2) {
+                                      if ($pokemon[$aaaa]->stan === 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
                                       {
                                           $pokemon[$aaaa]->stan = 3;
                                           $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zostaje otępiony./sdiv';
                                       }
                                   }
                               } ///////////////podpalenie/////////////////////////////////////////
-                              else if ($pokemon[$kto]->ataki[$at[$kto]]['stan'] == 1)//podpalenie
+                              else if ($pokemon[$kto]->ataki[$at[$kto]]['stan'] === 1)//podpalenie
                               {
                                   $s = $pokemon[$kto]->ataki[$at[$kto]]['procent'];
                                   $k = $pokemon[$kto]->ataki[$at[$kto]]['kto'];
                                   ///jeśli pok jest wodny - mniejsza szansa na podpalenie, jeśli jest roślinny większa szansa
-                                  if ($k == 1)//siebie
+                                  if ($k === 1)//siebie
                                   {
-                                      if ($pokemon[$kto]->typ1 == 4 || $pokemon[$kto]->typ2 == 4) $s *= 2;
-                                      if ($pokemon[$kto]->typ1 == 3 || $pokemon[$kto]->typ2 == 3) $s /= 2;
-                                  } else if ($k == 2)//u przeciwnika
+                                      if ($pokemon[$kto]->typ1 === 4 || $pokemon[$kto]->typ2 === 4) $s *= 2;
+                                      if ($pokemon[$kto]->typ1 === 3 || $pokemon[$kto]->typ2 === 3) $s /= 2;
+                                  } else if ($k === 2)//u przeciwnika
                                   {
-                                      if ($pokemon[$aaaa]->typ1 == 4 || $pokemon[$aaaa]->typ2 == 4) $s *= 2;
-                                      if ($pokemon[$aaaa]->typ1 == 3 || $pokemon[$aaaa]->typ2 == 3) $s /= 2;
+                                      if ($pokemon[$aaaa]->typ1 === 4 || $pokemon[$aaaa]->typ2 === 4) $s *= 2;
+                                      if ($pokemon[$aaaa]->typ1 === 3 || $pokemon[$aaaa]->typ2 === 3) $s /= 2;
                                   }
                                   $ab = $this->obliczenieCelnosci($s);///////obliczenie czy pok ma mieć nałożony stan.
-                                  if ($ab == 2) {
-                                      if ($k == 1) {
-                                          if ($pokemon[$kto]->stan == 0 && $pokemon[$kto]->typ1 != 2 && $pokemon[$kto]->typ2 != 2)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
+                                  if ($ab === 2) {
+                                      if ($k === 1) {
+                                          if ($pokemon[$kto]->stan === 0 && $pokemon[$kto]->typ1 != 2 && $pokemon[$kto]->typ2 != 2)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
                                           {
                                               $pokemon[$kto]->stan = 1;
                                               $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zostaje podpalony./sdiv';
                                           }
                                       } else {
-                                          if ($pokemon[$aaaa]->stan == 0 && $pokemon[$aaaa]->typ1 != 2 && $pokemon[$aaaa]->typ2 != 2)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
+                                          if ($pokemon[$aaaa]->stan === 0 && $pokemon[$aaaa]->typ1 != 2 && $pokemon[$aaaa]->typ2 != 2)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
                                           {
                                               $pokemon[$aaaa]->stan = 1;
                                               $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zostaje podpalony./sdiv';
@@ -551,20 +551,20 @@ class GameBattle
                               }
                               //////////////////////podpalenie koniec///////////////////////////
                               ///////////////////////paraliż////////////////////////////////////
-                              else if ($pokemon[$kto]->ataki[$at[$kto]]['stan'] == 2)//paraliż
+                              else if ($pokemon[$kto]->ataki[$at[$kto]]['stan'] === 2)//paraliż
                               {
                                   $s = $pokemon[$kto]->ataki[$at[$kto]]['procent'];
                                   $k = $pokemon[$kto]->ataki[$at[$kto]]['kto'];
                                   $ab = $this->obliczenieCelnosci($s);///////obliczenie czy pok ma mieć nałożony stan.
-                                  if ($ab == 2) {
-                                      if ($k == 1) {
-                                          if ($pokemon[$kto]->stan == 0 && $pokemon[$kto]->typ1 != 5 && $pokemon[$kto]->typ2 != 5)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
+                                  if ($ab === 2) {
+                                      if ($k === 1) {
+                                          if ($pokemon[$kto]->stan === 0 && $pokemon[$kto]->typ1 != 5 && $pokemon[$kto]->typ2 != 5)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
                                           {
                                               $pokemon[$kto]->stan = 2;
                                               $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zostaje sparaliżowany./sdiv';
                                           }
                                       } else {
-                                          if ($pokemon[$aaaa]->stan == 0 && $pokemon[$aaaa]->typ1 != 5 && $pokemon[$aaaa]->typ2 != 5)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego
+                                          if ($pokemon[$aaaa]->stan === 0 && $pokemon[$aaaa]->typ1 != 5 && $pokemon[$aaaa]->typ2 != 5)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego
                                           {
                                               $pokemon[$aaaa]->stan = 2;
                                               $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zostaje sparaliżowany./sdiv';
@@ -574,20 +574,20 @@ class GameBattle
                               }
                               ///////////////////////paraliż koniec/////////////////////////////
                               //////////////////////otępienie///////////////////////////////////
-                              else if ($pokemon[$kto]->ataki[$at[$kto]]['stan'] == 3)//otępienie
+                              else if ($pokemon[$kto]->ataki[$at[$kto]]['stan'] === 3)//otępienie
                               {
                                   $s = $pokemon[$kto]->ataki[$at[$kto]]['procent'];
                                   $k = $pokemon[$kto]->ataki[$at[$kto]]['kto'];
                                   $ab = $this->obliczenieCelnosci($s);///////obliczenie czy pok ma mieć nałożony stan.
-                                  if ($ab == 2) {
-                                      if ($k == 1) {
-                                          if ($pokemon[$kto]->stan == 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
+                                  if ($ab === 2) {
+                                      if ($k === 1) {
+                                          if ($pokemon[$kto]->stan === 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
                                           {
                                               $pokemon[$kto]->stan = 3;
                                               $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zostaje otępiony./sdiv';
                                           }
                                       } else {
-                                          if ($pokemon[$aaaa]->stan == 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
+                                          if ($pokemon[$aaaa]->stan === 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
                                           {
                                               $pokemon[$aaaa]->stan = 3;
                                               $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zostaje otępiony./sdiv';
@@ -597,28 +597,28 @@ class GameBattle
                               }
                               //////////////////////otępienie koniec////////////////////////////
                               /////////////////////otrucie i śmiertelne otrucie/////////////////
-                              else if ($pokemon[$kto]->ataki[$at[$kto]]['stan'] == 4)//otrucie i śmiertelne otrucie //4 i 5
+                              else if ($pokemon[$kto]->ataki[$at[$kto]]['stan'] === 4)//otrucie i śmiertelne otrucie //4 i 5
                               {
                                   $s = $pokemon[$kto]->ataki[$at[$kto]]['procent'];
                                   $k = $pokemon[$kto]->ataki[$at[$kto]]['kto'];
                                   $ab = $this->obliczenieCelnosci($s);///////obliczenie czy pok ma mieć nałożony stan.
-                                  if ($ab == 2) {
+                                  if ($ab === 2) {
 
-                                      if ($k == 1) {
-                                          if ($pokemon[$kto]->stan == 0 && $pokemon[$kto]->typ1 != 8 && $pokemon[$kto]->typ2 != 8 && $pokemon[$kto]->typ1 != 11 && $pokemon[$kto]->typ2 != 11)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
+                                      if ($k === 1) {
+                                          if ($pokemon[$kto]->stan === 0 && $pokemon[$kto]->typ1 != 8 && $pokemon[$kto]->typ2 != 8 && $pokemon[$kto]->typ1 != 11 && $pokemon[$kto]->typ2 != 11)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
                                           {
                                               $pokemon[$kto]->stan = 4;
                                               $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zostaje otruty./sdiv';
-                                          } else if ($pokemon[$kto]->stan == 4 && $pokemon[$kto]->typ1 != 8 && $pokemon[$kto]->typ2 != 8 && $pokemon[$kto]->typ1 != 11 && $pokemon[$kto]->typ2 != 11) {
+                                          } else if ($pokemon[$kto]->stan === 4 && $pokemon[$kto]->typ1 != 8 && $pokemon[$kto]->typ2 != 8 && $pokemon[$kto]->typ1 != 11 && $pokemon[$kto]->typ2 != 11) {
                                               $pokemon[$kto]->stan = 5;
                                               $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zostaje śmiertelnie otruty./sdiv';
                                           }
                                       } else {
-                                          if ($pokemon[$aaaa]->stan == 0 && $pokemon[$aaaa]->typ1 != 8 && $pokemon[$aaaa]->typ2 != 8 && $pokemon[$aaaa]->typ1 != 11 && $pokemon[$aaaa]->typ2 != 11)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
+                                          if ($pokemon[$aaaa]->stan === 0 && $pokemon[$aaaa]->typ1 != 8 && $pokemon[$aaaa]->typ2 != 8 && $pokemon[$aaaa]->typ1 != 11 && $pokemon[$aaaa]->typ2 != 11)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
                                           {
                                               $pokemon[$aaaa]->stan = 4;
                                               $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zostaje otruty./sdiv';
-                                          } else if ($pokemon[$aaaa]->stan == 4 && $pokemon[$aaaa]->typ1 != 8 && $pokemon[$aaaa]->typ2 != 8 && $pokemon[$aaaa]->typ1 != 11 && $pokemon[$aaaa]->typ2 != 11) {
+                                          } else if ($pokemon[$aaaa]->stan === 4 && $pokemon[$aaaa]->typ1 != 8 && $pokemon[$aaaa]->typ2 != 8 && $pokemon[$aaaa]->typ1 != 11 && $pokemon[$aaaa]->typ2 != 11) {
                                               $pokemon[$aaaa]->stan = 5;
                                               $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zostaje śmiertelnie otruty./sdiv';
                                           }
@@ -627,20 +627,20 @@ class GameBattle
                               }
                               /////////////////////otrucie i śmiertelne otrucie koniec//////////
                               ////////////////////sen///////////////////////////////////////////
-                              else if ($pokemon[$kto]->ataki[$at[$kto]]['stan'] == 6)//sen
+                              else if ($pokemon[$kto]->ataki[$at[$kto]]['stan'] === 6)//sen
                               {
                                   $s = $pokemon[$kto]->ataki[$at[$kto]]['procent'];
                                   $k = $pokemon[$kto]->ataki[$at[$kto]]['kto'];
                                   $ab = $this->obliczenieCelnosci($s);///////obliczenie czy pok ma mieć nałożony stan.
-                                  if ($ab == 2) {
-                                      if ($k == 1) {
-                                          if ($pokemon[$kto]->stan == 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
+                                  if ($ab === 2) {
+                                      if ($k === 1) {
+                                          if ($pokemon[$kto]->stan === 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
                                           {
                                               $pokemon[$kto]->stan = 6;
                                               $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zostaje uśpiony./sdiv';
                                           }
                                       } else {
-                                          if ($pokemon[$aaaa]->stan == 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
+                                          if ($pokemon[$aaaa]->stan === 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
                                           {
                                               $pokemon[$aaaa]->stan = 6;
                                               $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zostaje uśpiony./sdiv';
@@ -650,9 +650,9 @@ class GameBattle
                               }
                               ///////////////////sen koniec/////////////////////////////////////
                               //////////////////pułapka/////////////////////////////////////////
-                              else if ($pokemon[$kto]->ataki[$at[$kto]]['stan'] == 7 && $obrazenia > 0)//pułapka
+                              else if ($pokemon[$kto]->ataki[$at[$kto]]['stan'] === 7 && $obrazenia > 0)//pułapka
                               {
-                                  if ($pokemon[$aaaa]->stan == 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
+                                  if ($pokemon[$aaaa]->stan === 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
                                   {
                                       $pokemon[$aaaa]->stan = 7;
                                       $pokemon[$aaaa]->pulapka = $obrazenia;
@@ -661,20 +661,20 @@ class GameBattle
                               }
                               //////////////////pułapka koniec//////////////////////////////////
                               //////////////////zamrożenie//////////////////////////////////////
-                              else if ($pokemon[$kto]->ataki[$at[$kto]]['stan'] == 8)//zamrożenie
+                              else if ($pokemon[$kto]->ataki[$at[$kto]]['stan'] === 8)//zamrożenie
                               {
                                   $s = $pokemon[$kto]->ataki[$at[$kto]]['procent'];
                                   $k = $pokemon[$kto]->ataki[$at[$kto]]['kto'];
                                   $ab = $this->obliczenieCelnosci($s);///////obliczenie czy pok ma mieć nałożony stan.
-                                  if ($ab == 2) {
-                                      if ($k == 1) {
-                                          if ($pokemon[$kto]->stan == 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
+                                  if ($ab === 2) {
+                                      if ($k === 1) {
+                                          if ($pokemon[$kto]->stan === 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
                                           {
                                               $pokemon[$kto]->stan = 8;
                                               $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zostaje zamrożony./sdiv';
                                           }
                                       } else {
-                                          if ($pokemon[$aaaa]->stan == 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
+                                          if ($pokemon[$aaaa]->stan === 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
                                           {
                                               $pokemon[$aaaa]->stan = 8;
                                               $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zostaje zamrożony./sdiv';
@@ -684,20 +684,20 @@ class GameBattle
                               }
                               //////////////////zamrożenie koniec///////////////////////////////
                               //////////////////oszołomienie////////////////////////////////////
-                              if ($pokemon[$kto]->ataki[$at[$kto]]['stan'] == 9)//oszołomienie
+                              if ($pokemon[$kto]->ataki[$at[$kto]]['stan'] === 9)//oszołomienie
                               {
                                   $s = $pokemon[$kto]->ataki[$at[$kto]]['procent'];
                                   $k = $pokemon[$kto]->ataki[$at[$kto]]['kto'];
                                   $ab = $this->obliczenieCelnosci($s);///////obliczenie czy pok ma mieć nałożony stan.
-                                  if ($ab == 2) {
-                                      if ($k == 1) {
-                                          if ($pokemon[$kto]->stan == 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
+                                  if ($ab === 2) {
+                                      if ($k === 1) {
+                                          if ($pokemon[$kto]->stan === 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
                                           {
                                               $pokemon[$kto]->stan = 9;
                                               $_SESSION['walkat'] .= '<div class="walka_alert alert alert-info><span><span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zostaje oszołomiony./sdiv';
                                           }
                                       } else {
-                                          if ($pokemon[$aaaa]->stan == 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
+                                          if ($pokemon[$aaaa]->stan === 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
                                           {
                                               $pokemon[$aaaa]->stan = 9;
                                               $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zostaje oszołomiony./sdiv';
@@ -707,12 +707,12 @@ class GameBattle
                               }
                               //////////////////oszołomienie koniec/////////////////////////////
                               //////////////////zakochanie//////////////////////////////////////
-                              else if ($pokemon[$kto]->ataki[$at[$kto]]['stan'] == 10)//zakochanie
+                              else if ($pokemon[$kto]->ataki[$at[$kto]]['stan'] === 10)//zakochanie
                               {
                                   $s = $pokemon[$kto]->ataki[$at[$kto]]['procent'];
                                   $ab = $this->obliczenieCelnosci($s);///////obliczenie czy pok ma mieć nałożony stan.
-                                  if ($ab == 2) {
-                                      if ($pokemon[$aaaa]->stan == 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
+                                  if ($ab === 2) {
+                                      if ($pokemon[$aaaa]->stan === 0)//jeśli pokemon ma nałożony stan, to nie może mieć drugiego stanu.
                                       {
                                           $pokemon[$aaaa]->stan = 10;
                                           $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> jest zakochany w przeciwniku./sdiv';
@@ -736,12 +736,12 @@ class GameBattle
                           ////////-1.uniki////////////////////////////////////////////////////
                           ////////////////////////////////////////////////////////////////////
 
-                          if ($pokemon[$kto]->ataki[$at[$kto]]['podwyzszenie'] == 1 && (($pokemon[1]->hp) > 0 && ($pokemon[2]->hp > 0)))/////podwyższenie alertstyk siebie lub przeciwnika
+                          if ($pokemon[$kto]->ataki[$at[$kto]]['podwyzszenie'] === 1 && (($pokemon[1]->hp) > 0 && ($pokemon[2]->hp > 0)))/////podwyższenie alertstyk siebie lub przeciwnika
                           {
                               $l = 0;
                               $proc = $pokemon[$kto]->ataki[$at[$kto]]['procent_obn'];
                               $proc = $this->obliczenieCelnosci($proc);
-                              if ($proc == 2) {
+                              if ($proc === 2) {
                                   $_SESSION['walkat'] .= 'alert.info';
                                   $ile = ($pokemon[$kto]->ataki[$at[$kto]]['obn_ile'] * 5) / 100;
                                   $kogo = $pokemon[$kto]->ataki[$at[$kto]]['kogo'];
@@ -760,13 +760,13 @@ class GameBattle
                                       $czego -= $czego2 * 10;
                                       $czego1 = $czego;
                                   } else $czego1 = $pokemon[$kto]->ataki[$at[$kto]]['czego'];
-                                  if ($czego1 == 6 || $l == 1)//losowo
+                                  if ($czego1 === 6 || $l === 1)//losowo
                                   {
                                       $czego1 = rand(1, 5);
                                       $l = 1;
                                   }
-                                  if ($czego1 == 7) {
-                                      if ($kogo == 1) {
+                                  if ($czego1 === 7) {
+                                      if ($kogo === 1) {
                                           $zw = ceil($ile * $pokemon[$kto]->atak);
                                           $_SESSION['walkat'] .= 'Atak <span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zwiększa się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$kto]->atak += $zw;
@@ -783,62 +783,62 @@ class GameBattle
                                           $_SESSION['walkat'] .= 'Szybkość <span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zwiększa się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$kto]->szybkosc += $zw;
                                       }
-                                  } else if ($czego1 == 1 || $czego2 == 1 || $czego3 == 1)//atak
+                                  } else if ($czego1 === 1 || $czego2 === 1 || $czego3 === 1)//atak
                                   {
-                                      if ($kogo == 1) {
+                                      if ($kogo === 1) {
                                           $zw = ceil($ile * $pokemon[$kto]->atak);
                                           $_SESSION['walkat'] .= 'Atak <span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zwiększa się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$kto]->atak += $zw;
                                       }
-                                      if ($kogo == 2) {
+                                      if ($kogo === 2) {
                                           $zw = ceil($ile * $pokemon[$aaaa]->atak);
                                           $_SESSION['walkat'] .= 'Atak <span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zwiększa się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$aaaa]->atak += $zw;
                                       }
-                                  } else if ($czego1 == 2 || $czego2 == 2 || $czego3 == 2)//sp.atak
+                                  } else if ($czego1 === 2 || $czego2 === 2 || $czego3 === 2)//sp.atak
                                   {
-                                      if ($kogo == 1) {
+                                      if ($kogo === 1) {
                                           $zw = ceil($ile * $pokemon[$kto]->sp_atak);
                                           $_SESSION['walkat'] .= 'Specjalny atak <span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zwiększa się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$kto]->sp_atak += $zw;
                                       }
-                                      if ($kogo == 2) {
+                                      if ($kogo === 2) {
                                           $zw = ceil($ile * $pokemon[$aaaa]->sp_atak);
                                           $_SESSION['walkat'] .= 'Specjalny atak <span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zwiększa się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$aaaa]->sp_atak += $zw;
                                       }
-                                  } else if ($czego1 == 3 || $czego2 == 3 || $czego3 == 3)//obrona
+                                  } else if ($czego1 === 3 || $czego2 === 3 || $czego3 === 3)//obrona
                                   {
-                                      if ($kogo == 1) {
+                                      if ($kogo === 1) {
                                           $zw = ceil($ile * $pokemon[$kto]->obrona);
                                           $_SESSION['walkat'] .= 'Obrona <span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zwiększa się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$kto]->obrona += $zw;
                                       }
-                                      if ($kogo == 2) {
+                                      if ($kogo === 2) {
                                           $zw = ceil($ile * $pokemon[$aaaa]->obrona);
                                           $_SESSION['walkat'] .= 'Obrona <span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zwiększa się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$aaaa]->obrona += $zw;
                                       }
-                                  } else if ($czego1 == 4 || $czego2 == 4 || $czego3 == 4)//sp.obrona
+                                  } else if ($czego1 === 4 || $czego2 === 4 || $czego3 === 4)//sp.obrona
                                   {
-                                      if ($kogo == 1) {
+                                      if ($kogo === 1) {
                                           $zw = ceil($ile * $pokemon[$kto]->sp_obrona);
                                           $_SESSION['walkat'] .= 'Specjalna obrona <span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zwiększa się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$kto]->sp_obrona += $zw;
                                       }
-                                      if ($kogo == 2) {
+                                      if ($kogo === 2) {
                                           $zw = ceil($ile * $pokemon[$aaaa]->sp_obrona);
                                           $_SESSION['walkat'] .= 'Specjalna obrona <span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zwiększa się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$aaaa]->sp_obrona += $zw;
                                       }
-                                  } else if ($czego1 == 5 || $czego2 == 5 || $czego3 == 5)//szybkość
+                                  } else if ($czego1 === 5 || $czego2 === 5 || $czego3 === 5)//szybkość
                                   {
-                                      if ($kogo == 1) {
+                                      if ($kogo === 1) {
                                           $zw = ceil($ile * $pokemon[$kto]->szybkosc);
                                           $_SESSION['walkat'] .= 'Szybkość <span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zwiększa się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$kto]->szybkosc += $zw;
                                       }
-                                      if ($kogo == 2) {
+                                      if ($kogo === 2) {
                                           $zw = ceil($ile * $pokemon[$aaaa]->szybkosc);
                                           $_SESSION['walkat'] .= 'Szybkość <span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zwiększa się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$aaaa]->szybkosc += $zw;
@@ -846,12 +846,12 @@ class GameBattle
                                   }
                                   $_SESSION['walkat'] .= '/sdiv';
                               }
-                          } else if ($pokemon[$kto]->ataki[$at[$kto]]['obnizenie'] == 1 && (($pokemon[1]->hp) > 0 && ($pokemon[2]->hp > 0)))/////obniżenie alertstyk siebie lub przeciwnika
+                          } else if ($pokemon[$kto]->ataki[$at[$kto]]['obnizenie'] === 1 && (($pokemon[1]->hp) > 0 && ($pokemon[2]->hp > 0)))/////obniżenie alertstyk siebie lub przeciwnika
                           {
                               $l = 0;
                               $proc = $pokemon[$kto]->atak[$at[$kto]]['procent_obn'];
                               $proc = $this->obliczenieCelnosci($proc);
-                              if ($proc == 2) {
+                              if ($proc === 2) {
                                   $_SESSION['walkat'] .= 'alert.info';
                                   $ile = ($pokemon[$kto]->ataki[$at[$kto]]['obn_ile'] * 5) / 100;
                                   $kogo = $pokemon[$kto]->ataki[$at[$kto]]['kogo'];
@@ -870,67 +870,67 @@ class GameBattle
                                       $czego -= $czego2 * 10;
                                       $czego1 = $czego;
                                   } else $czego1 = $pokemon[$kto]->atak[$at[$kto]]['czego'];
-                                  if ($czego1 == 6 || $l == 1)//losowo
+                                  if ($czego1 === 6 || $l === 1)//losowo
                                   {
                                       $czego1 = rand(1, 5);
                                       $l = 1;
                                   }
-                                  if ($czego1 == 1 || $czego2 == 1 || $czego3 == 1)//atak
+                                  if ($czego1 === 1 || $czego2 === 1 || $czego3 === 1)//atak
                                   {
-                                      if ($kogo == 1) {
+                                      if ($kogo === 1) {
                                           $zw = ceil($ile * $pokemon[$kto]->atak);
                                           $_SESSION['walkat'] .= 'Atak <span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zmniejsza się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$kto]->atak -= $zw;
-                                      } else if ($kogo == 2) {
+                                      } else if ($kogo === 2) {
                                           $zw = ceil($ile * $pokemon[$aaaa]->atak);
                                           $_SESSION['walkat'] .= 'Atak <span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zmniejsza się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$aaaa]->atak -= $zw;
                                       }
-                                  } else if ($czego1 == 2 || $czego2 == 2 || $czego3 == 2)//sp.atak
+                                  } else if ($czego1 === 2 || $czego2 === 2 || $czego3 === 2)//sp.atak
                                   {
-                                      if ($kogo == 1) {
+                                      if ($kogo === 1) {
                                           $zw = ceil($ile * $pokemon[$kto]->sp_atak);
                                           $_SESSION['walkat'] .= 'Specjalny atak <span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zwmniejsza się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$kto]->sp_atak -= $zw;
-                                      } else if ($kogo == 2) {
+                                      } else if ($kogo === 2) {
                                           $zw = ceil($ile * $pokemon[$aaaa]->sp_atak);
                                           $_SESSION['walkat'] .= 'Specjalny atak <span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zmniejsza się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$aaaa]->sp_atak -= $zw;
                                       }
-                                  } else if ($czego1 == 3 || $czego2 == 3 || $czego3 == 3)//obrona
+                                  } else if ($czego1 === 3 || $czego2 === 3 || $czego3 === 3)//obrona
                                   {
-                                      if ($kogo == 1) {
+                                      if ($kogo === 1) {
                                           $zw = ceil($ile * $pokemon[$kto]->obrona);
                                           $_SESSION['walkat'] .= 'Obrona <span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zmniejsza się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$kto]->obrona -= $zw;
-                                      } else if ($kogo == 2) {
+                                      } else if ($kogo === 2) {
                                           $zw = ceil($ile * $pokemon[$aaaa]->obrona);
                                           $_SESSION['walkat'] .= 'Obrona <span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zmniejsza się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$aaaa]->obrona -= $zw;
                                       }
-                                  } else if ($czego1 == 4 || $czego2 == 4 || $czego3 == 4)//sp.obrona
+                                  } else if ($czego1 === 4 || $czego2 === 4 || $czego3 === 4)//sp.obrona
                                   {
-                                      if ($kogo == 1) {
+                                      if ($kogo === 1) {
                                           $zw = ceil($ile * $pokemon[$kto]->sp_obrona);
                                           $_SESSION['walkat'] .= 'Specjalna obrona <span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zmniejsza się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$kto]->sp_obrona -= $zw;
-                                      } else if ($kogo == 2) {
+                                      } else if ($kogo === 2) {
                                           $zw = ceil($ile * $pokemon[$aaaa]->sp_obrona);
                                           $_SESSION['walkat'] .= 'Specjalna obrona <span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zmniejsza się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$aaaa]->sp_obrona -= $zw;
                                       }
-                                  } else if ($czego1 == 5 || $czego2 == 5 || $czego3 == 5)//szybkość
+                                  } else if ($czego1 === 5 || $czego2 === 5 || $czego3 === 5)//szybkość
                                   {
-                                      if ($kogo == 1) {
+                                      if ($kogo === 1) {
                                           $zw = ceil($ile * $pokemon[$kto]->szybkosc);
                                           $_SESSION['walkat'] .= 'Szybkość <span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> zmniejsza się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$kto]->szybkosc -= $zw;
-                                      } else if ($kogo == 2) {
+                                      } else if ($kogo === 2) {
                                           $zw = ceil($ile * $pokemon[$aaaa]->szybkosc);
                                           $_SESSION['walkat'] .= 'Szybkość <span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zmniejsza się o <span class="pogrubienie">' . $zw . '</span>.<br />';
                                           $pokemon[$aaaa]->szybkosc -= $zw;
                                       }
-                                  } else if ($czego1 == 9)//celnosc
+                                  } else if ($czego1 === 9)//celnosc
                                   {
                                       $zw = ceil($ile * $pokemon[$aaaa]->celnosc);
                                       $_SESSION['walkat'] .= 'Celność <span class="pogrubienie">' . $pokemon[$aaaa]->nazwa . '</span> zmniejsza się o <span class="pogrubienie">' . $zw . '%</span>.<br />';
@@ -961,11 +961,11 @@ class GameBattle
                           /////////////////leczenie koniec////////////////////////////////////
                       }
                       //////////////////podpalenie//////////////////////////////////////////
-                      if ($pokemon[$kto]->stan == 1) {
+                      if ($pokemon[$kto]->stan === 1) {
                           $pokemon[$kto]->runda++;
                           if ($pokemon[$kto]->runda > 0) {
                               $r = rand() % 3;
-                              if ($r == 0 && $pokemon[$kto]->runda > 1) {
+                              if ($r === 0 && $pokemon[$kto]->runda > 1) {
                                   $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> udaje ugasić się płomienie otaczające jego ciało./sdiv';
                                   $pokemon[$kto]->stan = 0;
                                   $pokemon[$kto]->runda = 0;
@@ -977,11 +977,11 @@ class GameBattle
                               }
                           }
                       } /////////////////////otrucie////////////////////////////////////////
-                      else if ($pokemon[$kto]->stan == 4) {
+                      else if ($pokemon[$kto]->stan === 4) {
                           $pokemon[$kto]->runda++;
                           if ($pokemon[$kto]->runda > 0) {
                               $r = rand() % 3;
-                              if ($r == 0 && $pokemon[$kto]->runda > 1) {
+                              if ($r === 0 && $pokemon[$kto]->runda > 1) {
                                   $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> nie jest już otruty./sdiv';
                                   $pokemon[$kto]->stan = 0;
                                   $pokemon[$kto]->runda = 0;
@@ -993,11 +993,11 @@ class GameBattle
                               }
                           }
                       } /////////////////śmiertelne otrucie///////////////////////////////////
-                      else if ($pokemon[$kto]->stan == 5) {
+                      else if ($pokemon[$kto]->stan === 5) {
                           $pokemon[$kto]->runda++;
                           if ($pokemon[$kto]->runda > 0) {
                               $r = rand() % 3;
-                              if ($r == 0 && $pokemon[$kto]->runda > 1) {
+                              if ($r === 0 && $pokemon[$kto]->runda > 1) {
                                   $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> nie jest już śmiertelnie otruty./sdiv';
                                   $pokemon[$kto]->stan = 0;
                                   $pokemon[$kto]->runda = 0;
@@ -1017,7 +1017,7 @@ class GameBattle
                     }
                 }
                 $this->stats[$attacking]->setAttackRoundOne($this->stats[$attacking]->getAttackRoundOne() - 1);
-                if ($attackId == 198) {//fury cutter
+                if ($attackId === 198) {//fury cutter
                     $this->stats[$attacking]->setFury($this->stats[$attacking]->getFury() + 1);
                     if ($hit) {
                         $this->stats[$attacking]->setFuryHit(1);
@@ -1038,7 +1038,7 @@ class GameBattle
                 //}
                 //$atak = $at[$kto] - 1;
                 //if (($pokemon[$kto]->atak_runda <= 0) &&
-                //    (($pokemon[$kto]->atak[$atak]['ID'] == 360) || ($pokemon[$kto]->ataki[$atak]['ID'] == 553) || ($pokemon[$kto]->ataki[$atak]['ID'] == 370))
+                //    (($pokemon[$kto]->atak[$atak]['ID'] === 360) || ($pokemon[$kto]->ataki[$atak]['ID'] === 553) || ($pokemon[$kto]->ataki[$atak]['ID'] === 370))
                 // ) //Outrage
                 //{
                 //    $_SESSION['walkat'] .= 'alert.info<span class="pogrubienie">' . $pokemon[$kto]->nazwa . '</span> popada w otępienie./sdiv';
@@ -1074,7 +1074,7 @@ class GameBattle
     {
         $can = 0;
         $this->stats[$attacking]['roundStatePhysical']++;
-        if ($this->stats[$attacking]['roundStatePhysical'] == 1) {
+        if ($this->stats[$attacking]['roundStatePhysical'] === 1) {
             $r1 = rand() % 4;
             if ($r1 < 2) {
                 $this->battleText .= 'alert.info<span class="pogrubienie">' . $this->pokemon[$attacking]->getName() . '</span> jest sparaliżowany i nie może wykonać ruchu./sdiv';
@@ -1185,7 +1185,7 @@ class GameBattle
 
     private function attackForesight(int $second)
     {
-        if ($this->pokemon[$second]->getInfo()['typ1'] == 9 || $this->pokemon[$second]->getInfo()['typ2'] == 9) {
+        if ($this->pokemon[$second]->getInfo()['typ1'] === 9 || $this->pokemon[$second]->getInfo()['typ2'] === 9) {
             $this->pokemon[$second]->setEffectiveness(1, 1);
             $this->pokemon[$second]->setEffectiveness(10, 1);
             $this->battleText .= '<span class="pogrubienie"> ' . $this->pokemon[$second]->getName() . '</span> traci odporność na ataki typu normalnego i walczącego!';
@@ -1196,8 +1196,8 @@ class GameBattle
 
     private function attackLeechSeed(int $second)
     {
-        if ($this->pokemon[$second]->getInfo()['typ1'] == 4
-            || $this->pokemon[$second]->getInfo()['typ2'] == 4
+        if ($this->pokemon[$second]->getInfo()['typ1'] === 4
+            || $this->pokemon[$second]->getInfo()['typ2'] === 4
             || $this->stats[$second]->isSeeded()
         ) {
             $this->battleText .= '<span class="pogrubienie"> ' . $this->pokemon[$second]->getName() . '</span> unika nasion.';
@@ -1219,8 +1219,8 @@ class GameBattle
 
     private function calculatePower(int $pokemon)
     {
-        if ($this->currentAttack['typ'] == $this->pokemon[$pokemon]->getInfo()['typ1']
-            || $this->currentAttack['typ'] == $this->pokemon[$pokemon]->getInfo()['typ2']
+        if ($this->currentAttack['typ'] === $this->pokemon[$pokemon]->getInfo()['typ1']
+            || $this->currentAttack['typ'] === $this->pokemon[$pokemon]->getInfo()['typ2']
         ) {
             $power = 1.25;
         } else {
@@ -1232,24 +1232,24 @@ class GameBattle
 
     private function variablePower(int $attackId, int $attacking, int $second)
     {
-        if ($attackId == 142) {//ELECTRO BALL
+        if ($attackId === 142) {//ELECTRO BALL
             $this->attackElectroBall($attacking, $second);
-        } elseif ($attackId == 310) {//MAGNITUDE
+        } elseif ($attackId === 310) {//MAGNITUDE
             $this->attackMagnitude();
-        } elseif ($attackId == 125) {//DRAGON RAGE
+        } elseif ($attackId === 125) {//DRAGON RAGE
             $this->attackDragonRage($attacking);
-        } elseif ($attackId == 151) {//ERUPTION
+        } elseif ($attackId === 151) {//ERUPTION
             $this->attackEruption($second);
-        } elseif ($attackId == 172) {//FLAIL
+        } elseif ($attackId === 172) {//FLAIL
             $this->attackFlail($attacking);
-        } elseif ($attackId == 196) {//FRUSTRATION
+        } elseif ($attackId === 196) {//FRUSTRATION
             //TODO
             // jakie kurwa tlo??
             //$pokemon[$kto]->ataki[$at[$kto]]['moc'] = (255 - $tlo) / 2.5;
-        } elseif ($attackId == 198) {//FURY CUTTER
+        } elseif ($attackId === 198) {//FURY CUTTER
             $this->attackFuryCutter($attacking);
         }
-        /*else if($id_ataku == 97)//CRUSH GRIP <- TYLKO JEDNA LEGENDA, TO W KOMENTARZU
+        /*else if($id_ataku === 97)//CRUSH GRIP <- TYLKO JEDNA LEGENDA, TO W KOMENTARZU
         {
                   $pokemon[$kto]['atak'.$at[$kto]]['moc'] = 1 + ($pokemon[$aaaa]->hp / $pokemon[$aaaa]['max_hp']);
                 }*/
@@ -1326,7 +1326,7 @@ class GameBattle
 
     private function attackFuryCutter(int $attacking)
     {
-        if ($this->stats[$attacking]->getFury() == 1 || !$this->stats[$attacking]->getFuryHit()) {
+        if ($this->stats[$attacking]->getFury() === 1 || !$this->stats[$attacking]->getFuryHit()) {
             $this->currentAttack['moc'] = 40;
         } else {
             $this->currentAttack['moc'] *= 2;
@@ -1335,7 +1335,7 @@ class GameBattle
 
     private function calculateAttackDamage(int $attacking, int $second, float $power)
     {
-        if ($this->currentAttack['rodzaj'] == "fizyczny") {
+        if ($this->currentAttack['rodzaj'] === "fizyczny") {
             $damage = ($this->pokemon[$attacking]->getAttack() / $this->pokemon[$second]->getDefence())
                 * $power * $this->currentAttack['moc'] * 1.15 * $this->pokemon[$second]->getEffectiveness()[$this->currentAttack['typ']];
         } else {
@@ -1372,7 +1372,7 @@ class GameBattle
     private function attackDreamEater($attacking, $second)
     {
         //TODO
-        if ($pokemon[$aaaa]->stan == '6') {
+        if ($pokemon[$aaaa]->stan === '6') {
             $pokemon[$aaaa]->hp -= $obrazenia;
             $_SESSION['walkat'] .= 'Pokemon zadaje <span class="pogrubienie">' . $obrazenia . "</span> obrażeń.";
             $obrazenia /= 2;
@@ -1403,9 +1403,9 @@ class GameBattle
             if ($attackSecond < 0) {
                 $attackSecond = 3;
             }
-            if ($pokemon[$aaaa]->ataki['atak' . $atak_oo]['rodzaj'] == 'fizyczny') {
+            if ($pokemon[$aaaa]->ataki['atak' . $atak_oo]['rodzaj'] === 'fizyczny') {
                 $pokemon[$kto]->ataki['atak' . $at[$kto]]['moc'] = $pokemon[$kto]->ataki['atak' . $at[$kto]]['moc'] * 2;
-                if ($kto == 1) {
+                if ($kto === 1) {
                     $damage = ($pokemon[1]->atak / $pokemon[2]->obrona) * $moc * $pokemon[$kto]->ataki['atak' . $at[$kto]]['moc'] * 1.15 * $pokemon[2]->odp[$pokemon[$kto]->ataki[$at[$kto]]['typ']];
                 } else {
                     $damage = ($pokemon[2]->atak / $pokemon[1]->obrona) * $moc * $pokemon[$kto]->ataki['atak' . $at[$kto]]['moc'] * 1.15 * $pokemon[1]->odp[$pokemon[$kto]->ataki[$at[$kto]]['typ']];
@@ -1477,11 +1477,11 @@ class GameBattle
 
                 if ($this->stats[$i]->getLucky() > 0) {
                     $this->battleText .= 'alert.info<span><span class="pogrubienie">'.$this->pokemon[$i]->getName().'</span> ma szczęście w walce. ';
-                    $this->battleText .= $this->pokemon[$i]->getGender() == 1 ?  'Jej' :  'Jego';
+                    $this->battleText .= $this->pokemon[$i]->getGender() === 1 ?  'Jej' :  'Jego';
                     $this->battleText .= ' statystyki zwiększają się o <span class="zielony">'.$this->stats[$i]->getLucky().' %</span>./sdiv';
                 } elseif ($this->stats[$i]->getLucky() < 0) {
                     $this->battleText .= 'alert.info<span><span class="pogrubienie">'.$this->pokemon[$i]->getName().'</span> ma pecha w walce. ';
-                    $this->battleText .= $this->pokemon[$i]->getGender() == 1 ?  'Jej' :  'Jego';
+                    $this->battleText .= $this->pokemon[$i]->getGender() === 1 ?  'Jej' :  'Jego';
                     $this->battleText .= ' statystyki zmniejszają się o <span class="czerwony">'.(-$this->stats[$i]->getLucky()).' %</span>./sdiv';
                 }
             }
@@ -1497,9 +1497,9 @@ class GameBattle
                 $this->stats[$i]->setAttachmentGiven(1);
                 if ($this->pokemon[$i]->getCountedAttachment() > 70) {
                     $this->battleText .= 'alert.info<span><span class="pogrubienie">'.$this->pokemon[$i]->getName().'</span> jest bardzo przywiązan';
-                    $this->battleText .= ($this->pokemon[$i]->getGender() == 1) ? 'a' : 'y';
+                    $this->battleText .= ($this->pokemon[$i]->getGender() === 1) ? 'a' : 'y';
                     $this->battleText .= ' do swojego trenera. ';
-                    $this->battleText .= ($this->pokemon[$i]->getGender() == 1) ? 'Jej' : 'Jego';
+                    $this->battleText .= ($this->pokemon[$i]->getGender() === 1) ? 'Jej' : 'Jego';
                     $this->battleText .= ' statystyki rosną o <span class="zielony">'.(round((($this->pokemon[$i]->getCountedAttachment() - 70)/2), 2)).' %</span>./sdiv';
                 }
             }
@@ -1514,7 +1514,7 @@ class GameBattle
             if (!$this->stats[$i]->isShinyBonusGiven() && $this->stats[$i]->getShinyBonus()) {
                 $this->stats[$i]->setShinyBonusGiven(1);
                 $this->battleText .= 'alert.info<span>Ciało <span class="pogrubienie">'.$this->pokemon[$i]->getName().'</span> lśni przed walką. ';
-                $this->battleText .= ($this->pokemon[$i]->getGender() == 1) ? 'Jej' : 'Jego';
+                $this->battleText .= ($this->pokemon[$i]->getGender() === 1) ? 'Jej' : 'Jego';
                 $this->battleText .= ' statystyki rosną o <span class="zielony">'.$this->stats[$i]->getShinyBonus().' %</span>./sdiv';
             }
         }

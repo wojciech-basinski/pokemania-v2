@@ -147,7 +147,7 @@ class GamePokemonChange
 
     private function checkValueNotNull(?string $value): bool
     {
-        if ($value === null || $value == '') {
+        if ($value === null || $value === '') {
             return false;
         }
         return true;

@@ -143,10 +143,10 @@ class GameHuntingBattleBetweenPokemons
         $this->realUserPokemon->setActualHp($this->battle->getUserPokemonHp());
         $this->setHpOnePokemonInSession($this->realUserPokemon->getId(), $this->battle->getUserPokemonHp());
 
-        if ($score == 1) {
+        if ($score === 1) {
             $battle = array_merge($battle, $this->win($user));
             $this->addWinToAchievements($user);
-        } elseif ($score == 0) {
+        } elseif ($score === 0) {
             $this->lost($user);
         } else {
             $this->tie($user);
@@ -233,14 +233,14 @@ class GameHuntingBattleBetweenPokemons
     {
         $pokemonExp = $this->calculateExperienceForWinBattle();
         $trainerExp = (rand() % 3) + 3;
-        if ($this->pokemonInPlace->getInfo()['trudnosc'] == 10) {
+        if ($this->pokemonInPlace->getInfo()['trudnosc'] === 10) {
             $pokemonExp *= 2;
             $trainerExp *= 2;
         }
         //TODO
         /*if (Session::_isset('karta')) {
             $karta = explode('|', Session::_get('karta'));
-            if ($karta['0'] == '2') {
+            if ($karta['0'] === '2') {
                 $exp *= 1.25;
                 $exp = round($exp);
             }

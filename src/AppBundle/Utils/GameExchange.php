@@ -180,7 +180,7 @@ class GameExchange
      */
     private function addConfirmFlashParts($id): void
     {
-        $parts = ($id == 142) ? 65 : 40;
+        $parts = ($id === 142) ? 65 : 40;
         $name = $this->pokemonHelper->getInfo($id)['nazwa'];
         $this->session->getFlashBag()->add(
             'success',

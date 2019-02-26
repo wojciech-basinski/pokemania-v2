@@ -140,7 +140,7 @@ class GamePokemons
             $this->session->getFlashBag()->add('error', 'Błędny numer Pokemona');
             return;
         }
-        if ($i == ($this->getNumberOfPokemonsInTeam()) - 1) {
+        if ($i === ($this->getNumberOfPokemonsInTeam()) - 1) {
             $this->session->getFlashBag()->add('error', 'Ten Pokemon nie może mieć mniejszego priorytetu.');
             return;
         }
@@ -196,7 +196,7 @@ class GamePokemons
 
     private function checkPokemonsToTeam(?array $pokemons, User $user, int $pokemonsInTeam)
     {
-        if ($pokemonsInTeam == 6) {
+        if ($pokemonsInTeam === 6) {
             $this->session->getFlashBag()->add('error', 'W drużynie może być maksymalnie 6 Pokemonów.');
             return false;
         }

@@ -166,7 +166,7 @@ class GameSettings
             return false;
         }
         $size = getimagesize($value);
-        if ($size[0] == 250 && $size[1] == 300) {
+        if ($size[0] === 250 && $size[1] === 300) {
             $user->setAvatar($value);
             $this->em->flush();
             $this->session->getFlashBag()->add('success', 'Zmieniono avatar');

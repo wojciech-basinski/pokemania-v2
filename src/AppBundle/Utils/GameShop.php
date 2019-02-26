@@ -98,7 +98,7 @@ class GameShop
             $this->session->getFlashBag()->add('error', 'Błędna nazwa przedmiotu');
             return;
         }
-        if ($quantity == 0 || $quantity < 0) {
+        if ($quantity === 0 || $quantity < 0) {
             $quantity = 1;
         }
 
@@ -108,7 +108,7 @@ class GameShop
 
     private function checkItem(?string $item): bool
     {
-        if ($item == '' ||
+        if ($item === '' ||
             !in_array($item, ['mpa', 'safari', 'pokemonFood', 'lottery', 'bars', 'cookies', 'box', 'pokedex',
             'kit', 'shovel', 'rune', 'battery', 'flashLight', 'pokeball', 'nestball', 'greatball',
                 'ultraball', 'duskball', 'lureball', 'repeatball', 'safariball'])

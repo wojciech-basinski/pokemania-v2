@@ -931,11 +931,11 @@ class PokemonHelper
 
     private static function getGender(int $k, int $m): int
     {
-        if ($k == 0 && $m == 0) {
+        if ($k === 0 && $m === 0) {
             $gender = 2;
-        } elseif ($k == 0) {
+        } elseif ($k === 0) {
             $gender = 0;
-        } elseif ($m == 0) {
+        } elseif ($m === 0) {
             $gender = 1;
         } else {
             $_0 = $m;
@@ -1080,8 +1080,8 @@ class PokemonHelper
             }
         } else {
             $b = [0 => 0, 1 => 0, 2 => 0, 3 => 0];
-            while ($b[0] == $b[1] || $b[0] == $b[2] || $b[0] == $b[3]
-                || $b[1] == $b[2] || $b[1] == $b[3] || $b[2] == $b[3]) {
+            while ($b[0] === $b[1] || $b[0] === $b[2] || $b[0] === $b[3]
+                || $b[1] === $b[2] || $b[1] === $b[3] || $b[2] === $b[3]) {
                 $b[0] = (rand() % ($attacksQuantity - 1)) + 1;
                 $b[1] = (rand() % ($attacksQuantity - 1)) + 1;
                 $b[2] = (rand() % ($attacksQuantity - 1)) + 1;

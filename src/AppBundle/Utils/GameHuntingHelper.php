@@ -33,10 +33,10 @@ class GameHuntingHelper
           if($sh['ilosc_do_zlapania'] > 0){
           $zl = $this->model->db->select('SELECT zlapana_grupa FROM uzytkownicy WHERE ID = :id', [':id' => Session::_get('id')]);
           $zl = $zl[0];
-          if($zl['zlapana_grupa'] == 0) $shiny = 1;
+          if($zl['zlapana_grupa'] === 0) $shiny = 1;
           }
           //sprawdzenie warunków spotkania shiny u gracza koniec
-          if($shiny == 1){
+          if($shiny === 1){
           $sh_id = $sh['id_poka'];
           $sh_dzicz = $sh['dzicz'];
           //przypisanie dziczy do shiny:
@@ -64,7 +64,7 @@ class GameHuntingHelper
     private function roundPokemonLevel(int $userLevel, int $idPokemon): int
     {
         $minLevelPokemon = $this->pokemonHelper->getInfo($idPokemon)['min_poziom'];
-        if (($userLevel + 6 - $minLevelPokemon) == 0) {
+        if (($userLevel + 6 - $minLevelPokemon) === 0) {
             $minLevelToRound = 1;
         } else {
             if ($userLevel <= 10) {
@@ -75,7 +75,7 @@ class GameHuntingHelper
         }
         $lvl = (mt_rand() % $minLevelToRound) + $minLevelPokemon;
         if ($lvl > 100) {
-            if ($minLevelPokemon == 100) {
+            if ($minLevelPokemon === 100) {
                 $lvl = 100;
             } else {
                 $lvl = mt_rand($minLevelPokemon + 1, 100);
@@ -91,7 +91,7 @@ class GameHuntingHelper
         //warunki shiny koniec
         $szansa = 10200;
         while ($min_poz >= $userLevel + 6) {
-            /* if($shiny == 1 && $sh_dzicz == 1){
+            /* if($shiny === 1 && $sh_dzicz === 1){
               $szansa = $sh['szansa']*102;
               $szansa += 10200;
               $l = mt_rand(1, $szansa);

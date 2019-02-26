@@ -30,7 +30,7 @@ class GameTravel
             return;
         }
 
-        if ($region == $user->getRegion()) {
+        if ($region === $user->getRegion()) {
             $this->session->getFlashBag()->add('error', 'Nie możesz podóżować do tego regionu');
             return;
         }

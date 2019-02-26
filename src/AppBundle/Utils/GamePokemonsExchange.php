@@ -189,7 +189,7 @@ class GamePokemonsExchange
     {
         for ($i = 0; $i < 6; $i++) {
             if ($this->session->get('pokemon'.$i) &&
-                $this->session->get('pokemon'.$i)->getId() == $id
+                $this->session->get('pokemon'.$i)->getId() === $id
             ) {
                 $this->pokemonI = $i;
                 return $this->session->get('pokemon'.$i);
@@ -274,7 +274,7 @@ class GamePokemonsExchange
 
         $oldName = $pokemon->getName();
 
-        if ($pokemon->getName() == $this->helper->getInfo($exchange->getPokemonId())['nazwa']) {
+        if ($pokemon->getName() === $this->helper->getInfo($exchange->getPokemonId())['nazwa']) {
             $pokemon->setName($this->helper->getInfo($id)['nazwa']);
         }
 
@@ -304,7 +304,7 @@ class GamePokemonsExchange
                 <span class="pogrubienie">'.$oldName.'</span> ewoluował w <span class="pogrubienie">'.$name.'</span>.</div>
                 <div class="col-xs-12 pogrubienie">';
 
-        if ($gender == 1) {
+        if ($gender === 1) {
             $content .= 'Jej';
         } else {
             $content .= 'Jego';
