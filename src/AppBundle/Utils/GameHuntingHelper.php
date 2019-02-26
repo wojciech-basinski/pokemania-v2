@@ -11,10 +11,15 @@ class GameHuntingHelper
      * @var PokemonHelper
      */
     private $pokemonHelper;
+    /**
+     * @var GameCheckCaught
+     */
+    private $checkCaught;
 
-    public function __construct(PokemonHelper $pokemonHelper)
+    public function __construct(PokemonHelper $pokemonHelper, GameCheckCaught $checkCaught)
     {
         $this->pokemonHelper = $pokemonHelper;
+        $this->checkCaught = $checkCaught;
     }
 
     public function eventInPlace(string $place): array
@@ -91,6 +96,14 @@ class GameHuntingHelper
         //warunki shiny koniec
         $szansa = 10200;
         while ($min_poz >= $userLevel + 6) {
+            if ($userLevel >= 100) {
+                if ($this->checkCaught->checkIfAllCaught('polana', false)) {
+                    //check if caught
+                    if (!$this->checkCaught->checkIfAllCaught('polana', true)) {
+                        $szansa = floor($szansa * 1.1);
+                    }
+                }
+            }
             /* if($shiny === 1 && $sh_dzicz === 1){
               $szansa = $sh['szansa']*102;
               $szansa += 10200;
@@ -98,10 +111,7 @@ class GameHuntingHelper
               }
               else */
             $l = mt_rand(1, $szansa); //prawdopodobieństwo do 0,01% (0,0001)
-            if ($l <= 1) {
-                //check if caught
-                $co = 151;
-            } elseif ($l <= 851) {
+            if ($l <= 850) {
                 $co = 10;
             } elseif ($l <= 1701) {
                 $co = 13;
@@ -159,6 +169,8 @@ class GameHuntingHelper
                 $co = 103;
             } elseif ($l <= 10200) {
                 $co = 133;
+            } elseif ($l <= $szansa) {
+                $co = 151;
             }
 
             $min_poz = $this->pokemonHelper->getInfo($co)['min_poziom'];
@@ -170,12 +182,18 @@ class GameHuntingHelper
     {
         $co = 0;
         $min_poz = 2000000000;
+        $szansa = 10000;
         while ($min_poz >= $userLevel + 6) {
-            $szansa = 10000;
+            if ($userLevel >= 100) {
+                if ($this->checkCaught->checkIfAllCaught('wyspa', false)) {
+                    //check if caught
+                    if (!$this->checkCaught->checkIfAllCaught('wyspa', true)) {
+                        $szansa = floor($szansa * 1.1);
+                    }
+                }
+            }
             $l = mt_rand(1, $szansa); //prawdopodobieństwo do 0,01% (0,0001)
-            if ($l <= 1) {
-                $co = 150;
-            } elseif ($l <= 701) {
+            if ($l <= 701) {
                 $co = 19;
             } elseif ($l <= 1401) {
                 $co = 23;
@@ -231,6 +249,8 @@ class GameHuntingHelper
                 $co = 34;
             } elseif ($l <= 10000) {
                 $co = 59;
+            } elseif ($l <= $szansa) {
+                $co = 150;
             }
 
             $min_poz = $this->pokemonHelper->getInfo($co)['min_poziom'];
@@ -242,12 +262,18 @@ class GameHuntingHelper
     {
         $co = 0;
         $min_poz = 2000000000;
+        $szansa = 10000;
         while ($min_poz >= $userLevel + 6) {
-            $szansa = 10000;
+            if ($userLevel >= 100) {
+                if ($this->checkCaught->checkIfAllCaught('grota', false)) {
+                    //check if caught
+                    if (!$this->checkCaught->checkIfAllCaught('grota', true)) {
+                        $szansa = floor($szansa * 1.1);
+                    }
+                }
+            }
             $l = mt_rand(1, $szansa); //prawdopodobieństwo do 0,01% (0,0001)
-            if ($l <= 1) {
-                $co = 146;
-            } elseif ($l <= 1101) {
+            if ($l <= 1100) {
                 $co = 23;
             } elseif ($l <= 2201) {
                 $co = 41;
@@ -287,6 +313,8 @@ class GameHuntingHelper
                 $co = 36;
             } elseif ($l <= 10000) {
                 $co = 40;
+            } elseif ($l <= $szansa) {
+                $co = 146;
             }
 
             $min_poz = $this->pokemonHelper->getInfo($co)['min_poziom'];
@@ -356,10 +384,16 @@ class GameHuntingHelper
         $min_poz = 2000000000;
         $szansa = 10000;
         while ($min_poz >= $userLevel + 6) {
+            if ($userLevel >= 100) {
+                if ($this->checkCaught->checkIfAllCaught('gory', false)) {
+                    //check if caught
+                    if (!$this->checkCaught->checkIfAllCaught('gory', true)) {
+                        $szansa = floor($szansa * 1.1);
+                    }
+                }
+            }
             $l = mt_rand(1, $szansa); //prawdopodobieństwo do 0,01% (0,0001)
-            if ($l <= 1) {
-                $co = 145;
-            } elseif ($l <= 1000) {
+            if ($l <= 1000) {
                 $co = 21;
             } elseif ($l <= 2000) {
                 $co = 56;
@@ -403,6 +437,8 @@ class GameHuntingHelper
                 $co = 81;
             } elseif ($l <= 10000) {
                 $co = 82;
+            } elseif ($l <= $szansa) {
+                $co = 145;
             }
 
             $min_poz = $this->pokemonHelper->getInfo($co)['min_poziom'];
@@ -416,10 +452,16 @@ class GameHuntingHelper
         $min_poz = 2000000000;
         $szansa = 10000;
         while ($min_poz >= $userLevel + 6) {
+            if ($userLevel >= 100) {
+                if ($this->checkCaught->checkIfAllCaught('wodospad', false)) {
+                    //check if caught
+                    if (!$this->checkCaught->checkIfAllCaught('wodospad', true)) {
+                        $szansa = floor($szansa * 1.1);
+                    }
+                }
+            }
             $l = mt_rand(1, $szansa); //prawdopodobieństwo do 0,01% (0,0001)
-            if ($l <= 1) {
-                $co = 144;
-            } elseif ($l <= 701) {
+            if ($l <= 701) {
                 $co = 54;
             } elseif ($l <= 1401) {
                 $co = 60;
@@ -473,6 +515,8 @@ class GameHuntingHelper
                 $co = 91;
             } elseif ($l <= 10000) {
                 $co = 121;
+            } elseif ($l <= $szansa) {
+                $co = 144;
             }
 
             $min_poz = $this->pokemonHelper->getInfo($co)['min_poziom'];

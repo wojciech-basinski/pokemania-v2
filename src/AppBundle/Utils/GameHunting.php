@@ -17,80 +17,101 @@ class GameHunting
      * @var EntityManagerInterface
      */
     private $em;
+
     /**
      * @var Session
      */
     private $session;
+
     /**
      * @var Collection
      */
     private $collection;
+
     /**
      * @var array
-     *
-     * User Collection
      */
     private $userCollection;
+
     /**
      * @var PokemonHelper
      */
     private $pokemonHelper;
+
     /**
      * @var GameHuntingHelper
      */
     private $gameHuntingHelper;
+
     /**
      * @var string
      */
     private $place;
+
     /**
      * @var int
      */
     private $pa;
+
     /**
      * @var int
      */
     private $event;
+
     /**
      * @var Pokemon
      */
     private $pokemon;
+
     /**
      * @var array
      */
     private $pokemonInfo;
+
     /**
      * @var RequestStack
      */
     private $request;
+
     /**
      * @var null|Berry
      */
     private $berry = null;
+
     /**
      * @var null|Pokeball
      */
     private $pokeball = null;
+
     /**
      * @var null|Stones
      */
     private $stone = null;
+
     /**
      * @var null|Items
      */
     private $item = null;
+
     /**
      * @var GameHuntingTrainerHelper
      */
     private $trainerHelper;
+
     /**
      * @var null|array
      */
     private $trainerInfo = null;
+
     /**
      * @var User|null
      */
     private $user;
+
+    /**
+     * @var GameCheckCaught
+     */
+    private $checkCaught;
 
     public function __construct(
         EntityManagerInterface $em,
@@ -99,7 +120,8 @@ class GameHunting
         PokemonHelper $pokemonHelper,
         GameHuntingHelper $gameHuntingHelper,
         RequestStack $request,
-        GameHuntingTrainerHelper $trainerHelper
+        GameHuntingTrainerHelper $trainerHelper,
+        GameCheckCaught $checkCaught
     ) {
         $this->em = $em;
         $this->session = $session;
@@ -108,6 +130,7 @@ class GameHunting
         $this->gameHuntingHelper = $gameHuntingHelper;
         $this->request = $request;
         $this->trainerHelper = $trainerHelper;
+        $this->checkCaught = $checkCaught;
     }
 
     public function getTrainerBattleInfo(): array
@@ -475,156 +498,7 @@ class GameHunting
 
     private function pokemonCatchedInPlaces(string $place): array
     {
-        return $this->{'catched' . $place}();
-    }
-
-    private function checkCatched(array $pokemons): array
-    {
-        $table = [];
-        $count = count($pokemons);
-        for ($i = 0; $i < $count; $i++) {
-            $regionName = $this->getRegionNameFromPokemonId($pokemons[$i]);
-            $id = $this->getIdInCollection($pokemons[$i]);
-            $table[$i] = [
-                'id' => $pokemons[$i],
-                'name' => $this->pokemonHelper->getInfo($pokemons[$i])['nazwa'],
-                'caught' => $this->userCollection[$regionName][$id - 1]['caught'],
-                'met' => $this->userCollection[$regionName][$id - 1]['meet'],
-            ];
-        }
-        return $table;
-    }
-
-    private function catchedMrocznyLas(): array
-    {
-        $pokemons = [
-            41, 42, 163, 164, 167, 168, 169, 197, 198, 200, 214, 215, 228, 229
-        ];
-        return $this->checkCatched($pokemons);
-    }
-
-    private function catchedJezioro(): array
-    {
-        $pokemons = [
-            79, 80, 116, 117, 158, 159, 160, 170, 171, 183, 184, 199, 223, 224, 226, 230
-        ];
-        return $this->checkCatched($pokemons);
-    }
-
-    private function catchedJohto5(): array
-    {
-        $pokemons = [
-            35, 36, 39, 40, 113, 173, 174, 175, 176, 177, 178, 201, 202, 203, 242
-        ];
-        return $this->checkCatched($pokemons);
-    }
-
-    private function catchedWulkan(): array
-    {
-        $pokemons = [
-            95, 123, 126, 155, 156, 157, 185, 190, 196, 207, 208, 212, 218, 219, 227, 228, 229, 240
-        ];
-        return $this->checkCatched($pokemons);
-    }
-
-    private function catchedMokradla(): array
-    {
-        $pokemons = [
-            60, 61, 183, 184, 193, 194, 195, 206, 211, 214, 222, 234
-        ];
-        return $this->checkCatched($pokemons);
-    }
-
-    private function catchedLodowiec(): array
-    {
-        $pokemons = [
-            124, 137, 215, 216, 217, 220, 221, 225, 231, 232, 233, 234, 238, 246, 247, 248
-        ];
-        return $this->checkCatched($pokemons);
-    }
-
-    private function catchedLaka(): array
-    {
-        $pokemons = [
-            43, 44, 152, 153, 154, 161, 162, 165, 166, 172, 177,
-            178, 179, 180, 181, 182, 187, 188, 189, 191, 192, 204, 205, 209, 210, 241
-        ];
-        return $this->checkCatched($pokemons);
-    }
-
-    private function catchedPolana(): array
-    {
-        $pokemons = [
-            1, 2, 3, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23, 24, 25, 26,
-            37, 38, 43, 44, 45, 69, 70, 71, 102, 103, 108, 114, 133
-        ];
-        if ($this->user->getTrainerLevel() >= 94) {
-            $pokemons[] = 151;
-        }
-        return $this->checkCatched($pokemons);
-    }
-
-    private function catchedWyspa(): array
-    {
-        $pokemons = [
-            19, 20, 23, 24, 29, 30, 31, 32, 33, 34, 46, 47, 48, 49, 52,
-            53, 58, 59, 79, 80, 96, 97, 98, 99, 100, 101, 108, 124
-        ];
-        if ($this->user->getTrainerLevel() >= 94) {
-            $pokemons[] = 150;
-        }
-        return $this->checkCatched($pokemons);
-    }
-
-    private function catchedGrota(): array
-    {
-        $pokemons = [
-            23, 24, 27, 28, 35, 36, 39, 40, 41, 42, 50, 51, 88, 89, 92, 93, 94, 95, 109, 110
-        ];
-        if ($this->user->getTrainerLevel() >= 94) {
-            $pokemons[] = 146;
-        }
-        return $this->checkCatched($pokemons);
-    }
-
-    private function catchedDomStrachow(): array
-    {
-        $pokemons = [
-            19, 20, 41, 42, 63, 64, 65, 88, 89, 92, 93, 94, 96, 97, 104, 105, 106, 107, 122, 124, 137
-        ];
-        return $this->checkCatched($pokemons);
-    }
-
-    private function catchedGory(): array
-    {
-        $pokemons = [
-            4, 5, 6, 21, 22, 56, 57, 66, 67, 68, 74, 75, 76, 77, 78, 81, 82, 95, 104, 105, 111, 112
-        ];
-        if ($this->user->getTrainerLevel() >= 94) {
-            $pokemons[] = 145;
-        }
-        return $this->checkCatched($pokemons);
-    }
-
-    private function catchedWodospad(): array
-    {
-        $pokemons = [
-            7, 8, 9, 54, 55, 60, 61, 62, 72, 73, 79, 80, 86, 87, 90, 91,
-            98, 99, 116, 117, 118, 119, 120, 121, 129, 130, 131
-        ];
-        if ($this->user->getTrainerLevel() >= 94) {
-            $pokemons[] = 144;
-        }
-        return $this->checkCatched($pokemons);
-    }
-
-    private function catchedSafari(): array
-    {
-        $pokemons = [
-            21, 22, 46, 47, 48, 49, 54, 55, 83, 84, 85, 102, 103, 108, 111,
-            112, 113, 114, 115, 123, 124, 125, 126, 127, 128
-        ];
-        return $this->checkCatched($pokemons);
+        return $this->checkCaught->check($place, $this->user, $this->collection);
     }
 
     private function getCollection(int $userId)
@@ -1367,26 +1241,6 @@ Wykopane przedmioty, które zabierasz ze sobą:<br />';
         }
         if ($this->berry !== null) {
             $this->em->persist($this->berry);
-        }
-    }
-
-    private function getRegionNameFromPokemonId(int $id): string
-    {
-        if ($id <= 151) {
-            return 'kanto';
-        }
-        if ($id <= 251) {
-            return 'johto';
-        }
-    }
-
-    private function getIdInCollection(int $id): int
-    {
-        if ($id <= 151) {
-            return $id;
-        }
-        if ($id <= 251) {
-            return $id - 151;
         }
     }
 
