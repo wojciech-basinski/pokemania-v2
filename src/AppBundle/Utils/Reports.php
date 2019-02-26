@@ -17,17 +17,17 @@ class Reports
         $this->em = $em;
     }
 
-    public function getReports(int $userId)
+    public function getReports(int $userId): array
     {
         return $this->em->getRepository('AppBundle:Report')->getReports($userId);
     }
 
-    public function markReportsAsRead(int $userId)
+    public function markReportsAsRead(int $userId): void
     {
         $this->em->getRepository('AppBundle:Report')->markReportsAsRead($userId);
     }
 
-    public function getOneReport(int $userId, int $reportId)
+    public function getOneReport(int $userId, int $reportId): bool
     {
         return $this->em->getRepository('AppBundle:Report')->getOneReport($userId, $reportId);
     }
@@ -37,7 +37,12 @@ class Reports
         return $this->em->getRepository('AppBundle:Report')->deleteOneReport($userId, $reportId);
     }
 
-    public function getArrayFromReport(Report $report)
+    public function deleteAllReports(int $userId): void
+    {
+        $this->em->getRepository('AppBundle:Report')->deleteReports($userId);
+    }
+
+    public function getArrayFromReport(Report $report): array
     {
         return [
             'status' => 1,

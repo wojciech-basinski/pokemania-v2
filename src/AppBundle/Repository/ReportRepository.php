@@ -66,4 +66,14 @@ class ReportRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function deleteReports(int $userId): void
+    {
+        $this->createQueryBuilder('r')
+            ->delete()
+            ->where('r.userId = :userId')
+            ->setParameter(':userId', $userId)
+            ->getQuery()
+            ->getResult();
+    }
 }
