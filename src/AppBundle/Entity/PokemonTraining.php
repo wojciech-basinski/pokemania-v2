@@ -66,35 +66,35 @@ class PokemonTraining
     /**
      * @var int
      *
-     * @ORM\Column(name="tr_1", type="integer")
+     * @ORM\Column(name="tr_1", type="smallint")
      */
     private $tr1;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="tr_2", type="integer")
+     * @ORM\Column(name="tr_2", type="smallint")
      */
     private $tr2;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="tr_3", type="integer")
+     * @ORM\Column(name="tr_3", type="smallint")
      */
     private $tr3;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="tr_4", type="integer")
+     * @ORM\Column(name="tr_4", type="smallint")
      */
     private $tr4;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="tr_5", type="integer")
+     * @ORM\Column(name="tr_5", type="smallint")
      */
     private $tr5;
 
