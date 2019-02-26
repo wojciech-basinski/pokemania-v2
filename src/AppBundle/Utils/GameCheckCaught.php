@@ -234,14 +234,14 @@ class GameCheckCaught
         }
     }
 
-    private function prepareUser()
+    private function prepareUser(): void
     {
         if ($this->user === null) {
             $this->user = $this->tokenStorage->getToken()->getUser();
         }
     }
 
-    private function prepareCollection()
+    private function prepareCollection(): void
     {
         if ($this->userCollection === null) {
             $this->userCollection = $this->collectionService->getUserCollection($this->user->getId());
