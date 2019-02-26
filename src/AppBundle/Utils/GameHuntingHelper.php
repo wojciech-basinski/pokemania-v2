@@ -99,6 +99,7 @@ class GameHuntingHelper
               else */
             $l = mt_rand(1, $szansa); //prawdopodobieństwo do 0,01% (0,0001)
             if ($l <= 1) {
+                //check if caught
                 $co = 151;
             } elseif ($l <= 851) {
                 $co = 10;
@@ -300,9 +301,7 @@ class GameHuntingHelper
         $szansa = 10000;
         while ($min_poz >= $userLevel + 6) {
             $l = mt_rand(1, $szansa); //prawdopodobieństwo do 0,01% (0,0001)
-            if ($l <= 1) {
-                $co = 145;
-            } elseif ($l <= 1301) {
+            if ($l <= 1300) {
                 $co = 19;
             } elseif ($l <= 2601) {
                 $co = 41;
@@ -358,7 +357,9 @@ class GameHuntingHelper
         $szansa = 10000;
         while ($min_poz >= $userLevel + 6) {
             $l = mt_rand(1, $szansa); //prawdopodobieństwo do 0,01% (0,0001)
-            if ($l <= 1000) {
+            if ($l <= 1) {
+                $co = 145;
+            } elseif ($l <= 1000) {
                 $co = 21;
             } elseif ($l <= 2000) {
                 $co = 56;

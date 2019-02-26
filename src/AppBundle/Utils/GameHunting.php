@@ -87,6 +87,10 @@ class GameHunting
      * @var null|array
      */
     private $trainerInfo = null;
+    /**
+     * @var User|null
+     */
+    private $user;
 
     public function __construct(
         EntityManagerInterface $em,
@@ -120,9 +124,10 @@ class GameHunting
         return $this->trainerHelper->getTrainerPokemons();
     }
 
-    public function getPlacesJohto(int $userId): array
+    public function getPlacesJohto(User $user): array
     {
-        $this->getCollection($userId);
+        $this->user = $user;
+        $this->getCollection($user->getId());
         return [
             'polana' => [
                 'name' => 'laka',
@@ -169,9 +174,10 @@ class GameHunting
         ];
     }
 
-    public function getPlacesKanto(int $userId): array
+    public function getPlacesKanto(User $user): array
     {
-        $this->getCollection($userId);
+        $this->user = $user;
+        $this->getCollection($user->getId());
         return [
             'polana' => [
                 'name' => 'polana',
@@ -475,7 +481,8 @@ class GameHunting
     private function checkCatched(array $pokemons): array
     {
         $table = [];
-        for ($i = 0; $i < count($pokemons); $i++) {
+        $count = count($pokemons);
+        for ($i = 0; $i < $count; $i++) {
             $regionName = $this->getRegionNameFromPokemonId($pokemons[$i]);
             $id = $this->getIdInCollection($pokemons[$i]);
             $table[$i] = [
@@ -551,6 +558,9 @@ class GameHunting
             1, 2, 3, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23, 24, 25, 26,
             37, 38, 43, 44, 45, 69, 70, 71, 102, 103, 108, 114, 133
         ];
+        if ($this->user->getTrainerLevel() >= 94) {
+            $pokemons[] = 151;
+        }
         return $this->checkCatched($pokemons);
     }
 
@@ -560,6 +570,9 @@ class GameHunting
             19, 20, 23, 24, 29, 30, 31, 32, 33, 34, 46, 47, 48, 49, 52,
             53, 58, 59, 79, 80, 96, 97, 98, 99, 100, 101, 108, 124
         ];
+        if ($this->user->getTrainerLevel() >= 94) {
+            $pokemons[] = 150;
+        }
         return $this->checkCatched($pokemons);
     }
 
@@ -568,6 +581,9 @@ class GameHunting
         $pokemons = [
             23, 24, 27, 28, 35, 36, 39, 40, 41, 42, 50, 51, 88, 89, 92, 93, 94, 95, 109, 110
         ];
+        if ($this->user->getTrainerLevel() >= 94) {
+            $pokemons[] = 146;
+        }
         return $this->checkCatched($pokemons);
     }
 
@@ -584,6 +600,9 @@ class GameHunting
         $pokemons = [
             4, 5, 6, 21, 22, 56, 57, 66, 67, 68, 74, 75, 76, 77, 78, 81, 82, 95, 104, 105, 111, 112
         ];
+        if ($this->user->getTrainerLevel() >= 94) {
+            $pokemons[] = 145;
+        }
         return $this->checkCatched($pokemons);
     }
 
@@ -593,6 +612,9 @@ class GameHunting
             7, 8, 9, 54, 55, 60, 61, 62, 72, 73, 79, 80, 86, 87, 90, 91,
             98, 99, 116, 117, 118, 119, 120, 121, 129, 130, 131
         ];
+        if ($this->user->getTrainerLevel() >= 94) {
+            $pokemons[] = 144;
+        }
         return $this->checkCatched($pokemons);
     }
 
@@ -1350,20 +1372,20 @@ Wykopane przedmioty, które zabierasz ze sobą:<br />';
 
     private function getRegionNameFromPokemonId(int $id): string
     {
-        if ($id < 151) {
+        if ($id <= 151) {
             return 'kanto';
         }
-        if ($id < 251) {
+        if ($id <= 251) {
             return 'johto';
         }
     }
 
     private function getIdInCollection(int $id): int
     {
-        if ($id < 151) {
+        if ($id <= 151) {
             return $id;
         }
-        if ($id < 251) {
+        if ($id <= 251) {
             return $id - 151;
         }
     }
