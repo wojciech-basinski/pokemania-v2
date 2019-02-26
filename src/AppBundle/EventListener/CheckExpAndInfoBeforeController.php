@@ -7,6 +7,7 @@ use AppBundle\Entity\Pokemon;
 use AppBundle\Entity\Report;
 use AppBundle\Entity\User;
 use AppBundle\Utils\AuthenticationService;
+use AppBundle\Utils\Collection;
 use AppBundle\Utils\PokemonHelper;
 use AppBundle\Utils\UserExperience;
 use Doctrine\ORM\EntityManagerInterface;
@@ -55,6 +56,10 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
      * @var Request
      */
     private $request;
+    /**
+     * @var Collection
+     */
+    private $collection;
 
     public function __construct(
         SessionInterface $session,
@@ -64,7 +69,8 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
         AuthenticationService $auth,
         PokemonHelper $pokemonHelper,
         RouterInterface $router,
-        RequestStack $request
+        RequestStack $request,
+        Collection $collection
     ) {
         $this->session = $session;
         $this->em = $em;
@@ -74,6 +80,8 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
         $this->pokemonHelper = $pokemonHelper;
         $this->router = $router;
         $this->request = $request->getCurrentRequest();
+        $this->request = $request;
+        $this->collection = $collection;
     }
 
     public function onKernelController(FilterControllerEvent $event)
@@ -329,15 +337,10 @@ Twój Pokemon <span class="pogrubienie">'.$oldName.'</span> awansował na kolejn
     private function checkCollection(Pokemon $pokemon)
     {
         if (in_array($pokemon->getIdPokemon(), [148, 149, 139, 141])) {
-            $collection = $this->em->getRepository('AppBundle:Collection')
-                ->find($this->tokenStorage->getToken()->getUser()->getId());
-            $collectionAsArray = $collection->getCollectionAsArray();
-            $newCollection = explode(',', $collectionAsArray[$pokemon->getIdPokemon()]);
-            $newCollection[0]++;
-            $newCollection[1]++;
-            $collectionAsArray[$pokemon->getIdPokemon()] = implode(',', $newCollection);
-            $collection->setCollection(implode(';', $collectionAsArray));
-            $this->em->persist($collection);
+            $this->collection->addOneToPokemonCatchAndMet(
+                $pokemon->getIdPokemon(),
+                $this->tokenStorage->getToken()->getUser()->getId()
+            );
         }
     }
 
