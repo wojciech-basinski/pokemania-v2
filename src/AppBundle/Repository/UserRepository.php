@@ -32,12 +32,26 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
         $qb->update('AppBundle:User', 'u');
         $qb->set('u.pa', '(u.pa + 0.1 * u.mpa)');
         $qb->where('u.pa <= (0.9 * u.mpa)');
-        $qb->getQuery()->execute();
+        $qb->getQuery()
+            ->execute();
 
         $qb = $this->_em->createQueryBuilder();
         $qb->update('AppBundle:User', 'u');
         $qb->set('u.pa', 'u.mpa');
         $qb->where('u.pa >= (0.9 * u.mpa)');
-        $qb->getQuery()->execute();
+        $qb->getQuery()
+            ->execute();
+    }
+
+    public function removeInactive(): void
+    {
+        $date = (new \DateTime('now - 10 minutes'))->getTimestamp();
+        $this->createQueryBuilder('u')
+            ->update()
+            ->set('u.sessionId', '\'\'')
+            ->where('u.lastActive < :date')
+            ->setParameter(':date', $date)
+            ->getQuery()
+            ->execute();
     }
 }
