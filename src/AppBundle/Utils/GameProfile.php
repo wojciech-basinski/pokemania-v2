@@ -147,7 +147,7 @@ class GameProfile
         if ($friend) {
             return 1;
         }
-        $invite = $this->em->getRepository('AppBundle:Friend')->getOneInvitation($this->id, $this->user->getId());
+        $invite = $this->em->getRepository('AppBundle:Friend')->checkIfUserSentInvitation($this->id, $this->user->getId());
         if ($invite) {
             return 2;
         }
