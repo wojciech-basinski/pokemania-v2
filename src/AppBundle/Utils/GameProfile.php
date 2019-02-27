@@ -143,15 +143,22 @@ class GameProfile
         if ($this->id === $this->user->getId()) {
             return 0;
         }
-        $friend = $this->em->getRepository('AppBundle:Friend')->getOneFriendship($this->id, $this->user->getId());
+        $friend = $this->em->getRepository('AppBundle:Friend')
+            ->getOneFriendship($this->id, $this->user->getId());
         if ($friend) {
             return 1;
         }
-        $invite = $this->em->getRepository('AppBundle:Friend')->checkIfUserSentInvitation($this->id, $this->user->getId());
+        $invite = $this->em->getRepository('AppBundle:Friend')
+            ->checkIfUserSentInvitation($this->id, $this->user->getId());
         if ($invite) {
             return 2;
         }
-        return 3;
+        $inviteGot = $this->em->getRepository('AppBundle:Friend')
+            ->checkIfUserReceivedInvitation($this->id, $this->user->getId());
+        if ($inviteGot) {
+            return 3;
+        }
+        return 4;
     }
 
     public function getUserProfileFromUsername(string $userName): ?User

@@ -46,10 +46,9 @@ class FriendRepository extends \Doctrine\ORM\EntityRepository
     public function getOneFriendship(int $id, int $userId)
     {
         return $this->createQueryBuilder('f')
-            ->where('f.userId = :uId')
-            ->orWhere('f.whoId = :uId')
+            ->where('(f.userId = :uId OR f.whoId = :uId)')
+            ->andWhere('(f.userId = :id OR f.whoId = :id)')
             ->andWhere('f.accepted = 1')
-            ->andWhere('f.id = :id')
             ->setParameter(':uId', $userId)
             ->setParameter(':id', $id)
             ->getQuery()

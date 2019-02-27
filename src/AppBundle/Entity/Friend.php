@@ -22,9 +22,9 @@ class Friend
     private $id;
 
     /**
-     * @var int
+     * @var User
      *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", fetch="EAGER")
      */
     private $userId;
 
@@ -36,9 +36,9 @@ class Friend
     private $invitation;
 
     /**
-     * @var int
+     * @var User
      *
-     * @ORM\Column(name="who_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", fetch="EAGER")
      */
     private $whoId;
 
@@ -54,7 +54,7 @@ class Friend
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -62,11 +62,11 @@ class Friend
     /**
      * Set userId
      *
-     * @param integer $userId
+     * @param User $userId
      *
      * @return Friend
      */
-    public function setUserId($userId)
+    public function setUserId(User $userId): self
     {
         $this->userId = $userId;
 
@@ -76,9 +76,9 @@ class Friend
     /**
      * Get userId
      *
-     * @return int
+     * @return User
      */
-    public function getUserId()
+    public function getUserId(): User
     {
         return $this->userId;
     }
@@ -90,7 +90,7 @@ class Friend
      *
      * @return Friend
      */
-    public function setInvitation($invitation)
+    public function setInvitation(bool $invitation): self
     {
         $this->invitation = $invitation;
 
@@ -102,7 +102,7 @@ class Friend
      *
      * @return bool
      */
-    public function getInvitation()
+    public function getInvitation(): bool
     {
         return $this->invitation;
     }
@@ -110,11 +110,11 @@ class Friend
     /**
      * Set whoId
      *
-     * @param integer $whoId
+     * @param User $whoId
      *
      * @return Friend
      */
-    public function setWhoId($whoId)
+    public function setWhoId(User $whoId): self
     {
         $this->whoId = $whoId;
 
@@ -124,9 +124,9 @@ class Friend
     /**
      * Get whoId
      *
-     * @return int
+     * @return User
      */
-    public function getWhoId()
+    public function getWhoId(): User
     {
         return $this->whoId;
     }
@@ -138,7 +138,7 @@ class Friend
      *
      * @return Friend
      */
-    public function setAccepted($accepted)
+    public function setAccepted(bool $accepted): self
     {
         $this->accepted = $accepted;
 
@@ -150,7 +150,7 @@ class Friend
      *
      * @return bool
      */
-    public function getAccepted()
+    public function getAccepted(): bool
     {
         return $this->accepted;
     }

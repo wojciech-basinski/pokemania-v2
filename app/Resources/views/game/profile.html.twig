@@ -43,6 +43,8 @@
                                 {% endif %}
                             {% elseif friend == 2 %}
                                 <span class="zielony">Wysłano zaproszenie do znajomych.</span>
+                            {% elseif friend == 3 %}
+                                <span class="zielony">Otrzymano zaproszenie do znajomych.</span>
                             {% else %}
                                 <button class="btn btn-primary btn-lg dodaj" data-href="{{ path('game_friends_add', {'id' : user.id})  }}">DODAJ JAKO ZNAJOMEGO</button>
                                 <div id="zaproszenie"></div>
