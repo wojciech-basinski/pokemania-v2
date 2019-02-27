@@ -24,9 +24,6 @@ class GameMainController extends Controller
      */
     public function gameIndexAction()
     {
-        $this->getDoctrine()->getRepository('AppBundle:User')->addPa();
-        $this->getDoctrine()->getRepository('AppBundle:Pokemon')->addHungerToPokemons();
-
         $repository = $this->getDoctrine()->getRepository('AppBundle:Statistic');
         $statistics = $repository->find($this->getUser()->getId());
 
