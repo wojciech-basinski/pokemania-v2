@@ -32,9 +32,9 @@ class Friends
             return 0;
         }
 
-        $secondUserId = $friendship->getUserId();
+        $secondUserId = $friendship->getUserId()->getId();
         if ($secondUserId === $userId) {
-            $secondUserId = $friendship->getWhoId();
+            $secondUserId = $friendship->getWhoId()->getId();
         }
         $this->em->remove($friendship);
 
@@ -50,9 +50,9 @@ class Friends
             return 0;
         }
 
-        $secondUserId = $friendship->getUserId();
+        $secondUserId = $friendship->getUserId()->getId();
         if ($secondUserId === $userId) {
-            $secondUserId = $friendship->getWhoId();
+            $secondUserId = $friendship->getWhoId()->getId();
         }
         $friendship->setInvitation(0);
         $friendship->setAccepted(1);
@@ -72,9 +72,9 @@ class Friends
             return 0;
         }
 
-        $secondUserId = $friendship->getUserId();
+        $secondUserId = $friendship->getUserId()->getId();
         if ($secondUserId === $userId) {
-            $secondUserId = $friendship->getWhoId();
+            $secondUserId = $friendship->getWhoId()->getId();
         }
 
         $this->em->remove($friendship);
@@ -91,9 +91,9 @@ class Friends
             return 0;
         }
 
-        $secondUserId = $friendship->getUserId();
+        $secondUserId = $friendship->getUserId()->getId();
         if ($secondUserId === $userId) {
-            $secondUserId = $friendship->getWhoId();
+            $secondUserId = $friendship->getWhoId()->getId();
         }
 
         $this->em->remove($friendship);
@@ -183,11 +183,12 @@ class Friends
 
     private function insertInvitation(int $id, User $user)
     {
+        $userToSent = $this->em->find('AppBundle:User', $id);
         $friendship = new Friend();
         $friendship->setInvitation(1);
         $friendship->setAccepted(0);
-        $friendship->setUserId($user->getId());
-        $friendship->setWhoId($id);
+        $friendship->setUserId($user);
+        $friendship->setWhoId($userToSent);
 
         $this->em->persist($friendship);
         $this->em->flush();
