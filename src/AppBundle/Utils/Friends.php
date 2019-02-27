@@ -169,7 +169,6 @@ class Friends
         $report->setTime(new \DateTime);
         $report->setUserId($userId);
         $report->setIsRead(0);
-        //print_r($report);die;
         $this->em->persist($report);
         $this->em->flush();
     }
