@@ -80,7 +80,6 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
         $this->pokemonHelper = $pokemonHelper;
         $this->router = $router;
         $this->request = $request->getCurrentRequest();
-        $this->request = $request;
         $this->collection = $collection;
     }
 
