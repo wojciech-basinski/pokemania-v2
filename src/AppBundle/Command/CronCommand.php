@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Command;
 
+use AppBundle\Entity\Cron;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -37,7 +38,7 @@ class CronCommand extends ContainerAwareCommand
 
         switch ($mode) {
             case 'AddPa':
-                $this->addPa($output);
+                $this->addPa();
                 break;
             case 'RemoveInactive':
                 $this->removeInactive();
@@ -46,13 +47,24 @@ class CronCommand extends ContainerAwareCommand
         return;
     }
 
-    private function addPa(OutputInterface $output): void
+    private function addPa(): void
     {
         $this->em->getRepository('AppBundle:User')->addPa();
+        $this->addCronMessage('Executed AddPa');
     }
 
     private function removeInactive(): void
     {
         $this->em->getRepository('AppBundle:User')->removeInactive();
+        $this->addCronMessage('Executed RemoveInactive');
+    }
+
+    private function addCronMessage(string $message): void
+    {
+        $cron = new Cron();
+        $cron->setDate(new \DateTime())
+            ->setLog($message);
+        $this->em->persist($cron);
+        $this->em->flush();
     }
 }
