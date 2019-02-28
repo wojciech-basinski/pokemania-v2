@@ -276,6 +276,15 @@ class PokemonRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
     }
 
+    public function setSnackTo0(): void
+    {
+        $this->createQueryBuilder('p')
+            ->update()
+            ->set('p.snacks', 0)
+            ->getQuery()
+            ->execute();
+    }
+
     public function addHungerToPokemons()
     {
 //        $kwer = 'UPDATE pokemons p JOIN users u ON u.id = p.owner SET p.hunger = (p.hunger + 1.04) WHERE p.team = 1 AND p.hunger < 100 AND u.badges like "1|1|1|1|1%" ';

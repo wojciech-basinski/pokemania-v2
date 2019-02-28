@@ -1,8 +1,7 @@
 <?php
 namespace AppBundle\Command;
 
-use AppBundle\Entity\Cron;
-use Doctrine\ORM\EntityManagerInterface;
+use AppBundle\Utils\Cron;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,14 +10,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CronCommand extends ContainerAwareCommand
 {
     /**
-     * @var EntityManagerInterface
+     * @var Cron
      */
-    private $em;
+    private $cron;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(Cron $cron)
     {
         parent::__construct();
-        $this->em = $em;
+        $this->cron = $cron;
     }
 
     protected function configure(): void
@@ -43,28 +42,25 @@ class CronCommand extends ContainerAwareCommand
             case 'RemoveInactive':
                 $this->removeInactive();
                 break;
+            case 'DailyReset':
+                $this->dailyReset();
+                break;
         }
         return;
     }
 
     private function addPa(): void
     {
-        $this->em->getRepository('AppBundle:User')->addPa();
-        $this->addCronMessage('Executed AddPa');
+        $this->cron->addPa();
     }
 
     private function removeInactive(): void
     {
-        $this->em->getRepository('AppBundle:User')->removeInactive();
-        $this->addCronMessage('Executed RemoveInactive');
+        $this->cron->removeInactive();
     }
 
-    private function addCronMessage(string $message): void
+    private function dailyReset(): void
     {
-        $cron = new Cron();
-        $cron->setDate(new \DateTime())
-            ->setLog($message);
-        $this->em->persist($cron);
-        $this->em->flush();
+        $this->cron->dailyReset();
     }
 }
