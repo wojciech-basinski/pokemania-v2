@@ -15,6 +15,7 @@ use AppBundle\Utils\PokemonHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -29,6 +30,19 @@ class GamePokemonController extends Controller
     public function __construct(RequestStack $request)
     {
         $this->request = $request->getCurrentRequest();
+    }
+
+    /**
+     * @Route("/pokemon", name="game_pokemon_post")
+     * @Method("POST")
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function pokemonFromLeftFormAction(Request $request)
+    {
+        $id = $request->request->get('id');
+        return $this->redirectToRoute('game_pokemon', ['id' => $id]);
     }
 
     /**

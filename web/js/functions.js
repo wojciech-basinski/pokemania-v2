@@ -129,9 +129,6 @@ $(document).ready(function()
         klucz(e);
     });
     
-    if($('#nagroda_modal').length)
-        $('#nagroda_modal').modal("show");
-    
     ////////////////////test menu ajax//////////////////////////////////////////
     /*var mode1 = $('#mode').text();
     wgrane[0] = mode1;
@@ -196,6 +193,26 @@ $(document).ready(function()
         //$('#menu_pokemona').fadeIn();
         return false;
     });
+
+    $('.dropdown-menu[id=menu_pokemon_list]').on('click', '.info', function()
+    {
+        var url = pokemonInfoHref.replace('replace', id_poka_konst);
+        $('.modal-body[name="_modal"]').load(url + '?modal=1', function() {
+            zamknij_menu();
+            $('#__modal').modal("show");
+        });
+    });
+
+    $('.dropdown-menu[id=menu_pokemon_list]').on('click', '.sala', function()
+    {
+        window.location =  trainingHref.replace('replace', id_poka_konst);
+        zamknij_menu();
+    });
+
+
+
+
+
      $('.dropdown-menu[id=menu_pokemon_list]').on('click', '.wylecz_centrum', function()
     {
         $('.modal-body[name="_modal"]').load(URL+'lecznica/wylecz/'+id_i+'/?komunikat&ajax', function()
@@ -206,24 +223,7 @@ $(document).ready(function()
             $('#__modal').modal("show");
         });
     });
-    $('.dropdown-menu[id=menu_pokemon_list]').on('click', '.info', function()
-    {
-        var url = pokemonInfoHref.replace('replace', id_poka_konst);
-        $('.modal-body[name="_modal"]').load(url + '?modal=1', function() {
-            zamknij_menu();
-            $('#__modal').modal("show");
-        });
-        /*$.getJSON(URL+'pokemon/'+id_poka_konst+'/?ajax&modal', function(json)
-        {
-            $('.modal-title[name="_modal"]').text(json.title);
-            $('.modal-body[name="_modal"]').html(json.body);
-        });*/
-    });
-    $('.dropdown-menu[id=menu_pokemon_list]').on('click', '.sala', function()
-    {
-        window.location = URL+'sala/'+id_poka_konst;
-        zamknij_menu();
-    });
+
     $('.dropdown-menu[id=menu_pokemon_list]').on('click', '.nakarm', function()
     {
         $('.modal-body[name="_modal"]').load(URL+'stopka/nakarm/'+id_poka_konst+'/?ajax', function()
@@ -258,11 +258,12 @@ $(document).ready(function()
     {
         zamknij_menu();
     });
-    
-    
-    
-    
-    
+
+
+
+
+    if($('#nagroda_modal').length)
+        $('#nagroda_modal').modal("show");
     if(settings.clock) clock();
     if($('#beta').length)
     {	
