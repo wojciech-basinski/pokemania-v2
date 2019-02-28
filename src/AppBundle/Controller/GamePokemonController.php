@@ -46,7 +46,7 @@ class GamePokemonController extends Controller
     }
 
     /**
-     * @Route("/pokemon/{id}", name="game_pokemon")
+     * @Route("/game/pokemon/{id}", name="game_pokemon")
      * @param PokemonHelper $pokemonHelper
      * @param AttackHelper $attackHelper
      * @param GamePokemon $pokemonService
@@ -365,7 +365,7 @@ class GamePokemonController extends Controller
     }
 
     /**
-     * @Route("/pokemon/nakarm/{id}", name="game_pokemon_feed")
+     * @Route("/game/pokemon/nakarm/{id}", name="game_pokemon_feed")
      * @param int $id
      *
      * @param GamePokemon $pokemonService
