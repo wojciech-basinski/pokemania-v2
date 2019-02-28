@@ -71,7 +71,12 @@ class GamePokemonController extends Controller
         $pokemonAndInfoAboutPokemon = $pokemonService->
             getPokemonInfo($id, $this->getUser(), $this->request->query->get('modal') ?? 0);
 
-        return $this->render('game/pokemon.html.twig', [
+        if ($this->getUser() === null) {
+            $renderFile = 'game/pokemonNotLogged.html.twig';
+        } else {
+            $renderFile = 'game/pokemon.html.twig';
+        }
+        return $this->render($renderFile, [
             'title' => 'Pokemon',
             'ajax' => $this->request->isXmlHttpRequest(),
             'modal' => $this->request->query->get('modal') ?? 0,

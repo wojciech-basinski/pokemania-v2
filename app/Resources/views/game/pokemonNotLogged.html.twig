@@ -1,0 +1,417 @@
+<html>
+    <head>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('css/menu.css') }}" type="text/css">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
+        <link rel="stylesheet" href="{{ asset('css/style_black.css') }}" type="text/css" id="black" >
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="{{ asset('js/pokemon.js') }}"></script>
+    </head>
+    <body>
+<div class="row"><div class="col-xs-12" id="prawo">
+<div class="panel panel-success jeden_ttlo">
+<div class="panel-heading">
+    <span>STAN POKEMONA</span>
+</div>
+<div class="panel-body">
+<div class="row nomargin">
+<div class="col-xs-12">
+    {% if pokemon is iterable %}
+    {% if isInTeam and isOwner and modal == 0%}
+    <ul class="nav nav-tabs nav-justified margin-top">
+        {% for pokemon in pokemon %}
+            <li {{ (pokemonId == pokemon.id) ? 'class="active"' : '' }}>
+                <a data-toggle="tab" href="#{{ pokemon.id }}" class="pok-tab-a">
+                    <img src="{{ asset('img/poki/srednie/' ~ (pokemon.shiny ? 's' : '') ~ pokemon.idPokemon ~ '.png') }}"
+                         class="pok-tab center" />
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="tab-content">
+        {% endif %}
+        {% for pokemon in pokemon %}
+            {% if isInTeam and isOwner and modal == 0%}
+                <div id="{{ pokemon.id }}" class="tab-pane fade {{ (pokemonId == pokemon.id) ? 'in active' : '' }}">
+            {% endif %}
+            <div class="panel panel-success jeden_ttlo">
+                <div class="panel-heading">
+                    <span>{{ pokemon.name|upper }}</span>
+                </div>
+                <div class="panel-body">
+                    <div class="well well-stan dwa_ttlo">
+                        <div class="row nomargin">
+                            <div class="col-xs-12 col-sm-4 margin-top-big">
+                                <img src="{{ asset('img/poki/' ~ (pokemon.shiny ? 's' : '') ~ pokemon.idPokemon ~ '.png') }}"
+                                     class="img-responsive center"/>
+                            </div>
+                            <div class="col-xs-12 col-sm-8">
+                                <div class="row nomargin well well-stan alert-info margin_2 color-white">
+                                    <div class="col-xs-4">Gatunek</div>
+                                    <div class="col-xs-8">
+                                        #{{ pokemon.idPokemon }} <a href="pokemon_info.php?n=<?=$value['id_poka']?>"
+                                                                    TARGET="_blank" class="btn btn-link nopadding">
+                                            {{ pokemon.shiny ? 'Shiny ' : ''}}{{ pokemon.name }}
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="row nomargin well well-stan alert-info margin_2 color-white">
+                                    <div class="col-xs-4">Właściciel</div>
+                                    <div class="col-xs-8">
+                                        <a href="{{ path("game_user_profile", {'id' : pokemon.owner}) }}" TARGET="_blank"
+                                           class="btn btn-link nopadding">{{ owner }}</a>
+                                    </div>
+                                </div>
+
+                                <div class="row nomargin well well-stan alert-info margin_2 color-white">
+                                    <div class="col-xs-4">POZIOM:</div>
+                                    <div class="col-xs-8">{{ pokemon.level }}</div>
+                                </div>
+
+                                {% if isOwner %}
+                                    <div class="row nomargin well well-stan alert-info margin_2 color-white">
+                                        <div class="col-xs-4">EXP:</div>
+                                        <div class="col-xs-8">{{ pokemon.exp }}</div>
+                                    </div>
+                                {% endif %}
+
+                                <div class="row nomargin well well-stan alert-info margin_2 color-white">
+                                    <div class="col-xs-4">TYP{{ pokemon.info.typ2 ? 'Y' : '' }}:</div>
+                                    <div class="col-xs-8">
+                                        <img src="{{ asset('img/typy/'~ pokemon.info.typ1 ~ '.gif') }}" data-toggle="tooltip" data-title="{{ pokemon.info.type1Description }}"/>
+                                        {% if pokemon.info.typ2 %}
+                                            <img src="{{ asset('img/typy/'~ pokemon.info.typ2 ~ '.gif') }}" data-toggle="tooltip" data-title="{{ pokemon.info.type2Description }}"/>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="row nomargin well well-stan alert-info margin_2 color-white">
+                                    <div class="col-xs-4">PŁEĆ:</div>
+                                    <div class="col-xs-8">
+                                        {% if pokemon.gender == 0 %}
+                                            <span class="icon-mars" data-title="Płeć męska" data-toggle="tooltip"></span>
+                                        {% elseif pokemon.gender == 1 %}
+                                            <span class="icon-venus" data-title="Płeć żeńska" data-toggle="tooltip"></span>
+                                        {% else %}
+                                            Pokemon jest bezpłciowy
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="row nomargin well well-stan alert-info margin_2 color-white">
+                                    <div class="col-xs-4">WARTOŚĆ:</div>
+                                    <div class="col-xs-8">{{ pokemon.value }} &yen;</div>
+                                </div>
+
+                                {% if isOwner %}
+                                    <div class="row nomargin well well-stan alert-info margin_2 color-white">
+                                        <div class="col-xs-4">ZŁAPANY:</div>
+                                        <div class="col-xs-8 text-center">
+                                            {{ pokemon.dateOfCatch|date }}<br />
+                                            {% if pokemon.catched == 'lottery' %}
+                                                Wygrany na loterii
+                                            {% elseif pokemon.catched == 'exchange' %}
+                                                Otrzymany za dukaty
+                                            {% elseif pokemon.catched == '' %}
+                                                Brak danych
+                                            {% elseif pokemon.catched == 'starter' %}
+                                                Starter
+                                            {% else %}
+                                                <img src="{{ asset('img/balle/'~pokemon.catched~'.png') }}" class="pokeball_min"
+                                                     data-toggle="tooltip" data-title="{{ pokemon.catched }}" />
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="row nomargin well well-stan alert-info margin_2 color-white">
+                                        <div class="col-xs-4" data-toggle="tooltip" data-title="przywiązanie">PRZYW:</div>
+                                        <div class="col-xs-8">
+                                            <div class="progress progress-gra prog_EXP" data-original-title="Przywiązanie pokemona" data-toggle="tooltip" data-placement="top">
+                                                <div class="progress-bar progress-bar-success progBarEXP" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
+                                                     style="width:{{ pokemon.getCountedAttachment }}%;"><span>{{ pokemon.getCountedAttachment }} %</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row nomargin well well-stan alert-info margin_2 color-white">
+                                        <div class="col-xs-4">JAKOŚĆ</div>
+                                        <div class="col-xs-8">{{ pokemon.quality }} %</div>
+                                    </div>
+                                {% endif %}
+                                {% if isInTeam and isOwner %}
+                                    <div class="row nomargin well well-stan alert-info margin_2 color-white">
+                                        <div class="col-xs-4">GŁÓD:</div>
+                                        <div class="col-xs-8">
+                                            {% if pokemon.hunger <= 50 %}
+                                                <div class="progress progress-gra prog_EXP" data-original-title="Głód Pokemona"
+                                                     data-toggle="tooltip" data-placement="top">
+                                                    <div class="progress-bar progress-bar-success progBarEXP" role="progressbar"
+                                                         aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
+                                                         style="width:{{ pokemon.hunger }}%;">
+                                                        <span>{{ pokemon.hunger }} %</span>
+                                                    </div>
+                                                </div>
+                                            {% elseif pokemon.hunger <= 90 %}
+                                                <div class="progress progress-gra prog_Z" data-original-title="Głód Pokemona"
+                                                     data-toggle="tooltip" data-placement="top">
+                                                    <div class="progress-bar progress-bar-success progBarZ" role="progressbar"
+                                                         aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
+                                                         style="width:{{ pokemon.hunger }}%;">
+                                                        <span>{{ pokemon.hunger }} %</span>
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <div class="progress progress-gra prog_HP" data-original-title="Głód Pokemona"
+                                                     data-toggle="tooltip" data-placement="top">
+                                                    <div class="progress-bar progress-bar-success progBarHP" role="progressbar"
+                                                         aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
+                                                         style="width:{{ pokemon.hunger }}%;">
+                                                        <span>{{ pokemon.hunger }} %</span>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <div class="col-xs-12 text-center margin-top">
+                                    <button class="btn btn-primary nakarm" data-href="{{ path
+                                        ('game_pokemon_feed', {'id' : pokemon.id}) }}"
+                                            data-id="{{
+                                            pokemon.id }}">Nakarm Pokemona</button>
+                                </div>
+                                <div id="nakarm_{{ pokemon.id }}"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul class="nav nav-tabs margin-top jeden_ttlo">
+                        <li class="active"><a data-toggle="tab" href="#statystyki_{{ pokemon.id }}">Statystyki</a></li>
+                        <li><a data-toggle="tab" href="#opis_{{ pokemon.id }}">Opis</a></li>
+                        <li><a data-toggle="tab" href="#odpornosci_{{ pokemon.id }}">Odporności</a></li>
+                        <li><a data-toggle="tab" href="#ataki_{{ pokemon.id }}">Ataki</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="statystyki_{{ pokemon.id }}" class="tab-pane active fade in">
+                            <div class="panel panel-success jeden_ttlo">
+                                <div class="panel-heading"><span>Statystyki</span></div>
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-condensed jeden_ttlo">
+                                            <thead>
+                                            <tr><th> </th><th>ATAK</th><th>SP.ATAK</th><th>OBRONA</th><th>SP.OBRONA</th><th>SZYBKOŚĆ</th><th>HP</th><th>CELNOŚĆ</th></tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr><td>PRZYROSTY</td><td>{{ (pokemon.quality * pokemon.attack/100)|round }}</td><td>{{ (pokemon.quality * pokemon.spAttack/100)|round }}</td>
+                                                <td>{{ (pokemon.quality * pokemon.defence/100)|round }}</td><td>{{ (pokemon.quality * pokemon.spDefence/100)|round }}</td>
+                                                <td>{{ (pokemon.quality * pokemon.speed/100)|round }}</td><td>{{ (pokemon.quality * pokemon.hp / 100)|round }}</td>
+                                                <td>{{ pokemon.accuracy }}%</td></tr>
+                                            <tr><td>JAGODY<span data-toggle="tooltip" data-title="limit jagód">({{ pokemon.training.berryLimit/5 }})</span></td><td>{{ (pokemon.training.berryAttack/5)|round(0, 'floor') }}</td><td>{{ (pokemon.training.berrySpAttack/5)|round(0, 'floor') }}</td>
+                                                <td>{{ (pokemon.training.berryDefence/5)|round(0, 'floor') }}</td><td>{{ (pokemon.training.berrySpDefence/5)|round(0, 'floor') }}</td><td>{{ (pokemon.training.berrySpeed/5)|round(0, 'floor') }}</td><td>{{ pokemon.berrysHP }}</td><td>---</td></tr>
+                                            <tr><td>TRENINGI</td><td>{{ pokemon.training.tr1 }}</td><td>{{ pokemon.training.tr2 }}</td><td>{{ pokemon.training.tr3 }}</td>
+                                                <td>{{ pokemon.training.tr4 }}</td><td>{{ pokemon.training.tr5 }}</td><td>{{ pokemon.tr6*5 }}</td><td>---</td></tr>
+                                            <tr class="pogrubienie"><td>ŁĄCZNIE</td>
+                                                <td>{{ pokemon.getAttackToTable }}</td>
+                                                <td>{{ pokemon.getSpAttackToTable }}</td>
+                                                <td>{{ pokemon.getDefenceToTable }}</td>
+                                                <td>{{ pokemon.getSpDefenceToTable }}</td>
+                                                <td>{{ pokemon.getSpeedToTable }}</td>
+                                                <td>{{  pokemon.getHpToTable }}</td><td>{{ pokemon.accuracy }}%</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="opis_{{ pokemon.id }}" class="tab-pane">
+                            <div class="panel panel-success jeden_ttlo">
+                                <div class="panel-heading"><span>Opis</span></div>
+                                <div class="panel-body">
+                                    {{ pokemon.description }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="odpornosci_{{ pokemon.id }}" class="tab-pane">
+                            <div class="panel panel-success jeden_ttlo">
+                                <div class="panel-heading"><span>Odporności</span></div>
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-condensed jeden_ttlo text-center">
+                                            <thead>
+                                            <tr>
+                                                {% for i in 1..18 %}
+                                                    <th class="center">
+                                                        <img src="{{ asset('img/typy/' ~i~'.gif') }}"
+                                                             data-title="{{ pokemonHelper.getTypeDescription(i) }}"
+                                                             data-toggle="tooltip" />
+                                                    </th>
+                                                {% endfor %}
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                {% for i in 1..18 %}
+                                                    <td>{{ pokemon.getOneEffectiveness(i) }}</td>
+                                                {% endfor %}
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="ataki_{{ pokemon.id }}" class="tab-pane">
+                            <div class="panel panel-success jeden_ttlo">
+                                <div class="panel-heading"><span>Ataki</span></div>
+                                <div class="panel-body">
+                                    {% if isOwner %}
+                                        <a class="btn btn-primary" href="{{ path('game_training', {'id' : pokemon.id}) }}">SALA TRENINGOWA</a>
+                                    {% endif %}
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-condensed jeden_ttlo">
+                                            <thead>
+                                            <th>#</th>
+                                            <th>TYP</th>
+                                            <th>RODZAJ</th>
+                                            <th>NAZWA</th>
+                                            <th> </th>
+                                            </thead>
+                                            <tbody>
+                                            {% for i in 0..3 %}
+                                                {% if attribute(pokemon, 'attack'~i) %}
+                                                    <tr>
+                                                        <td>{{ i }}</td>
+                                                        <td>
+                                                            <img
+                                                                    src="{{ asset('img/typy/'~attackHelper.getAttack(attribute(pokemon, 'attack'~i))['typ']~'.gif') }}"
+                                                                    data-title="{{ pokemonHelper.getTypeDescription(attackHelper.getAttack(attribute(pokemon, 'attack'~i))['typ']) }}"
+                                                                    data-toggle="tooltip"
+                                                            />
+                                                        </td>
+                                                        <td>{{ attackHelper.getAttack(attribute(pokemon, 'attack'~i))['rodzaj'] }}</td>
+                                                        <td>{{ attackHelper.getAttack(attribute(pokemon, 'attack'~i))['nazwa'] }}</td>
+                                                        <td>
+                                                            {% if isOwner %}
+                                                                {% if i %}
+                                                                    <button class="btn btn-primary action"
+                                                                            data-id="{{ pokemon.id }}" data-what="up" data-value="{{ i }}"
+                                                                            data-title="zmień priorytet na wyższy" data-toggle="tooltip"
+                                                                    >
+                                                                        <i class="icon-up"></i>
+                                                                    </button>
+                                                                {% endif %}
+                                                                {% if i < 3 %}
+                                                                    <button class="btn btn-primary action"
+                                                                            data-id="{{ pokemon.id }}" data-what="down" data-value="{{ i }}"
+                                                                            data-title="zmień priorytet na niższy" data-toggle="tooltip"
+                                                                    >
+                                                                        <i class="icon-down"></i>
+                                                                    </button>
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                {% else %}
+                                                    <tr>
+                                                        <td>{{ i }}</td>
+                                                        <td>-brak-</td>
+                                                        <td>-brak-</td>
+                                                        <td>-brak-</td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if isOwner and modal == 0 %}
+                    <div class="panel panel-success jeden_ttlo">
+                        <div class="panel-heading"><span>Ustawienia</span></div>
+                        <div class="panel-body">
+                            <div class="alert alert-info"><span>Zmień imię Pokemona</span></div>
+                            <div class="input-group">
+                                <input class="form-control" id="pokemon-name" type="text" value="{{ pokemon.name }}"/>
+                                <span class="input-group-btn"><span data-id="{{ pokemon.id }}" class="btn btn-primary">Zapisz</span></span>
+                            </div>
+                            <div class="alert alert-info margin-top"><span>Zmień opis Pokemona</span></div>
+                            <div class="form-group">
+                                <textarea data-id="description-{{ pokemon.id }}" class="wysibb-texarea form-control" rows="6"></textarea>
+                            </div>
+                            <script>
+                                (function(){
+                                    $('textarea[data-id="description-'+{{ pokemon.id }}+'"]').wysibb(wbbOpt);//.htmlcode(" {# pokemon.description #}");
+                                    //$('textarea[data-id="description-'+{# pokemon.id #}+'"]').);
+                                })();
+                            </script>
+                            {#if($wiersz['opis'] != '<span></span><br>' && $wiersz['opis'] != '')$script .= '$(\'#opis_t_'.$wiersz['ID'].'\').htmlcode(\''.html_zn($wiersz['opis']).'\');';
+                            else $script .= '$("#opis_t_'.$wiersz['ID'].'").htmlcode(" ");';#}
+                            <button class="btn btn-primary description" data-id="{{ pokemon.id }}">Zapisz opis</button>
+
+                            <div class="well jeden_ttlo margin-top">Ukryj Pokemona:
+                                <div class="btn-group">
+                                    <button data-id="{{ pokemon.id }}" data-what="block" data-value="0"
+                                            class="btn action btn-primary {{ (pokemon.blockView == 0) ? 'primary-active' }}"
+                                    >
+                                        NIE
+                                    </button>
+                                    <button data-id="{{ pokemon.id }}" data-what="block" data-value="1"
+                                            class="btn action btn-primary {{ pokemon.blockView ? 'primary-active' }}"
+                                    >
+                                        TAK
+                                    </button>
+                                </div>
+                                <br />Jeśli ukryjesz pokemona, inni gracze nie będą mogli zobaczyć jego statystyk.
+                            </div>
+
+                            <div class="well jeden_ttlo margin-top">Zabroń ewolucji:
+                                <div class="btn-group">
+                                    <button data-id="{{ pokemon.id }}" data-what="ewolution" data-value="0"
+                                            class="btn action btn-primary {{ (pokemon.ewolution == 0) ? 'primary-active' }}"
+                                    >
+                                        NIE</button>
+                                    <button data-id="{{ pokemon.id }}" data-what="ewolution" data-value="1"
+                                            class="btn action btn-primary {{ pokemon.ewolution ? 'primary-active' }}"
+                                    >
+                                        TAK
+                                    </button>
+                                </div>
+                                <br />Jeśli zabronisz pokemonowi ewolucji, ten nie ewoluuje nawet gdy spełni wszystkie wymagania by tego dokonać.
+                            </div>
+
+                            <div class="well jeden_ttlo margin-top">Link do Twojego Pokemona:
+                                <textarea rows="1" class="form-control">{{ url('game_pokemon', {'id' : pokemon.id}) }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+</div>
+</div>
+{% elseif pokemon == 0 %}
+    <div class="alert alert-danger"><span>Nie znaleziono Pokemona</span></div>
+{% else %}
+    <div class="alert alert-danger"><span>Ten Pokemon ma zablokowany podgląd</span></div>
+{% endif %}
+</div>
+</div>
+</div>
+</div>
+    </body>
+</html>
