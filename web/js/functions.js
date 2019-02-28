@@ -208,6 +208,16 @@ $(document).ready(function()
         window.location =  trainingHref.replace('replace', id_poka_konst);
         zamknij_menu();
     });
+    $('.dropdown-menu[id=menu_pokemon_list]').on('click', '.nakarm', function()
+    {
+        $('.modal-body[name="_modal"]').load(feedHref.replace('replace', id_poka_konst), function()
+        {
+            $('.modal-title[name="_modal"]').text(imie+' - KARMIENIE');
+            zamknij_menu();
+            $('#__modal').modal("show");
+        });
+
+    });
 
 
 
@@ -224,16 +234,6 @@ $(document).ready(function()
         });
     });
 
-    $('.dropdown-menu[id=menu_pokemon_list]').on('click', '.nakarm', function()
-    {
-        $('.modal-body[name="_modal"]').load(URL+'stopka/nakarm/'+id_poka_konst+'/?ajax', function()
-        {
-            $('.modal-title[name="_modal"]').text(imie+' - KARMIENIE');
-            zamknij_menu();
-            $('#__modal').modal("show");
-        });
-
-    });
     $('.dropdown-menu[id=menu_pokemon_list]').on('click', '.przenies_pocz', function()
     {
         $.getJSON('pokemony.php?ajax&modal&rezerwa='+id_poka_konst, function(json)
