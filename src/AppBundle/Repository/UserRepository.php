@@ -45,10 +45,11 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 
     public function removeInactive(): void
     {
-        $date = (new \DateTime('now - 10 minutes'))->getTimestamp();
+        $date = (new \DateTime('now - 15 minutes'))->getTimestamp();
         $this->createQueryBuilder('u')
             ->update()
             ->set('u.sessionId', '\'\'')
+            ->set('u.lastActive', 0)
             ->where('u.lastActive < :date')
             ->setParameter(':date', $date)
             ->getQuery()
