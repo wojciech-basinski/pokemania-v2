@@ -95,14 +95,16 @@ class FooterController extends Controller
     }
 
     /**
-     * @Route("/stopka/nakarm", name="game_footer_feed")
+     * @Route("/stopka/nakarm/{id}", name="game_footer_feed")
      * @param GamePack $pack
+     *
+     * @param int $id
      *
      * @return Response
      */
-    public function feedAction(GamePack $pack)
+    public function feedAction(GamePack $pack, int $id = 0)
     {
-        $pack->useItem('food', 'all', $this->getUser(), 0);
+        $pack->useItem('food', 'all', $this->getUser(), $id);
         return $this->render('game/footer.html.twig');
     }
 }

@@ -979,7 +979,7 @@ więc część zostanie zmarnowana!
         }
         $items = $this->getItems($user->getId());
 
-        if ($value === 'all') {
+        if ($value === 'all' && $pokemonId === 0) {
             $usedFood = 0;
             $fedAll = 1;
             $hungry = 0;
@@ -1023,7 +1023,7 @@ więc część zostanie zmarnowana!
                         ];
                     }
                 }
-            }//for
+            }
 
             if ($fedPokemons) {
                 $this->em->getRepository('AppBundle:Pokemon')->feedPokemons($arrayOfPokemons);
@@ -1036,6 +1036,9 @@ więc część zostanie zmarnowana!
                 $this->session->getFlashBag()->add('success', 'Żaden Pokemon nie jest głodny.');
             }
         } else {
+            if ($value === 'all') {
+                $value = 4;
+            }
             if ($value > $items->getPokemonFood()) {
                 $value = $items->getPokemonFood();
             }

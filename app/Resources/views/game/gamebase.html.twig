@@ -9,6 +9,7 @@
         var leftHref = "{{ path('game_left') }}";
         var URL = "{{ path('homepage') }}";
         var trainingHref = "{{ path('game_training', {'id' : 'replace'}) }}";
+        var feedHref = "{{ path('game_footer_feed', {'id' : 'replace'}) }}";
         var settings = {
             'clock' : {{ app.session.get('userSession').userSettings.getClock }},
             'tooltip' : {{ app.session.get('userSession').userSettings.getTooltip }},
