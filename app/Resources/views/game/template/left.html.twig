@@ -86,7 +86,7 @@
             <div class="table table-stripped">
                 {% for pokemon in pokemonsInTeam %}
                 <form id="pokemony" data-id="{{ pokemon.id }}" class="jeden tr" data-i="{{ loop.index }}"
-                      action="{{ path('game_pokemon') }}" data-name="{{ pokemon.name }}" method="post">
+                      action="{{ path('game_pokemon_post') }}" data-name="{{ pokemon.name }}" method="post">
                     <label for="pok{{ pokemon.id }}">
                         <div class="td stan kursor">
                             <img src="{{ asset('img/poki/' ~ (pokemon.shiny ? 's' : '') ~  pokemon.idPokemon ~ '.png') }}" class="img-responsive" />
