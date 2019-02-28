@@ -44,4 +44,5 @@ security:
 
     access_control:
         - { path: ^/(login|register|last|)$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/game/pokemon/, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [GET]}
         - { path: ^/, roles: ROLE_USER }

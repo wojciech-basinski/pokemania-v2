@@ -46,7 +46,7 @@ class GamePokemonController extends Controller
     }
 
     /**
-     * @Route("/pokemon/{id}", name="game_pokemon")
+     * @Route("/game/pokemon/{id}", name="game_pokemon")
      * @param PokemonHelper $pokemonHelper
      * @param AttackHelper $attackHelper
      * @param GamePokemon $pokemonService
@@ -71,7 +71,12 @@ class GamePokemonController extends Controller
         $pokemonAndInfoAboutPokemon = $pokemonService->
             getPokemonInfo($id, $this->getUser(), $this->request->query->get('modal') ?? 0);
 
-        return $this->render('game/pokemon.html.twig', [
+        if ($this->getUser() === null) {
+            $renderFile = 'game/pokemonNotLogged.html.twig';
+        } else {
+            $renderFile = 'game/pokemon.html.twig';
+        }
+        return $this->render($renderFile, [
             'title' => 'Pokemon',
             'ajax' => $this->request->isXmlHttpRequest(),
             'modal' => $this->request->query->get('modal') ?? 0,
@@ -360,7 +365,7 @@ class GamePokemonController extends Controller
     }
 
     /**
-     * @Route("/pokemon/nakarm/{id}", name="game_pokemon_feed")
+     * @Route("/game/pokemon/nakarm/{id}", name="game_pokemon_feed")
      * @param int $id
      *
      * @param GamePokemon $pokemonService

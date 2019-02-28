@@ -1,5 +1,7 @@
 {%  if ajax == false %}
-    {% include 'game/template/header.html.twig' %}
+    {% block header %}
+        {% include 'game/template/header.html.twig' %}
+    {% endblock %}
     {% block scripts %}{% endblock %}
     {% block styles %}{% endblock %}
     <script>
