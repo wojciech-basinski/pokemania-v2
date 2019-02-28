@@ -92,7 +92,6 @@ class GameTraining
                 $zm++;
                 $ValueOfTrainingToCalculate++;
                 $allTrainingValue++;
-                //pokemon dodać przywiązanie
             } else {
                 break;
             }
@@ -104,13 +103,13 @@ class GameTraining
             $pokemon->setValue($pokemon->getValue() + $valueAddToPokemon);
             $exp = 5 * $wyt;
             $pokemon->setExp($pokemon->getExp() + $exp);
-            //życie
             if ($training < 6) {
                 $pokemon->getTraining()->{'setTr'.$training}($pokemon->getTraining()->{'getTr'.$training}() + $wyt);
             } else {
                 $pokemon->setTr6($pokemon->getTr6() + $wyt);
                 $pokemon->setActualHp($pokemon->getActualHp() + $wyt * 5);
             }
+            $this->addTreningsToStatistics($wyt, $user);
             $this->em->persist($pokemon);
             $this->em->flush();
             $this->session->set('pokemon'.$this->i, $pokemon);
@@ -267,5 +266,11 @@ class GameTraining
     private function checkLevelPokemonToChangeAttack(array $attackArray, int $level)
     {
         return ($attackArray['level'] <= $level);
+    }
+
+    private function addTreningsToStatistics(int $wyt, User $user): void
+    {
+        $stats = $this->em->find('AppBundle:Achievement', $user->getId());
+        $stats->setTrainingsWithPokemons($stats->getTrainingsWithPokemons() + $wyt);
     }
 }
