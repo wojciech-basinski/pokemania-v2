@@ -583,6 +583,7 @@ Zbierasz z niego <strong>{$quantity}</strong> sztuk."
         $berrys = str_replace(' ', '', $berrys);
         $berry = $this->em->find('AppBundle:Berry', $userId);
         $berry->{'set' . $berrys}($berry->{'get' . $berrys}() + $quantity);
+        $this->addBerrysToStatistics($quantity, $userId);
     }
 
     private function sagePolana(User $user)
@@ -708,6 +709,7 @@ Zbierasz z niego <strong>{$quantity}</strong> sztuk."
         $berrys = str_replace(' ', '', $berrys);
         $berry = $this->em->find('AppBundle:Berry', $userId);
         $berry->{'set' . $berrys}($berry->{'get' . $berrys}() + $quantity);
+        $this->addBerrysToStatistics($quantity, $userId);
     }
 
     private function negatywneWodospad()
@@ -1248,5 +1250,11 @@ Wykopane przedmioty, które zabierasz ze sobą:<br />';
     {
         $battleInfo = $this->trainerHelper->trainer($user);
         $this->trainerInfo = $battleInfo;
+    }
+
+    private function addBerrysToStatistics(int $quantity, int $userId): void
+    {
+        $stats = $this->em->find('AppBundle:Achievement', $userId);
+        $stats->setBeggedBerrys($stats->getBeggedBerrys() + $quantity);
     }
 }
