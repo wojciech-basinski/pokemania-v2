@@ -830,17 +830,16 @@ class PokemonHelper
         return self::$increase[$id];
     }
 
-    public static function generatePokemon(int $id, int $level): Pokemon
+    public static function generatePokemon(int $id, int $level, bool $shiny = false): Pokemon
     {
         $pokemon = new Pokemon();
         $pokemon->setIdPokemon($id);
         $pokemon->setLevel($level);
-        $pokemon->setQuality(self::pokemonQuality());
+        $pokemon->setQuality(self::pokemonQuality($shiny));
         $pokemon->setGender(self::getGender(self::$pokemonInfo[$id]['plec_k'], self::$pokemonInfo[$id]['plec_m']));
         $pokemon->setName(self::$pokemonInfo[$id]['nazwa']);
         $pokemon->setValue(self::getValue(self::$pokemonInfo[$id]['trudnosc'], $level));
-        //TODO
-        $pokemon->setShiny(0);
+        $pokemon->setShiny($shiny);
         $pokemon->setExp(0);
         $pokemon->setTeam(0);
         $pokemon->setAttachment(0);
@@ -918,9 +917,13 @@ class PokemonHelper
         return $attacksDelimitered;
     }
 
-    private static function pokemonQuality(): int
+    private static function pokemonQuality(bool $shiny): int
     {
-        $quality = mt_rand(20, 110);
+        if (!$shiny) {
+            $quality = mt_rand(20, 110);
+        } else {
+            $quality = mt_rand(90, 110);
+        }
         if ($quality > 100) {
             $quality -= 10;
         } elseif ($quality > 50) {
