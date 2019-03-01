@@ -92,7 +92,7 @@ class Shiny
      *
      * @return int
      */
-    public function getRegion(): int
+    public function getRegion(): ?int
     {
         return $this->region;
     }
@@ -116,7 +116,7 @@ class Shiny
      *
      * @return int
      */
-    public function getPokemonId(): int
+    public function getPokemonId(): ?int
     {
         return $this->pokemonId;
     }
@@ -140,7 +140,7 @@ class Shiny
      *
      * @return int
      */
-    public function getQuantity(): int
+    public function getQuantity(): ?int
     {
         return $this->quantity;
     }
@@ -159,7 +159,7 @@ class Shiny
     /**
      * @return int
      */
-    public function getCaught(): int
+    public function getCaught(): ?int
     {
         return $this->caught;
     }
@@ -178,7 +178,7 @@ class Shiny
     /**
      * @return int
      */
-    public function getPlace(): int
+    public function getPlace(): ?int
     {
         return $this->place;
     }
@@ -197,7 +197,7 @@ class Shiny
     /**
      * @return float
      */
-    public function getChance(): float
+    public function getChance(): ?float
     {
         return $this->chance;
     }
