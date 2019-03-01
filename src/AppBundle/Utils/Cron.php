@@ -93,7 +93,7 @@ class Cron
         $shinyKanto = $this->em->getRepository('AppBundle:Shiny')->findOneBy(['region' => 1]);
         if ($shinyKanto === null) {
             $shinyKanto = new Shiny();
-            $shinyKanto->setRegion('Kanto');
+            $shinyKanto->setRegion(1);
         }
 
         $rand = $this->getRandFromShinyQuantity($shinyKanto);
