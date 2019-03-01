@@ -191,6 +191,7 @@ class GameTraining
 
         $attackArray = $pokemon->getInfo()['attackArray'];
         $attackI = $this->checkAttack($attackId, $attackArray);
+
         if ($attackI < 0) {
             $this->session->getFlashBag()->add('error', 'Błędny ID ataku');
             return;
@@ -256,7 +257,7 @@ class GameTraining
     {
         $count = count($attackArray);
         for ($i = 0; $i < $count; $i++) {
-            if ($attackId === $attackArray[$i]['id']) {
+            if ($attackId === (int)$attackArray[$i]['id']) {
                 return $i;
             }
         }
