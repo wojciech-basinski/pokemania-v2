@@ -184,6 +184,7 @@ class GamePokemonController extends Controller
      */
     public function userPokemonsAction(GamePokemons $pokemons): Response
     {
+        dump($this->request->query->get('active'));
         $numberOfPokemonsInTeam = $pokemons->getNumberOfPokemonsInTeam();
         $pokemonsInReserve = $pokemons->getPokemonsFromReserveOrdered($this->getUser());
         $pokemonsInWaiting = $pokemons->getPokemonsFromWaitingOrdered($this->getUser());
@@ -218,7 +219,7 @@ class GamePokemonController extends Controller
         }
 
         return $this->redirectToRoute('game_user_pokemons', [
-            'active' => $this->request->query->get('active') ?? 1
+            'active' => $this->request->request->get('active') ?? 1
         ]);
     }
 
@@ -236,7 +237,7 @@ class GamePokemonController extends Controller
         $pokemons->sendPokemonsToTeam($pokemonsToTeam, $this->getUser());
 
         return $this->redirectToRoute('game_user_pokemons', [
-            'active' => $this->request->query->get('active') ?? 1
+            'active' => $this->request->request->get('active') ?? 1
         ]);
     }
 
@@ -254,7 +255,7 @@ class GamePokemonController extends Controller
         $pokemons->sendPokemonsToWaiting($pokemonsToWaiting, $this->getUser());
 
         return $this->redirectToRoute('game_user_pokemons', [
-            'active' => $this->request->query->get('active') ?? 1
+            'active' => $this->request->request->get('active') ?? 1
         ]);
     }
 

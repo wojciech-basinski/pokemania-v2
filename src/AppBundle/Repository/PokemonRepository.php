@@ -181,6 +181,7 @@ class PokemonRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->_em->createQueryBuilder();
         $qb->update('AppBundle:Pokemon', 'p')
             ->set('p.team', 0)
+            ->set('p.block', 1)
             ->where('p.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
@@ -193,7 +194,7 @@ class PokemonRepository extends \Doctrine\ORM\EntityRepository
         $qb->update('AppBundle:Pokemon', 'p')
             ->set('p.block', 1)
             ->where('p.id IN (:ids)')
-            ->setParameter('ids', $pokemons, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
+            ->setParameter('ids', $pokemons)
             ->getQuery()
             ->getResult();
     }
@@ -204,7 +205,7 @@ class PokemonRepository extends \Doctrine\ORM\EntityRepository
         $qb->update('AppBundle:Pokemon', 'p')
             ->set('p.block', 0)
             ->where('p.id IN (:ids)')
-            ->setParameter('ids', $pokemons, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
+            ->setParameter('ids', $pokemons)
             ->getQuery()
             ->getResult();
     }
