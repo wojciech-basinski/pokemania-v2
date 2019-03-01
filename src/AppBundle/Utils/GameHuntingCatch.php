@@ -187,7 +187,7 @@ class GameHuntingCatch
 
     private function catchPokemon(User $user, string $pokeball): bool
     {
-        if (!$this->checkMagazine($user)) {
+        if (!$this->checkMagazine($user, $this->pokemon->getShiny())) {
             return false;
         }
 
@@ -202,15 +202,20 @@ class GameHuntingCatch
         $this->pokemon->setCatched($pokeball);
         $this->pokemon->setActualHp(0);
 
+        if ($this->pokemon->getShiny()) {
+            $user->setShinyCatched(1);
+            $this->em->getRepository('AppBundle:Shiny')->addCaught($user->getRegion());
+        }
+
         $this->em->persist($this->pokemon);
         return true;
     }
 
-    private function checkMagazine(User $user): bool
+    private function checkMagazine(User $user, bool $shiny = false): bool
     {
         $magazine = $this->session->get('userSession')->getPokemonInReserve();
         $maxMagazine = $user->getMagazine();
-        if ($magazine >= $maxMagazine) {
+        if ($magazine >= $maxMagazine && $shiny === false) {
             $this->session->getFlashBag()->add(
                 'success',
                 'Udało Ci się złapać <span class="pogrubienie">'.$this->pokemon->getName().'</span>

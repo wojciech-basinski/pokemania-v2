@@ -55,4 +55,15 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
             ->getQuery()
             ->execute();
     }
+
+    public function setShinyNotCaught(int $region): void
+    {
+        $this->createQueryBuilder('u')
+            ->update()
+            ->set('u.shinyCatched', 0)
+            ->where('u.region = :region')
+            ->setParameter(':region', $region)
+            ->getQuery()
+            ->execute();
+    }
 }

@@ -3,7 +3,9 @@
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Pokemon;
+use AppBundle\Entity\Shiny;
 use AppBundle\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 
 class GameHuntingHelper
 {
@@ -16,10 +18,20 @@ class GameHuntingHelper
      */
     private $checkCaught;
 
-    public function __construct(PokemonHelper $pokemonHelper, GameCheckCaught $checkCaught)
+    /**
+     * @var null|Shiny
+     */
+    private $shiny = null;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    public function __construct(PokemonHelper $pokemonHelper, GameCheckCaught $checkCaught, EntityManagerInterface $em)
     {
         $this->pokemonHelper = $pokemonHelper;
         $this->checkCaught = $checkCaught;
+        $this->em = $em;
     }
 
     public function eventInPlace(string $place): array
@@ -29,38 +41,23 @@ class GameHuntingHelper
 
     public function generatePokemon(string $place, User $user): Pokemon
     {
-//sprawdzenie warunków spotkania shiny u gracza
-        //jeśli wszystko ok:
-        /* $shiny = 0;
-          //sprawdzenie przedmiotu itp.
-          $sh = $this->model->db->select('SELECT * FROM shiny WHERE ID = 1', []);
-          $sh = $sh[0];
-          if($sh['ilosc_do_zlapania'] > 0){
-          $zl = $this->model->db->select('SELECT zlapana_grupa FROM uzytkownicy WHERE ID = :id', [':id' => Session::_get('id')]);
-          $zl = $zl[0];
-          if($zl['zlapana_grupa'] === 0) $shiny = 1;
-          }
-          //sprawdzenie warunków spotkania shiny u gracza koniec
-          if($shiny === 1){
-          $sh_id = $sh['id_poka'];
-          $sh_dzicz = $sh['dzicz'];
-          //przypisanie dziczy do shiny:
-          } */
-
-        /* $czy_shiny = 0;
-          if($shiny != 0){
-          $co = $sh_id;
-          $czy_shiny = 1;
-          } */
-        /**
-         * $rrr = $co . "s"; ///dodać informacje czy złapany
-        $rrr1 = $co . "z";
-        $zlapany = $this->pokemonKolekcja($rrr, $rrr1);
-         */
+        //sprawdzenie czy user jest powyżej 15 poziomu?
+        if (!$user->getShinyCatched()) {
+            $shiny = $this->em->getRepository('AppBundle:Shiny')->findOneBy(['region' => $user->getRegion()]);
+            if ($shiny->getCaught() < $shiny->getQuantity()) {
+                $this->shiny = $shiny;
+            }
+        }
+        $shiny = 0;
         $id = $this->{$place.'RoundId'}($user->getTrainerLevel());
+        if ($id === -1 ) {
+            $id = $this->shiny->getPokemonId();
+            $shiny = 1;
+        }
         $pokemon = $this->pokemonHelper->generatePokemon(
             $id,
-            $this->roundPokemonLevel($user->getTrainerLevel(), $id)
+            $this->roundPokemonLevel($user->getTrainerLevel(), $id),
+            $shiny
         );
 
         return $pokemon;
@@ -94,23 +91,23 @@ class GameHuntingHelper
         $co = 0;
         $min_poz = 2000000000;
         //warunki shiny koniec
-        $szansa = 10200;
+        $chance = 10200;
+        $chanceStart = 10200;
+        $chanceShiny = 0;
         while ($min_poz >= $userLevel + 6) {
+            if ($this->shiny !== null && $this->shiny->getPlace() === 1) {
+                $chanceShiny = $this->shiny->getChance() * 10002;
+                $chance += $chanceShiny;
+            }
             if ($userLevel >= 100) {
                 if ($this->checkCaught->checkIfAllCaught('polana', false)) {
                     //check if caught
                     if (!$this->checkCaught->checkIfAllCaught('polana', true)) {
-                        $szansa = floor($szansa * 1.1);
+                        $chance = floor($chance * 1.1);
                     }
                 }
             }
-            /* if($shiny === 1 && $sh_dzicz === 1){
-              $szansa = $sh['szansa']*102;
-              $szansa += 10200;
-              $l = mt_rand(1, $szansa);
-              }
-              else */
-            $l = mt_rand(1, $szansa); //prawdopodobieństwo do 0,01% (0,0001)
+            $l = mt_rand(1, $chance); //prawdopodobieństwo do 0,01% (0,0001)
             if ($l <= 850) {
                 $co = 10;
             } elseif ($l <= 1701) {
@@ -169,7 +166,9 @@ class GameHuntingHelper
                 $co = 103;
             } elseif ($l <= 10200) {
                 $co = 133;
-            } elseif ($l <= $szansa) {
+            } elseif ($l <= ($chanceStart + $chanceShiny)) {
+               return -1;
+            } elseif ($l <= $chance) {
                 $co = 151;
             }
 
@@ -182,17 +181,23 @@ class GameHuntingHelper
     {
         $co = 0;
         $min_poz = 2000000000;
-        $szansa = 10000;
+        $chance = 10000;
+        $chanceStart = 10000;
+        $chanceShiny = 0;
         while ($min_poz >= $userLevel + 6) {
+            if ($this->shiny !== null && $this->shiny->getPlace() === 2) {
+                $chanceShiny = $this->shiny->getChance() * 10002;
+                $chance += $chanceShiny;
+            }
             if ($userLevel >= 100) {
                 if ($this->checkCaught->checkIfAllCaught('wyspa', false)) {
                     //check if caught
                     if (!$this->checkCaught->checkIfAllCaught('wyspa', true)) {
-                        $szansa = floor($szansa * 1.1);
+                        $chance = floor($chance * 1.1);
                     }
                 }
             }
-            $l = mt_rand(1, $szansa); //prawdopodobieństwo do 0,01% (0,0001)
+            $l = mt_rand(1, $chance); //prawdopodobieństwo do 0,01% (0,0001)
             if ($l <= 701) {
                 $co = 19;
             } elseif ($l <= 1401) {
@@ -249,7 +254,9 @@ class GameHuntingHelper
                 $co = 34;
             } elseif ($l <= 10000) {
                 $co = 59;
-            } elseif ($l <= $szansa) {
+            } elseif ($l <= ($chanceStart + $chanceShiny)) {
+                return -1;
+            } elseif ($l <= $chance) {
                 $co = 150;
             }
 
@@ -262,17 +269,23 @@ class GameHuntingHelper
     {
         $co = 0;
         $min_poz = 2000000000;
-        $szansa = 10000;
+        $chance = 10000;
+        $chanceStart = 10000;
+        $chanceShiny = 0;
         while ($min_poz >= $userLevel + 6) {
+            if ($this->shiny !== null && $this->shiny->getPlace() === 3) {
+                $chanceShiny = $this->shiny->getChance() * 10002;
+                $chance += $chanceShiny;
+            }
             if ($userLevel >= 100) {
                 if ($this->checkCaught->checkIfAllCaught('grota', false)) {
                     //check if caught
                     if (!$this->checkCaught->checkIfAllCaught('grota', true)) {
-                        $szansa = floor($szansa * 1.1);
+                        $szansa = floor($chance * 1.1);
                     }
                 }
             }
-            $l = mt_rand(1, $szansa); //prawdopodobieństwo do 0,01% (0,0001)
+            $l = mt_rand(1, $chance); //prawdopodobieństwo do 0,01% (0,0001)
             if ($l <= 1100) {
                 $co = 23;
             } elseif ($l <= 2201) {
@@ -313,7 +326,9 @@ class GameHuntingHelper
                 $co = 36;
             } elseif ($l <= 10000) {
                 $co = 40;
-            } elseif ($l <= $szansa) {
+            } elseif ($l <= ($chanceStart + $chanceShiny)) {
+                return -1;
+            } elseif ($l <= $chance) {
                 $co = 146;
             }
 
@@ -326,9 +341,15 @@ class GameHuntingHelper
     {
         $co = 0;
         $min_poz = 2000000000;
-        $szansa = 10000;
+        $chance = 10000;
+        $chanceStart = 10000;
+        $chanceShiny = 0;
         while ($min_poz >= $userLevel + 6) {
-            $l = mt_rand(1, $szansa); //prawdopodobieństwo do 0,01% (0,0001)
+            if ($this->shiny !== null && $this->shiny->getPlace() === 4) {
+                $chanceShiny = $this->shiny->getChance() * 10002;
+                $chance += $chanceShiny;
+            }
+            $l = mt_rand(1, $chance); //prawdopodobieństwo do 0,01% (0,0001)
             if ($l <= 1300) {
                 $co = 19;
             } elseif ($l <= 2601) {
@@ -371,6 +392,8 @@ class GameHuntingHelper
                 $co = 65;
             } elseif ($l <= 10000) {
                 $co = 94;
+            } elseif ($l <= ($chanceStart + $chanceShiny)) {
+                return -1;
             }
 
             $min_poz = $this->pokemonHelper->getInfo($co)['min_poziom'];
@@ -382,17 +405,23 @@ class GameHuntingHelper
     {
         $co = 0;
         $min_poz = 2000000000;
-        $szansa = 10000;
+        $chance = 10000;
+        $chanceStart = 10000;
+        $chanceShiny = 0;
         while ($min_poz >= $userLevel + 6) {
+            if ($this->shiny !== null && $this->shiny->getPlace() === 5) {
+                $chanceShiny = $this->shiny->getChance() * 10002;
+                $chance += $chanceShiny;
+            }
             if ($userLevel >= 100) {
                 if ($this->checkCaught->checkIfAllCaught('gory', false)) {
                     //check if caught
                     if (!$this->checkCaught->checkIfAllCaught('gory', true)) {
-                        $szansa = floor($szansa * 1.1);
+                        $szansa = floor($chance * 1.1);
                     }
                 }
             }
-            $l = mt_rand(1, $szansa); //prawdopodobieństwo do 0,01% (0,0001)
+            $l = mt_rand(1, $chance); //prawdopodobieństwo do 0,01% (0,0001)
             if ($l <= 1000) {
                 $co = 21;
             } elseif ($l <= 2000) {
@@ -437,7 +466,9 @@ class GameHuntingHelper
                 $co = 81;
             } elseif ($l <= 10000) {
                 $co = 82;
-            } elseif ($l <= $szansa) {
+            } elseif ($l <= ($chanceStart + $chanceShiny)) {
+                return -1;
+            } elseif ($l <= $chance) {
                 $co = 145;
             }
 
@@ -450,17 +481,23 @@ class GameHuntingHelper
     {
         $co = 0;
         $min_poz = 2000000000;
-        $szansa = 10000;
+        $chance = 10000;
+        $chanceStart = 10000;
+        $chanceShiny = 0;
         while ($min_poz >= $userLevel + 6) {
+            if ($this->shiny !== null && $this->shiny->getPlace() === 6) {
+                $chanceShiny = $this->shiny->getChance() * 10002;
+                $chance += $chanceShiny;
+            }
             if ($userLevel >= 100) {
                 if ($this->checkCaught->checkIfAllCaught('wodospad', false)) {
                     //check if caught
                     if (!$this->checkCaught->checkIfAllCaught('wodospad', true)) {
-                        $szansa = floor($szansa * 1.1);
+                        $szansa = floor($chance * 1.1);
                     }
                 }
             }
-            $l = mt_rand(1, $szansa); //prawdopodobieństwo do 0,01% (0,0001)
+            $l = mt_rand(1, $chance); //prawdopodobieństwo do 0,01% (0,0001)
             if ($l <= 701) {
                 $co = 54;
             } elseif ($l <= 1401) {
@@ -515,7 +552,9 @@ class GameHuntingHelper
                 $co = 91;
             } elseif ($l <= 10000) {
                 $co = 121;
-            } elseif ($l <= $szansa) {
+            } elseif ($l <= ($chanceStart + $chanceShiny)) {
+                return -1;
+            } elseif ($l <= $chance) {
                 $co = 144;
             }
 
@@ -529,8 +568,8 @@ class GameHuntingHelper
         $co = 0;
         $min_poz = 2000000000;
         while ($min_poz >= $userLevel + 6) {
-            $szansa = 10598;
-            $l = mt_rand(1, $szansa); //prawdopodobieństwo do 0,01% (0,0001)
+            $chance = 10598;
+            $l = mt_rand(1, $chance); //prawdopodobieństwo do 0,01% (0,0001)
             if ($l <= 708) {
                 $co = 21;
             } elseif ($l <= 1416) {

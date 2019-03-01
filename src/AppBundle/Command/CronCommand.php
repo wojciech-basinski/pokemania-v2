@@ -37,30 +37,18 @@ class CronCommand extends ContainerAwareCommand
 
         switch ($mode) {
             case 'AddPa':
-                $this->addPa();
-                break;
+                $this->cron->addPa();
+                return;
             case 'RemoveInactive':
-                $this->removeInactive();
-                break;
+                $this->cron->removeInactive();
+                return;
             case 'DailyReset':
-                $this->dailyReset();
-                break;
+                $this->cron->dailyReset();
+                return;
+            case 'Shiny':
+                $this->cron->shiny();
+                return;
         }
         return;
-    }
-
-    private function addPa(): void
-    {
-        $this->cron->addPa();
-    }
-
-    private function removeInactive(): void
-    {
-        $this->cron->removeInactive();
-    }
-
-    private function dailyReset(): void
-    {
-        $this->cron->dailyReset();
     }
 }
