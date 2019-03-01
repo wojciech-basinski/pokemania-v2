@@ -97,7 +97,7 @@ class Cron
         }
 
         $rand = $this->getRandFromShinyQuantity($shinyKanto);
-        if ($rand) {//$rand === 3
+        if ($rand === 3) {
             $shiny = $this->randShinyKanto();
             $shinyKanto->setCaught(0)
                 ->setPlace($shiny['place'])
