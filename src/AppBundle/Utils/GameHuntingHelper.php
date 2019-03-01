@@ -96,7 +96,7 @@ class GameHuntingHelper
         $chanceShiny = 0;
         while ($min_poz >= $userLevel + 6) {
             if ($this->shiny !== null && $this->shiny->getPlace() === 1) {
-                $chanceShiny = $this->shiny->getChance() * 10002;
+                $chanceShiny = $this->shiny->getChance() * 102;
                 $chance += $chanceShiny;
             }
             if ($userLevel >= 100) {
@@ -186,7 +186,7 @@ class GameHuntingHelper
         $chanceShiny = 0;
         while ($min_poz >= $userLevel + 6) {
             if ($this->shiny !== null && $this->shiny->getPlace() === 2) {
-                $chanceShiny = $this->shiny->getChance() * 10002;
+                $chanceShiny = $this->shiny->getChance() * 100;
                 $chance += $chanceShiny;
             }
             if ($userLevel >= 100) {
@@ -274,7 +274,7 @@ class GameHuntingHelper
         $chanceShiny = 0;
         while ($min_poz >= $userLevel + 6) {
             if ($this->shiny !== null && $this->shiny->getPlace() === 3) {
-                $chanceShiny = $this->shiny->getChance() * 10002;
+                $chanceShiny = $this->shiny->getChance() * 100;
                 $chance += $chanceShiny;
             }
             if ($userLevel >= 100) {
@@ -346,7 +346,7 @@ class GameHuntingHelper
         $chanceShiny = 0;
         while ($min_poz >= $userLevel + 6) {
             if ($this->shiny !== null && $this->shiny->getPlace() === 4) {
-                $chanceShiny = $this->shiny->getChance() * 10002;
+                $chanceShiny = $this->shiny->getChance() * 100;
                 $chance += $chanceShiny;
             }
             $l = mt_rand(1, $chance); //prawdopodobieństwo do 0,01% (0,0001)
@@ -410,7 +410,7 @@ class GameHuntingHelper
         $chanceShiny = 0;
         while ($min_poz >= $userLevel + 6) {
             if ($this->shiny !== null && $this->shiny->getPlace() === 5) {
-                $chanceShiny = $this->shiny->getChance() * 10002;
+                $chanceShiny = $this->shiny->getChance() * 100;
                 $chance += $chanceShiny;
             }
             if ($userLevel >= 100) {
@@ -486,7 +486,7 @@ class GameHuntingHelper
         $chanceShiny = 0;
         while ($min_poz >= $userLevel + 6) {
             if ($this->shiny !== null && $this->shiny->getPlace() === 6) {
-                $chanceShiny = $this->shiny->getChance() * 10002;
+                $chanceShiny = $this->shiny->getChance() * 100;
                 $chance += $chanceShiny;
             }
             if ($userLevel >= 100) {
