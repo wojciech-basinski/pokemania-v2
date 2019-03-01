@@ -173,12 +173,6 @@ $(document).ready(function()
     });
 
 
-  function kamien(co)
-  {
-   co += '/' + $('#'+co+'_pok').val();
-   laduj('plecak/kamien/'+co+'/?ajax&active=4');
-  }
-
   function jagoda_all(co)
   {
    laduj('plecak/jagoda/'+co+'/all/?active=3&ajax');
