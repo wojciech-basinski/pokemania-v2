@@ -18,7 +18,6 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
 
             new EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle(),
-            new Cron\CronBundle\CronCronBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle()
         ];
 
