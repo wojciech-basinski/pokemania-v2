@@ -2,6 +2,7 @@
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Items;
+use AppBundle\Entity\Pokeball;
 use AppBundle\Entity\Statistic;
 use AppBundle\Entity\Stones;
 use AppBundle\Entity\User;
@@ -30,7 +31,7 @@ class GameShop
         $this->session = $session;
     }
 
-    public function getPokeballs(int $userId)
+    public function getPokeballs(int $userId): Pokeball
     {
         return $this->em->getRepository('AppBundle:Pokeball')->find($userId);
     }

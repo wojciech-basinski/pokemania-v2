@@ -22,6 +22,19 @@ class AchievementRepository extends \Doctrine\ORM\EntityRepository
             ->execute();
     }
 
+    public function addCatchedOneShiny(int $userId, string $pokeball)
+    {
+        $this->createQueryBuilder('a')
+            ->update()
+            ->set('a.catchedPokemons', '(a.catchedPokemons + 1)')
+            ->set('a.catched'.$pokeball, '(a.catched'.$pokeball.' + 1)')
+            ->set('a.catchedShiny', '(a.catchedShiny + 1)')
+            ->where('a.id = :id')
+            ->setParameter('id', $userId)
+            ->getQuery()
+            ->execute();
+    }
+
     public function addWinWithPokemon(int $userId)
     {
         $this->createQueryBuilder('a')
