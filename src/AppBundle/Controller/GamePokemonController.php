@@ -184,7 +184,6 @@ class GamePokemonController extends Controller
      */
     public function userPokemonsAction(GamePokemons $pokemons): Response
     {
-        dump($this->request->query->get('active'));
         $numberOfPokemonsInTeam = $pokemons->getNumberOfPokemonsInTeam();
         $pokemonsInReserve = $pokemons->getPokemonsFromReserveOrdered($this->getUser());
         $pokemonsInWaiting = $pokemons->getPokemonsFromWaitingOrdered($this->getUser());

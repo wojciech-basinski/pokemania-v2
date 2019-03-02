@@ -2,6 +2,7 @@
 
 namespace AppBundle\Utils;
 
+use AppBundle\Entity\Pokeball;
 use AppBundle\Entity\Pokemon;
 use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -40,12 +41,12 @@ class GameHuntingCatch
         $this->collection = $collection;
     }
 
-    public function getPokeballs(int $userId)
+    public function getPokeballs(int $userId): Pokeball
     {
         return $this->shop->getPokeballs($userId);
     }
 
-    public function catch(string $pokeball, User $user)
+    public function catch(string $pokeball, User $user): void
     {
         if (!$this->pokemon || $this->pokemon->getInfo()['trudnosc'] === 10) {
             $this->session->getFlashBag()->add('error', 'Nie możesz złapać tego Pokemona');
@@ -67,7 +68,7 @@ class GameHuntingCatch
             }
             $this->deletePokemonFromSession();
             $this->deleteRepeatballFromSession();
-            $this->addStatistics($user->getId(), $pokeball);
+            $this->addStatistics($user->getId(), $pokeball, $this->pokemon->getShiny());
             $this->addExpToUser($user, $this->pokemon->getInfo()['trudnosc']);
         } elseif ($pokeball === 'Repeatball') {
             $this->session->getFlashBag()->add('info', 'Repeatball ogłuszył Pokemona, masz szansę rzucić w niego kolejny pokeball');
@@ -94,7 +95,7 @@ class GameHuntingCatch
 
     private function calculateOtherThings(int $rate, string $pokeball, User $user): float
     {
-        if ($pokeball === "Repeatball") {///repeatball
+        if ($pokeball === "Repeatball") {
             $change = $this->session->get('huntingChangeRepeatball');
             if ($change) {
                 if ($change < 26) {
@@ -105,7 +106,7 @@ class GameHuntingCatch
             }
             $this->session->set('huntingChangeRepeatball', $change+1);
         } elseif ($pokeball === "Nestball") {
-            if ($this->pokemon->getLevel() < 16) {///poziom nizszy od 16 - nestball dziala najlepiej
+            if ($this->pokemon->getLevel() < 16) {
                 if ($this->pokemon->getInfo()['trudnosc'] === 1) {
                     $rate = 50 - ($this->pokemon->getLevel() * 0.1);
                 } else {
@@ -171,8 +172,8 @@ class GameHuntingCatch
         if ($rate > 85) {
             $rate = 85;///maksymalna szansa zlapania (nie licząc mastera)
         }
-        /////losowanie czy złapano poka
-        $rate = round($rate * 100);////bierzemy pod uwagę tylko dwie liczby po przecinku.
+
+        $rate = round($rate * 100);
         if ($pokeball === "Masterball") {
             $rate = 100 * 100;
         }
@@ -244,25 +245,29 @@ class GameHuntingCatch
         }
     }
 
-    private function deleteRepeatballFromSession()
+    private function deleteRepeatballFromSession(): void
     {
         $this->session->remove('huntingChangeRepeatball');
     }
 
-    private function deletePokemonFromSession()
+    private function deletePokemonFromSession(): void
     {
         $this->session->remove('pokemonHunting');
     }
 
-    private function addStatistics(int $userId, string $pokeball)
+    private function addStatistics(int $userId, string $pokeball, bool $shiny): void
     {
         $this->em->getRepository('AppBundle:Statistic')->addCatchedOnePokemon($userId);
+        if ($shiny) {
+            $this->em->getRepository('AppBundle:Achievement')->addCatchedOneShiny($userId, $pokeball);
+            return;
+        }
         if ($pokeball !== 'Masterball') {
             $this->em->getRepository('AppBundle:Achievement')->addCatchedOnePokemon($userId, $pokeball);
         }
     }
 
-    private function addExpToUser(User $user, int $difficulty)
+    private function addExpToUser(User $user, int $difficulty): void
     {
         if ($difficulty < 4) {
             $exp = 1;
