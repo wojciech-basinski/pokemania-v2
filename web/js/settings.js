@@ -15,6 +15,20 @@ $(document).ready(function()
         });
     });
 
+    $('#prawo').on('click', '#add-description', function() {
+        var params = {
+            'what'  : 'description',
+            'value' : $(document).find('textarea[name="user-description"]').val()
+        };
+        $.ajax({
+            type: "POST",
+            url: settingsUrl,
+            data: params
+        }).done(function(msg){
+            $('#prawo').html(msg);
+        });
+    });
+
     $('#prawo').on('click', '#dodaj_avatar', function() {
         var params = {
             'what'  : 'avatar',
