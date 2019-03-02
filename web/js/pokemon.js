@@ -19,10 +19,11 @@ $(document).ready(function()
     });
     $('#prawo').on('click', 'span.btn', function()
     {
+        var id = $(this).attr('data-id');
         var params = {
-            'id' : $(this).attr('data-id'),
+            'id' : id,
             'what' : 'name',
-            'value' : $('input[id="pokemon-name"]').val()
+            'value' : $('input[id="pokemon-name"][data-id="'+ id +'"]').val()
         };
         $.ajax({
             type: "POST",
