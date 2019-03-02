@@ -41,11 +41,20 @@
                     <div id="konto" class="tab-pane fade {{ active == 1 ? 'in active' }}">
 
                         <div class="alert alert-info margin-top">
-                            <span>Dodaj avatar </span><span>(Avatar musi mieć wymiary 250x300px)</span></div>
+                            <span>Dodaj avatar </span><span>(Avatar musi mieć wymiary 250x300px)</span>
+                        </div>
                         <input type="text" placeholder="Podaj link do obrazka" name="link_a"
                         value="{{ app.user.avatar }}"/>
                         <button class="btn btn-info nomargin kursor" id="dodaj_avatar">Dodaj</button>
                         <button class="btn btn-info nomargin kursor" id="usun_avatar">Usuń avatar</button>
+
+                        <div class="alert alert-info margin-top">
+                            <span>Dodaj opis</span>
+                        </div>
+                        <label for="user-description">Dodaj opis</label>
+                        <textarea class="form-control" rows="6"
+                                  name="user-description">{{ app.user.description }}</textarea>
+                        <button class="btn btn-info nomargin kursor" id="add-description">Dodaj</button>
                     </div>
 
                     <div id="dane" class="tab-pane fade {{ active == 2 ? 'in active' }}">

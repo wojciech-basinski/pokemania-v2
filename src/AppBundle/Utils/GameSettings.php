@@ -66,7 +66,38 @@ class GameSettings
      *
      * @return bool
      */
-    private function backgroundChange($value, User $user)
+    private function descriptionChange($value, User $user): bool
+    {
+        $value = preg_replace(
+            '/\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|$!:,.;]*[A-Z0-9+&@#\/%=~_|$]/i',
+            '',
+            $value
+        );
+        $value = htmlspecialchars(filter_var($value, FILTER_SANITIZE_URL));
+        if (empty($value)) {
+            $this->session->getFlashBag()->add(
+                'error',
+                'Błędny opis'
+            );
+            return false;
+        }
+        $user->setDescription($value);
+        $this->em->persist($user);
+        $this->em->flush();
+        $this->session->getFlashBag()->add(
+            'success',
+            'Zapisano opis'
+        );
+        return true;
+    }
+
+    /**
+     * @param int|string $value
+     * @param User       $user
+     *
+     * @return bool
+     */
+    private function backgroundChange($value, User $user): bool
     {
         if (!$value) {
             $this->setSettingInSession(0, $user, 'background');
@@ -79,7 +110,7 @@ class GameSettings
         return true;
     }
 
-    private function panelsChange(int $value, User $user)
+    private function panelsChange(int $value, User $user): bool
     {
         switch ($this->setPanelsInSession($value, $user)) {
             case 0://zielony
@@ -109,7 +140,7 @@ class GameSettings
         return true;
     }
 
-    private function styleChange(int $value, User $user)
+    private function styleChange(int $value, User $user): bool
     {
         $this->setSettingInSession($value, $user, 'style') ?
             $message = 'Ustawiono ciemny styl' :
@@ -118,7 +149,7 @@ class GameSettings
         return true;
     }
 
-    private function passwordChange($value, User $user)
+    private function passwordChange($value, User $user): bool
     {
         $old = $this->request->request->get('old');
         if (!$this->encoder->isPasswordValid($user, $old)) {
@@ -147,7 +178,7 @@ class GameSettings
         return true;
     }
 
-    private function saveSettings(UserSettings $settings, User $user)
+    private function saveSettings(UserSettings $settings, User $user): void
     {
         $this->session->get('userSession')->setUserSettings($settings);
         $user->setSettings($settings->getAll());
@@ -155,7 +186,7 @@ class GameSettings
         $this->em->flush();
     }
 
-    private function deleteAvatarChange($foo, User $user)
+    private function deleteAvatarChange($foo, User $user): bool
     {
         $user->setAvatar('');
         $this->em->flush();
@@ -323,7 +354,7 @@ class GameSettings
         return $value;
     }
 
-    private function setPanelsInSession(int $value, User $user):int
+    private function setPanelsInSession(int $value, User $user): int
     {
         $settings = $this->session->get('userSession')->getUserSettings();
         if (!in_array($value, [0, 1, 2, 3, 4, 5, 6])) {
@@ -334,14 +365,14 @@ class GameSettings
         return $value;
     }
 
-    private function addSuccessMessage(string $message)
+    private function addSuccessMessage(string $message): void
     {
         $this->session->getFlashBag()->add('success', $message);
     }
 
-    private function createCss(User $user)
+    private function createCss(User $user): void
     {
-        /** @var Settings $settings */
+        /** @var UserSettings $settings */
         $settings = $this->session->get('userSession')->getUserSettings();
         switch ($settings->getPanels()) {
             case 0://zielony
@@ -378,7 +409,7 @@ class GameSettings
         fclose($plik);
     }
 
-    private function setBackgroundInSession(string $value, User $user)
+    private function setBackgroundInSession(string $value, User $user): string
     {
         $settings = $this->session->get('userSession')->getUserSettings();
         if (!ctype_xdigit(ltrim($value, '#'))) {
