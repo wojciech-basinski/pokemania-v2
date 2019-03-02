@@ -56,7 +56,7 @@ class User implements UserInterface
     /**
      * @var int
      *
-     * @ORM\Column(name="trainer_level", type="integer")
+     * @ORM\Column(name="trainer_level", type="smallint")
      * @Gedmo\Versioned
      */
     private $trainerLevel;
@@ -71,7 +71,7 @@ class User implements UserInterface
     /**
      * @var int
      *
-     * @ORM\Column(name="points", type="integer")
+     * @ORM\Column(name="points", type="smallint")
      */
     private $points;
 

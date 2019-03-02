@@ -49,7 +49,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
         $this->createQueryBuilder('u')
             ->update()
             ->set('u.sessionId', '\'\'')
-            ->set('u.lastActive', 0)
+            ->set('u.lastActiveSec', 0)
             ->where('u.lastActive < :date')
             ->setParameter(':date', $date)
             ->getQuery()
