@@ -113,7 +113,7 @@ class GameHospital
         } else {
             $cost = ceil(
                 ((900 * $pokemon->getLevel()) * 0.35)
-                * (1 - ($pokemon->getHpToTable() / $pokemon->getHp()))
+                * (1 - ($pokemon->getActualHp() / $pokemon->getHpToTable()))
                 * ($pokemon->getLevel() / 90)
             );
 
