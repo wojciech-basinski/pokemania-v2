@@ -244,20 +244,6 @@ $(document).ready(function()
         });
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     $('#prawo').on('change', '.rezerwa_zaz', function()
     {
         var id = $(this).attr("name");
@@ -324,6 +310,7 @@ $(document).ready(function()
         zamknij();
         $('#pokemon_modal').modal("show");
     });
+
     $('.dropdown-menu_dr').on('click', '.info', function()
     {
         var url = pokemonInfoHref.replace("replace", id_konst);
@@ -331,23 +318,33 @@ $(document).ready(function()
         zamknij();
         $('#pokemon_modal').modal("show");
     });
-    $('.dropdown-menu_dr').on('click', '.hodowla', function()
-    {
-        $('.modal-title[name="pokemon_modal"]').text('SPRZEDAŻ POKA'); 
-        $('.modal-body[name="pokemon_modal"]').text('');
-        $('.modal-body[name="pokemon_modal"]').load('kupiec/zaznaczone/?ajax&komunikat&'+id_konst);
-        $('#content').load(URL+'pokemony/?ajax&active=3', function(){
-            $('#tabelka').load(URL+'lewo');
-        });
-        zamknij();
-        n();
-        $('#pokemon_modal').modal("show");
-    });
+
     $('.dropdown-menu_dr').on('click', '.wystaw', function()
     {
         window.location = sellPokemonHref+'?marked='+id_konst;
     });
 
+    $('.dropdown-menu_dr').on('click', '.hodowla', function()
+    {
+        $('.modal-title[name="pokemon_modal"]').text('SPRZEDAŻ POKA');
+        $('.modal-body[name="pokemon_modal"]').text('');
 
-
+        var params = {
+            'selected' : [id_konst]
+        };
+        $.ajax({
+            type: "POST",
+            url: merchantHref,
+            data: params
+        }).done(function(msg){
+            $('.modal-body[name="pokemon_modal"]').html(msg);
+            table();
+            $('#prawo').load(pokemonsHref + '?active=3', function(){
+                $('#tabelka').load(leftHref);
+            });
+        });
+        zamknij();
+        n();
+        $('#pokemon_modal').modal("show");
+    });
 });
