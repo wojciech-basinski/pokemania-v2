@@ -31,14 +31,24 @@ class GameHuntingCatch
      * @var Collection
      */
     private $collection;
+    /**
+     * @var PokemonHelper
+     */
+    private $pokemonHelper;
 
-    public function __construct(EntityManagerInterface $em, SessionInterface $session, GameShop $shop, Collection $collection)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        SessionInterface $session,
+        GameShop $shop,
+        Collection $collection,
+        PokemonHelper $pokemonHelper
+    ) {
         $this->em = $em;
         $this->session = $session;
         $this->shop = $shop;
         $this->pokemon = $this->session->get('pokemonHunting');
         $this->collection = $collection;
+        $this->pokemonHelper = $pokemonHelper;
     }
 
     public function getPokeballs(int $userId): Pokeball
@@ -191,8 +201,22 @@ class GameHuntingCatch
         if (!$this->checkMagazine($user, $this->pokemon->getShiny())) {
             return false;
         }
-
         $this->collection->addOneToPokemonCatchAndReturnIfMetAndCaught($this->pokemon->getIdPokemon(), $user->getId());
+        if ($this->pokemon->getShiny()) {
+            $pokemon = $this->pokemonHelper->generatePokemon($this->pokemon->getIdPokemon(), 1, true);
+            $pokemon->getTraining()->setBerryLimit(rand(50, 75) * 5);
+            $pokemon->setOwner($user->getId());
+            $pokemon->setFirstOwner($user->getId());
+            $pokemon->setDateOfCatch(new \DateTime());
+            $pokemon->setDescription('');
+            $pokemon->setCatched($pokeball);
+            $pokemon->setActualHp(0);
+
+            $user->setShinyCatched(1);
+            $this->em->getRepository('AppBundle:Shiny')->addCaught($user->getRegion());
+            $this->em->persist($pokemon);
+            return true;
+        }
 
         $this->pokemon->getTraining()->setBerryLimit(rand(50, 75) * 5);
 
@@ -202,11 +226,6 @@ class GameHuntingCatch
         $this->pokemon->setDescription('');
         $this->pokemon->setCatched($pokeball);
         $this->pokemon->setActualHp(0);
-
-        if ($this->pokemon->getShiny()) {
-            $user->setShinyCatched(1);
-            $this->em->getRepository('AppBundle:Shiny')->addCaught($user->getRegion());
-        }
 
         $this->em->persist($this->pokemon);
         return true;
