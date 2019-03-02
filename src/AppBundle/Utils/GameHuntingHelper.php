@@ -56,15 +56,22 @@ class GameHuntingHelper
         }
         $pokemon = $this->pokemonHelper->generatePokemon(
             $id,
-            $this->roundPokemonLevel($user->getTrainerLevel(), $id),
+            $this->roundPokemonLevel($user->getTrainerLevel(), $id, $shiny),
             $shiny
         );
 
         return $pokemon;
     }
 
-    private function roundPokemonLevel(int $userLevel, int $idPokemon): int
+    private function roundPokemonLevel(int $userLevel, int $idPokemon, bool $shiny): int
     {
+        if ($shiny) {
+            $level = mt_rand($userLevel - 3, $userLevel + 3);
+            if ($level > 100) {
+                return 100;
+            }
+            return $level;
+        }
         $minLevelPokemon = $this->pokemonHelper->getInfo($idPokemon)['min_poziom'];
         if (($userLevel + 6 - $minLevelPokemon) === 0) {
             $minLevelToRound = 1;

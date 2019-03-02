@@ -881,7 +881,7 @@ class PokemonHelper
         return $pokemon;
     }
 
-    public static function getEffectiveness(int $type1, int $type2)
+    public static function getEffectiveness(int $type1, int $type2): array
     {
         $effectiveness = [];
         if ($type2) {
@@ -896,7 +896,7 @@ class PokemonHelper
         return $effectiveness;
     }
 
-    public static function getTypeDescription(int $i)
+    public static function getTypeDescription(int $i): string
     {
         return self::$typeDescription[$i];
     }
@@ -948,7 +948,7 @@ class PokemonHelper
         return $gender;
     }
 
-    private static function getValue(int $difficulty, int $level)
+    private static function getValue(int $difficulty, int $level): int
     {
         $value = ((2500 + ($level * 290) + ($difficulty * 1280)) * (0.71 * $difficulty)) * (mt_rand(90, 110) / 100);
         //TODO:
@@ -958,7 +958,7 @@ class PokemonHelper
         return floor($value);
     }
 
-    private static function generatePokemonStatsAndAttacks(Pokemon &$pokemon)
+    private static function generatePokemonStatsAndAttacks(Pokemon $pokemon): void
     {
         $pokemon->setAccuracy(rand(55, 80));
 
@@ -966,7 +966,7 @@ class PokemonHelper
         self::generateAttacks($pokemon);
     }
 
-    private static function generateStats(Pokemon &$pokemon)
+    private static function generateStats(Pokemon $pokemon): void
     {
         $pokemonId = $pokemon->getIdPokemon();
         $lvl = $pokemon->getLevel();
@@ -1053,7 +1053,7 @@ class PokemonHelper
         $pokemon->setTraining(self::pokemonTrainings());
     }
 
-    private static function generateAttacks(Pokemon &$pokemon)
+    private static function generateAttacks(Pokemon $pokemon): void
     {
         $attacks = explode(';', self::$pokemonInfo[$pokemon->getIdPokemon()]['ataki']);
         array_pop($attacks);
