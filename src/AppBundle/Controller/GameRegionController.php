@@ -186,6 +186,21 @@ class GameRegionController extends Controller
     }
 
     /**
+     * @Route("kupiec/jeden", name="game_merchant_sell")
+     * @Method("POST")
+     * @param GameMerchant $merchant
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function merchantSellOneAction(GameMerchant $merchant)
+    {
+        $selected = $this->request->get('selected');
+        $merchant->sellPokemons(false, $this->getUser(), $selected, false);
+
+        return $this->render('game/merchant_only_flash.html.twig');
+    }
+
+    /**
      * @Route("podroz", name="game_travel")
      * @Method("GET")
      */
