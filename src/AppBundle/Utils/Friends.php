@@ -27,8 +27,11 @@ class Friends
 
     public function deleteFriendship(int $id, int $userId, string $userName): bool
     {
-        $friendship = $this->em->getRepository('AppBundle:Friend')->getOneFriendship($id, $userId);
+        $friendship = $this->em->getRepository('AppBundle:Friend')->find($id);
         if (!$friendship) {
+            return 0;
+        }
+        if (!$friendship->getUserId() === $userId && !$friendship->getWhoId() === $userId) {
             return 0;
         }
 
