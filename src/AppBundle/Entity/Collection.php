@@ -1,12 +1,9 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Collection
- *
  * @ORM\Table(name="collections")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CollectionRepository")
  */
@@ -24,48 +21,27 @@ class Collection
     /**
      * @var string
      *
-     * @ORM\Column(name="collection", type="string", length=2000)
+     * @ORM\Column(type="string", length=2000)
      */
     private $collection;
 
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set collection
-     *
-     * @param string $collection
-     *
-     * @return Collection
-     */
-    public function setCollection($collection)
+    public function setCollection(string $collection): self
     {
         $this->collection = $collection;
 
         return $this;
     }
 
-    /**
-     * Get collection
-     *
-     * @return string
-     */
-    public function getCollection()
+    public function getCollection(): string
     {
         return $this->collection;
     }
 
-    /**
-     * @return array
-     */
     public function getCollectionAsArray(): array
     {
         return explode(';', $this->collection);

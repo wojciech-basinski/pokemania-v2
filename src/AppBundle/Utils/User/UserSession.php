@@ -54,99 +54,74 @@ class UserSession
         $this->expOnNextLevel = $expOnNextLevel;
     }
 
-    /**
-     * @return UserSkills
-     */
     public function getUserSkills(): UserSkills
     {
         return $this->userSkills;
     }
 
-    /**
-     * @return UserItems
-     */
     public function getUserItems(): UserItems
     {
         return $this->userItems;
     }
 
-    /**
-     * @return UserSettings
-     */
     public function getUserSettings(): UserSettings
     {
         return $this->userSettings;
     }
 
-    /**
-     * @return int
-     */
     public function getPokemonInReserve(): int
     {
         return $this->pokemonInReserve;
     }
 
-    /**
-     * @param int $pokemonInReserve
-     */
-    public function setPokemonInReserve(int $pokemonInReserve)
+    public function setPokemonInReserve(int $pokemonInReserve): self
     {
         $this->pokemonInReserve = $pokemonInReserve;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getReports(): int
     {
         return $this->reports;
     }
 
-    /**
-     * @param int $reports
-     */
-    public function setReports(int $reports)
+    public function setReports(int $reports): self
     {
         $this->reports = $reports;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getMessages(): int
     {
         return $this->messages;
     }
 
-    /**
-     * @param int $messages
-     */
-    public function setMessages(int $messages)
+    public function setMessages(int $messages): self
     {
         $this->messages = $messages;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getExpOnNextLevel(): int
     {
         return $this->expOnNextLevel;
     }
 
-    /**
-     * @param int $expOnNextLevel
-     */
-    public function setExpOnNextLevel(int $expOnNextLevel)
+    public function setExpOnNextLevel(int $expOnNextLevel): self
     {
         $this->expOnNextLevel = $expOnNextLevel;
+
+        return $this;
     }
 
-    /**
-     * @param UserSettings $userSettings
-     */
-    public function setUserSettings(UserSettings $userSettings)
+
+    public function setUserSettings(UserSettings $userSettings): self
     {
         $this->userSettings = $userSettings;
+
+        return $this;
     }
 }

@@ -1,13 +1,9 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Cron
- *
- * @ORM\Table(name="cron")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CronRepository")
  */
 class Cron
@@ -24,35 +20,22 @@ class Cron
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     private $date;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="log", type="string", length=255)
+     * @ORM\Column()
      */
     private $log;
 
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set date.
-     *
-     * @param \DateTime $date
-     *
-     * @return Cron
-     */
     public function setDate(\DateTime $date): self
     {
         $this->date = $date;
@@ -60,23 +43,11 @@ class Cron
         return $this;
     }
 
-    /**
-     * Get date.
-     *
-     * @return \DateTime
-     */
     public function getDate(): \DateTime
     {
         return $this->date;
     }
 
-    /**
-     * Set log.
-     *
-     * @param string $log
-     *
-     * @return Cron
-     */
     public function setLog($log): self
     {
         $this->log = $log;
@@ -84,11 +55,6 @@ class Cron
         return $this;
     }
 
-    /**
-     * Get log.
-     *
-     * @return string
-     */
     public function getLog(): string
     {
         return $this->log;

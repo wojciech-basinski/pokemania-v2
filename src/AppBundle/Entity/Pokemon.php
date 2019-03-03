@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use AppBundle\Utils\PokemonHelper;
@@ -7,8 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Pokemons
- *
  * @ORM\Table(name="pokemons")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PokemonRepository")
  * @Gedmo\Loggable
@@ -28,7 +25,7 @@ class Pokemon
     /**
      * @var int
      *
-     * @ORM\Column(name="id_pokemon", type="smallint")
+     * @ORM\Column(type="smallint")
      * @Gedmo\Versioned
      */
     private $idPokemon;
@@ -36,7 +33,7 @@ class Pokemon
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=40)
+     * @ORM\Column(type="string", length=40)
      * @Gedmo\Versioned
      */
     private $name;
@@ -44,7 +41,7 @@ class Pokemon
     /**
      * @var int
      *
-     * @ORM\Column(name="level", type="smallint")
+     * @ORM\Column(type="smallint")
      * @Gedmo\Versioned
      */
     private $level;
@@ -52,21 +49,21 @@ class Pokemon
     /**
      * @var int
      *
-     * @ORM\Column(name="exp", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $exp;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="shiny", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $shiny;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="owner", type="integer")
+     * @ORM\Column(type="integer")
      * @Gedmo\Versioned
      */
     private $owner;
@@ -74,175 +71,175 @@ class Pokemon
     /**
      * @var int
      *
-     * @ORM\Column(name="attack", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $attack;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="defence", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $defence;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="sp_attack", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $spAttack;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="sp_defence", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $spDefence;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="speed", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $speed;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="hp", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $hp;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="accuracy", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $accuracy;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="team", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $team;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="actual_hp", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $actualHp;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="attack0", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $attack0;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="attack1", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $attack1;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="attack2", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $attack2;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="attack3", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $attack3;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="ewolution", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $ewolution;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="gender", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $gender;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="value", type="bigint")
+     * @ORM\Column(type="bigint")
      */
     private $value;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="attachment", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $attachment;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_of_catch", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     private $dateOfCatch;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="block", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $block;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="lottery", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $lottery;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="berrys_hp", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $berrysHp;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="snacks", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $snacks;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="market", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $market;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="block_view", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $blockView;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="hunger", type="float")
+     * @ORM\Column(type="float")
      */
     private $hunger;
 
@@ -256,35 +253,35 @@ class Pokemon
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column()
      */
     private $description;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="first_owner", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $firstOwner;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="exchange", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $exchange;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="catched", type="string", length=255)
+     * @ORM\Column()
      */
     private $catched;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="quality", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $quality;
 
@@ -312,934 +309,473 @@ class Pokemon
      */
     private $effectiveness = null;
 
-    /**
-     * @return PokemonTraining
-     */
     public function getTraining(): PokemonTraining
     {
         return $this->training;
     }
 
-    /**
-     * @param PokemonTraining $training
-     */
-    public function setTraining(PokemonTraining $training)
+    public function setTraining(PokemonTraining $training): self
     {
         $this->training = $training;
+
+        return $this;
     }
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set idPokemon
-     *
-     * @param integer $idPokemon
-     *
-     * @return Pokemon
-     */
-    public function setIdPokemon($idPokemon)
+    public function setIdPokemon(int $idPokemon): self
     {
         $this->idPokemon = $idPokemon;
 
         return $this;
     }
 
-    /**
-     * Get idPokemon
-     *
-     * @return int
-     */
-    public function getIdPokemon()
+    public function getIdPokemon(): int
     {
         return $this->idPokemon;
     }
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Pokemon
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Set level
-     *
-     * @param integer $level
-     *
-     * @return Pokemon
-     */
-    public function setLevel($level)
+    public function setLevel(int $level): self
     {
         $this->level = $level;
 
         return $this;
     }
 
-    /**
-     * Get level
-     *
-     * @return int
-     */
-    public function getLevel()
+    public function getLevel(): int
     {
         return $this->level;
     }
 
-    /**
-     * Set exp
-     *
-     * @param integer $exp
-     *
-     * @return Pokemon
-     */
-    public function setExp($exp)
+    public function setExp(int $exp): self
     {
         $this->exp = $exp;
 
         return $this;
     }
 
-    /**
-     * Get exp
-     *
-     * @return int
-     */
-    public function getExp()
+    public function getExp(): int
     {
         return $this->exp;
     }
 
-    /**
-     * Set shiny
-     *
-     * @param boolean $shiny
-     *
-     * @return Pokemon
-     */
-    public function setShiny($shiny)
+    public function setShiny(bool $shiny): self
     {
         $this->shiny = $shiny;
 
         return $this;
     }
 
-    /**
-     * Get shiny
-     *
-     * @return bool
-     */
-    public function getShiny()
+    public function getShiny(): bool
     {
         return $this->shiny;
     }
 
-    /**
-     * Set owner
-     *
-     * @param integer $owner
-     *
-     * @return Pokemon
-     */
-    public function setOwner($owner)
+    public function setOwner(int $owner): self
     {
         $this->owner = $owner;
 
         return $this;
     }
 
-    /**
-     * Get owner
-     *
-     * @return int
-     */
-    public function getOwner()
+    public function getOwner(): int
     {
         return $this->owner;
     }
 
-    /**
-     * Set attack
-     *
-     * @param integer $attack
-     *
-     * @return Pokemon
-     */
-    public function setAttack($attack)
+    public function setAttack(int $attack): self
     {
         $this->attack = $attack;
 
         return $this;
     }
 
-    /**
-     * Get attack
-     *
-     * @return int
-     */
-    public function getAttack()
+    public function getAttack(): int
     {
         return $this->attack;
     }
 
-    /**
-     * Set defence
-     *
-     * @param integer $defence
-     *
-     * @return Pokemon
-     */
-    public function setDefence($defence)
+    public function setDefence(int $defence): self
     {
         $this->defence = $defence;
 
         return $this;
     }
 
-    /**
-     * Get defence
-     *
-     * @return int
-     */
-    public function getDefence()
+    public function getDefence(): int
     {
         return $this->defence;
     }
 
-    /**
-     * Set spAttack
-     *
-     * @param integer $spAttack
-     *
-     * @return Pokemon
-     */
-    public function setSpAttack($spAttack)
+    public function setSpAttack(int $spAttack): self
     {
         $this->spAttack = $spAttack;
 
         return $this;
     }
 
-    /**
-     * Get spAttack
-     *
-     * @return int
-     */
-    public function getSpAttack()
+    public function getSpAttack(): int
     {
         return $this->spAttack;
     }
 
-    /**
-     * Set spDefence
-     *
-     * @param integer $spDefence
-     *
-     * @return Pokemon
-     */
-    public function setSpDefence($spDefence)
+    public function setSpDefence(int $spDefence): self
     {
         $this->spDefence = $spDefence;
 
         return $this;
     }
 
-    /**
-     * Get spDefence
-     *
-     * @return int
-     */
-    public function getSpDefence()
+    public function getSpDefence(): int
     {
         return $this->spDefence;
     }
 
-    /**
-     * Set speed
-     *
-     * @param integer $speed
-     *
-     * @return Pokemon
-     */
-    public function setSpeed($speed)
+    public function setSpeed(int $speed): self
     {
         $this->speed = $speed;
 
         return $this;
     }
 
-    /**
-     * Get speed
-     *
-     * @return int
-     */
-    public function getSpeed()
+    public function getSpeed(): int
     {
         return $this->speed;
     }
 
-    /**
-     * Set hp
-     *
-     * @param integer $hp
-     *
-     * @return Pokemon
-     */
-    public function setHp($hp)
+    public function setHp(int $hp): self
     {
         $this->hp = $hp;
 
         return $this;
     }
 
-    /**
-     * Get hp
-     *
-     * @return int
-     */
-    public function getHp()
+    public function getHp(): int
     {
         return $this->hp;
     }
 
-    /**
-     * Set accuracy
-     *
-     * @param integer $accuracy
-     *
-     * @return Pokemon
-     */
-    public function setAccuracy($accuracy)
+    public function setAccuracy(int $accuracy): self
     {
         $this->accuracy = $accuracy;
 
         return $this;
     }
 
-    /**
-     * Get accuracy
-     *
-     * @return int
-     */
-    public function getAccuracy()
+    public function getAccuracy(): int
     {
         return $this->accuracy;
     }
 
-    /**
-     * Set team
-     *
-     * @param boolean $team
-     *
-     * @return Pokemon
-     */
-    public function setTeam($team)
+    public function setTeam(bool $team): self
     {
         $this->team = $team;
 
         return $this;
     }
 
-    /**
-     * Get team
-     *
-     * @return bool
-     */
-    public function getTeam()
+    public function getTeam(): bool
     {
         return $this->team;
     }
 
-    /**
-     * Set actualHp
-     *
-     * @param integer $actualHp
-     *
-     * @return Pokemon
-     */
-    public function setActualHp($actualHp)
+    public function setActualHp(int $actualHp): self
     {
         $this->actualHp = $actualHp;
 
         return $this;
     }
 
-    /**
-     * Get actualHp
-     *
-     * @return int
-     */
-    public function getActualHp()
+    public function getActualHp(): int
     {
         return $this->actualHp;
     }
 
-    /**
-     * Set attack1
-     *
-     * @param integer $attack0
-     *
-     * @return Pokemon
-     */
-    public function setAttack0($attack0)
+    public function setAttack0(int $attack0): self
     {
         $this->attack0 = $attack0;
 
         return $this;
     }
 
-    /**
-     * Get attack0
-     *
-     * @return int
-     */
-    public function getAttack0()
+    public function getAttack0(): int
     {
         return $this->attack0;
     }
 
-    /**
-     * Set attack2
-     *
-     * @param integer $attack1
-     *
-     * @return Pokemon
-     */
-    public function setAttack1($attack1)
+    public function setAttack1(int $attack1): self
     {
         $this->attack1 = $attack1;
 
         return $this;
     }
 
-    /**
-     * Get attack1
-     *
-     * @return int
-     */
-    public function getAttack1()
+    public function getAttack1(): int
     {
         return $this->attack1;
     }
 
-    /**
-     * Set attack2
-     *
-     * @param integer $attack2
-     *
-     * @return Pokemon
-     */
-    public function setAttack2($attack2)
+    public function setAttack2(int $attack2): self
     {
         $this->attack2 = $attack2;
 
         return $this;
     }
 
-    /**
-     * Get attack2
-     *
-     * @return int
-     */
-    public function getAttack2()
+    public function getAttack2(): int
     {
         return $this->attack2;
     }
 
-    /**
-     * Set attack3
-     *
-     * @param string $attack3
-     *
-     * @return Pokemon
-     */
-    public function setAttack3($attack3)
+    public function setAttack3(int $attack3): self
     {
         $this->attack3 = $attack3;
 
         return $this;
     }
 
-    /**
-     * Get attack3
-     *
-     * @return string
-     */
-    public function getAttack3()
+    public function getAttack3(): int
     {
         return $this->attack3;
     }
 
-    /**
-     * Set ewolution
-     *
-     * @param boolean $ewolution
-     *
-     * @return Pokemon
-     */
-    public function setEwolution($ewolution)
+    public function setEwolution(bool $ewolution): self
     {
         $this->ewolution = $ewolution;
 
         return $this;
     }
 
-    /**
-     * Get ewolution
-     *
-     * @return bool
-     */
-    public function getEwolution()
+    public function getEwolution(): bool
     {
         return $this->ewolution;
     }
 
-    /**
-     * Set gender
-     *
-     * @param integer $gender
-     *
-     * @return Pokemon
-     */
-    public function setGender($gender)
+    public function setGender(int $gender): self
     {
         $this->gender = $gender;
 
         return $this;
     }
 
-    /**
-     * Get gender
-     *
-     * @return int
-     */
-    public function getGender()
+    public function getGender(): int
     {
         return $this->gender;
     }
 
-    /**
-     * Set value
-     *
-     * @param integer $value
-     *
-     * @return Pokemon
-     */
-    public function setValue($value)
+    public function setValue(int $value): self
     {
         $this->value = $value;
 
         return $this;
     }
 
-    /**
-     * Get value
-     *
-     * @return int
-     */
-    public function getValue()
+    public function getValue(): int
     {
         return $this->value;
     }
 
-    /**
-     * Set attachment
-     *
-     * @param integer $attachment
-     *
-     * @return Pokemon
-     */
-    public function setAttachment($attachment)
+    public function setAttachment(int $attachment): self
     {
         $this->attachment = $attachment;
 
         return $this;
     }
 
-    /**
-     * Get attachment
-     *
-     * @return int
-     */
-    public function getAttachment()
+    public function getAttachment(): int
     {
         return $this->attachment;
     }
 
-    /**
-     * Set dateOfCatch
-     *
-     * @param \DateTime $dateOfCatch
-     *
-     * @return Pokemon
-     */
-    public function setDateOfCatch($dateOfCatch)
+    public function setDateOfCatch(\DateTime $dateOfCatch): self
     {
         $this->dateOfCatch = $dateOfCatch;
 
         return $this;
     }
 
-    /**
-     * Get dateOfCatch
-     *
-     * @return \DateTime
-     */
-    public function getDateOfCatch()
+    public function getDateOfCatch(): \DateTime
     {
         return $this->dateOfCatch;
     }
 
-    /**
-     * Set block
-     *
-     * @param boolean $block
-     *
-     * @return Pokemon
-     */
-    public function setBlock($block)
+    public function setBlock(bool $block): self
     {
         $this->block = $block;
 
         return $this;
     }
 
-    /**
-     * Get block
-     *
-     * @return bool
-     */
-    public function getBlock()
+    public function getBlock(): bool
     {
         return $this->block;
     }
 
-    /**
-     * Set lottery
-     *
-     * @param boolean $lottery
-     *
-     * @return Pokemon
-     */
-    public function setLottery($lottery)
+    public function setLottery(bool $lottery): self
     {
         $this->lottery = $lottery;
 
         return $this;
     }
 
-    /**
-     * Get lottery
-     *
-     * @return bool
-     */
-    public function getLottery()
+    public function getLottery(): bool
     {
         return $this->lottery;
     }
 
-    /**
-     * Set berrysHp
-     *
-     * @param integer $berrysHp
-     *
-     * @return Pokemon
-     */
-    public function setBerrysHp($berrysHp)
+    public function setBerrysHp(int $berrysHp): self
     {
         $this->berrysHp = $berrysHp;
 
         return $this;
     }
 
-    /**
-     * Get berrysHp
-     *
-     * @return int
-     */
-    public function getBerrysHp()
+    public function getBerrysHp(): int
     {
         return $this->berrysHp;
     }
 
-    /**
-     * Set snacks
-     *
-     * @param integer $snacks
-     *
-     * @return Pokemon
-     */
-    public function setSnacks($snacks)
+    public function setSnacks(int $snacks): self
     {
         $this->snacks = $snacks;
 
         return $this;
     }
 
-    /**
-     * Get snacks
-     *
-     * @return int
-     */
-    public function getSnacks()
+    public function getSnacks(): int
     {
         return $this->snacks;
     }
 
-    /**
-     * Set market
-     *
-     * @param boolean $market
-     *
-     * @return Pokemon
-     */
-    public function setMarket($market)
+    public function setMarket(bool $market): self
     {
         $this->market = $market;
 
         return $this;
     }
 
-    /**
-     * Get market
-     *
-     * @return bool
-     */
-    public function getMarket()
+    public function getMarket(): bool
     {
         return $this->market;
     }
 
-    /**
-     * Set blockView
-     *
-     * @param boolean $blockView
-     *
-     * @return Pokemon
-     */
-    public function setBlockView($blockView)
+    public function setBlockView(bool $blockView): self
     {
         $this->blockView = $blockView;
 
         return $this;
     }
 
-    /**
-     * Get blockView
-     *
-     * @return bool
-     */
-    public function getBlockView()
+    public function getBlockView(): bool
     {
         return $this->blockView;
     }
 
-    /**
-     * Set hunger
-     *
-     * @param float $hunger
-     *
-     * @return Pokemon
-     */
-    public function setHunger($hunger)
+    public function setHunger(float $hunger): self
     {
         $this->hunger = $hunger;
 
         return $this;
     }
 
-    /**
-     * Get hunger
-     *
-     * @return float
-     */
-    public function getHunger()
+    public function getHunger(): float
     {
         return $this->hunger;
     }
 
-    /**
-     * Set training6
-     *
-     * @param int $tr6
-     *
-     * @return Pokemon
-     */
-    public function setTr6(int $tr6)
+    public function setTr6(int $tr6): self
     {
         $this->tr6 = $tr6;
 
         return $this;
     }
 
-    /**
-     * Get training6
-     *
-     * @return int
-     */
-    public function getTr6()
+    public function getTr6(): int
     {
         return $this->tr6;
     }
 
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return Pokemon
-     */
-    public function setDescription($description)
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * Set firstOwner
-     *
-     * @param integer $firstOwner
-     *
-     * @return Pokemon
-     */
-    public function setFirstOwner($firstOwner)
+    public function setFirstOwner(int $firstOwner): self
     {
         $this->firstOwner = $firstOwner;
 
         return $this;
     }
 
-    /**
-     * Get firstOwner
-     *
-     * @return int
-     */
-    public function getFirstOwner()
+    public function getFirstOwner(): int
     {
         return $this->firstOwner;
     }
 
-    /**
-     * Set exchange
-     *
-     * @param boolean $exchange
-     *
-     * @return Pokemon
-     */
-    public function setExchange($exchange)
+    public function setExchange(bool $exchange): self
     {
         $this->exchange = $exchange;
 
         return $this;
     }
 
-    /**
-     * Get exchange
-     *
-     * @return bool
-     */
-    public function getExchange()
+    public function getExchange(): bool
     {
         return $this->exchange;
     }
 
-    /**
-     * Set catched
-     *
-     * @param string $catched
-     *
-     * @return Pokemon
-     */
-    public function setCatched($catched)
+    public function setCatched(string $catched): self
     {
         $this->catched = $catched;
 
         return $this;
     }
 
-    /**
-     * Get catched
-     *
-     * @return string
-     */
-    public function getCatched()
+    public function getCatched(): string
     {
         return $this->catched;
     }
 
-    /**
-     * Set quality
-     *
-     * @param integer $quality
-     *
-     * @return Pokemon
-     */
-    public function setQuality($quality)
+    public function setQuality(int $quality): self
     {
         $this->quality = $quality;
 
         return $this;
     }
 
-    /**
-     * Get quality
-     *
-     * @return int
-     */
-    public function getQuality()
+    public function getQuality(): int
     {
         return $this->quality;
     }
 
-    /**
-     * @return int
-     */
-    public function getExpOnLevel()
+    public function getExpOnLevel(): int
     {
         return $this->expOnLevel;
     }
 
-    /**
-     * @param int $expOnLevel
-     *
-     * @return Pokemon
-     */
-    public function setExpOnLevel($expOnLevel)
+    public function setExpOnLevel(int $expOnLevel): self
     {
         $this->expOnLevel = $expOnLevel;
 
@@ -1296,7 +832,7 @@ class Pokemon
         );
     }
 
-    public function getCountedAttachment()
+    public function getCountedAttachment(): float
     {
         $attachment = 0;
         if ($this->attachment < 6000) {
@@ -1321,7 +857,7 @@ class Pokemon
         return PokemonHelper::getInfo($this->idPokemon);
     }
 
-    public function getEffectiveness()
+    public function getEffectiveness(): array
     {
         if ($this->effectiveness === null) {
             $this->effectiveness = PokemonHelper::getEffectiveness($this->getInfo()['typ1'], $this->getInfo()['typ2']);
@@ -1329,22 +865,26 @@ class Pokemon
         return $this->effectiveness;
     }
 
-    public function getOneEffectiveness(int $i)
+    public function getOneEffectiveness(int $i): int
     {
         return $this->getEffectiveness()[$i];
     }
 
-    public function setEffectivenessFromArray(array $effectiveness)
+    public function setEffectivenessFromArray(array $effectiveness): self
     {
         $this->effectiveness = $effectiveness;
+
+        return $this;
     }
 
-    public function setEffectiveness(int $key, int $value)
+    public function setEffectiveness(int $key, int $value): self
     {
         $this->effectiveness[$key] = $value;
+
+        return $this;
     }
 
-    public function hasAttack(int $id)
+    public function hasAttack(int $id): bool
     {
         return in_array($id, [$this->attack0, $this->attack1, $this->attack2, $this->attack3]);
     }

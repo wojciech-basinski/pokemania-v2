@@ -1,13 +1,9 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Berry
- *
- * @ORM\Table(name="berry")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\BerryRepository")
  */
 class Berry
@@ -24,506 +20,309 @@ class Berry
     /**
      * @var int
      *
-     * @ORM\Column(name="cheri_berry", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $cheriBerry;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="chesto_berry", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $chestoBerry;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="pecha_berry", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $pechaBerry;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="rawst_berry", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $rawstBerry;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="aspear_berry", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $aspearBerry;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="leppa_berry", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $leppaBerry;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="oran_berry", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $oranBerry;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="persim_berry", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $persimBerry;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="lum_berry", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $lumBerry;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="sitrus_berry", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $sitrusBerry;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="figy_berry", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $figyBerry;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="wiki_berry", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $wikiBerry;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="mago_berry", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $magoBerry;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="aguav_berry", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $aguavBerry;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="lapapa_berry", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $lapapaBerry;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="razz_berry", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $razzBerry;
 
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set cheriBerry
-     *
-     * @param integer $cheriBerry
-     *
-     * @return Berry
-     */
-    public function setCheriBerry($cheriBerry)
+    public function setCheriBerry(int $cheriBerry): self
     {
         $this->cheriBerry = $cheriBerry;
 
         return $this;
     }
 
-    /**
-     * Get cheriBerry
-     *
-     * @return int
-     */
-    public function getCheriBerry()
+    public function getCheriBerry(): int
     {
         return $this->cheriBerry;
     }
 
-    /**
-     * Set chestoBerry
-     *
-     * @param integer $chestoBerry
-     *
-     * @return Berry
-     */
-    public function setChestoBerry($chestoBerry)
+    public function setChestoBerry(int $chestoBerry): self
     {
         $this->chestoBerry = $chestoBerry;
 
         return $this;
     }
 
-    /**
-     * Get chestoBerry
-     *
-     * @return int
-     */
-    public function getChestoBerry()
+    public function getChestoBerry(): int
     {
         return $this->chestoBerry;
     }
 
-    /**
-     * Set pechaBerry
-     *
-     * @param integer $pechaBerry
-     *
-     * @return Berry
-     */
-    public function setPechaBerry($pechaBerry)
+    public function setPechaBerry(int $pechaBerry): self
     {
         $this->pechaBerry = $pechaBerry;
 
         return $this;
     }
 
-    /**
-     * Get pechaBerry
-     *
-     * @return int
-     */
-    public function getPechaBerry()
+    public function getPechaBerry(): int
     {
         return $this->pechaBerry;
     }
 
-    /**
-     * Set rawstBerry
-     *
-     * @param integer $rawstBerry
-     *
-     * @return Berry
-     */
-    public function setRawstBerry($rawstBerry)
+    public function setRawstBerry(int $rawstBerry): self
     {
         $this->rawstBerry = $rawstBerry;
 
         return $this;
     }
 
-    /**
-     * Get rawstBerry
-     *
-     * @return int
-     */
-    public function getRawstBerry()
+    public function getRawstBerry(): int
     {
         return $this->rawstBerry;
     }
 
-    /**
-     * Set aspearBerry
-     *
-     * @param integer $aspearBerry
-     *
-     * @return Berry
-     */
-    public function setAspearBerry($aspearBerry)
+    public function setAspearBerry(int $aspearBerry): self
     {
         $this->aspearBerry = $aspearBerry;
 
         return $this;
     }
 
-    /**
-     * Get aspearBerry
-     *
-     * @return int
-     */
-    public function getAspearBerry()
+    public function getAspearBerry(): int
     {
         return $this->aspearBerry;
     }
 
-    /**
-     * Set leppaBerry
-     *
-     * @param integer $leppaBerry
-     *
-     * @return Berry
-     */
-    public function setLeppaBerry($leppaBerry)
+    public function setLeppaBerry(int $leppaBerry): self
     {
         $this->leppaBerry = $leppaBerry;
 
         return $this;
     }
 
-    /**
-     * Get leppaBerry
-     *
-     * @return int
-     */
-    public function getLeppaBerry()
+    public function getLeppaBerry(): int
     {
         return $this->leppaBerry;
     }
 
-    /**
-     * Set oranBerry
-     *
-     * @param integer $oranBerry
-     *
-     * @return Berry
-     */
-    public function setOranBerry($oranBerry)
+    public function setOranBerry(int $oranBerry): self
     {
         $this->oranBerry = $oranBerry;
 
         return $this;
     }
 
-    /**
-     * Get oranBerry
-     *
-     * @return int
-     */
-    public function getOranBerry()
+    public function getOranBerry(): int
     {
         return $this->oranBerry;
     }
 
-    /**
-     * Set persimBerry
-     *
-     * @param integer $persimBerry
-     *
-     * @return Berry
-     */
-    public function setPersimBerry($persimBerry)
+    public function setPersimBerry(int $persimBerry): self
     {
         $this->persimBerry = $persimBerry;
 
         return $this;
     }
 
-    /**
-     * Get persimBerry
-     *
-     * @return int
-     */
-    public function getPersimBerry()
+    public function getPersimBerry(): int
     {
         return $this->persimBerry;
     }
 
-    /**
-     * Set lumBerry
-     *
-     * @param integer $lumBerry
-     *
-     * @return Berry
-     */
-    public function setLumBerry($lumBerry)
+    public function setLumBerry(int $lumBerry): self
     {
         $this->lumBerry = $lumBerry;
 
         return $this;
     }
 
-    /**
-     * Get lumBerry
-     *
-     * @return int
-     */
-    public function getLumBerry()
+    public function getLumBerry(): int
     {
         return $this->lumBerry;
     }
 
-    /**
-     * Set sitrusBerry
-     *
-     * @param integer $sitrusBerry
-     *
-     * @return Berry
-     */
-    public function setSitrusBerry($sitrusBerry)
+    public function setSitrusBerry(int $sitrusBerry): self
     {
         $this->sitrusBerry = $sitrusBerry;
 
         return $this;
     }
 
-    /**
-     * Get sitrusBerry
-     *
-     * @return int
-     */
-    public function getSitrusBerry()
+    public function getSitrusBerry(): int
     {
         return $this->sitrusBerry;
     }
 
-    /**
-     * Set figyBerry
-     *
-     * @param integer $figyBerry
-     *
-     * @return Berry
-     */
-    public function setFigyBerry($figyBerry)
+    public function setFigyBerry(int $figyBerry): self
     {
         $this->figyBerry = $figyBerry;
 
         return $this;
     }
 
-    /**
-     * Get figyBerry
-     *
-     * @return int
-     */
-    public function getFigyBerry()
+    public function getFigyBerry(): int
     {
         return $this->figyBerry;
     }
 
-    /**
-     * Set wikiBerry
-     *
-     * @param integer $wikiBerry
-     *
-     * @return Berry
-     */
-    public function setWikiBerry($wikiBerry)
+    public function setWikiBerry(int $wikiBerry): self
     {
         $this->wikiBerry = $wikiBerry;
 
         return $this;
     }
 
-    /**
-     * Get wikiBerry
-     *
-     * @return int
-     */
-    public function getWikiBerry()
+    public function getWikiBerry(): int
     {
         return $this->wikiBerry;
     }
 
-    /**
-     * Set magoBerry
-     *
-     * @param integer $magoBerry
-     *
-     * @return Berry
-     */
-    public function setMagoBerry($magoBerry)
+    public function setMagoBerry(int $magoBerry): self
     {
         $this->magoBerry = $magoBerry;
 
         return $this;
     }
 
-    /**
-     * Get magoBerry
-     *
-     * @return int
-     */
-    public function getMagoBerry()
+    public function getMagoBerry(): int
     {
         return $this->magoBerry;
     }
 
-    /**
-     * Set aguavBerry
-     *
-     * @param integer $aguavBerry
-     *
-     * @return Berry
-     */
-    public function setAguavBerry($aguavBerry)
+    public function setAguavBerry(int $aguavBerry): self
     {
         $this->aguavBerry = $aguavBerry;
 
         return $this;
     }
 
-    /**
-     * Get aguavBerry
-     *
-     * @return int
-     */
-    public function getAguavBerry()
+    public function getAguavBerry(): int
     {
         return $this->aguavBerry;
     }
 
-    /**
-     * Set lapapaBerry
-     *
-     * @param integer $lapapaBerry
-     *
-     * @return Berry
-     */
-    public function setLapapaBerry($lapapaBerry)
+    public function setLapapaBerry(int $lapapaBerry): self
     {
         $this->lapapaBerry = $lapapaBerry;
 
         return $this;
     }
 
-    /**
-     * Get lapapaBerry
-     *
-     * @return int
-     */
-    public function getLapapaBerry()
+    public function getLapapaBerry(): int
     {
         return $this->lapapaBerry;
     }
 
-    /**
-     * Set razzBerry
-     *
-     * @param integer $razzBerry
-     *
-     * @return Berry
-     */
-    public function setRazzBerry($razzBerry)
+    public function setRazzBerry(int $razzBerry): self
     {
         $this->razzBerry = $razzBerry;
 
         return $this;
     }
 
-    /**
-     * Get razzBerry
-     *
-     * @return int
-     */
-    public function getRazzBerry()
+    public function getRazzBerry(): int
     {
         return $this->razzBerry;
     }

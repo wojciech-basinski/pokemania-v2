@@ -1,16 +1,20 @@
 <?php
-
 namespace AppBundle\Controller;
 
 use AppBundle\Utils\Bugs;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class GameMainController extends Controller
 {
+    /**
+     * @var Request
+     */
     private $request;
 
     public function __construct(RequestStack $request)
@@ -21,8 +25,10 @@ class GameMainController extends Controller
     /**
      * @Route("/statystyki/dzisiejsze", name="game_statistics_today")
      * @Route("/gra", name="game_index")
+     *
+     * @return Response
      */
-    public function gameIndexAction()
+    public function gameIndexAction(): Response
     {
         $repository = $this->getDoctrine()->getRepository('AppBundle:Statistic');
         $statistics = $repository->find($this->getUser()->getId());
@@ -42,9 +48,9 @@ class GameMainController extends Controller
      * @param int $desktop
      * @param SessionInterface $session
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function desktopAction(int $desktop, SessionInterface $session)
+    public function desktopAction(int $desktop, SessionInterface $session): Response
     {
         if ($desktop === 1) {
             $session->set('desktop', 1);
@@ -55,8 +61,10 @@ class GameMainController extends Controller
     /**
      * @Route("/zglosblad", name="game_bugs")
      * @Method("GET")
+     *
+     * @return Response
      */
-    public function gameBugsAction()
+    public function gameBugsAction(): Response
     {
         return $this->render('game/bugs.html.twig', [
             'title' => 'Zgłoś błąd',
@@ -70,9 +78,9 @@ class GameMainController extends Controller
      * @Route("/zglosblad/lista", name="game_bugs_list")
      * @param Bugs $bugs
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function gameBugsListAction(Bugs $bugs)
+    public function gameBugsListAction(Bugs $bugs): Response
     {
         $list = $bugs->list($this->getUser());
 
@@ -88,9 +96,9 @@ class GameMainController extends Controller
      * @Method("POST")
      * @param Bugs $bugs
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function gameBugsAddAction(Bugs $bugs)
+    public function gameBugsAddAction(Bugs $bugs): Response
     {
         $add = $bugs->add(
             $this->request->request->get('title'),
@@ -111,9 +119,9 @@ class GameMainController extends Controller
      * @Method("POST")
      * @param Bugs $bugs
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function gameBugsAdminAction(Bugs $bugs)
+    public function gameBugsAdminAction(Bugs $bugs): Response
     {
         if (!$this->getUser()->isAdmin()) {
             $this->addFlash('error', 'Nie możesz wykonać tej akcji');

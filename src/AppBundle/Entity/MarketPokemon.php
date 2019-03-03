@@ -1,13 +1,9 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Market_Pokemon
- *
- * @ORM\Table(name="market_pokemon")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\MarketPokemonRepository")
  */
 class MarketPokemon
@@ -24,373 +20,232 @@ class MarketPokemon
     /**
      * @var int
      *
-     * @ORM\Column(name="id_pokemon", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $idPokemon;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="id_pokemon_base", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $idPokemonBase;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="level", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $level;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="value", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $value;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="owner_id", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $ownerId;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="shiny", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $shiny;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="type1", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $type1;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="type2", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $type2;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="message", type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $message;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column()
      */
     private $name;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="gender", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $gender;
+
     /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Pokemon", fetch="EAGER")
      * @ORM\JoinColumn(name="id_pokemon", referencedColumnName="id")
      */
     private $pokemonInfo;
 
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set idPokemon
-     *
-     * @param integer $idPokemon
-     *
-     * @return Market_Pokemon
-     */
-    public function setIdPokemon($idPokemon)
+    public function setIdPokemon(int $idPokemon): self
     {
         $this->idPokemon = $idPokemon;
 
         return $this;
     }
 
-    /**
-     * Get idPokemon
-     *
-     * @return int
-     */
-    public function getIdPokemon()
+    public function getIdPokemon(): int
     {
         return $this->idPokemon;
     }
 
-    /**
-     * Set idPokemonBase
-     *
-     * @param integer $idPokemonBase
-     *
-     * @return Market_Pokemon
-     */
-    public function setIdPokemonBase($idPokemonBase)
+    public function setIdPokemonBase(int $idPokemonBase): self
     {
         $this->idPokemonBase = $idPokemonBase;
 
         return $this;
     }
 
-    /**
-     * Get idPokemonBase
-     *
-     * @return int
-     */
-    public function getIdPokemonBase()
+    public function getIdPokemonBase(): int
     {
         return $this->idPokemonBase;
     }
 
-    /**
-     * Set level
-     *
-     * @param integer $level
-     *
-     * @return Market_Pokemon
-     */
-    public function setLevel($level)
+    public function setLevel(int $level): self
     {
         $this->level = $level;
 
         return $this;
     }
 
-    /**
-     * Get level
-     *
-     * @return int
-     */
-    public function getLevel()
+    public function getLevel(): int
     {
         return $this->level;
     }
 
-    /**
-     * Set value
-     *
-     * @param integer $value
-     *
-     * @return Market_Pokemon
-     */
-    public function setValue($value)
+    public function setValue(int $value): self
     {
         $this->value = $value;
 
         return $this;
     }
 
-    /**
-     * Get value
-     *
-     * @return int
-     */
-    public function getValue()
+    public function getValue(): int
     {
         return $this->value;
     }
 
-    /**
-     * Set ownerId
-     *
-     * @param integer $ownerId
-     *
-     * @return Market_Pokemon
-     */
-    public function setOwnerId($ownerId)
+    public function setOwnerId(int $ownerId): self
     {
         $this->ownerId = $ownerId;
 
         return $this;
     }
 
-    /**
-     * Get ownerId
-     *
-     * @return int
-     */
-    public function getOwnerId()
+    public function getOwnerId(): int
     {
         return $this->ownerId;
     }
 
-    /**
-     * Set shiny
-     *
-     * @param boolean $shiny
-     *
-     * @return Market_Pokemon
-     */
-    public function setShiny($shiny)
+    public function setShiny(bool $shiny): self
     {
         $this->shiny = $shiny;
 
         return $this;
     }
 
-    /**
-     * Get shiny
-     *
-     * @return bool
-     */
-    public function getShiny()
+    public function getShiny(): bool
     {
         return $this->shiny;
     }
 
-    /**
-     * Set type1
-     *
-     * @param integer $type1
-     *
-     * @return Market_Pokemon
-     */
-    public function setType1($type1)
+    public function setType1(int $type1): self
     {
         $this->type1 = $type1;
 
         return $this;
     }
 
-    /**
-     * Get type1
-     *
-     * @return int
-     */
-    public function getType1()
+    public function getType1(): int
     {
         return $this->type1;
     }
 
-    /**
-     * Set type2
-     *
-     * @param integer $type2
-     *
-     * @return Market_Pokemon
-     */
-    public function setType2($type2)
+    public function setType2(int $type2): self
     {
         $this->type2 = $type2;
 
         return $this;
     }
 
-    /**
-     * Get type2
-     *
-     * @return int
-     */
-    public function getType2()
+    public function getType2(): int
     {
         return $this->type2;
     }
 
-    /**
-     * Set message
-     *
-     * @param string $message
-     *
-     * @return Market_Pokemon
-     */
-    public function setMessage($message)
+    public function setMessage(string $message): self
     {
         $this->message = $message;
 
         return $this;
     }
 
-    /**
-     * Get message
-     *
-     * @return string
-     */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Market_Pokemon
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Set gender
-     *
-     * @param integer $gender
-     *
-     * @return Market_Pokemon
-     */
-    public function setGender($gender)
+    public function setGender(int $gender): self
     {
         $this->gender = $gender;
 
         return $this;
     }
 
-    /**
-     * Get gender
-     *
-     * @return int
-     */
-    public function getGender()
+    public function getGender(): int
     {
         return $this->gender;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPokemonInfo()
+    public function getPokemonInfo(): Pokemon
     {
         return $this->pokemonInfo;
     }
 
-    /**
-     * @param mixed $pokemonInfo
-     */
-    public function setPokemonInfo($pokemonInfo): void
+    public function setPokemonInfo(Pokemon $pokemonInfo): self
     {
         $this->pokemonInfo = $pokemonInfo;
+
+        return $this;
     }
 }

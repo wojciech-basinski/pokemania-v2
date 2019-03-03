@@ -92,7 +92,7 @@ class GameShop
         ];
     }
 
-    public function buy(?string $item, ?int $quantity, User $user)
+    public function buy(?string $item, ?int $quantity, User $user): void
     {
         $this->user = $user;
         if (!$this->checkItem($item)) {
@@ -119,7 +119,7 @@ class GameShop
         return true;
     }
 
-    private function buyBattery(int $quantity)
+    private function buyBattery(int $quantity): void
     {
         $items = $this->getItems();
         $price = $quantity * 55;
@@ -131,7 +131,7 @@ class GameShop
         $this->session->getFlashBag()->add('success', 'Kupiono ' . $quantity . ' baterii za ' . $price . ' &yen;');
     }
 
-    private function buyFlashLight()
+    private function buyFlashLight(): void
     {
         $items = $this->getItems();
         if (!$items->getFlashlight()) {
@@ -147,7 +147,7 @@ class GameShop
         }
     }
 
-    private function buyRune(int $quantity)
+    private function buyRune(int $quantity): void
     {
         $stones = $this->getStones();
         $price = $quantity * 100000;
@@ -159,7 +159,7 @@ class GameShop
         $this->session->getFlashBag()->add('success', 'Kupiono ' . $quantity . ' run ewolucyjnych za cenę ' . $price . ' &yen;');
     }
 
-    private function buyShovel()
+    private function buyShovel(): void
     {
         $items = $this->getItems();
         if (!$items->getShovel()) {
@@ -176,7 +176,7 @@ class GameShop
         }
     }
 
-    private function buyKit()
+    private function buyKit(): void
     {
         $items = $this->getItems();
         $p = [1 => 25000, 2 => 180000, 3 => 800000];
@@ -194,7 +194,7 @@ class GameShop
         }
     }
 
-    private function buyPokedex()
+    private function buyPokedex(): void
     {
         $items = $this->getItems();
         if ($items->getPokedex() <= 3) {
@@ -212,7 +212,7 @@ class GameShop
         }
     }
 
-    private function buyBox()
+    private function buyBox(): void
     {
         $items = $this->getItems();
         if ($items->getBox() < 5) {
@@ -229,7 +229,7 @@ class GameShop
         }
     }
 
-    private function buyBars(int $quantity)
+    private function buyBars(int $quantity): void
     {
         $items = $this->getItems();
         $price = $quantity * 400;
@@ -241,7 +241,7 @@ class GameShop
         $this->session->getFlashBag()->add('success', 'Kupiono ' . $quantity . ' batonów za cenę ' . $price . ' &yen;');
     }
 
-    private function buyCookies(int $quantity)
+    private function buyCookies(int $quantity): void
     {
         $items = $this->getItems();
         $price = $quantity * 2100;
@@ -253,7 +253,7 @@ class GameShop
         $this->session->getFlashBag()->add('success', 'Kupiono ' . $quantity . ' ciastek za cenę ' . $price . ' &yen;');
     }
 
-    private function buyLottery(int $quantity)
+    private function buyLottery(int $quantity): void
     {
         $statistics = $this->getStatistics();
         $price = $quantity * 60000;
@@ -266,7 +266,7 @@ class GameShop
         $this->session->getFlashBag()->add('success', 'Kupiono ' . $quantity . ' kuponów na  loterię za cenę ' . $price . ' &yen;');
     }
 
-    private function buyMpa()
+    private function buyMpa(): void
     {
         $items = $this->getItems();
         if ($items->getMpa() < 10) {
@@ -284,7 +284,7 @@ class GameShop
         }
     }
 
-    private function buySafari(int $quantity)
+    private function buySafari(int $quantity): void
     {
         $statistics = $this->getStatistics();
         $price = $quantity * 15000;
@@ -297,7 +297,7 @@ class GameShop
         $this->session->getFlashBag()->add('success', 'Kupiono ' . $quantity . ' kuponów na Safari za cenę ' . $price . ' &yen;');
     }
 
-    private function buyPokemonFood(int $quantity)
+    private function buyPokemonFood(int $quantity): void
     {
         $items = $this->getItems();
         $price = $quantity * 1500;
@@ -309,7 +309,7 @@ class GameShop
         $this->session->getFlashBag()->add('success', 'Kupiono ' . $quantity . ' pudełek karmy za ' . $price . ' &yen;');
     }
 
-    private function buyPokeball(int $quantity)
+    private function buyPokeball(int $quantity): void
     {
         $price = 75 * $quantity;
         if (!$this->checkCash($price)) {
@@ -320,7 +320,7 @@ class GameShop
         $this->session->getFlashBag()->add('success', 'Zakupiono '.$quantity.' pokeballi.');
     }
 
-    private function buyNestball(int $quantity)
+    private function buyNestball(int $quantity): void
     {
         $price = 350 * $quantity;
         if (!$this->checkCash($price)) {
@@ -330,7 +330,7 @@ class GameShop
         $this->session->getFlashBag()->add('success', 'Zakupiono '.$quantity.' nestballi.');
     }
 
-    private function buyGreatball(int $quantity)
+    private function buyGreatball(int $quantity): void
     {
         $price = 800 * $quantity;
         if (!$this->checkCash($price)) {
@@ -340,7 +340,7 @@ class GameShop
         $this->session->getFlashBag()->add('success', 'Zakupiono '.$quantity.' greatballi');
     }
 
-    private function buyUltraball(int $quantity)
+    private function buyUltraball(int $quantity): void
     {
         $price = 7500 * $quantity;
         if (!$this->checkCash($price)) {
@@ -350,7 +350,7 @@ class GameShop
         $this->session->getFlashBag()->add('success', 'Zakupiono '.$quantity.' ultraballi');
     }
 
-    private function buyDuskball(int $quantity)
+    private function buyDuskball(int $quantity): void
     {
         $price = 2000 * $quantity;
         if (!$this->checkCash($price)) {
@@ -360,7 +360,7 @@ class GameShop
         $this->session->getFlashBag()->add('success', 'Zakupiono '.$quantity.' duskballi');
     }
 
-    private function buyLureball(int $quantity)
+    private function buyLureball(int $quantity): void
     {
         $price = 1500 * $quantity;
         if (!$this->checkCash($price)) {
@@ -370,7 +370,7 @@ class GameShop
         $this->session->getFlashBag()->add('success', 'Zakupiono '.$quantity.' lureballi');
     }
 
-    private function buyRepeatball(int $quantity)
+    private function buyRepeatball(int $quantity): void
     {
         $price = 120000 * $quantity;
         if (!$this->checkCash($price)) {
@@ -380,7 +380,7 @@ class GameShop
         $this->session->getFlashBag()->add('success', 'Zakupiono '.$quantity.' repeatballi');
     }
 
-    private function buySafariball(int $quantity)
+    private function buySafariball(int $quantity): void
     {
         $price = 1700 * $quantity;
         if (!$this->checkCash($price)) {
@@ -401,7 +401,7 @@ class GameShop
         return true;
     }
 
-    private function updatePokeballs(string $pokeball, int $quantity)
+    private function updatePokeballs(string $pokeball, int $quantity): void
     {
         $pokeballs = $this->em->getRepository('AppBundle:Pokeball')->find($this->user->getId());
         $pokeballs->{'set'.$pokeball}($pokeballs->{'get'.$pokeball}() + $quantity);

@@ -15,12 +15,12 @@ class GameIndex
         $this->em = $em;
     }
 
-    public function getOnline(): int
+    public function getOnline(): ?int
     {
         return $this->em->getRepository('AppBundle:User')->countOnline();
     }
 
-    public function getLastCaughtPokemons()
+    public function getLastCaughtPokemons(): array
     {
         $last = $this->em->getRepository('AppBundle:Pokemon')->getLastCaughtIds();
 

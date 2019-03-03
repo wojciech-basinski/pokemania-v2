@@ -1,12 +1,9 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Reports
- *
  * @ORM\Table(name="reports")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ReportRepository")
  */
@@ -24,165 +21,99 @@ class Report
     /**
      * @var int
      *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $userId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="text")
+     * @ORM\Column(type="text")
      */
     private $content;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="time", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     private $time;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="is_read", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $isRead;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=100)
+     * @ORM\Column(type="string", length=100)
      */
     private $title;
 
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set userId
-     *
-     * @param integer $userId
-     *
-     * @return Reports
-     */
-    public function setUserId($userId)
+    public function setUserId(int $userId): self
     {
         $this->userId = $userId;
 
         return $this;
     }
 
-    /**
-     * Get userId
-     *
-     * @return int
-     */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->userId;
     }
 
-    /**
-     * Set content
-     *
-     * @param string $content
-     *
-     * @return Reports
-     */
-    public function setContent($content)
+    public function setContent(string $content): self
     {
         $this->content = $content;
 
         return $this;
     }
 
-    /**
-     * Get content
-     *
-     * @return string
-     */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }
 
-    /**
-     * Set time
-     *
-     * @param \DateTime $time
-     *
-     * @return Reports
-     */
-    public function setTime($time)
+    public function setTime(\DateTime $time): self
     {
         $this->time = $time;
 
         return $this;
     }
 
-    /**
-     * Get time
-     *
-     * @return \DateTime
-     */
-    public function getTime()
+    public function getTime(): \DateTime
     {
         return $this->time;
     }
 
-    /**
-     * Set isRead
-     *
-     * @param boolean $isRead
-     *
-     * @return Reports
-     */
-    public function setIsRead($isRead)
+    public function setIsRead(bool $isRead): self
     {
         $this->isRead = $isRead;
 
         return $this;
     }
 
-    /**
-     * Get isRead
-     *
-     * @return bool
-     */
-    public function getIsRead()
+    public function getIsRead(): bool
     {
         return $this->isRead;
     }
 
-    /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return Reports
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }

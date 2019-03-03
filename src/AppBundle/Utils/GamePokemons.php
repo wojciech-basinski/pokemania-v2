@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\User;
@@ -29,17 +28,17 @@ class GamePokemons
         $this->auth = $auth;
     }
 
-    public function getPokemonsFromReserveOrdered(User $user)
+    public function getPokemonsFromReserveOrdered(User $user): array
     {
         return $this->em->getRepository('AppBundle:Pokemon')->getOrderedPokemonsFromReserve($user->getId());
     }
 
-    public function getPokemonsFromWaitingOrdered(User $user)
+    public function getPokemonsFromWaitingOrdered(User $user): array
     {
         return $this->em->getRepository('AppBundle:Pokemon')->getOrderedPokemonsFromWaiting($user->getId());
     }
 
-    public function getPokemonsFromMarketOrdered(User $user)
+    public function getPokemonsFromMarketOrdered(User $user): array
     {
         return $this->em->getRepository('AppBundle:Pokemon')->getOrderedPokemonsFromMarket($user->getId());
     }
@@ -55,7 +54,7 @@ class GamePokemons
         return $count;
     }
 
-    public function sendPokemonFromTeamToReserve(int $id, User $user)
+    public function sendPokemonFromTeamToReserve(int $id, User $user): void
     {
         if ($this->getNumberOfPokemonsInTeam() < 2) {
             $this->session->getFlashBag()->add('error', 'W drużynie musi być co najmniej 1 Pokemon.');
@@ -79,7 +78,7 @@ class GamePokemons
      * @param array|null $pokemons
      * @param User           $user
      */
-    public function sendPokemonsToTeam(?array $pokemons, User $user)
+    public function sendPokemonsToTeam(?array $pokemons, User $user): void
     {
         $pokemonsInTeam = $this->getNumberOfPokemonsInTeam();
         if (!$this->checkPokemonsToTeam($pokemons, $user, $pokemonsInTeam)) {
@@ -107,7 +106,7 @@ class GamePokemons
         );
     }
 
-    public function sendPokemonFromWaitinigToReserve(?array $pokemons, User $user)
+    public function sendPokemonFromWaitinigToReserve(?array $pokemons, User $user): void
     {
         if (!$this->checkPokemonsIfTheyAreUsers($pokemons, $user)) {
             return;
@@ -120,7 +119,7 @@ class GamePokemons
         );
     }
 
-    public function sendPokemonsToWaiting(?array $pokemons, User $user)
+    public function sendPokemonsToWaiting(?array $pokemons, User $user): void
     {
         if (!$this->checkPokemonsIfTheyAreUsers($pokemons, $user)) {
             return;
@@ -133,7 +132,7 @@ class GamePokemons
         );
     }
 
-    public function getOrderUp(int $i, int $userId)
+    public function getOrderUp(int $i, int $userId): void
     {
         if ($i < 1 || $i > 5 || !$this->session->get('pokemon'.$i)) {
             $this->session->getFlashBag()->add('error', 'Błędny numer Pokemona');
@@ -147,7 +146,7 @@ class GamePokemons
         $this->addPokemonsToSessionTeam($userId);
     }
 
-    public function getOrderDown(int $i, int $userId)
+    public function getOrderDown(int $i, int $userId): void
     {
         if ($i < 0 || $i > 4 || !$this->session->get('pokemon'.$i)) {
             $this->session->getFlashBag()->add('error', 'Błędny numer Pokemona');
@@ -165,7 +164,7 @@ class GamePokemons
         $this->addPokemonsToSessionTeam($userId);
     }
 
-    private function checkWhichPokemonGoToTeam(array $pokemons, int $possibleToTeam)
+    private function checkWhichPokemonGoToTeam(array $pokemons, int $possibleToTeam): array
     {
         $array = [];
         for ($i = 0; $i < $possibleToTeam; $i++) {
@@ -189,7 +188,7 @@ class GamePokemons
         return true;
     }
 
-    private function getPokemonsFromReserveAsArrayOfId(User $user)
+    private function getPokemonsFromReserveAsArrayOfId(User $user): array
     {
         $array = [];
         foreach ($this->getPokemonsFromReserveOrdered($user) as $pokemon) {
@@ -198,7 +197,7 @@ class GamePokemons
         return $array;
     }
 
-    private function getPokemonsFromWaitingAsArrayOfId(User $user)
+    private function getPokemonsFromWaitingAsArrayOfId(User $user): array
     {
         $array = [];
         foreach ($this->getPokemonsFromWaitingOrdered($user) as $pokemon) {
@@ -207,7 +206,7 @@ class GamePokemons
         return $array;
     }
 
-    private function checkPokemonsToTeam(?array $pokemons, User $user, int $pokemonsInTeam)
+    private function checkPokemonsToTeam(?array $pokemons, User $user, int $pokemonsInTeam): bool
     {
         if ($pokemonsInTeam === 6) {
             $this->session->getFlashBag()->add('error', 'W drużynie może być maksymalnie 6 Pokemonów.');
@@ -216,20 +215,20 @@ class GamePokemons
         return $this->checkPokemonsIfTheyAreUsers($pokemons, $user);
     }
 
-    private function addPokemonsToSessionTeam(int $userId)
+    private function addPokemonsToSessionTeam(int $userId): void
     {
         $this->clearPokemonsInSession();
         $this->auth->pokemonsToTeam($userId);
     }
 
-    private function clearPokemonsInSession()
+    private function clearPokemonsInSession(): void
     {
         for ($i = 0; $i < 6; $i++) {
             $this->session->remove('pokemon'.$i);
         }
     }
 
-    private function checkPokemonsIfTheyAreUsers(array $pokemons, User $user)
+    private function checkPokemonsIfTheyAreUsers(array $pokemons, User $user): bool
     {
         if ($pokemons === null) {
             $this->session->getFlashBag()->add('error', 'Nie zaznaczono żadnych Pokemonów.');

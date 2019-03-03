@@ -1,6 +1,4 @@
 <?php
-
-
 namespace AppBundle\Controller;
 
 use AppBundle\Utils\AttackHelper;
@@ -13,17 +11,17 @@ use AppBundle\Utils\GameTraining;
 use AppBundle\Utils\GameTrainingPokemon;
 use AppBundle\Utils\PokemonHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class GamePokemonController extends Controller
 {
     /**
-     * @var \Symfony\Component\HttpFoundation\Request
+     * @var Request
      */
     private $request;
 
@@ -35,13 +33,12 @@ class GamePokemonController extends Controller
     /**
      * @Route("/pokemon", name="game_pokemon_post")
      * @Method("POST")
-     * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function pokemonFromLeftFormAction(Request $request)
+    public function pokemonFromLeftFormAction(): Response
     {
-        $id = $request->request->get('id');
+        $id = $this->request->request->get('id');
         return $this->redirectToRoute('game_pokemon', ['id' => $id]);
     }
 
@@ -53,7 +50,7 @@ class GamePokemonController extends Controller
      * @param SessionInterface $session
      * @param int $id
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function gamePokemonShowAction(
         PokemonHelper $pokemonHelper,
@@ -95,7 +92,7 @@ class GamePokemonController extends Controller
      * @Method("POST")
      * @param GamePokemonChange $gamePokemonChange
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function pokemonChangeAction(GamePokemonChange $gamePokemonChange): Response
     {
@@ -117,7 +114,7 @@ class GamePokemonController extends Controller
      * @param GameTraining $trainingService
      * @param int $id
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function trainingAction(AttackHelper $attackHelper, GameTraining $trainingService, int $id = 0): Response
     {
@@ -141,7 +138,7 @@ class GamePokemonController extends Controller
      * @Method("POST")
      * @param GameTraining $trainingService
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function trainingPokemonAction(GameTraining $trainingService): Response
     {
@@ -161,7 +158,7 @@ class GamePokemonController extends Controller
      * @Method("POST")
      * @param GameTraining $trainingService
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function trainingChangeAttackAction(GameTraining $trainingService): Response
     {
@@ -180,7 +177,7 @@ class GamePokemonController extends Controller
      * @Route("/pokemony", name="game_user_pokemons")
      * @param GamePokemons $pokemons
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function userPokemonsAction(GamePokemons $pokemons): Response
     {
@@ -205,7 +202,7 @@ class GamePokemonController extends Controller
      * @Method("POST")
      * @param GamePokemons $pokemons
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function userPokemonToReserveAction(GamePokemons $pokemons): Response
     {
@@ -227,7 +224,7 @@ class GamePokemonController extends Controller
      * @Method("POST")
      * @param GamePokemons $pokemons
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function userPokemonsToTeamAction(GamePokemons $pokemons): Response
     {
@@ -245,7 +242,7 @@ class GamePokemonController extends Controller
      * @Method("POST")
      * @param GamePokemons $pokemons
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function userPokemonsToWaitingAction(GamePokemons $pokemons): Response
     {
@@ -263,7 +260,7 @@ class GamePokemonController extends Controller
      * @Method("POST")
      * @param GamePokemons $pokemons
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function changeOrderPokemonAction(GamePokemons $pokemons): Response
     {
@@ -282,7 +279,7 @@ class GamePokemonController extends Controller
      *
      * @param GamePack $gamePack
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function pokemonExchangeAction(GamePokemonsExchange $pokemonsExchange, GamePack $gamePack): Response
     {
@@ -300,7 +297,7 @@ class GamePokemonController extends Controller
      * @Method("POST")
      * @param GamePokemonsExchange $pokemonsExchange
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function pokemonExchangeAddAction(GamePokemonsExchange $pokemonsExchange): Response
     {
@@ -316,7 +313,7 @@ class GamePokemonController extends Controller
      * @Route("/trening", name="activity_training")
      * @param GameTrainingPokemon $training
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function trainingWithPokemonsAction(GameTrainingPokemon $training): Response
     {
@@ -332,7 +329,7 @@ class GamePokemonController extends Controller
      * @Route("/trening/start", name="activity_training_start")
      * @param GameTrainingPokemon $training
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function trainingWithPokemonsStartAction(GameTrainingPokemon $training): Response
     {
@@ -350,7 +347,7 @@ class GamePokemonController extends Controller
      * @Route("/trening/koniec", name="activity_training_stop")
      * @param GameTrainingPokemon $training
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function trainingWithPokemonsStopAction(GameTrainingPokemon $training): Response
     {

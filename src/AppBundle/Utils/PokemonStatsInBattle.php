@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils;
 
 class PokemonStatsInBattle
@@ -312,7 +311,7 @@ class PokemonStatsInBattle
     /**
      * @param bool $prepared
      */
-    public function setPrepared(bool $prepared)
+    public function setPrepared(bool $prepared): void
     {
         $this->prepared = $prepared;
     }

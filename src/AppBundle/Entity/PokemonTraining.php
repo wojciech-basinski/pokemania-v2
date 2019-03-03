@@ -1,13 +1,9 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PokemonTraining
- *
- * @ORM\Table(name="pokemon_training")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PokemonTrainingRepository")
  */
 class PokemonTraining
@@ -24,42 +20,42 @@ class PokemonTraining
     /**
      * @var int
      *
-     * @ORM\Column(name="berry_limit", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $berryLimit;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="berry_attack", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $berryAttack;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="berry_defence", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $berryDefence;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="berry_sp_attack", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $berrySpAttack;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="berry_sp_defence", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $berrySpDefence;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="berry_speed", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $berrySpeed;
 
@@ -98,277 +94,139 @@ class PokemonTraining
      */
     private $tr5;
 
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set berryLimit
-     *
-     * @param integer $berryLimit
-     *
-     * @return PokemonTraining
-     */
-    public function setBerryLimit($berryLimit)
+    public function setBerryLimit(int $berryLimit): self
     {
         $this->berryLimit = $berryLimit;
 
         return $this;
     }
 
-    /**
-     * Get berryLimit
-     *
-     * @return int
-     */
-    public function getBerryLimit()
+    public function getBerryLimit(): int
     {
         return $this->berryLimit;
     }
 
-    /**
-     * Set berryAttack
-     *
-     * @param integer $berryAttack
-     *
-     * @return PokemonTraining
-     */
-    public function setBerryAttack($berryAttack)
+    public function setBerryAttack(int $berryAttack): self
     {
         $this->berryAttack = $berryAttack;
 
         return $this;
     }
 
-    /**
-     * Get berryAttack
-     *
-     * @return int
-     */
-    public function getBerryAttack()
+    public function getBerryAttack(): int
     {
         return $this->berryAttack;
     }
 
-    /**
-     * Set berryDefence
-     *
-     * @param integer $berryDefence
-     *
-     * @return PokemonTraining
-     */
-    public function setBerryDefence($berryDefence)
+    public function setBerryDefence(int $berryDefence): self
     {
         $this->berryDefence = $berryDefence;
 
         return $this;
     }
 
-    /**
-     * Get berryDefence
-     *
-     * @return int
-     */
-    public function getBerryDefence()
+    public function getBerryDefence(): int
     {
         return $this->berryDefence;
     }
 
-    /**
-     * Set berrySpAttack
-     *
-     * @param integer $berrySpAttack
-     *
-     * @return PokemonTraining
-     */
-    public function setBerrySpAttack($berrySpAttack)
+    public function setBerrySpAttack(int $berrySpAttack): self
     {
         $this->berrySpAttack = $berrySpAttack;
 
         return $this;
     }
 
-    /**
-     * Get berrySpAttack
-     *
-     * @return int
-     */
-    public function getBerrySpAttack()
+    public function getBerrySpAttack(): int
     {
         return $this->berrySpAttack;
     }
 
-    /**
-     * Set berrySpDefence
-     *
-     * @param integer $berrySpDefence
-     *
-     * @return PokemonTraining
-     */
-    public function setBerrySpDefence($berrySpDefence)
+    public function setBerrySpDefence(int $berrySpDefence): self
     {
         $this->berrySpDefence = $berrySpDefence;
 
         return $this;
     }
 
-    /**
-     * Get berrySpDefence
-     *
-     * @return int
-     */
-    public function getBerrySpDefence()
+    public function getBerrySpDefence(): int
     {
         return $this->berrySpDefence;
     }
 
-    /**
-     * Set berrySpeed
-     *
-     * @param integer $berrySpeed
-     *
-     * @return PokemonTraining
-     */
-    public function setBerrySpeed($berrySpeed)
+    public function setBerrySpeed(int $berrySpeed): self
     {
         $this->berrySpeed = $berrySpeed;
 
         return $this;
     }
 
-    /**
-     * Get berrySpeed
-     *
-     * @return int
-     */
-    public function getBerrySpeed()
+    public function getBerrySpeed(): int
     {
         return $this->berrySpeed;
     }
 
-    /**
-     * Set tr1
-     *
-     * @param integer $tr1
-     *
-     * @return PokemonTraining
-     */
-    public function setTr1($tr1)
+    public function setTr1(int $tr1): self
     {
         $this->tr1 = $tr1;
 
         return $this;
     }
 
-    /**
-     * Get tr1
-     *
-     * @return int
-     */
-    public function getTr1()
+    public function getTr1(): int
     {
         return $this->tr1;
     }
 
-    /**
-     * Set tr2
-     *
-     * @param integer $tr2
-     *
-     * @return PokemonTraining
-     */
-    public function setTr2($tr2)
+    public function setTr2(int $tr2): self
     {
         $this->tr2 = $tr2;
 
         return $this;
     }
 
-    /**
-     * Get tr2
-     *
-     * @return int
-     */
-    public function getTr2()
+    public function getTr2(): int
     {
         return $this->tr2;
     }
 
-    /**
-     * Set tr3
-     *
-     * @param integer $tr3
-     *
-     * @return PokemonTraining
-     */
-    public function setTr3($tr3)
+    public function setTr3(int $tr3): self
     {
         $this->tr3 = $tr3;
 
         return $this;
     }
 
-    /**
-     * Get tr3
-     *
-     * @return int
-     */
-    public function getTr3()
+    public function getTr3(): int
     {
         return $this->tr3;
     }
 
-    /**
-     * Set tr4
-     *
-     * @param integer $tr4
-     *
-     * @return PokemonTraining
-     */
-    public function setTr4($tr4)
+    public function setTr4(int $tr4): self
     {
         $this->tr4 = $tr4;
 
         return $this;
     }
 
-    /**
-     * Get tr4
-     *
-     * @return int
-     */
-    public function getTr4()
+    public function getTr4(): int
     {
         return $this->tr4;
     }
 
-    /**
-     * Set tr5
-     *
-     * @param integer $tr5
-     *
-     * @return PokemonTraining
-     */
-    public function setTr5($tr5)
+    public function setTr5(int $tr5): self
     {
         $this->tr5 = $tr5;
 
         return $this;
     }
 
-    /**
-     * Get tr5
-     *
-     * @return int
-     */
-    public function getTr5()
+    public function getTr5(): int
     {
         return $this->tr5;
     }

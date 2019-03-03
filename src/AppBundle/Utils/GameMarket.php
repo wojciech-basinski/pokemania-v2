@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Market;
@@ -36,8 +35,12 @@ class GameMarket
      */
     private $numberOfOfertsPokemon;
 
-    public function __construct(EntityManagerInterface $em, SessionInterface $session, GamePack $pack, RequestStack $request)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        SessionInterface $session,
+        GamePack $pack,
+        RequestStack $request
+    ) {
         $this->em = $em;
         $this->session = $session;
         $this->pack = $pack;
@@ -227,7 +230,7 @@ class GameMarket
      *
      * @return null|Market|Market[]
      */
-    public function getItems(string $name, int $userId, ?string $kind, int $page)
+    public function getItems(string $name, int $userId, ?string $kind, int $page): array
     {
         $own = $this->session->get('userSession')->getUserSettings()->getMarket();
         if ($page < 0) {
@@ -279,7 +282,7 @@ class GameMarket
         ];
     }
 
-    public function pokemonSearchOnMarket(User $user)
+    public function pokemonSearchOnMarket(User $user): array
     {
         $id = $this->checkValue('ID');
         $minLevel = $this->checkValue('min_level');
@@ -304,9 +307,11 @@ class GameMarket
         }
 
         $own = $this->session->get('userSession')->getUserSettings()->getMarket();
-        $this->numberOfOfertsPokemon = $this->calculateNumberOfOferts($id, $minLevel, $maxLevel, $minValue, $maxValue, $own, $user->getId());
+        $this->numberOfOfertsPokemon =
+            $this->calculateNumberOfOferts($id, $minLevel, $maxLevel, $minValue, $maxValue, $own, $user->getId());
 
-        return $this->em->getRepository('AppBundle:MarketPokemon')->getOferts($id, $minLevel, $maxLevel, $minValue, $maxValue, $own, $user->getId(), $page);
+        return $this->em->getRepository('AppBundle:MarketPokemon')
+            ->getOferts($id, $minLevel, $maxLevel, $minValue, $maxValue, $own, $user->getId(), $page);
     }
 
     public function getNumberOfofertsPokemon(): int
@@ -314,7 +319,7 @@ class GameMarket
         return $this->numberOfOfertsPokemon;
     }
 
-    public function buyPokemon(User $user)
+    public function buyPokemon(User $user): void
     {
         if (!$this->checkValue('id')) {
             $this->session->getFlashBag()->add('error', 'Błędne ID oferty');
@@ -352,20 +357,21 @@ class GameMarket
         $this->em->persist($user);
         $this->em->persist($secondUser);
         $this->em->flush();
-        $this->session->getFlashBag()->add('success', 'Kupiono Pokemona. Znajduje się on w Twojej rezerwie.');
+        $this->session->getFlashBag()
+            ->add('success', 'Kupiono Pokemona. Znajduje się on w Twojej rezerwie.');
     }
 
-    public function pokemonsThatCanBeSold(int $userId)
+    public function pokemonsThatCanBeSold(int $userId): array
     {
         return $this->em->getRepository('AppBundle:Pokemon')->pokemonsThatCanBeSoldOnMarket($userId);
     }
 
-    public function pokemonsAddedToSell(int $userId)
+    public function pokemonsAddedToSell(int $userId): array
     {
         return $this->em->getRepository('AppBundle:MarketPokemon')->pokemonsAddedToSell($userId);
     }
 
-    public function buyItem(User $user)
+    public function buyItem(User $user): void
     {
         $id = $this->checkValue('ID');
         if (!$id) {
@@ -398,7 +404,7 @@ class GameMarket
         $this->em->flush();
     }
 
-    private function buyItemExecute(Market $ofert, int $value, int $price, User $user)
+    private function buyItemExecute(Market $ofert, int $value, int $price, User $user): void
     {
         $itemName = $ofert->getName();
         $kind = $ofert->getKind();
@@ -415,12 +421,13 @@ class GameMarket
 
         $this->addItemsToUser($itemName, $kind, $value, $user->getId());
         $itemName = $this->getNamePl($itemName, $kind);
-        $this->session->getFlashBag()->add('success', "Kupiono {$value} {$itemName} za cenę {$price} &yen;");
+        $this->session->getFlashBag()
+            ->add('success', "Kupiono {$value} {$itemName} za cenę {$price} &yen;");
 
         $this->addReportAboutBuyItem($secondUser, $price, $itemName, $value);
     }
 
-    public function sellingPokemon(User $user)
+    public function sellingPokemon(User $user): void
     {
         $id = $this->checkValue('id');
         if (!$id) {
@@ -433,7 +440,10 @@ class GameMarket
             return;
         }
         $message = $this->request->request->get('message');
-        $pokemon = $this->em->getRepository('AppBundle:Pokemon')->findOneBy(['id' => $id, 'owner' => $user->getId(), 'block' => 0, 'team' => 0, 'exchange' => 0, 'market' => 0]);
+        $pokemon = $this->em->getRepository('AppBundle:Pokemon')
+            ->findOneBy(
+                ['id' => $id, 'owner' => $user->getId(), 'block' => 0, 'team' => 0, 'exchange' => 0, 'market' => 0]
+            );
         if (!$pokemon) {
             $this->session->getFlashBag()->add('error', 'Pokemon nie znaleziony');
             return;
@@ -443,17 +453,19 @@ class GameMarket
             return;
         }
         if ($user->getCash() < round(0.01 * $value)) {
-            $this->session->getFlashBag()->add('error', 'Nie stać Cię na zapłacenie opłaty za wystawienia Pokemona na targu.');
+            $this->session->getFlashBag()
+                ->add('error', 'Nie stać Cię na zapłacenie opłaty za wystawienia Pokemona na targu.');
             return;
         }
 
         $this->addToMarketPokemon($pokemon, $user, $value, $message);
         $this->em->flush();
         $cost = round(0.01 * $value);
-        $this->session->getFlashBag()->add('success', "Wystawiono Pokemona na targ, zapłacono {$cost} &yen; opłaty.");
+        $this->session->getFlashBag()
+            ->add('success', "Wystawiono Pokemona na targ, zapłacono {$cost} &yen; opłaty.");
     }
 
-    public function removePokemonFromMarket(User $user)
+    public function removePokemonFromMarket(User $user): void
     {
         $id = $this->checkValue('id');
         if (!$id) {
@@ -494,7 +506,12 @@ class GameMarket
         $count = count($berrysToSell);
         for ($i = 0; $i < $count; $i++) {
             if ($berrys->{'get'.str_replace('_', '', $berrysToSell[$i]['name'])}()) {
-                $return[] = array_merge($berrysToSell[$i], ['value' => $berrys->{'get'.str_replace('_', '', $berrysToSell[$i]['name'])}()]);
+                $return[] = array_merge(
+                    $berrysToSell[$i],
+                    [
+                        'value' => $berrys->{'get'.str_replace('_', '', $berrysToSell[$i]['name'])}()
+                    ]
+                );
             }
         }
         return $return;
@@ -508,7 +525,12 @@ class GameMarket
         $count = count($pokeballsToSell);
         for ($i = 0; $i < $count; $i++) {
             if ($pokeballs->{'get'.$pokeballsToSell[$i]['name'].'s'}()) {
-                $return[] = array_merge($pokeballsToSell[$i], ['value' => $pokeballs->{'get'.$pokeballsToSell[$i]['name'].'s'}()]);
+                $return[] = array_merge(
+                    $pokeballsToSell[$i],
+                    [
+                        'value' => $pokeballs->{'get'.$pokeballsToSell[$i]['name'].'s'}()
+                    ]
+                );
             }
         }
         return $return;
@@ -536,18 +558,27 @@ class GameMarket
         $count = count($stonesToSell);
         for ($i = 0; $i < $count; $i++) {
             if ($stones->{'get'.substr($stonesToSell[$i]['name'], 0, strlen($stonesToSell[$i]['name'])-1)}()) {
-                $return[] = array_merge($stonesToSell[$i], ['value' => $stones->{'get'.substr($stonesToSell[$i]['name'], 0, strlen($stonesToSell[$i]['name'])-1)}()]);
+                $return[] = array_merge(
+                    $stonesToSell[$i],
+                    [
+                        'value' => $stones->{'get'.substr(
+                            $stonesToSell[$i]['name'],
+                            0,
+                            strlen($stonesToSell[$i]['name'])-1
+                        )}()
+                    ]
+                );
             }
         }
         return $return;
     }
 
-    public function getItemsOnMarket(int $userId)
+    public function getItemsOnMarket(int $userId): array
     {
         return $this->em->getRepository('AppBundle:Market')->findBy(['userId' => $userId]);
     }
 
-    public function removeItemFromMarket(User $user)
+    public function removeItemFromMarket(User $user): void
     {
         $id = $this->checkValue('id');
         if (!$id) {
@@ -566,7 +597,7 @@ class GameMarket
         $this->em->flush();
     }
 
-    public function addItemToMarket(User $user)
+    public function addItemToMarket(User $user): void
     {
         $itemName = $this->request->request->get('id');
         $kind = $this->checkNameItem($itemName);
@@ -595,7 +626,8 @@ class GameMarket
         $this->addItemsToUser($itemName, $kind, -$quantity, $user->getId());
         $tax = round(0.01 * $quantity * $value);
         if ($user->getCash() < $tax) {
-            $this->session->getFlashBag()->add('error', 'Nie stać Cię na zapłacenie opłaty od wystawienia przedmiotów.');
+            $this->session->getFlashBag()
+                ->add('error', 'Nie stać Cię na zapłacenie opłaty od wystawienia przedmiotów.');
             return;
         }
         $user->setCash($user->getCash() - $tax);
@@ -608,11 +640,16 @@ class GameMarket
             ->setName($itemName);
         $this->em->persist($ofert);
         $this->em->persist($user);
-        $this->session->getFlashBag()->add('success', "Wystawiono {$quantity} {$plName} za cenę {$value}&yen; za sztukę i zapłacono {$tax}&yen; opłaty za wystawienię produktów");
+        $this->session->getFlashBag()
+            ->add(
+                'success',
+                "Wystawiono {$quantity} {$plName} za cenę {$value}&yen; 
+                za sztukę i zapłacono {$tax}&yen; opłaty za wystawienię produktów"
+            );
         $this->em->flush();
     }
 
-    private function checkValueItem(string $itemName, string $kind):int
+    private function checkValueItem(string $itemName, string $kind): int
     {
         $value = $this->checkValue('value');
         if (!$value) {
@@ -635,12 +672,20 @@ class GameMarket
         return $id;
     }
 
-    private function calculateNumberOfOferts(?int $id, ?int $minLevel, ?int $maxLevel, ?int $minValue, ?int $maxValue, bool $own, int $userId): int
-    {
-        return $this->em->getRepository('AppBundle:MarketPokemon')->countOfers($id, $minLevel, $maxLevel, $minValue, $maxValue, $own, $userId);
+    private function calculateNumberOfOferts(
+        ?int $id,
+        ?int $minLevel,
+        ?int $maxLevel,
+        ?int $minValue,
+        ?int $maxValue,
+        bool $own,
+        int $userId
+    ): ?int {
+        return $this->em->getRepository('AppBundle:MarketPokemon')
+            ->countOfers($id, $minLevel, $maxLevel, $minValue, $maxValue, $own, $userId);
     }
 
-    private function addReportAboutBuyingPokemon(int $value, int $id, string $name)
+    private function addReportAboutBuyingPokemon(int $value, int $id, string $name): void
     {
         $report = new Report();
         $report->setIsRead(0);
@@ -652,7 +697,7 @@ class GameMarket
         $this->em->persist($report);
     }
 
-    private function addToMarketPokemon(Pokemon $pokemon, User $user, int $value, ?string $message)
+    private function addToMarketPokemon(Pokemon $pokemon, User $user, int $value, ?string $message): void
     {
         $pokemonMarket = new MarketPokemon();
         $pokemonMarket->setName($pokemon->getName());
@@ -675,18 +720,20 @@ class GameMarket
         $user->setCash($user->getCash() - round(0.01 * $value));
     }
 
-    private function createReportToAdminPokemonNotFound(MarketPokemon $ofert)
+    private function createReportToAdminPokemonNotFound(MarketPokemon $ofert): void
     {
         $report = new Report();
         $report->setIsRead(0);
-        $report->setContent('Nie znaleziono Pokemona o ID '.$ofert->getIdPokemon().' w bazie, id oferty: '.$ofert->getId());
+        $report->setContent(
+            'Nie znaleziono Pokemona o ID '.$ofert->getIdPokemon().' w bazie, id oferty: '.$ofert->getId()
+        );
         $report->setTitle('Nie zleziono Pokemona, targ');
         $report->setUserId(1);
         $report->setTime(new \DateTime());
         $this->em->persist($report);
     }
 
-    private function addItemsToUser(string $itemName, string $kind, int $value, int $userId)
+    private function addItemsToUser(string $itemName, string $kind, int $value, int $userId): void
     {
         switch ($kind) {
             case 'Pokeball':
@@ -706,28 +753,28 @@ class GameMarket
         }
     }
 
-    private function addPokeball(string $itemName, int $value, int $userId)
+    private function addPokeball(string $itemName, int $value, int $userId): void
     {
         $pokeball = $this->pack->getPokeballs($userId);
         $pokeball->{'set'.$itemName}($pokeball->{'get'.$itemName}()+ $value);
         $this->em->persist($pokeball);
     }
 
-    private function addItem(string $itemName, int $value, int $userId)
+    private function addItem(string $itemName, int $value, int $userId): void
     {
         $items = $this->pack->getItems($userId);
         $items->{'set'.$itemName}($items->{'get'.$itemName}()+ $value);
         $this->em->persist($items);
     }
 
-    private function addBerry(string $itemName, int $value, int $userId)
+    private function addBerry(string $itemName, int $value, int $userId): void
     {
         $berrys = $this->pack->getBerrys($userId);
         $berrys->{'set'.$itemName}($berrys->{'get'.$itemName}()+ $value);
         $this->em->persist($berrys);
     }
 
-    private function addStone(string $itemName, int $value, int $userId)
+    private function addStone(string $itemName, int $value, int $userId): void
     {
         $stones = $this->pack->getStones($userId);
         $stones->{'set'.$itemName}($stones->{'get'.$itemName}()+ $value);
@@ -765,7 +812,7 @@ class GameMarket
         return '';
     }
 
-    private function addReportAboutBuyItem(User $user, int $price, string $itemName, int $value)
+    private function addReportAboutBuyItem(User $user, int $price, string $itemName, int $value): void
     {
         $tax = $price - round(0.95 * $price);
         $report = new Report();
@@ -778,7 +825,7 @@ class GameMarket
         $this->em->persist($report);
     }
 
-    private function reverseItems(Market $ofert, User $user)
+    private function reverseItems(Market $ofert, User $user): void
     {
         switch ($ofert->getKind()) {
             case 'Pokeball':
@@ -796,7 +843,7 @@ class GameMarket
         }
     }
 
-    private function reverseUsersPokeballs(Market $ofert, User $user)
+    private function reverseUsersPokeballs(Market $ofert, User $user): void
     {
         $name = $ofert->getName().'s';
         $pokeballs = $this->pack->getPokeballs($user->getId());
@@ -804,14 +851,14 @@ class GameMarket
         $this->em->persist($pokeballs);
     }
 
-    private function reverseUsersItems(Market $ofert, User $user)
+    private function reverseUsersItems(Market $ofert, User $user): void
     {
         $items = $this->pack->getItems($user->getId());
         $items->{'set'.$ofert->getName()}($items->{'get'.$ofert->getName()}() + $ofert->getQuantity());
         $this->em->persist($items);
     }
 
-    private function reverseUsersBerry(Market $ofert, User $user)
+    private function reverseUsersBerry(Market $ofert, User $user): void
     {
         $name = str_replace('_', '', $ofert->getName());
         $berry = $this->pack->getBerrys($user->getId());
@@ -819,7 +866,7 @@ class GameMarket
         $this->em->persist($berry);
     }
 
-    private function reverseUsersStones(Market $ofert, User $user)
+    private function reverseUsersStones(Market $ofert, User $user): void
     {
         $name = substr($ofert->getName(), 0, strlen($ofert->getName())-1);
         $stones = $this->pack->getStones($user->getId());
@@ -865,7 +912,7 @@ class GameMarket
         return false;
     }
 
-    private function getItemsQuanity(string $itemName, string $kind, int $userId)
+    private function getItemsQuanity(string $itemName, string $kind, int $userId): int
     {
         switch ($kind) {
             case 'Pokeball':

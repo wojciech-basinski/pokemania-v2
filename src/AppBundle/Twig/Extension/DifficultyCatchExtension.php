@@ -3,7 +3,7 @@ namespace AppBundle\Twig\Extension;
 
 class DifficultyCatchExtension extends \Twig_Extension
 {
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new \Twig_SimpleFunction('catchDifficulty', function ($difficulty) {
@@ -27,7 +27,7 @@ class DifficultyCatchExtension extends \Twig_Extension
         ];
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'catchDifficulty';
     }

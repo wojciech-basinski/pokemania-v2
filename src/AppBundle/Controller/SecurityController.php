@@ -1,13 +1,13 @@
 <?php
-
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
 use AppBundle\Utils\AuthenticationService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends Controller
@@ -16,9 +16,9 @@ class SecurityController extends Controller
      * @Route("/login", name="login")
      * @param AuthenticationUtils $authenticationUtils
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function loginAction(AuthenticationUtils $authenticationUtils)
+    public function loginAction(AuthenticationUtils $authenticationUtils): Response
     {
         // redirect user to homepage if user is logged in
         if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -46,10 +46,10 @@ class SecurityController extends Controller
      * @param Request $request
      * @param AuthenticationService $registerUserService
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @throws \Exception
      */
-    public function registerAction(Request $request, AuthenticationService $registerUserService)
+    public function registerAction(Request $request, AuthenticationService $registerUserService): Response
     {
         $user = new User();
 

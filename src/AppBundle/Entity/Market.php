@@ -1,13 +1,9 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Market
- *
- * @ORM\Table(name="market")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\MarketRepository")
  */
 class Market
@@ -24,186 +20,118 @@ class Market
     /**
      * @var int
      *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $userId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column()
      */
     private $name;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="quantity", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $quantity;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="value", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $value;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="kind", type="string", length=255)
+     * @ORM\Column()
      */
     private $kind;
+
     /**
      * @var string
      *
-     * @ORM\Column(name="name_pl", type="string", length=255)
+     * @ORM\Column()
      */
     private $namePl;
 
 
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set userId.
-     *
-     * @param int $userId
-     *
-     * @return Market
-     */
-    public function setUserId($userId)
+    public function setUserId(int $userId): self
     {
         $this->userId = $userId;
 
         return $this;
     }
 
-    /**
-     * Get userId.
-     *
-     * @return int
-     */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->userId;
     }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return Market
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get name.
-     *
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Set quantity.
-     *
-     * @param int $quantity
-     *
-     * @return Market
-     */
-    public function setQuantity($quantity)
+    public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
 
         return $this;
     }
 
-    /**
-     * Get quantity.
-     *
-     * @return int
-     */
-    public function getQuantity()
+    public function getQuantity(): int
     {
         return $this->quantity;
     }
 
-    /**
-     * Set value.
-     *
-     * @param int $value
-     *
-     * @return Market
-     */
-    public function setValue($value)
+    public function setValue(int $value): self
     {
         $this->value = $value;
 
         return $this;
     }
 
-    /**
-     * Get value.
-     *
-     * @return int
-     */
-    public function getValue()
+    public function getValue(): int
     {
         return $this->value;
     }
 
-    /**
-     * @param string $kind
-     *
-     * @return Market
-     */
-    public function setKind(string $kind): Market
+    public function setKind(string $kind): self
     {
         $this->kind = $kind;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getKind(): string
     {
         return $this->kind;
     }
 
-    /**
-     * @param string $namePl
-     *
-     * @return Market
-     */
-    public function setNamePl(string $namePl): Market
+    public function setNamePl(string $namePl): self
     {
         $this->namePl = $namePl;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getNamePl(): string
     {
         return $this->namePl;

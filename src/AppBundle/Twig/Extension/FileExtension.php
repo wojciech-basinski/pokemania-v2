@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Twig\Extension;
 
 class FileExtension extends \Twig_Extension
@@ -9,14 +8,14 @@ class FileExtension extends \Twig_Extension
      *
      * @return array
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new \Twig_SimpleFunction('file_exists', 'file_exists'),
         ];
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'app_file';
     }

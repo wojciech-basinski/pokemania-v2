@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Controller;
 
 use AppBundle\Utils\Collection;
@@ -11,13 +10,17 @@ use AppBundle\Utils\GameProfile;
 use AppBundle\Utils\GameSettings;
 use AppBundle\Utils\Hints;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Annotation\Route;
 
 class GameUserController extends Controller
 {
+    /**
+     * @var Request
+     */
     private $request;
 
     public function __construct(RequestStack $request)
@@ -27,6 +30,8 @@ class GameUserController extends Controller
 
     /**
      * @Route("/statystyki/ogolne", name="game_statistics")
+     *
+     * @return Response
      */
     public function gameStatisticsAction(): Response
     {
@@ -41,6 +46,8 @@ class GameUserController extends Controller
 
     /**
     * @Route("/osiagniecia", name="game_achievements")
+     *
+     * @return Response
     */
     public function gameAchievementsAction(): Response
     {
@@ -55,6 +62,8 @@ class GameUserController extends Controller
 
     /**
      * @Route("/znajomi", name="game_friends")
+     *
+     * @return Response
      */
     public function gameFriendsAction(): Response
     {
@@ -78,7 +87,7 @@ class GameUserController extends Controller
      * @param int $id
      * @param Friends $friendsService
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function gameFriendsDeleteAction(int $id, Friends $friendsService): Response
     {
@@ -98,7 +107,7 @@ class GameUserController extends Controller
      * @param int $id
      * @param Friends $friendsService
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function gameFriendsAcceptAction(int $id, Friends $friendsService): Response
     {
@@ -118,7 +127,7 @@ class GameUserController extends Controller
      * @param int $id
      * @param Friends $friendsService
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function gameFriendsRejectAction(int $id, Friends $friendsService): Response
     {
@@ -138,7 +147,7 @@ class GameUserController extends Controller
      * @param int $id
      * @param Friends $friendsService
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function gameFriendsCancelAction(int $id, Friends $friendsService): Response
     {
@@ -187,6 +196,8 @@ class GameUserController extends Controller
     /**
      * @Route("/ustawienia", name="game_settings")
      * @Method("GET")
+     *
+     * @return Response
      */
     public function userSettingAction(): Response
     {
@@ -202,7 +213,7 @@ class GameUserController extends Controller
      * @Method("POST")
      * @param GameSettings $settings
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function userChangeSettingsAction(GameSettings $settings): Response
     {
@@ -254,7 +265,7 @@ class GameUserController extends Controller
      * @Route("/plecak/uzyj", name="game_user_pack_use")
      * @param GamePack $pack
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function userPackUseAction(GamePack $pack): Response
     {
@@ -274,7 +285,7 @@ class GameUserController extends Controller
      * @Method("POST")
      * @param GameProfile $gameProfile
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function userProfilePointsAction(GameProfile $gameProfile): Response
     {
@@ -356,7 +367,7 @@ class GameUserController extends Controller
      * @Method("POST")
      * @param GameExchange $exchange
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function exchangeCoinsOrPartsAction(GameExchange $exchange): Response
     {
@@ -414,7 +425,7 @@ class GameUserController extends Controller
      *
      * @return Response
      */
-    public function hintAction(Hints $hints)
+    public function hintAction(Hints $hints): Response
     {
         return new Response($hints->getHint());
     }

@@ -16,14 +16,14 @@ class GameAnnouncement
         $this->em = $em;
     }
 
-    public function getAnnouncements(int $page, User $user)
+    public function getAnnouncements(int $page, User $user): array
     {
         $user->setAnnouncements(0);
         $this->em->flush();
         return $this->em->getRepository('AppBundle:Announcement')->getAnnouncements($page);
     }
 
-    public function countAnnouncements():int
+    public function countAnnouncements(): ?int
     {
         return $this->em->getRepository('AppBundle:Announcement')->countAnnouncements();
     }

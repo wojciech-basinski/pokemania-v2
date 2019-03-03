@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use AppBundle\Utils\GameTime;
@@ -8,8 +7,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * User
- *
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @Gedmo\Loggable
@@ -28,35 +25,35 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="login", type="string", length=30, unique=true)
+     * @ORM\Column(type="string", length=30, unique=true)
      */
     private $login;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=255)
+     * @ORM\Column()
      */
     private $password;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=50, unique=true)
+     * @ORM\Column(type="string", length=50, unique=true)
      */
     private $email;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="cash", type="decimal", precision=15, scale=0)
+     * @ORM\Column(type="decimal", precision=15, scale=0)
      */
     private $cash;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="trainer_level", type="smallint")
+     * @ORM\Column(type="smallint")
      * @Gedmo\Versioned
      */
     private $trainerLevel;
@@ -64,1111 +61,701 @@ class User implements UserInterface
     /**
      * @var int
      *
-     * @ORM\Column(name="experience", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $experience;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="points", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $points;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="mpa", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $mpa;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="pa", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $pa;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="ban", type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $ban;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="ban_date", type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $banDate;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ban_reason", type="string", length=80, nullable=true)
+     * @ORM\Column(type="string", length=80, nullable=true)
      */
     private $banReason;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="region", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $region;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="admin", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $admin;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="magazine", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $magazine;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="avatar", type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="last_active", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $lastActive;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="last_active_sec", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $lastActiveSec;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="logged_today", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $loggedToday;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="logged_in_row", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $loggedInRow;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="settings", type="string", length=60)
+     * @ORM\Column(type="string", length=60)
      */
     private $settings;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="announcements", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $announcements;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="club", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $club;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="online", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $online;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="online_today", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $onlineToday;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="berry_pa", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $berryPa;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="shiny_catched", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $shinyCatched;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="travelled_today", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $travelledToday;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column()
      */
     private $description;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="pokemon_feeded", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $pokemonFeeded;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="pokemon_feeded_ip", type="string", length=255)
+     * @ORM\Column(type="string", length=255)
      */
     private $pokemonFeededIp;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="tutorial", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $tutorial;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="badges", type="string", length=200)
+     * @ORM\Column(type="string", length=200)
      */
     private $badges;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="session_id", type="string", length=80, nullable=true)
+     * @ORM\Column(type="string", length=80, nullable=true)
      * @Gedmo\Versioned
      */
     private $sessionId;
 
     /**
      * @var string
-     * @ORM\Column(name="activity", type="string", length=60, nullable=true)
+     *
+     * @ORM\Column(type="string", length=60, nullable=true)
      */
     private $activity;
 
     /**
-     * @var string
-     * @ORM\Column(name="activity_time", type="integer", nullable=true)
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $activityTime;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=15, nullable=true)
+     *
+     * @ORM\Column( length=15, nullable=true)
      * @Gedmo\Versioned
      */
     private $ip;
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set login
-     *
-     * @param string $login
-     *
-     * @return User
-     */
-    public function setLogin($login)
+    public function setLogin(string $login): self
     {
         $this->login = $login;
 
         return $this;
     }
 
-    /**
-     * Get login
-     *
-     * @return string
-     */
-    public function getLogin()
+    public function getLogin(): ?string
     {
         return $this->login;
     }
 
-    /**
-     * Set password
-     *
-     * @param string $password
-     *
-     * @return User
-     */
-    public function setPassword($password)
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
         return $this;
     }
 
-    /**
-     * Get password
-     *
-     * @return string
-     */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return User
-     */
-    public function setEmail($email)
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
         return $this;
     }
 
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * Set cash
-     *
-     * @param int $cash
-     *
-     * @return User
-     */
-    public function setCash($cash)
+    public function setCash(int $cash): self
     {
         $this->cash = $cash;
 
         return $this;
     }
 
-    /**
-     * Get cash
-     *
-     * @return int
-     */
-    public function getCash()
+    public function getCash(): int
     {
         return $this->cash;
     }
 
-    /**
-     * Set trainerLevel
-     *
-     * @param integer $trainerLevel
-     *
-     * @return User
-     */
-    public function setTrainerLevel($trainerLevel)
+    public function setTrainerLevel(int $trainerLevel): self
     {
         $this->trainerLevel = $trainerLevel;
 
         return $this;
     }
 
-    /**
-     * Get trainerLevel
-     *
-     * @return int
-     */
-    public function getTrainerLevel()
+    public function getTrainerLevel(): int
     {
         return $this->trainerLevel;
     }
 
-    /**
-     * Set experience
-     *
-     * @param integer $experience
-     *
-     * @return User
-     */
-    public function setExperience($experience)
+    public function setExperience(int $experience): self
     {
         $this->experience = $experience;
 
         return $this;
     }
 
-    /**
-     * Get experience
-     *
-     * @return int
-     */
-    public function getExperience()
+    public function getExperience(): int
     {
         return $this->experience;
     }
 
-    /**
-     * Set points
-     *
-     * @param integer $points
-     *
-     * @return User
-     */
-    public function setPoints($points)
+    public function setPoints(int $points): self
     {
         $this->points = $points;
 
         return $this;
     }
 
-    /**
-     * Get points
-     *
-     * @return int
-     */
-    public function getPoints()
+    public function getPoints(): int
     {
         return $this->points;
     }
 
-    /**
-     * Set mpa
-     *
-     * @param integer $mpa
-     *
-     * @return User
-     */
-    public function setMpa($mpa)
+    public function setMpa(int $mpa): self
     {
         $this->mpa = $mpa;
 
         return $this;
     }
 
-    /**
-     * Get mpa
-     *
-     * @return int
-     */
-    public function getMpa()
+    public function getMpa(): int
     {
         return $this->mpa;
     }
 
-    /**
-     * Set pa
-     *
-     * @param integer $pa
-     *
-     * @return User
-     */
-    public function setPa($pa)
+    public function setPa(int $pa): self
     {
         $this->pa = $pa;
 
         return $this;
     }
 
-    /**
-     * Get pa
-     *
-     * @return int
-     */
-    public function getPa()
+    public function getPa(): int
     {
         return $this->pa;
     }
 
-    /**
-     * Set ban
-     *
-     * @param boolean $ban
-     *
-     * @return User
-     */
-    public function setBan($ban)
+    public function setBan(bool $ban): self
     {
         $this->ban = $ban;
 
         return $this;
     }
 
-    /**
-     * Get ban
-     *
-     * @return bool
-     */
-    public function getBan()
+    public function getBan(): bool
     {
         return $this->ban;
     }
 
-    /**
-     * Set banDate
-     *
-     * @param \DateTime $banDate
-     *
-     * @return User
-     */
-    public function setBanDate($banDate)
+    public function setBanDate(?\DateTime $banDate): self
     {
         $this->banDate = $banDate;
 
         return $this;
     }
 
-    /**
-     * Get banDate
-     *
-     * @return \DateTime
-     */
-    public function getBanDate()
+    public function getBanDate(): ?\DateTime
     {
         return $this->banDate;
     }
 
-    /**
-     * Set banReason
-     *
-     * @param string $banReason
-     *
-     * @return User
-     */
-    public function setBanReason($banReason)
+    public function setBanReason(?string $banReason): self
     {
         $this->banReason = $banReason;
 
         return $this;
     }
 
-    /**
-     * Get banReason
-     *
-     * @return string
-     */
-    public function getBanReason()
+    public function getBanReason(): ?string
     {
         return $this->banReason;
     }
 
-    /**
-     * Set region
-     *
-     * @param integer $region
-     *
-     * @return User
-     */
-    public function setRegion($region)
+    public function setRegion(int $region): self
     {
         $this->region = $region;
 
         return $this;
     }
 
-    /**
-     * Get region
-     *
-     * @return int
-     */
-    public function getRegion()
+    public function getRegion(): int
     {
         return $this->region;
     }
 
-
-    /**
-     * Set magazine
-     *
-     * @param integer $magazine
-     *
-     * @return User
-     */
-    public function setMagazine($magazine)
+    public function setMagazine(int $magazine): self
     {
         $this->magazine = $magazine;
 
         return $this;
     }
 
-    /**
-     * Get magazine
-     *
-     * @return int
-     */
-    public function getMagazine()
+    public function getMagazine(): int
     {
         return $this->magazine;
     }
 
-    /**
-     * Set avatar
-     *
-     * @param string $avatar
-     *
-     * @return User
-     */
-    public function setAvatar($avatar)
+    public function setAvatar(?string $avatar): self
     {
         $this->avatar = $avatar;
 
         return $this;
     }
 
-    /**
-     * Get avatar
-     *
-     * @return string
-     */
-    public function getAvatar()
+    public function getAvatar(): ?string
     {
         return $this->avatar;
     }
 
-    /**
-     * Set lastActive
-     *
-     * @param integer $lastActive
-     *
-     * @return User
-     */
-    public function setLastActive($lastActive)
+    public function setLastActive(int $lastActive): self
     {
         $this->lastActive = $lastActive;
 
         return $this;
     }
 
-    /**
-     * Get lastActive
-     *
-     * @return int
-     */
-    public function getLastActive()
+    public function getLastActive(): int
     {
         return $this->lastActive;
     }
 
-    /**
-     * Set lastActiveSec
-     *
-     * @param integer $lastActiveSec
-     *
-     * @return User
-     */
-    public function setLastActiveSec($lastActiveSec)
+    public function setLastActiveSec(int $lastActiveSec): self
     {
         $this->lastActiveSec = $lastActiveSec;
 
         return $this;
     }
 
-    /**
-     * Get lastActiveSec
-     *
-     * @return int
-     */
-    public function getLastActiveSec()
+    public function getLastActiveSec(): int
     {
         return $this->lastActiveSec;
     }
 
-    /**
-     * Set loggedToday
-     *
-     * @param boolean $loggedToday
-     *
-     * @return User
-     */
-    public function setLoggedToday($loggedToday)
+    public function setLoggedToday(bool $loggedToday): self
     {
         $this->loggedToday = $loggedToday;
 
         return $this;
     }
 
-    /**
-     * Get loggedToday
-     *
-     * @return bool
-     */
-    public function getLoggedToday()
+    public function getLoggedToday(): bool
     {
         return $this->loggedToday;
     }
 
-    /**
-     * Set loggedInRow
-     *
-     * @param integer $loggedInRow
-     *
-     * @return User
-     */
-    public function setLoggedInRow($loggedInRow)
+    public function setLoggedInRow(int $loggedInRow): self
     {
         $this->loggedInRow = $loggedInRow;
 
         return $this;
     }
 
-    /**
-     * Get loggedInRow
-     *
-     * @return int
-     */
-    public function getLoggedInRow()
+    public function getLoggedInRow(): int
     {
         return $this->loggedInRow;
     }
 
-    /**
-     * Set settings
-     *
-     * @param string $settings
-     *
-     * @return User
-     */
-    public function setSettings($settings)
+    public function setSettings(string $settings): self
     {
         $this->settings = $settings;
 
         return $this;
     }
 
-    /**
-     * Get settings
-     *
-     * @return string
-     */
-    public function getSettings()
+    public function getSettings(): string
     {
         return $this->settings;
     }
 
-    /**
-     * Set announcements
-     *
-     * @param boolean $announcements
-     *
-     * @return User
-     */
-    public function setAnnouncements($announcements)
+    public function setAnnouncements(bool $announcements): self
     {
         $this->announcements = $announcements;
 
         return $this;
     }
 
-    /**
-     * Get announcements
-     *
-     * @return bool
-     */
-    public function getAnnouncements()
+    public function getAnnouncements(): bool
     {
         return $this->announcements;
     }
 
-    /**
-     * Set club
-     *
-     * @param integer $club
-     *
-     * @return User
-     */
-    public function setClub($club)
+    public function setClub(int $club): self
     {
         $this->club = $club;
 
         return $this;
     }
 
-    /**
-     * Get club
-     *
-     * @return int
-     */
-    public function getClub()
+    public function getClub(): int
     {
         return $this->club;
     }
 
-    /**
-     * Set online
-     *
-     * @param integer $online
-     *
-     * @return User
-     */
-    public function setOnline($online)
+    public function setOnline(int $online): self
     {
         $this->online = $online;
 
         return $this;
     }
 
-    /**
-     * Get online
-     *
-     * @return int
-     */
-    public function getOnline()
+    public function getOnline(): int
     {
         return $this->online;
     }
 
-    /**
-     * Set onlineToday
-     *
-     * @param integer $onlineToday
-     *
-     * @return User
-     */
-    public function setOnlineToday($onlineToday)
+    public function setOnlineToday(int $onlineToday): self
     {
         $this->onlineToday = $onlineToday;
 
         return $this;
     }
 
-    /**
-     * Get onlineToday
-     *
-     * @return int
-     */
-    public function getOnlineToday()
+    public function getOnlineToday(): int
     {
         return $this->onlineToday;
     }
 
-    /**
-     * Set berryPa
-     *
-     * @param integer $berryPa
-     *
-     * @return User
-     */
-    public function setBerryPa($berryPa)
+    public function setBerryPa(int $berryPa): self
     {
         $this->berryPa = $berryPa;
 
         return $this;
     }
 
-    /**
-     * Get berryPa
-     *
-     * @return int
-     */
-    public function getBerryPa()
+    public function getBerryPa(): int
     {
         return $this->berryPa;
     }
 
-    /**
-     * Set shinyCatched
-     *
-     * @param boolean $shinyCatched
-     *
-     * @return User
-     */
-    public function setShinyCatched($shinyCatched)
+    public function setShinyCatched(bool $shinyCatched): self
     {
         $this->shinyCatched = $shinyCatched;
 
         return $this;
     }
 
-    /**
-     * Get shinyCatched
-     *
-     * @return bool
-     */
-    public function getShinyCatched()
+    public function getShinyCatched(): bool
     {
         return $this->shinyCatched;
     }
 
-    /**
-     * Set travelledToday
-     *
-     * @param boolean $travelledToday
-     *
-     * @return User
-     */
-    public function setTravelledToday($travelledToday)
+    public function setTravelledToday(bool $travelledToday): self
     {
         $this->travelledToday = $travelledToday;
 
         return $this;
     }
 
-    /**
-     * Get travelledToday
-     *
-     * @return bool
-     */
-    public function getTravelledToday()
+    public function getTravelledToday(): bool
     {
         return $this->travelledToday;
     }
 
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return User
-     */
-    public function setDescription($description)
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * Set pokemonFeeded
-     *
-     * @param boolean $pokemonFeeded
-     *
-     * @return User
-     */
-    public function setPokemonFeeded($pokemonFeeded)
+    public function setPokemonFeeded(bool $pokemonFeeded): self
     {
         $this->pokemonFeeded = $pokemonFeeded;
 
         return $this;
     }
 
-    /**
-     * Get pokemonFeeded
-     *
-     * @return bool
-     */
-    public function getPokemonFeeded()
+    public function getPokemonFeeded(): bool
     {
         return $this->pokemonFeeded;
     }
 
-    /**
-     * Set pokemonFeededIp
-     *
-     * @param string $pokemonFeededIp
-     *
-     * @return User
-     */
-    public function setPokemonFeededIp($pokemonFeededIp)
+    public function setPokemonFeededIp(string $pokemonFeededIp): self
     {
         $this->pokemonFeededIp = $pokemonFeededIp;
 
         return $this;
     }
 
-    /**
-     * Get pokemonFeededIp
-     *
-     * @return string
-     */
-    public function getPokemonFeededIp()
+    public function getPokemonFeededIp(): string
     {
         return $this->pokemonFeededIp;
     }
 
-    /**
-     * Set tutorial
-     *
-     * @param integer $tutorial
-     *
-     * @return User
-     */
-    public function setTutorial($tutorial)
+    public function setTutorial(int $tutorial): self
     {
         $this->tutorial = $tutorial;
 
         return $this;
     }
-    /**
-     * @return bool
-     */
+
     public function isAdmin(): bool
     {
         return $this->admin;
     }
 
-    /**
-     * @param bool $admin
-     */
-    public function setAdmin(bool $admin)
+    public function setAdmin(bool $admin): self
     {
         $this->admin = $admin;
+
+        return $this;
     }
 
-    /**
-     * Get tutorial
-     *
-     * @return int
-     */
-    public function getTutorial()
+    public function getTutorial(): int
     {
         return $this->tutorial;
     }
 
-    public function getRoles()
+    public function getRoles(): array
     {
         return $this->admin ? ['ROLE_ADMIN'] : ['ROLE_USER'];
     }
 
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->login;
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): bool
     {
         return false;
     }
 
-    /**
-     * Returns the salt that was originally used to encode the password.
-     *
-     * This can return null if the password was not encoded using a salt.
-     *
-     * @return string|null The salt
-     */
-    public function getSalt()
+    public function getSalt(): ?string
     {
         return null;
     }
 
-    /**
-     * @return string
-     */
     public function getBadges(): string
     {
         return $this->badges;
     }
 
-    /**
-     * @param string $badges
-     */
-    public function setBadges(string $badges)
+    public function setBadges(string $badges): self
     {
         $this->badges = $badges;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSessionId(): string
     {
         return $this->sessionId;
     }
 
-    /**
-     * @param string $sessionId
-     */
-    public function setSessionId(string $sessionId)
+    public function setSessionId(string $sessionId): self
     {
         $this->sessionId = $sessionId;
+
+        return $this;
     }
 
-    public function getOnlineTimeAsText(bool $today = false)
+    public function getOnlineTimeAsText(bool $today = false): string
     {
         if ($today) {
-            $time = GameTime::time2string($this->onlineToday);
-        } else {
-            $time = GameTime::time2string($this->online);
+            return GameTime::time2string($this->onlineToday);
         }
-        return $time;
+        return GameTime::time2string($this->online);
     }
 
-    /**
-     * @return string
-     */
-    public function getActivityTime(): string
+    public function getActivityTime(): ?int
     {
         return $this->activityTime;
     }
 
-    /**
-     * @param string $activityTime
-     */
-    public function setActivityTime(string $activityTime)
+    public function setActivityTime(?int $activityTime): self
     {
         $this->activityTime = $activityTime;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getActivity(): ?string
     {
         return $this->activity;
     }
 
-    /**
-     * @param string $activity
-     */
-    public function setActivity(string $activity)
+    public function setActivity(?string $activity): self
     {
         $this->activity = $activity;
-    }
 
-    /**
-     * @param string $ip
-     *
-     * @return User
-     */
-    public function setIp(string $ip): User
-    {
-        $this->ip = $ip;
         return $this;
     }
 
-    /**
-     * @return string
-     */
+    public function setIp(string $ip): self
+    {
+        $this->ip = $ip;
+
+        return $this;
+    }
+
     public function getIp(): string
     {
         return $this->ip;

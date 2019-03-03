@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Pokemon;
@@ -146,19 +145,19 @@ class Lottery
         return $status;
     }
 
-    private function winTenCupons()
+    private function winTenCupons(): void
     {
         $this->userStatistics->setLottery($this->userStatistics->getLottery() + 10);
     }
 
-    private function winStone(string $name, int $userId)
+    private function winStone(string $name, int $userId): void
     {
         $stone = $this->em->getRepository('AppBundle:Stones')->find($userId);
         $stone->{'set'.$name}($stone->{'get'.$name}() + 1);
 
         $this->em->persist($stone);
     }
-    private function winPokeball(string $name, int $value, int $userId)
+    private function winPokeball(string $name, int $value, int $userId): void
     {
         $pokeball = $this->em->getRepository('AppBundle:Pokeball')->find($userId);
         $pokeball->{'set'.$name}($pokeball->{'get'.$name}() + $value);
@@ -166,7 +165,7 @@ class Lottery
         $this->em->persist($pokeball);
     }
 
-    private function winBerry(string $name, int $value, int $userId)
+    private function winBerry(string $name, int $value, int $userId): void
     {
         $berry = $this->em->getRepository('AppBundle:Berry')->find($userId);
         $berry->{'set'.$name}($berry->{'get'.$name}() + $value);
@@ -174,7 +173,7 @@ class Lottery
         $this->em->persist($berry);
     }
 
-    private function winDratini(int $owner)
+    private function winDratini(int $owner): void
     {
         $dratini = new Pokemon();
         $training = new PokemonTraining();

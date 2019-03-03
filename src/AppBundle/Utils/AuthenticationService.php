@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Achievement;
@@ -88,12 +87,12 @@ class AuthenticationService
         return 1;
     }
 
-    public function loginUser()
+    public function loginUser(): void
     {
         $this->setSession();
     }
 
-    public function pokemonsToTeam(int $userId)
+    public function pokemonsToTeam(int $userId): void
     {
         $pokemonRepository = $this->em->getRepository('AppBundle:Pokemon');
 
@@ -108,7 +107,7 @@ class AuthenticationService
         }
     }
 
-    private function setSession()
+    private function setSession(): void
     {
         $user = $this->tokenStorage->getToken()->getUser();
         $this->setSessionInDb($user);
@@ -125,7 +124,7 @@ class AuthenticationService
         $this->createUserSkillsInSession($user->getId());
     }
 
-    private function createUserInSession(User $user)
+    private function createUserInSession(User $user): void
     {
         $userItems = $this->createUserItemsInSession($user->getId());
         $userSkills = $this->createUserSkillsInSession($user->getId());
@@ -243,7 +242,7 @@ class AuthenticationService
         */
     }
 
-    private function createUserStarter(int $userId, int $starterId)
+    private function createUserStarter(int $userId, int $starterId): void
     {
         $starter = new Pokemon();
 
@@ -310,7 +309,7 @@ class AuthenticationService
         $this->em->flush();
     }
 
-    private function bulbasaur(Pokemon &$pokemon)
+    private function bulbasaur(Pokemon $pokemon): void
     {
         $pokemon->setAttack(25);
         $pokemon->setSpAttack(30);
@@ -323,7 +322,7 @@ class AuthenticationService
         $pokemon->setAttack3(0);
     }
 
-    private function charmander(Pokemon &$pokemon)
+    private function charmander(Pokemon $pokemon): void
     {
         $pokemon->setAttack(25);
         $pokemon->setSpAttack(30);
@@ -336,7 +335,7 @@ class AuthenticationService
         $pokemon->setAttack3(0);
     }
 
-    private function squirtle(Pokemon &$pokemon)
+    private function squirtle(Pokemon $pokemon): void
     {
         $pokemon->setAttack(25);
         $pokemon->setSpAttack(25);
@@ -349,7 +348,7 @@ class AuthenticationService
         $pokemon->setAttack3(0);
     }
 
-    private function createUserTables()
+    private function createUserTables(): void
     {
         $this->createUserStatistics();
         $this->createUserAchievements();
@@ -364,7 +363,7 @@ class AuthenticationService
         $this->em->flush();
     }
 
-    private function createUserStones()
+    private function createUserStones(): void
     {
         $stones = new Stones();
         $stones->setFireStone(0);
@@ -382,7 +381,7 @@ class AuthenticationService
         $this->em->persist($stones);
     }
 
-    private function createUserSkills()
+    private function createUserSkills(): void
     {
         $skills = new Skill();
         $skills->setSkill1(0);
@@ -390,7 +389,7 @@ class AuthenticationService
         $this->em->persist($skills);
     }
 
-    private function createUserItems()
+    private function createUserItems(): void
     {
         $items = new Items();
         $items->setMpa(0);
@@ -413,7 +412,7 @@ class AuthenticationService
         $this->em->persist($items);
     }
 
-    private function createUserPokeballs()
+    private function createUserPokeballs(): void
     {
         $pokeball = new Pokeball();
         $pokeball->setPokeballs(15);
@@ -430,7 +429,7 @@ class AuthenticationService
         $this->em->persist($pokeball);
     }
 
-    private function createUserBerrys()
+    private function createUserBerrys(): void
     {
         $berrys = new Berry();
         $berrys->setCheriBerry(30);
@@ -453,7 +452,7 @@ class AuthenticationService
         $this->em->persist($berrys);
     }
 
-    private function createUserCollection()
+    private function createUserCollection(): void
     {
         $collection = new Collection();
         $collection->setCollection(
@@ -472,7 +471,7 @@ class AuthenticationService
         $this->em->persist($collection);
     }
 
-    private function createUserStatistics()
+    private function createUserStatistics(): void
     {
         $statistics = new Statistic();
         $statistics->setCatched(0);
@@ -483,7 +482,7 @@ class AuthenticationService
         $this->em->persist($statistics);
     }
 
-    private function createUserAchievements()
+    private function createUserAchievements(): void
     {
         $achievements = new Achievement();
         $achievements->setPolana(0);
@@ -541,17 +540,17 @@ class AuthenticationService
         return $training;
     }
 
-    private function setSessionInDb(User &$user)
+    private function setSessionInDb(User $user): void
     {
         $user->setSessionId($this->session->getId());
     }
 
-    private function setOnlineTimeInDb(User &$user)
+    private function setOnlineTimeInDb(User $user): void
     {
         $user->setLastActive(time());
     }
 
-    private function createUserPerformance()
+    private function createUserPerformance(): void
     {
         $performance = new Performance();
         $performance->setHazardzista(0);
