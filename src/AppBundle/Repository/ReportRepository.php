@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Report;
 use Doctrine\ORM\EntityRepository;
 
 class ReportRepository extends EntityRepository
@@ -39,7 +40,7 @@ class ReportRepository extends EntityRepository
             ->getResult();
     }
 
-    public function getOneReport(int $userId, int $id): ?int
+    public function getOneReport(int $userId, int $id): ?Report
     {
         return $this->createQueryBuilder('r')
                     ->where('r.userId = :userId')
