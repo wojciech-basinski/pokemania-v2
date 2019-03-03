@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\EventListener;
 
 use AppBundle\Controller\OtherSpecialController;
@@ -83,7 +82,7 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
         $this->collection = $collection;
     }
 
-    public function onKernelController(FilterControllerEvent $event)
+    public function onKernelController(FilterControllerEvent $event): void
     {
         $controller = $event->getController()[0];
 
@@ -113,14 +112,14 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
         $event->stopPropagation();
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::CONTROLLER => 'onKernelController',
         ];
     }
 
-    private function checkUserExp(User $user)
+    private function checkUserExp(User $user): void
     {
         $expOnNextLevel = $this->session->get('userSession')->getExpOnNextLevel();
         if ($user->getExperience() >= $expOnNextLevel) {
@@ -133,7 +132,7 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
         }
     }
 
-    private function checkPokemonsExp(User $user)
+    private function checkPokemonsExp(User $user): void
     {
         if ($user->getPokemonFeeded()) {
             $user->setPokemonFeeded(false);
@@ -182,7 +181,7 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
         return $points;
     }
 
-    private function addMessage(User $user, int $points)
+    private function addMessage(User $user, int $points): void
     {
         $water = 0;
         if ($user->getTrainerLevel() < 11) {
@@ -226,7 +225,7 @@ Otrzymujesz '.$points.' punkty umiejętności.</div><div class="col-xs-12">';
         $this->em->persist($report);
     }
 
-    private function addItems(int $lemonade, int $water, int $userId)
+    private function addItems(int $lemonade, int $water, int $userId): void
     {
         $userItems = $this->em->getRepository('AppBundle:Items')->find($userId);
         $userItems->setLemonade($userItems->getLemonade() + $lemonade);
@@ -266,7 +265,7 @@ Otrzymujesz '.$points.' punkty umiejętności.</div><div class="col-xs-12">';
         return false;
     }
 
-    private function addStatistics(array $increase, int $huge, Pokemon $pokemon, bool $nameChanged)
+    private function addStatistics(array $increase, int $huge, Pokemon $pokemon, bool $nameChanged): void
     {
         $attack = $huge * $increase['atak'];
         $spAttack = $huge * $increase['sp_atak'];
@@ -333,7 +332,7 @@ Twój Pokemon <span class="pogrubienie">'.$oldName.'</span> awansował na kolejn
         return $data['nazwa'] === $pokemon->getName();
     }
 
-    private function checkCollection(Pokemon $pokemon)
+    private function checkCollection(Pokemon $pokemon): void
     {
         if (in_array($pokemon->getIdPokemon(), [148, 149, 139, 141])) {
             $this->collection->addOneToPokemonCatchAndMet(
@@ -343,14 +342,14 @@ Twój Pokemon <span class="pogrubienie">'.$oldName.'</span> awansował na kolejn
         }
     }
 
-    private function clearPokemonsInSession()
+    private function clearPokemonsInSession(): void
     {
         for ($i = 0; $i < 6; $i++) {
             $this->session->remove('pokemon'.$i);
         }
     }
 
-    private function getUserSession(User $user)
+    private function getUserSession(User $user): bool
     {
         if ($user->getSessionId() && $user->getSessionId() === $this->session->getId()) {
             return 1;
@@ -358,7 +357,7 @@ Twój Pokemon <span class="pogrubienie">'.$oldName.'</span> awansował na kolejn
         return 0;
     }
 
-    private function checkUserOnline(User $user)
+    private function checkUserOnline(User $user): void
     {
         $time = time() - $user->getLastActive();
         $user->setLastActive(time());

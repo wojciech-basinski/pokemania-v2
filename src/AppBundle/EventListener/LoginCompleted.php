@@ -25,17 +25,16 @@ class LoginCompleted implements EventSubscriberInterface
         $this->auth = $auth;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             'security.interactive_login' => ['onUserLoginComplete'],
         ];
     }
 
-    public function onUserLoginComplete(InteractiveLoginEvent $event)
+    public function onUserLoginComplete(InteractiveLoginEvent $event):void
     {
-        $user = $this->tokenStorage->getToken()->getUser();
-        $this->auth->loginUser($user->getId());
+        $this->auth->loginUser();
         //$this->em->persist($user);
         //$this->em->flush();
         //$newtoken =
