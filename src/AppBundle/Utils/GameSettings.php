@@ -265,7 +265,7 @@ class GameSettings
     {
         $this->setSettingInSession($value, $user, 'table') ?
             $message = 'Tabelka będzie wyświetlana po prawej stronie' :
-            $message = 'Tableka będzie wyświetlana po lewej stronie';
+            $message = 'Tabelka będzie wyświetlana po lewej stronie';
         $this->addSuccessMessage($message);
         $this->createCss($user);
 
