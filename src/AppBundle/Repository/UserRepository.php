@@ -1,13 +1,13 @@
 <?php
-
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 
 class UserRepository extends EntityRepository implements UserLoaderInterface
 {
-    public function loadUserByUsername($username)
+    public function loadUserByUsername($username): ?User
     {
         return $this->createQueryBuilder('u')
             ->where('u.login = :username OR u.email = :email')
@@ -17,7 +17,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
             ->getOneOrNullResult();
     }
 
-    public function countOnline()
+    public function countOnline(): ?int
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('count(user.id)');
@@ -26,7 +26,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function addPa()
+    public function addPa(): void
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->update('AppBundle:User', 'u');
