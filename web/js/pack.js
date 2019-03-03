@@ -138,6 +138,50 @@ $(document).ready(function()
         packLoad(quantity, item, active, pokemon);
     }
 
+    function berry(item, active, value) {
+        if (value === undefined) {
+            value = $('#'+item+'_ilosc').val();
+            if (value == 0) value = 1;
+        }
+        var pokemon = $('#'+item+'_pok').val();
+        if (!pokemon) pokemon = 0;
+        $("#" + item + '_opis').modal("hide");
+        $("#" + item + '_opis').on('hidden.bs.modal', function () {
+            packLoad(value, item, active, pokemon);
+        });
+    }
+
+    $('#prawo').on('keydown','.ilosc_jagoda',function( event)
+    {
+        if ( event.which == 13 ) {
+            var id = this.id.slice( 0, -6 );
+            berry(id, 3);
+        }
+    });
+
+    $('#prawo').on('click', '.jagoda', function()
+    {
+        var item =  $(this).attr('data-what');
+        var active = $(this).attr('data-active');
+        berry(item, active);
+    });
+
+    $('#prawo').on('click', '.jagoda_all', function()
+    {
+        var item =  $(this).attr('data-what');
+        var active = $(this).attr('data-active');
+        berry(item, active);
+    });
+
+    $('#prawo').on('click', '.jagoda_max', function()
+    {
+        var item =  $(this).attr('data-what');
+        var active = $(this).attr('data-active');
+        var value = 'max';
+        berry(item, active, value);
+    });
+
+
     $('#prawo').on('click', '.wypij', function()
     {
         var item =  $(this).attr('data-what');
@@ -158,35 +202,7 @@ $(document).ready(function()
         });
     });
 
-    $('#prawo').on('click', '.jagoda', function()
-    {
-        var item =  $(this).attr('data-what');
-        var active = $(this).attr('data-active');
-        var value = $('#'+item+'_ilosc').val();
-        if (value == 0) value = 1;
-        var pokemon = $('#'+item+'_pok').val();
-        if (!pokemon) pokemon = 0;
-        $("#" + item + '_opis').modal("hide");
-        $("#" + item + '_opis').on('hidden.bs.modal', function () {
-            packLoad(value, item, active, pokemon);
-        });
-    });
 
-
-  function jagoda_all(co)
-  {
-   laduj('plecak/jagoda/'+co+'/all/?active=3&ajax');
-  }
-  function jagoda_max(co)
-  {
-    if($('#'+co+'_pok').length)
-    {
-      co += '/max/' + $('#'+co+'_pok').val();
-    } else {
-        co += '/all';
-    }
-   laduj('plecak/jagoda/'+co+'/?active=3&ajax');
-  }
   $('#prawo').on('click', '.confirmDrink', function()
   {
       var href = packUse + $(this).attr('data-add');
@@ -201,31 +217,11 @@ $(document).ready(function()
     $("#" + co + '_opis').on('hidden.bs.modal', function () {
      laduj(adres+'/?active=7');
      });
-   
   });
 
 
 
-  $('#prawo').on('click', '.jagoda_all', function()
-  {
-   var co =  this.id;
-   $("#" + co + '_opis').modal("hide");
-   $("#" + co + '_opis').on('hidden.bs.modal', function () {
-    jagoda_all(co);
-    });
-  });
-    $('#prawo').on('click', '.jagoda_max', function()
-    {
-        var item =  $(this).attr('data-what');
-        var active = $(this).attr('data-active');
-        var value = 'max';
-        var pokemon = $('#'+item+'_pok').val();
-        if (!pokemon) pokemon = 0;
-        $("#" + item + '_opis').modal("hide");
-        $("#" + item + '_opis').on('hidden.bs.modal', function () {
-            packLoad(value, item, active, pokemon);
-        });
-    });
+
     $('#prawo').on('click', '.kamien', function()
     {
         var item =  $(this).attr('data-what');
@@ -240,18 +236,7 @@ $(document).ready(function()
   {
       $(this).find('input').focus();
   });
-  $('#prawo').on('keydown','.ilosc_jagoda',function( event)
-  {
-    if ( event.which == 13 )
-    {
-      var id = this.id.slice( 0, -6 );
-      $("#" + id + '_opis').modal("hide");
-      $("#" + id + '_opis').on('hidden.bs.modal', function () {
-      jagoda(id);
-    });
-     
-    }
-  });
+
   $('#prawo').on('keydown','.ilosc_wypij',function( event)
   {
     if ( event.which == 13 )
