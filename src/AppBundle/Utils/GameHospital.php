@@ -77,7 +77,7 @@ class GameHospital
         return 1;
     }
 
-    public function healAllPokemons(User $user)
+    public function healAllPokemons(User $user): void
     {
         for ($i = 0; $i < 6; $i++) {
             if ($this->session->get('pokemon'.$i)) {
@@ -100,7 +100,7 @@ class GameHospital
         $this->em->flush();
     }
 
-    public function healPokemon(User $user, int $i)
+    public function healPokemon(User $user, int $i): void
     {
         $this->healOnePokemon($user, $i);
         $this->em->flush();

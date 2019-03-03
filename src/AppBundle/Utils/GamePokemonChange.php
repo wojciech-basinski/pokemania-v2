@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\User;
@@ -29,7 +28,7 @@ class GamePokemonChange
         $this->auth = $auth;
     }
 
-    public function changeCheck(?string $what, ?string $value, ?int $id, User $user)
+    public function changeCheck(?string $what, ?string $value, ?int $id, User $user): void
     {
         if (method_exists($this, 'change'.$what)) {
             $this->{'change'.$what}($value, $id, $user);
@@ -40,7 +39,7 @@ class GamePokemonChange
         }
     }
 
-    private function changeBlock(?string $value, ?int $id, User $user)
+    private function changeBlock(?string $value, ?int $id, User $user): void
     {
         $pokemon = $this->em->getRepository('AppBundle:Pokemon')
                 ->findOneBy(['id' => $id, 'owner' => $user->getId()]);
@@ -58,7 +57,7 @@ class GamePokemonChange
         $this->session->getFlashBag()->add('success', $content);
     }
 
-    private function changeEwolution(?string $value, ?int $id, User $user)
+    private function changeEwolution(?string $value, ?int $id, User $user): void
     {
         $pokemon = $this->em->getRepository('AppBundle:Pokemon')
             ->findOneBy(['id' => $id, 'owner' => $user->getId()]);
@@ -78,7 +77,7 @@ class GamePokemonChange
         $this->auth->pokemonsToTeam($user->getId());
     }
 
-    private function changeName(?string $value, ?int $id, User $user)
+    private function changeName(?string $value, ?int $id, User $user): void
     {
         $pokemon = $this->em->getRepository('AppBundle:Pokemon')
             ->findOneBy(['id' => $id, 'owner' => $user->getId()]);
@@ -95,7 +94,7 @@ class GamePokemonChange
         $this->auth->pokemonsToTeam($user->getId());
     }
 
-    private function changeUp(?string $value, ?int $id, User $user)
+    private function changeUp(?string $value, ?int $id, User $user): void
     {
         $pokemon = $this->em->getRepository('AppBundle:Pokemon')
             ->findOneBy(['id' => $id, 'owner' => $user->getId()]);
@@ -114,7 +113,7 @@ class GamePokemonChange
         $pokemon->{'setAttack'.($value)}($tempDown);
     }
 
-    private function changeDown(?string $value, ?int $id, User $user)
+    private function changeDown(?string $value, ?int $id, User $user): void
     {
         $pokemon = $this->em->getRepository('AppBundle:Pokemon')
             ->findOneBy(['id' => $id, 'owner' => $user->getId()]);
@@ -133,7 +132,7 @@ class GamePokemonChange
         $pokemon->{'setAttack'.($value+1)}($tempDown);
     }
 
-    private function changeDescription(?string $value, ?int $id, User $user)
+    private function changeDescription(?string $value, ?int $id, User $user): void
     {
         $pokemon = $this->em->getRepository('AppBundle:Pokemon')
             ->findOneBy(['id' => $id, 'owner' => $user->getId()]);

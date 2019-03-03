@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Pokemon;
@@ -62,7 +61,8 @@ class GameMerchant
         if ($confirm) {
             $this->sellPokemonsFromArray($pokemonsToSell, $valueOfPokemons, $user);
         } else {
-            $this->session->getFlashBag()->add('success', 'Czy na pewno chcesz sprzedać wszystkie Pokemony za ' .
+            $this->session->getFlashBag()
+                ->add('success', 'Czy na pewno chcesz sprzedać wszystkie Pokemony za ' .
                 number_format($valueOfPokemons, 0, '', '.') . ' &yen;?
                 <br /><button class="potwierdz btn btn-info">Potwierdź</button>');
             return;

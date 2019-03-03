@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Friend;
@@ -125,7 +124,7 @@ class Friends
         return 1;
     }
 
-    private function insertMessageAboutCancelInvitation(int $userId, string $userName)
+    private function insertMessageAboutCancelInvitation(int $userId, string $userName): void
     {
         $report = new Report();
         $report->setContent(
@@ -136,7 +135,7 @@ class Friends
         $this->insertMessage($userId, $report);
     }
 
-    private function insertMessageAboutReject(int $userId, string $userName)
+    private function insertMessageAboutReject(int $userId, string $userName): void
     {
         $report = new Report();
         $report->setContent(
@@ -147,7 +146,7 @@ class Friends
         $this->insertMessage($userId, $report);
     }
 
-    private function insertMessageAboutDelete(int $userId, string $userName)
+    private function insertMessageAboutDelete(int $userId, string $userName): void
     {
         $report = new Report();
         $report->setContent('<div class="text-center">Gracz ' . $userName . ' usunął Cię ze znajomych.</div>');
@@ -156,7 +155,7 @@ class Friends
         $this->insertMessage($userId, $report);
     }
 
-    private function insertMessageAboutAccept(int $userId, string $userName)
+    private function insertMessageAboutAccept(int $userId, string $userName): void
     {
         $report = new Report();
         $report->setContent(
@@ -167,7 +166,7 @@ class Friends
         $this->insertMessage($userId, $report);
     }
 
-    private function insertMessage(int $userId, Report $report)
+    private function insertMessage(int $userId, Report $report): void
     {
         $report->setTime(new \DateTime);
         $report->setUserId($userId);
@@ -176,7 +175,7 @@ class Friends
         $this->em->flush();
     }
 
-    private function insertMessageAboutInvitation(string $name, int $id)
+    private function insertMessageAboutInvitation(string $name, int $id): void
     {
         $report = new Report();
         $report->setContent('Użytkownik '.$name.' zaprasza Cię do znajomych.');
@@ -184,7 +183,7 @@ class Friends
         $this->insertMessage($id, $report);
     }
 
-    private function insertInvitation(int $id, User $user)
+    private function insertInvitation(int $id, User $user): void
     {
         $userToSent = $this->em->find('AppBundle:User', $id);
         $friendship = new Friend();
@@ -197,14 +196,14 @@ class Friends
         $this->em->flush();
     }
 
-    private function checkId(int $id, int $userId)
+    private function checkId(int $id, int $userId): bool
     {
         if ($id === 0) {
-            return 0;
+            return false;
         }
         if ($id === $userId) {
-            return 0;
+            return false;
         }
-        return 1;
+        return true;
     }
 }

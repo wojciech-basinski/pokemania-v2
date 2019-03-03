@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\User;
@@ -41,17 +40,15 @@ class GameTrainingPokemon
         }
     }
 
-    public function calculateTime(User $user)
+    public function calculateTime(User $user): int
     {
         if ($user->getTrainerLevel() > 100) {
-            $time = 600;
-        } else {
-            $time = 5400 - ($user->getTrainerLevel() - 1) * 48;
+            return 600;
         }
-        return $time;
+        return 5400 - ($user->getTrainerLevel() - 1) * 48;
     }
 
-    public function startTraining(User $user)
+    public function startTraining(User $user): void
     {
         if ($user->getActivity() === 'training') {
             $this->session->getFlashBag()->add('error', 'Już rozpocząłeś trening z Pokemonami');
@@ -64,7 +61,7 @@ class GameTrainingPokemon
         $this->em->flush();
     }
 
-    public function stopTraining(User $user)
+    public function stopTraining(User $user): void
     {
         if ($user->getActivity() != 'training') {
             $this->session->getFlashBag()->add('error', 'Nie trenujesz z Pokemonami');
@@ -84,7 +81,7 @@ class GameTrainingPokemon
         $this->em->flush();
     }
 
-    private function addExp(int $exp, int $userId)
+    private function addExp(int $exp, int $userId): void
     {
         $this->session->getFlashBag()->add(
             'success',
@@ -100,7 +97,7 @@ class GameTrainingPokemon
         }
     }
 
-    private function endTraining(User $user)
+    private function endTraining(User $user): void
     {
         $user->setActivityTime(0);
         $user->setActivity('');

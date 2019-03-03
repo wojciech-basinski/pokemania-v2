@@ -32,7 +32,7 @@ class Cron
         $this->addCronMessage('Executed RemoveInactive');
     }
 
-    public function dailyReset()
+    public function dailyReset(): void
     {
         $users = $this->findAllUsers();
         foreach ($users as $user) {

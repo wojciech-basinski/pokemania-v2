@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Achievement;
@@ -63,7 +62,7 @@ class GameProfile
         return $this->user;
     }
 
-    public function setUser(User $user)
+    public function setUser(User $user): void
     {
         $this->user = $user;
         $this->id = $this->tokenStorage->getToken()->getUser()->getId();
@@ -78,7 +77,7 @@ class GameProfile
                     ->getUsersPokemonsFromTeam($this->user->getId())['pokemons'];
     }
 
-    public function getUserSkills()
+    public function getUserSkills(): array
     {
         $userSkills = [];
         $skills = $this->helper->getSkills();
@@ -98,7 +97,7 @@ class GameProfile
         return $userSkills;
     }
 
-    public function usePoints(int $i, User $user)
+    public function usePoints(int $i, User $user): void
     {
         $skills = $this->helper->getSkill($i);
         if (!$skills) {
@@ -128,7 +127,7 @@ class GameProfile
         $this->em->flush();
     }
 
-    public function getBadges()
+    public function getBadges(): array
     {
         return explode(';', $this->user->getBadges());
     }
@@ -138,7 +137,7 @@ class GameProfile
         return ($this->id === $this->user->getId());
     }
 
-    public function getFriend()
+    public function getFriend(): int
     {
         if ($this->id === $this->user->getId()) {
             return 0;
@@ -173,7 +172,12 @@ class GameProfile
         return !$u[0];
     }
 
-    private function getFromDb(string $need)
+    /**
+     * @param string $need
+     *
+     * @return Achievement|object|null
+     */
+    private function getFromDb(string $need): object
     {
         switch ($need) {
             case 'Achievement':
@@ -181,7 +185,7 @@ class GameProfile
         }
     }
 
-    private function getAchievements()
+    private function getAchievements(): Achievement
     {
         if ($this->achievements === null) {
             $this->achievements = $this->em->find('AppBundle:Achievement', $this->id);

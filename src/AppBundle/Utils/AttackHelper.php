@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils;
 
 class AttackHelper
@@ -921,22 +920,12 @@ class AttackHelper
         '613' => ['stan' => '0', 'procent' => 0, 'kto' => '0', 'ile_runda' => '1', 'ile_rund' => '1', 'procent_l' => '0', 'procent_o' => '0', 'obnizenie' => '0', 'podwyzszenie' => '0', 'czego' => '0', 'procent_obn' => '0', 'obn_ile' => '0', 'kogo' => '0', 'obr_zwrotne' => '0'],
         ];
 
-    /**
-     * @param int $number
-     *
-     * @return array attack info or struggle
-     */
-    public function getAttack(int $number)
+    public function getAttack(int $number): array
     {
         return $this->attacks[$number] ?? $this->attacks[612];
     }
 
-    /**
-     * @param int $number
-     *
-     * @return array attack special info or array with empty info
-     */
-    public function getSpecial(int $number)
+    public function getSpecial(int $number): array
     {
         return $this->special[$number] ?? $this->special[613];
     }

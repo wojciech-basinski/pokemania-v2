@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\User;
@@ -23,7 +22,7 @@ class GameTravel
         $this->session = $session;
     }
 
-    public function changeRegion(User $user, $region)
+    public function changeRegion(User $user, $region): void
     {
         if (!in_array($region, [1, 2])) {
             $this->session->getFlashBag()->add('error', 'Błędny region');
@@ -47,7 +46,7 @@ class GameTravel
         $this->session->getFlashBag()->add('success', "Kupiono bilet do {$regionName}");
     }
 
-    private function getRegionName(int $region):string
+    private function getRegionName(int $region): string
     {
         switch ($region) {
             case 1:

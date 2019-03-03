@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -46,7 +45,7 @@ class Collection
         ];
     }
 
-    public function addOneToPokemonMetAndReturnIfMetAndCaught(int $id, int $userId)
+    public function addOneToPokemonMetAndReturnIfMetAndCaught(int $id, int $userId): array
     {
         $collection = $this->em->getRepository('AppBundle:Collection')
                         ->find($userId);
@@ -110,7 +109,7 @@ class Collection
         return array_merge($array, ['met' => $metPokemons, 'caught' => $caughtPokemons]);
     }
 
-    public function addOneToPokemonCatchAndReturnIfMetAndCaught(int $id, int $userId)
+    public function addOneToPokemonCatchAndReturnIfMetAndCaught(int $id, int $userId): array
     {
         $collection = $this->em->getRepository('AppBundle:Collection')
             ->find($userId);
@@ -129,7 +128,7 @@ class Collection
         return $metAndCaughtBefore;
     }
 
-    public function addOneToPokemonCatchAndMet(int $id, int $userId)
+    public function addOneToPokemonCatchAndMet(int $id, int $userId): void
     {
         $collection = $this->em->getRepository('AppBundle:Collection')
             ->find($userId);

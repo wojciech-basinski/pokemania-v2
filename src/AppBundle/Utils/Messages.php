@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils;
 
 use Doctrine\ORM\EntityManagerInterface;

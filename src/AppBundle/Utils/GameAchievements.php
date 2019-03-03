@@ -58,7 +58,7 @@ class GameAchievements
         $this->helper = $helper;
     }
 
-    public function execute(User $user)
+    public function execute(User $user): void
     {
         $this->user = $user;
         $this->prepareFromDb();
@@ -90,7 +90,7 @@ class GameAchievements
         return $this->kantoMaster;
     }
 
-    private function checkIfAchievementsCanHaveNextLevel(int $userId)
+    private function checkIfAchievementsCanHaveNextLevel(int $userId): void
     {
         $items = $this->em->getRepository('AppBundle:Items')->find($userId);
         $requirements = $this->performance->getZnawcaKanto() + 1;
@@ -163,7 +163,7 @@ class GameAchievements
         $this->em->persist($this->performance);
     }
 
-    private function prepareFromDb()
+    private function prepareFromDb(): void
     {
         $this->achievements =
             $this->em->getRepository('AppBundle:Achievement')->findOneBy(['id' => $this->user->getId()]);
@@ -171,7 +171,7 @@ class GameAchievements
             $this->em->getRepository('AppBundle:Performance')->findOneBy(['id' => $this->user->getId()]);
     }
 
-    private function checkAchievements(string $what)
+    private function checkAchievements(string $what): void
     {
         $main = $this->helper->{'get'.$what}();
         $mainToView = [];
@@ -209,7 +209,7 @@ class GameAchievements
         $this->$what = $mainToView;
     }
 
-    private function checkKantoMaster()
+    private function checkKantoMaster(): void
     {
         $masterKanto = $this->helper->getKantoMaster();
         $master = $this->performance->getZnawcaKanto();
@@ -237,7 +237,7 @@ class GameAchievements
         }
     }
 
-    private function addReport(string $performance, int $userId)
+    private function addReport(string $performance, int $userId): void
     {
         $report = new Report();
         $report->setTitle('Nowe osiągnięcie');
@@ -250,7 +250,7 @@ Zdobyłeś nowe osiągnięcie: <span class=\"pogrubienie\">
         $this->em->persist($report);
     }
 
-    private function addFlash(string $performance, int $level, int $coins)
+    private function addFlash(string $performance, int $level, int $coins): void
     {
          $this->session->getFlashBag()->add(
              'success',

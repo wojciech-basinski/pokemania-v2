@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils;
 
 class ProfileHelper
@@ -28,12 +27,12 @@ class ProfileHelper
         ],
     ];
 
-    public function getSkills()
+    public function getSkills(): array
     {
         return $this->skills;
     }
 
-    public function getSkill(int $i)
+    public function getSkill(int $i): ?array
     {
         return $this->skills[$i] ?? null;
     }

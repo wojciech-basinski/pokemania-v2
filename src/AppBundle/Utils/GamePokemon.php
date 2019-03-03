@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Pokemon;
@@ -50,7 +49,8 @@ class GamePokemon
         }
 
         if ($this->getCountOfFeeders($owner) > 50) {
-            $this->session->getFlashBag()->add('error', 'Pokemon jest już najedzony i nie może przyjąć kolejnego posiłku.');
+            $this->session->getFlashBag()
+                ->add('error', 'Pokemon jest już najedzony i nie może przyjąć kolejnego posiłku.');
             return;
         }
         $feeded = $owner->getPokemonFeededIp() . '|' . $ip;
@@ -94,7 +94,7 @@ class GamePokemon
         ];
     }
 
-    private function getPokemonsFromTeam(int $userId)
+    private function getPokemonsFromTeam(int $userId): array
     {
         return $this->em->getRepository('AppBundle:Pokemon')->getUsersPokemonsFromTeam($userId);
     }

@@ -3,7 +3,7 @@ namespace AppBundle\Utils;
 
 class GameTime
 {
-    public static function time2string(int $timeline)
+    public static function time2string(int $timeline): string
     {
         $periods = ['dni' => 86400, 'godzin' => 3600, 'minut' => 60, 'sekund' => 1];
         $ret = '';

@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Pokemon;
@@ -36,7 +35,7 @@ class GameTraining
         $this->session = $session;
     }
 
-    public function checkId(int $id)
+    public function checkId(int $id): bool
     {
         $this->id = $id;
         $this->i = $this->checkIdInSession($id);
@@ -46,7 +45,7 @@ class GameTraining
         return true;
     }
 
-    public function train(int $pokemonId, int $training, int $value, User $user)
+    public function train(int $pokemonId, int $training, int $value, User $user): void
     {
         if (!$this->checkId($pokemonId)) {
             return;
@@ -119,13 +118,13 @@ class GameTraining
         }//$this->view->blad = '<div class="alert alert-danger"><span>!</span></div>';
     }
 
-    public function getPokemons(int $userId)
+    public function getPokemons(int $userId): array
     {
         $this->pokemonsAndTrainings = $this->em->getRepository('AppBundle:Pokemon')->getUsersPokemonsFromTeam($userId);
         return $this->pokemonsAndTrainings;
     }
 
-    public function calculateTrainings(array $pokemons)
+    public function calculateTrainings(array $pokemons): array
     {
         $trainings = [];
         foreach ($this->pokemonsAndTrainings['pokemons'] as $pokemon) {
@@ -179,7 +178,7 @@ class GameTraining
         return $trainings;
     }
 
-    public function changeAttack(int $id, int $attackId, int $whichChange)
+    public function changeAttack(int $id, int $attackId, int $whichChange): void
     {
         if (!$this->checkId($id)) {
             $this->session->getFlashBag()->add('error', 'Błędny ID Pokemona');
@@ -225,7 +224,7 @@ class GameTraining
         return null;
     }
 
-    private function calculateTraining(int $all, int $training, float $attachment)
+    private function calculateTraining(int $all, int $training, float $attachment): int
     {
         $factor = 1;
         if ($attachment > 75) {
@@ -247,13 +246,13 @@ class GameTraining
         return $cost;
     }
 
-    private function getAllTrainings(Pokemon $pokemon)
+    private function getAllTrainings(Pokemon $pokemon): int
     {
         return $pokemon->getTraining()->getTr1() + $pokemon->getTraining()->getTr2() + $pokemon->getTraining()->getTr3() +
             $pokemon->getTraining()->getTr4() + $pokemon->getTraining()->getTr5() + $pokemon->getTr6();
     }
 
-    private function checkAttack(int $attackId, array $attackArray)
+    private function checkAttack(int $attackId, array $attackArray): int
     {
         $count = count($attackArray);
         for ($i = 0; $i < $count; $i++) {
@@ -264,9 +263,9 @@ class GameTraining
         return -1;
     }
 
-    private function checkLevelPokemonToChangeAttack(array $attackArray, int $level)
+    private function checkLevelPokemonToChangeAttack(array $attackArray, int $level): bool
     {
-        return ($attackArray['level'] <= $level);
+        return $attackArray['level'] <= $level;
     }
 
     private function addTreningsToStatistics(int $wyt, User $user): void

@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Bug;
@@ -25,12 +24,7 @@ class Bugs
         $this->session = $session;
     }
 
-    /**
-     * @param User $user
-     *
-     * @return Bug[]|Bug|null
-     */
-    public function list(User $user)
+    public function list(User $user): array
     {
         $admin = $user->getRoles() === ['ROLE_ADMIN'] ? 1 : 0;
         if ($admin) {
@@ -57,7 +51,7 @@ class Bugs
         return true;
     }
 
-    public function delete(int $id)
+    public function delete(int $id): void
     {
         $bug = $this->em->find('AppBundle:Bug', $id);
 
@@ -71,7 +65,7 @@ class Bugs
         $this->session->getFlashBag()->add('success', 'Poprawnie usunięto błąd.');
     }
 
-    public function setDone(int $id)
+    public function setDone(int $id): void
     {
         $bug = $this->em->find('AppBundle:Bug', $id);
         if (!$bug) {
@@ -89,17 +83,17 @@ class Bugs
         $this->session->getFlashBag()->add('success', 'Poprawniono błąd.');
     }
 
-    private function getBugsAdmin()
+    private function getBugsAdmin(): array
     {
         return $this->em->getRepository('AppBundle:Bug')->findAll();
     }
 
-    private function getBugsUser(int $userId)
+    private function getBugsUser(int $userId): array
     {
         return $this->em->getRepository('AppBundle:Bug')->findBy(['reportedBy' => $userId]);
     }
 
-    private function addBugToDb(string $title, string $content, int $userId)
+    private function addBugToDb(string $title, string $content, int $userId): void
     {
         $bug = new Bug();
         $bug->setContent($content);
@@ -112,7 +106,7 @@ class Bugs
         $this->addReport(1, 'Dodano nowy błąd');
     }
 
-    private function addReport(int $userId, string $title, string $content = '')
+    private function addReport(int $userId, string $title, string $content = ''): void
     {
         $report = new Report();
         $report->setIsRead(0);

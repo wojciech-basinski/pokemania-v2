@@ -43,8 +43,14 @@ class GamePokemonsExchange
      */
     private $collection;
 
-    public function __construct(EntityManagerInterface $em, Session $session, PokemonHelper $helper, GamePack $pack, GamePokemons $gamePokemons, Collection $collection)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        Session $session,
+        PokemonHelper $helper,
+        GamePack $pack,
+        GamePokemons $gamePokemons,
+        Collection $collection
+    ) {
         $this->em = $em;
         $this->session = $session;
         $this->helper = $helper;
@@ -63,7 +69,7 @@ class GamePokemonsExchange
         return $this->getPokemonsInExchange($userId);
     }
 
-    public function action(User $user, ?int $id, ?string $mode)
+    public function action(User $user, ?int $id, ?string $mode): void
     {
         if (in_array($mode, ['add', 'get'])) {
             $this->{$mode.'toExchange'}($user, $id);
@@ -72,7 +78,7 @@ class GamePokemonsExchange
         }
     }
 
-    private function getToExchange(User $user, ?int $id)
+    private function getToExchange(User $user, ?int $id): void
     {
         $exchange = $this->em->getRepository('AppBundle:ExchangePokemon')->findOneBy(['owner' => $user->getId(), 'id' => $id]);
 
@@ -91,7 +97,7 @@ class GamePokemonsExchange
         $this->em->flush();
     }
 
-    private function addToExchange(User $user, ?int $id)
+    private function addToExchange(User $user, ?int $id): void
     {
         if (!$this->checkId($id)) {
             $this->session->getFlashBag()->add('error', 'Błędny ID Pokemona');
@@ -169,7 +175,7 @@ class GamePokemonsExchange
         return $pokemons;
     }
 
-    private function getPokemonsInExchange(int $userId)
+    private function getPokemonsInExchange(int $userId): array
     {
         return $this->em->getRepository('AppBundle:ExchangePokemon')->findBy(['owner' => $userId]);
     }
@@ -230,7 +236,7 @@ class GamePokemonsExchange
         return true;
     }
 
-    private function evolvePokemonByExchange(User $user, ExchangePokemon $exchange)
+    private function evolvePokemonByExchange(User $user, ExchangePokemon $exchange): void
     {
         switch ($exchange->getPokemonId()) {
             case 64:
@@ -292,7 +298,7 @@ class GamePokemonsExchange
         $this->em->remove($exchange);
     }
 
-    private function addReport(array $increases, string $oldName, string $name, int $gender, int $userId)
+    private function addReport(array $increases, string $oldName, string $name, int $gender, int $userId): void
     {
         $report = new Report();
         $report->setTime(new \DateTime);
@@ -319,7 +325,7 @@ class GamePokemonsExchange
         $this->em->persist($report);
     }
 
-    private function addToCollection(int $id, int $userId)
+    private function addToCollection(int $id, int $userId): void
     {
         $this->collection->addOneToPokemonCatchAndMet($id, $userId);
     }
