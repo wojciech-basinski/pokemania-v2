@@ -307,61 +307,47 @@ class GamePack
     private function cheri_BerryUse($value, User $user, int $pokemon)
     {
         if ($value === 'all') {
-            //TODO
-            $jagody = $this->przedmioty['Cheri_Berry'];
-            if ($jagody) {
-                $kwer = "SELECT * FROM pokemony WHERE ID IN(";
-                $kwer2 = "order by case ID";
-                for ($i = 1; $i < 7; $i++) {
-                    if (User::_isset('pok', $i) && User::_get('pok', $i)->get('id') > 0) {
-                        $a = User::_get('pok', $i)->get('id');
-                        if ($i === 1) {
-                            $kwer = $kwer . "'$a'";
-                        } else {
-                            $kwer = $kwer . ", '$a'";
-                        }
-                        $kwer2 = $kwer2 . " WHEN '$a' THEN " . $i;
-                        $a++;
-                    }
-                }
-                $kwer = $kwer . ")" . $kwer2 . " END";
-                $rezultat1 = $this->model->db->select($kwer);
-                $ile = $rezultat1['rowCount'];
-                $exit = 0;
-                $jagody_u = 0;
-                for ($i = 1; $i <= $ile; $i++) {
-                    $wiersz = $rezultat1[$i - 1];
-                    $ile_p = ceil((round($wiersz['jakosc'] * $wiersz['HP'] / 100) + $wiersz['Jag_HP'] + $wiersz['tr_6'] * 5 - $wiersz['akt_HP']) / 15);
-                    if ($ile_p > 0) {
-                        if ($ile_p > $jagody) {
-                            $ile_p = $jagody;
-                            $hp = $wiersz['akt_HP'] + $ile_p * 15;
-                            $exit = 1;
-                        } else {
-                            $hp = round($wiersz['jakosc'] * $wiersz['HP'] / 100) + $wiersz['Jag_HP'] + $wiersz['tr_6'] * 5;
-                        }
-                        $jagody_u += $ile_p;
-                        $this->model->updatePokHP($hp, $wiersz['ID']);
-                        User::_get('pok', $i)->edit('akt_zycie', $hp);
-                        $jagody -= $ile_p;
-                        if ($exit === 1) {
-                            break;
-                        }
-                    }
-                }
-                if ($jagody_u === 0) {
-                    $this->view->komunikat = 'Pokemony nie wymagają leczenia.';
-                } else {
-                    $this->model->updateJagody('Cheri_Berry', $jagody);
-                    if ($exit === 1) {
-                        $this->view->komunikat = 'Użyto ' . $jagody_u . ' Cheri Berry, ale nie uleczono wszystkich Pokemonów.';
-                    } else {
-                        $this->view->komunikat = 'Użyto ' . $jagody_u . ' Cheri Berry, uleczono wszystkie Pokemony.';
-                    }
-                }
-            } else {
-                $this->view->blad = 'Nie posiadasz Cheri Berry.';
+            $berrys = $this->getBerrys($user->getId());
+            if (!$berrys->getCheriBerry()) {
+                $this->session->getFlashBag()->add('error', 'Nie posiadasz Cheri Berry');
+                return false;
             }
+            $usedBerrys = 0;
+            $healAll = true;
+            for ($i = 0; $i < 6; $i++) {
+                $pokemon = $this->session->get('pokemon'.$i);
+                if (!($pokemon->getActualHp() < $pokemon->getHpToTable())) {
+                    break;
+                }
+                $pokemon = $this->em->merge($pokemon);
+                $thisPokemonUsedBerrys = $this->healPokemon(
+                    'Cheri_Berry',
+                    $pokemon,
+                    $berrys->getCheriBerry(),
+                    'max',
+                    true
+                );
+                if ($pokemon->getActualHp() < $pokemon->getHpToTable()) {
+                    $healAll = false;
+                }
+                $berrys->setCheriBerry($berrys->getCheriBerry() - $thisPokemonUsedBerrys);
+                $usedBerrys += $thisPokemonUsedBerrys;
+            }
+            if ($usedBerrys > 0) {
+                $this->auth->pokemonsToTeam($user->getId());
+                if ($healAll) {
+                    $this->session->getFlashBag()
+                        ->add('success', "Wyleczono Pokemony, użyto $usedBerrys Cherri Berry");
+                    return true;
+                }
+                $this->session->getFlashBag()
+                    ->add('success', "Częściowo wyleczono Pokemony, użyto $usedBerrys Cherri Berry");
+                return true;
+            }
+            $this->session->getFlashBag()
+                ->add('success', 'Pokemony nie potrzebują leczenia');
+
+            return true;
         } else {
             $berrys = $this->getBerrys($user->getId());
             if (!$berrys->getCheriBerry()) {
@@ -382,6 +368,7 @@ class GamePack
             $usedBerrys = $this->healPokemon('Cheri_Berry', $pokemon, $berrys->getCheriBerry(), $value);
             $berrys->setCheriBerry($berrys->getCheriBerry() - $usedBerrys);
             $this->auth->pokemonsToTeam($user->getId());
+            return true;
         }
     }
 
@@ -395,61 +382,47 @@ class GamePack
     private function wiki_BerryUse($value, User $user, int $pokemon)
     {
         if ($value === 'all') {
-            //TODO
-            $jagody = $this->przedmioty['Cheri_Berry'];
-            if ($jagody) {
-                $kwer = "SELECT * FROM pokemony WHERE ID IN(";
-                $kwer2 = "order by case ID";
-                for ($i = 1; $i < 7; $i++) {
-                    if (User::_isset('pok', $i) && User::_get('pok', $i)->get('id') > 0) {
-                        $a = User::_get('pok', $i)->get('id');
-                        if ($i === 1) {
-                            $kwer = $kwer . "'$a'";
-                        } else {
-                            $kwer = $kwer . ", '$a'";
-                        }
-                        $kwer2 = $kwer2 . " WHEN '$a' THEN " . $i;
-                        $a++;
-                    }
-                }
-                $kwer = $kwer . ")" . $kwer2 . " END";
-                $rezultat1 = $this->model->db->select($kwer);
-                $ile = $rezultat1['rowCount'];
-                $exit = 0;
-                $jagody_u = 0;
-                for ($i = 1; $i <= $ile; $i++) {
-                    $wiersz = $rezultat1[$i - 1];
-                    $ile_p = ceil((round($wiersz['jakosc'] * $wiersz['HP'] / 100) + $wiersz['Jag_HP'] + $wiersz['tr_6'] * 5 - $wiersz['akt_HP']) / 15);
-                    if ($ile_p > 0) {
-                        if ($ile_p > $jagody) {
-                            $ile_p = $jagody;
-                            $hp = $wiersz['akt_HP'] + $ile_p * 15;
-                            $exit = 1;
-                        } else {
-                            $hp = round($wiersz['jakosc'] * $wiersz['HP'] / 100) + $wiersz['Jag_HP'] + $wiersz['tr_6'] * 5;
-                        }
-                        $jagody_u += $ile_p;
-                        $this->model->updatePokHP($hp, $wiersz['ID']);
-                        User::_get('pok', $i)->edit('akt_zycie', $hp);
-                        $jagody -= $ile_p;
-                        if ($exit === 1) {
-                            break;
-                        }
-                    }
-                }
-                if ($jagody_u === 0) {
-                    $this->view->komunikat = 'Pokemony nie wymagają leczenia.';
-                } else {
-                    $this->model->updateJagody('Cheri_Berry', $jagody);
-                    if ($exit === 1) {
-                        $this->view->komunikat = 'Użyto ' . $jagody_u . ' Cheri Berry, ale nie uleczono wszystkich Pokemonów.';
-                    } else {
-                        $this->view->komunikat = 'Użyto ' . $jagody_u . ' Cheri Berry, uleczono wszystkie Pokemony.';
-                    }
-                }
-            } else {
-                $this->view->blad = 'Nie posiadasz Cheri Berry.';
+            $berrys = $this->getBerrys($user->getId());
+            if (!$berrys->getWikiBerry()) {
+                $this->session->getFlashBag()->add('error', 'Nie posiadasz Wiki Berry');
+                return false;
             }
+            $usedBerrys = 0;
+            $healAll = true;
+            for ($i = 0; $i < 6; $i++) {
+                $pokemon = $this->session->get('pokemon'.$i);
+                if (!($pokemon->getActualHp() < $pokemon->getHpToTable())) {
+                    break;
+                }
+                $pokemon = $this->em->merge($pokemon);
+                $thisPokemonUsedBerrys = $this->healPokemon(
+                    'Wiki_Berry',
+                    $pokemon,
+                    $berrys->getWikiBerry(),
+                    'max',
+                    true
+                );
+                if ($pokemon->getActualHp() < $pokemon->getHpToTable()) {
+                    $healAll = false;
+                }
+                $berrys->setWikiBerry($berrys->getWikiBerry() - $thisPokemonUsedBerrys);
+                $usedBerrys += $thisPokemonUsedBerrys;
+            }
+            if ($usedBerrys > 0) {
+                $this->auth->pokemonsToTeam($user->getId());
+                if ($healAll) {
+                    $this->session->getFlashBag()
+                        ->add('success', "Wyleczono Pokemony, użyto $usedBerrys Wiki Berry");
+                    return true;
+                }
+                $this->session->getFlashBag()
+                    ->add('success', "Częściowo wyleczono Pokemony, użyto $usedBerrys Wiki Berry");
+                return true;
+            }
+            $this->session->getFlashBag()
+                ->add('success', 'Pokemony nie potrzebują leczenia');
+
+            return true;
         } else {
             $berrys = $this->getBerrys($user->getId());
             if (!$berrys->getWikiBerry()) {
@@ -467,8 +440,10 @@ class GamePack
                 return false;
             }
             $pokemon = $this->em->merge($pokemon);
-            $this->healPokemon('Wiki_Berry', $pokemon, $berrys->getCheriBerry(), $value);
+            $usedBerrys = $this->healPokemon('Wiki_Berry', $pokemon, $berrys->getWikiBerry(), $value);
             $this->auth->pokemonsToTeam($user->getId());
+            $berrys->setWikiBerry($berrys->getWikiBerry() - $usedBerrys);
+            return true;
         }
     }
 
@@ -790,6 +765,9 @@ class GamePack
         }
         $usedBerrys = $this->pokemonAddHp($value, $pokemon, $berrys->getSitrusBerry());
         $berrys->setFigyBerry($berrys->getFigyBerry() - $usedBerrys);
+        if ($usedBerrys) {
+            $this->auth->pokemonsToTeam($user->getId());
+        }
     }
 
     private function pokemonAddHp($value, int $pokemon, int $valueOfBerry)
@@ -1224,7 +1202,7 @@ więc część zostanie zmarnowana!
      *
      * @return int
      */
-    private function healPokemon(string $berry, Pokemon &$pokemon, int $valueOfBerry, $limit, bool $allFlashAsOne = false)
+    private function healPokemon(string $berry, Pokemon $pokemon, int $valueOfBerry, $limit, bool $allFlashAsOne = false)
     {
         $berryHealHp = ($berry === 'Cheri_Berry') ? 15 : 30;
         $howMany = ceil((round($pokemon->getHpToTable()) - $pokemon->getActualHp()) / $berryHealHp);

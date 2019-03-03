@@ -172,21 +172,33 @@ $(document).ready(function()
         });
     });
 
-
-  function jagoda_all(co)
-  {
-   laduj('plecak/jagoda/'+co+'/all/?active=3&ajax');
-  }
-  function jagoda_max(co)
-  {
-    if($('#'+co+'_pok').length)
+    $('#prawo').on('click', '.jagoda_all', function()
     {
-      co += '/max/' + $('#'+co+'_pok').val();
-    } else {
-        co += '/all';
-    }
-   laduj('plecak/jagoda/'+co+'/?active=3&ajax');
-  }
+        var item =  $(this).attr('data-what');
+        var active = $(this).attr('data-active');
+        var value = 'all';
+        var pokemon = $('#'+item+'_pok').val();
+        if (!pokemon) pokemon = 0;
+        $("#" + item + '_opis').modal("hide");
+        $("#" + item + '_opis').on('hidden.bs.modal', function () {
+            packLoad(value, item, active, pokemon);
+        });
+    });
+
+    $('#prawo').on('click', '.jagoda_max', function()
+    {
+        var item =  $(this).attr('data-what');
+        var active = $(this).attr('data-active');
+        var value = 'max';
+        var pokemon = $('#'+item+'_pok').val();
+        if (!pokemon) pokemon = 0;
+        $("#" + item + '_opis').modal("hide");
+        $("#" + item + '_opis').on('hidden.bs.modal', function () {
+            packLoad(value, item, active, pokemon);
+        });
+    });
+
+
   $('#prawo').on('click', '.confirmDrink', function()
   {
       var href = packUse + $(this).attr('data-add');
@@ -206,26 +218,7 @@ $(document).ready(function()
 
 
 
-  $('#prawo').on('click', '.jagoda_all', function()
-  {
-   var co =  this.id;
-   $("#" + co + '_opis').modal("hide");
-   $("#" + co + '_opis').on('hidden.bs.modal', function () {
-    jagoda_all(co);
-    });
-  });
-    $('#prawo').on('click', '.jagoda_max', function()
-    {
-        var item =  $(this).attr('data-what');
-        var active = $(this).attr('data-active');
-        var value = 'max';
-        var pokemon = $('#'+item+'_pok').val();
-        if (!pokemon) pokemon = 0;
-        $("#" + item + '_opis').modal("hide");
-        $("#" + item + '_opis').on('hidden.bs.modal', function () {
-            packLoad(value, item, active, pokemon);
-        });
-    });
+
     $('#prawo').on('click', '.kamien', function()
     {
         var item =  $(this).attr('data-what');
