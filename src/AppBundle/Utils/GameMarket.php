@@ -1,4 +1,5 @@
 <?php
+
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Market;
@@ -628,7 +629,7 @@ class GameMarket
     private function checkValue(string $value): ?int
     {
         $id = $this->request->request->get($value) ?? '';
-        if ($id === 0 || $id === '' || !is_numeric($id) || $id < 0) {
+        if (!ctype_digit($id) || $id === 0 || $id < 0 || $id > PHP_INT_MAX) {
             return null;
         }
         return $id;
