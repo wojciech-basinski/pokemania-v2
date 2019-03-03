@@ -1,6 +1,4 @@
 <?php
-
-
 namespace AppBundle\Controller;
 
 use AppBundle\Utils\GameHospital;
@@ -9,13 +7,18 @@ use AppBundle\Utils\GameShop;
 use AppBundle\Utils\GameTravel;
 use AppBundle\Utils\Lottery;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class GameRegionController extends Controller
 {
+    /**
+     * @var Request
+     */
     private $request;
 
     public function __construct(RequestStack $request)
@@ -27,9 +30,9 @@ class GameRegionController extends Controller
      * @Route("/loteria", name="game_lottery")
      * @param Lottery $lottery
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function lotteryShowAction(Lottery $lottery)
+    public function lotteryShowAction(Lottery $lottery): Response
     {
         $tickets = $lottery->countUserTickets($this->getUser()->getId());
 
@@ -44,9 +47,9 @@ class GameRegionController extends Controller
      * @Route("/loteria/losuj", name="game_lottery_play")
      * @param Lottery $lottery
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return Response
      */
-    public function lotteryPlayAction(Lottery $lottery)
+    public function lotteryPlayAction(Lottery $lottery): Response
     {
         $statusOfPlay = $lottery->playTheLottery($this->getUser());
 
@@ -59,9 +62,9 @@ class GameRegionController extends Controller
      *
      * @param SessionInterface $session
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function hospitalAction(GameHospital $hospitalService, SessionInterface $session)
+    public function hospitalAction(GameHospital $hospitalService, SessionInterface $session): Response
     {
         //TODO:
         //ODZNAKA NR 5 Z KANTO
@@ -82,9 +85,9 @@ class GameRegionController extends Controller
      * @param int $i
      * @param GameHospital $hospitalService
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function hospitalHealOneAction(int $i, GameHospital $hospitalService)
+    public function hospitalHealOneAction(int $i, GameHospital $hospitalService): Response
     {
         $hospitalService->healPokemon($this->getUser(), $i);
 
@@ -96,9 +99,9 @@ class GameRegionController extends Controller
      * @Method("POST")
      * @param GameHospital $hospitalService
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function hospitalHealAllAction(GameHospital $hospitalService)
+    public function hospitalHealAllAction(GameHospital $hospitalService): Response
     {
         $hospitalService->healAllPokemons($this->getUser());
 
@@ -110,9 +113,9 @@ class GameRegionController extends Controller
      * @Method("GET")
      * @param GameShop $shop
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function shopAction(GameShop $shop)
+    public function shopAction(GameShop $shop): Response
     {
         $pokeballs = $shop->getPokeballs($this->getUser()->getId());
         $pokeballsDescription =  $shop->getPokeballsDescriptions();
@@ -134,9 +137,9 @@ class GameRegionController extends Controller
      * @Method("POST")
      * @param GameShop $shop
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function shopBuyAction(GameShop $shop)
+    public function shopBuyAction(GameShop $shop): Response
     {
         $item = $this->request->get('item');
         $quantity = $this->request->get('quantity');
@@ -153,9 +156,9 @@ class GameRegionController extends Controller
      * @Method("GET")
      * @param GameMerchant $merchant
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function merchantAction(GameMerchant $merchant)
+    public function merchantAction(GameMerchant $merchant): Response
     {
         $pokemonsToSell = $merchant->getPokemonsAvailableToSell($this->getUser()->getId());
 
@@ -171,9 +174,9 @@ class GameRegionController extends Controller
      * @Method("POST")
      * @param GameMerchant $merchant
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function merchantSellAction(GameMerchant $merchant)
+    public function merchantSellAction(GameMerchant $merchant): Response
     {
         $all = $this->request->get('all');
         $selected = $this->request->get('selected');
@@ -190,9 +193,9 @@ class GameRegionController extends Controller
      * @Method("POST")
      * @param GameMerchant $merchant
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function merchantSellOneAction(GameMerchant $merchant)
+    public function merchantSellOneAction(GameMerchant $merchant): Response
     {
         $selected = $this->request->get('selected');
         $merchant->sellPokemons(false, $this->getUser(), $selected, false);
@@ -203,8 +206,10 @@ class GameRegionController extends Controller
     /**
      * @Route("podroz", name="game_travel")
      * @Method("GET")
+     *
+     * @return Response
      */
-    public function travelAction()
+    public function travelAction(): Response
     {
         return $this->render('game/travel.html.twig', [
            'title' => 'Podróż',
@@ -217,9 +222,9 @@ class GameRegionController extends Controller
      * @Method("POST")
      * @param GameTravel $gameTravel
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function changeRegionAction(GameTravel $gameTravel)
+    public function changeRegionAction(GameTravel $gameTravel): Response
     {
         $region = $this->request->request->get('region');
 

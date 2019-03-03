@@ -5,13 +5,18 @@ use AppBundle\Utils\GameHunting;
 use AppBundle\Utils\GameHuntingBattleBetweenPokemons;
 use AppBundle\Utils\GameHuntingCatch;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class GameHuntingController extends Controller
 {
+    /**
+     * @var Request
+     */
     private $request;
 
     public function __construct(RequestStack $request)
@@ -23,9 +28,9 @@ class GameHuntingController extends Controller
      * @Route("/polowanie", name="game_hunting_index")
      * @param GameHunting $hunting
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function showRegionAction(GameHunting $hunting)
+    public function showRegionAction(GameHunting $hunting): Response
     {
         switch ($this->getUser()->getRegion()) {
             case 1:
@@ -49,9 +54,9 @@ class GameHuntingController extends Controller
      * @param string $place
      * @param GameHunting $hunting
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function gameHuntingPlaceAction(string $place, GameHunting $hunting)
+    public function gameHuntingPlaceAction(string $place, GameHunting $hunting): Response
     {
         if (!$hunting->execute($place, $this->getUser())) {
             return $this->redirectToRoute('game_hunting_index');
@@ -73,12 +78,12 @@ class GameHuntingController extends Controller
      *
      * @param GameHuntingCatch $catching
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function gameHuntingBattleAction(
         GameHuntingBattleBetweenPokemons $battleService,
         GameHuntingCatch $catching
-    ) {
+    ): Response {
         $pokemonId = $this->request->get('pokemonId');
 
         $battle = $battleService->battle($pokemonId, $this->getUser());
@@ -106,9 +111,9 @@ class GameHuntingController extends Controller
      *
      * @param SessionInterface $session
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function gameHuntingCatchAction(GameHuntingCatch $catch, SessionInterface $session)
+    public function gameHuntingCatchAction(GameHuntingCatch $catch, SessionInterface $session): Response
     {
         $pokeball = $this->request->get('pokeball');
 

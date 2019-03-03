@@ -1,15 +1,19 @@
 <?php
-
 namespace AppBundle\Controller;
 
 use AppBundle\Utils\GameMarket;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class GameMarketController extends Controller
 {
+    /**
+     * @var Request
+     */
     private $request;
 
     public function __construct(RequestStack $request)
@@ -21,9 +25,9 @@ class GameMarketController extends Controller
      * @Route("/targ", name="game_market")
      * @param GameMarket $market
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function gameMarketAction(GameMarket $market)
+    public function gameMarketAction(GameMarket $market): Response
     {
         return $this->render(
             'game/market/items.html.twig',
@@ -44,9 +48,9 @@ class GameMarketController extends Controller
      * @param string $name
      * @param GameMarket $market
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function searchItemMarketAction(string $name, GameMarket $market)
+    public function searchItemMarketAction(string $name, GameMarket $market): Response
     {
         $kind = $market->checkNameItem($name);
         $page = $this->request->query->get('page') ?? 0;
@@ -71,9 +75,9 @@ class GameMarketController extends Controller
      * @Method("POST")
      * @param GameMarket $market
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function marketBuyItemAction(GameMarket $market)
+    public function marketBuyItemAction(GameMarket $market): Response
     {
         $market->buyItem($this->getUser());
 
@@ -86,9 +90,9 @@ class GameMarketController extends Controller
      * @Route("/targ/pokemon", name="game_market_pokemon")
      * @param GameMarket $market
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function gameMarketPokemonAction(GameMarket $market)
+    public function gameMarketPokemonAction(GameMarket $market): Response
     {
         return $this->render('game/market/pokemon.html.twig', [
             'ajax' => $this->request->isXmlHttpRequest(),
@@ -102,9 +106,9 @@ class GameMarketController extends Controller
      * @Method("POST")
      * @param GameMarket $market
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function searchPokemonOnMarketAction(GameMarket $market)
+    public function searchPokemonOnMarketAction(GameMarket $market): Response
     {
         $page = $this->request->request->get('page') ?? 1;
 
@@ -123,9 +127,9 @@ class GameMarketController extends Controller
      * @Method("GET")
      * @param GameMarket $market
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function sellItemMarketAction(GameMarket $market)
+    public function sellItemMarketAction(GameMarket $market): Response
     {
         return $this->render('game/market/itemsSelling.html.twig', [
             'title' => 'Wystaw produkt na targ',
@@ -144,9 +148,9 @@ class GameMarketController extends Controller
      * @Method("POST")
      * @param GameMarket $market
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function sellingItemMarketAction(GameMarket $market)
+    public function sellingItemMarketAction(GameMarket $market): Response
     {
         $market->addItemToMarket($this->getUser());
 
@@ -158,9 +162,9 @@ class GameMarketController extends Controller
      * @Method("POST")
      * @param GameMarket $market
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function removeItemFromMarketAction(GameMarket $market)
+    public function removeItemFromMarketAction(GameMarket $market): Response
     {
         $market->removeItemFromMarket($this->getUser());
 
@@ -174,9 +178,9 @@ class GameMarketController extends Controller
      * @Method("POST")
      * @param GameMarket $market
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function marketPokemonBuyAction(GameMarket $market)
+    public function marketPokemonBuyAction(GameMarket $market): Response
     {
         $market->buyPokemon($this->getUser());
 
@@ -188,9 +192,9 @@ class GameMarketController extends Controller
      * @Method("GET")
      * @param GameMarket $market
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function sellPokemonAction(GameMarket $market)
+    public function sellPokemonAction(GameMarket $market): Response
     {
         return $this->render('game/market/pokemonSell.html.twig', [
             'ajax' => $this->request->isXmlHttpRequest(),
@@ -207,9 +211,9 @@ class GameMarketController extends Controller
      * @Method("POST")
      * @param GameMarket $market
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function sellingPokemonAction(GameMarket $market)
+    public function sellingPokemonAction(GameMarket $market): Response
     {
         $market->sellingPokemon($this->getUser());
 
@@ -221,9 +225,9 @@ class GameMarketController extends Controller
      * @Method("POST")
      * @param GameMarket $market
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function removePokemonFromMarketAction(GameMarket $market)
+    public function removePokemonFromMarketAction(GameMarket $market): Response
     {
         $market->removePokemonFromMarket($this->getUser());
 

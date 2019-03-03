@@ -1,18 +1,21 @@
 <?php
-
 namespace AppBundle\Controller;
 
 use AppBundle\Utils\GameAnnouncement;
 use AppBundle\Utils\Messages;
 use AppBundle\Utils\Reports;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class GameMessageController extends Controller
 {
+    /**
+     * @var Request
+     */
     private $request;
 
     public function __construct(RequestStack $request)
@@ -26,7 +29,7 @@ class GameMessageController extends Controller
      *
      * @param SessionInterface $session
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function showReportsAction(Reports $reportsService, SessionInterface $session): Response
     {
@@ -47,7 +50,7 @@ class GameMessageController extends Controller
      * @param int $id
      * @param Reports $reportsService
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return Response
      */
     public function showOneReportAction(int $id, Reports $reportsService): Response
     {
@@ -82,7 +85,7 @@ class GameMessageController extends Controller
      * @param int $id
      * @param Reports $reportsService
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return Response
      */
     public function deleteOneReportAction(int $id, Reports $reportsService): Response
     {
@@ -100,7 +103,7 @@ class GameMessageController extends Controller
      *
      * @param SessionInterface $session
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function showMessagesAction(Messages $messageService, SessionInterface $session): Response
     {
@@ -118,6 +121,8 @@ class GameMessageController extends Controller
 
     /**
      * @Route("wiadomosci/{id}/{last}", name="game_message_show")
+     *
+     * @return Response
      */
     public function showOneMessageAction(int $id, int $last = 0): Response
     {
@@ -133,7 +138,7 @@ class GameMessageController extends Controller
      * @Route("/ogloszenia", name="game_announcement")
      * @param GameAnnouncement $announcement
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function announcementAction(GameAnnouncement $announcement): Response
     {

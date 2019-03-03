@@ -1,14 +1,13 @@
 <?php
-
 namespace AppBundle\Controller;
 
 use AppBundle\Utils\GameHospital;
 use AppBundle\Utils\GamePack;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class FooterController extends Controller
 {
@@ -28,7 +27,7 @@ class FooterController extends Controller
      *
      * @return Response
      */
-    public function healAction(GameHospital $hospital)
+    public function healAction(GameHospital $hospital): Response
     {
         $hospital->healAllPokemons($this->getUser());
         return $this->render('game/footer.html.twig');
@@ -40,7 +39,7 @@ class FooterController extends Controller
      *
      * @return Response
      */
-    public function sodaAction(GamePack $pack)
+    public function sodaAction(GamePack $pack): Response
     {
         $pack->useItem('soda', 1, $this->getUser(), 0);
         return $this->render('game/footer.html.twig');
@@ -52,7 +51,7 @@ class FooterController extends Controller
      *
      * @return Response
      */
-    public function waterAction(GamePack $pack)
+    public function waterAction(GamePack $pack): Response
     {
         $pack->useItem('water', 1, $this->getUser(), 0);
         return $this->render('game/footer.html.twig');
@@ -64,7 +63,7 @@ class FooterController extends Controller
      *
      * @return Response
      */
-    public function lemonadeAction(GamePack $pack)
+    public function lemonadeAction(GamePack $pack): Response
     {
         $pack->useItem('lemonade', 1, $this->getUser(), 0);
         return $this->render('game/footer.html.twig');
@@ -76,7 +75,7 @@ class FooterController extends Controller
      *
      * @return Response
      */
-    public function cheriberryAction(GamePack $pack)
+    public function cheriberryAction(GamePack $pack): Response
     {
         $pack->useItem('cheri_Berry', 'all', $this->getUser(), 0);
         return $this->render('game/footer.html.twig');
@@ -88,7 +87,7 @@ class FooterController extends Controller
      *
      * @return Response
      */
-    public function wikiberryAction(GamePack $pack)
+    public function wikiberryAction(GamePack $pack): Response
     {
         $pack->useItem('wiki_Berry', 'all', $this->getUser(), 0);
         return $this->render('game/footer.html.twig');
@@ -102,7 +101,7 @@ class FooterController extends Controller
      *
      * @return Response
      */
-    public function feedAction(GamePack $pack, int $id = 0)
+    public function feedAction(GamePack $pack, int $id = 0): Response
     {
         $pack->useItem('food', 'all', $this->getUser(), $id);
         return $this->render('game/footer.html.twig');
