@@ -1,13 +1,9 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Exchange
- *
- * @ORM\Table(name="exchange")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ExchangeRepository")
  */
 class Exchange
@@ -24,103 +20,61 @@ class Exchange
     /**
      * @var int
      *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $userId;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="pokemon_id", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $pokemonId;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="time", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $time;
 
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set userId
-     *
-     * @param integer $userId
-     *
-     * @return Exchange
-     */
-    public function setUserId($userId)
+    public function setUserId(int $userId): self
     {
         $this->userId = $userId;
 
         return $this;
     }
 
-    /**
-     * Get userId
-     *
-     * @return int
-     */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->userId;
     }
 
-    /**
-     * Set pokemonId
-     *
-     * @param integer $pokemonId
-     *
-     * @return Exchange
-     */
-    public function setPokemonId($pokemonId)
+    public function setPokemonId(int $pokemonId): self
     {
         $this->pokemonId = $pokemonId;
 
         return $this;
     }
 
-    /**
-     * Get pokemonId
-     *
-     * @return int
-     */
-    public function getPokemonId()
+    public function getPokemonId(): int
     {
         return $this->pokemonId;
     }
 
-    /**
-     * Set time
-     *
-     * @param integer $time
-     *
-     * @return Exchange
-     */
-    public function setTime($time)
+    public function setTime(int $time): self
     {
         $this->time = $time;
 
         return $this;
     }
 
-    /**
-     * Get time
-     *
-     * @return int
-     */
-    public function getTime()
+    public function getTime(): int
     {
         return $this->time;
     }

@@ -1,13 +1,9 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ExchangePokemon
- *
- * @ORM\Table(name="exchange_pokemon")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ExchangePokemonRepository")
  */
 class ExchangePokemon
@@ -24,150 +20,101 @@ class ExchangePokemon
     /**
      * @var int
      *
-     * @ORM\Column(name="owner", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $owner;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="pokemon_id", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $pokemonId;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="time", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $time;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string")
+     * @ORM\Column()
      */
     private $name;
 
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id_in_db", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $idInDb;
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
+    public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
 
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set owner
-     *
-     * @param integer $owner
-     *
-     * @return ExchangePokemon
-     */
-    public function setOwner($owner)
+    public function setOwner(int $owner): self
     {
         $this->owner = $owner;
 
         return $this;
     }
 
-    /**
-     * Get owner
-     *
-     * @return int
-     */
-    public function getOwner()
+    public function getOwner(): int
     {
         return $this->owner;
     }
 
-    /**
-     * Set pokemonId
-     *
-     * @param integer $pokemonId
-     *
-     * @return ExchangePokemon
-     */
-    public function setPokemonId($pokemonId)
+    public function setPokemonId(int $pokemonId): self
     {
         $this->pokemonId = $pokemonId;
 
         return $this;
     }
 
-    /**
-     * Get pokemonId
-     *
-     * @return int
-     */
-    public function getPokemonId()
+    public function getPokemonId(): int
     {
         return $this->pokemonId;
     }
 
-    /**
-     * Set time
-     *
-     * @param int $time
-     *
-     * @return ExchangePokemon
-     */
-    public function setTime($time)
+    public function setTime(int $time): self
     {
         $this->time = $time;
 
         return $this;
     }
 
-    /**
-     * Get time
-     *
-     * @return int
-     */
-    public function getTime()
+    public function getTime(): int
     {
         return $this->time;
     }
 
-    /**
-     * @return int
-     */
     public function getIdInDb(): int
     {
         return $this->idInDb;
     }
 
-    /**
-     * @param int $idInDb
-     */
-    public function setIdInDb(int $idInDb): void
+    public function setIdInDb(int $idInDb): self
     {
         $this->idInDb = $idInDb;
+
+        return $this;
     }
 }

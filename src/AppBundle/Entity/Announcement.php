@@ -1,13 +1,9 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Announcement
- *
- * @ORM\Table(name="announcement")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AnnouncementRepository")
  */
 class Announcement
@@ -24,103 +20,61 @@ class Announcement
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=50)
+     * @ORM\Column(type="string", length=50)
      */
     private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="string", length=500)
+     * @ORM\Column(type="string", length=500)
      */
     private $content;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     private $date;
 
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set title.
-     *
-     * @param string $title
-     *
-     * @return Announcement
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    /**
-     * Get title.
-     *
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * Set content.
-     *
-     * @param string $content
-     *
-     * @return Announcement
-     */
-    public function setContent($content)
+    public function setContent(string $content): self
     {
         $this->content = $content;
 
         return $this;
     }
 
-    /**
-     * Get content.
-     *
-     * @return string
-     */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }
 
-    /**
-     * Set date.
-     *
-     * @param \DateTime $date
-     *
-     * @return Announcement
-     */
-    public function setDate($date)
+    public function setDate(\DateTime $date): self
     {
         $this->date = $date;
 
         return $this;
     }
 
-    /**
-     * Get date.
-     *
-     * @return \DateTime
-     */
-    public function getDate()
+    public function getDate(): \DateTime
     {
         return $this->date;
     }

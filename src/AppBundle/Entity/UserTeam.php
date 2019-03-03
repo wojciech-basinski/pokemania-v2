@@ -1,13 +1,9 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * UserTeam
- *
- * @ORM\Table(name="user_team")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserTeamRepository")
  */
 class UserTeam
@@ -23,7 +19,7 @@ class UserTeam
 
     /**
      * @var int
-     * @ORM\Column(name="pokemon1", type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      *
      */
     private $pokemon1;
@@ -32,188 +28,111 @@ class UserTeam
     /**
      * @var int
      *
-     * @ORM\Column(name="pokemon2", type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $pokemon2;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="pokemon3", type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $pokemon3;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="pokemon4", type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $pokemon4;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="pokemon5", type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $pokemon5;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="pokemon6", type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $pokemon6;
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set pokemon1
-     *
-     * @param integer $pokemon1
-     *
-     * @return UserTeam
-     */
-    public function setPokemon1($pokemon1)
+    public function setPokemon1(int $pokemon1): self
     {
         $this->pokemon1 = $pokemon1;
 
         return $this;
     }
 
-    /**
-     * Get pokemon1
-     *
-     * @return int
-     */
-    public function getPokemon1()
+    public function getPokemon1(): int
     {
         return $this->pokemon1;
     }
 
-    /**
-     * Set pokemon2
-     *
-     * @param integer $pokemon2
-     *
-     * @return UserTeam
-     */
-    public function setPokemon2($pokemon2)
+    public function setPokemon2(int $pokemon2): self
     {
         $this->pokemon2 = $pokemon2;
 
         return $this;
     }
 
-    /**
-     * Get pokemon2
-     *
-     * @return int
-     */
-    public function getPokemon2()
+    public function getPokemon2(): int
     {
         return $this->pokemon2;
     }
 
-    /**
-     * Set pokemon3
-     *
-     * @param integer $pokemon3
-     *
-     * @return UserTeam
-     */
-    public function setPokemon3($pokemon3)
+    public function setPokemon3(int $pokemon3): self
     {
         $this->pokemon3 = $pokemon3;
 
         return $this;
     }
 
-    /**
-     * Get pokemon3
-     *
-     * @return int
-     */
-    public function getPokemon3()
+    public function getPokemon3(): int
     {
         return $this->pokemon3;
     }
 
-    /**
-     * Set pokemon4
-     *
-     * @param integer $pokemon4
-     *
-     * @return UserTeam
-     */
-    public function setPokemon4($pokemon4)
+    public function setPokemon4(int $pokemon4): self
     {
         $this->pokemon4 = $pokemon4;
 
         return $this;
     }
 
-    /**
-     * Get pokemon4
-     *
-     * @return int
-     */
-    public function getPokemon4()
+    public function getPokemon4(): int
     {
         return $this->pokemon4;
     }
 
-    /**
-     * Set pokemon5
-     *
-     * @param integer $pokemon5
-     *
-     * @return UserTeam
-     */
-    public function setPokemon5($pokemon5)
+    public function setPokemon5(int $pokemon5): self
     {
         $this->pokemon5 = $pokemon5;
 
         return $this;
     }
 
-    /**
-     * Get pokemon5
-     *
-     * @return int
-     */
-    public function getPokemon5()
+    public function getPokemon5(): int
     {
         return $this->pokemon5;
     }
 
-    /**
-     * Set pokemon6
-     *
-     * @param integer $pokemon6
-     *
-     * @return UserTeam
-     */
-    public function setPokemon6($pokemon6)
+    public function setPokemon6(int $pokemon6): self
     {
         $this->pokemon6 = $pokemon6;
 
         return $this;
     }
 
-    /**
-     * Get pokemon6
-     *
-     * @return int
-     */
-    public function getPokemon6()
+    public function getPokemon6(): int
     {
         return $this->pokemon6;
     }

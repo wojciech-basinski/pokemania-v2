@@ -1,12 +1,9 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Statistic
- *
  * @ORM\Table(name="statistics")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\StatisticRepository")
  */
@@ -24,134 +21,80 @@ class Statistic
     /**
      * @var int
      *
-     * @ORM\Column(name="catched", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $catched;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="lottery", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $lottery;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="cupons", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $cupons;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="travels", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $travels;
 
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set catched
-     *
-     * @param integer $catched
-     *
-     * @return Statistic
-     */
-    public function setCatched($catched)
+    public function setCatched(int $catched): self
     {
         $this->catched = $catched;
 
         return $this;
     }
 
-    /**
-     * Get catched
-     *
-     * @return int
-     */
-    public function getCatched()
+    public function getCatched(): int
     {
         return $this->catched;
     }
 
-    /**
-     * Set lottery
-     *
-     * @param integer $lottery
-     *
-     * @return Statistic
-     */
-    public function setLottery($lottery)
+    public function setLottery(int $lottery): self
     {
         $this->lottery = $lottery;
 
         return $this;
     }
 
-    /**
-     * Get lottery
-     *
-     * @return int
-     */
-    public function getLottery()
+    public function getLottery(): int
     {
         return $this->lottery;
     }
 
-    /**
-     * Set cupons
-     *
-     * @param integer $cupons
-     *
-     * @return Statistic
-     */
-    public function setCupons($cupons)
+    public function setCupons(int $cupons): self
     {
         $this->cupons = $cupons;
 
         return $this;
     }
 
-    /**
-     * Get cupons
-     *
-     * @return int
-     */
-    public function getCupons()
+    public function getCupons(): int
     {
         return $this->cupons;
     }
 
-    /**
-     * Set travels
-     *
-     * @param integer $travels
-     *
-     * @return Statistic
-     */
-    public function setTravels($travels)
+    public function setTravels(int $travels): self
     {
         $this->travels = $travels;
 
         return $this;
     }
 
-    /**
-     * Get travels
-     *
-     * @return int
-     */
-    public function getTravels()
+    public function getTravels(): int
     {
         return $this->travels;
     }

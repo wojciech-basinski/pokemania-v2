@@ -1,13 +1,9 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Bug
- *
- * @ORM\Table(name="bug")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\BugRepository")
  */
 class Bug
@@ -24,122 +20,80 @@ class Bug
     /**
      * @var int
      *
-     * @ORM\Column(name="reported_by", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $reportedBy;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column()
      */
     private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="string", length=255)
+     * @ORM\Column()
      */
     private $content;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="done", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $done;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="time", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     private $time;
 
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set reportedBy
-     *
-     * @param integer $reportedBy
-     *
-     * @return Bug
-     */
-    public function setReportedBy($reportedBy)
+    public function setReportedBy(int $reportedBy): self
     {
         $this->reportedBy = $reportedBy;
 
         return $this;
     }
 
-    /**
-     * Get reportedBy
-     *
-     * @return int
-     */
-    public function getReportedBy()
+    public function getReportedBy(): int
     {
         return $this->reportedBy;
     }
 
-    /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return Bug
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @return string
-     */
     public function getContent(): string
     {
         return $this->content;
     }
 
-    /**
-     * @param string $content
-     *
-     * @return Bug
-     */
-    public function setContent(string $content)
+    public function setContent(string $content): self
     {
         $this->content = $content;
 
         return $this;
     }
 
-    /**
-     * @param bool $done
-     *
-     * @return Bug
-     */
     public function setDone(bool $done): Bug
     {
         $this->done = $done;
@@ -147,19 +101,11 @@ class Bug
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function getDone(): bool
     {
         return $this->done;
     }
 
-    /**
-     * @param \DateTime $time
-     *
-     * @return Bug
-     */
     public function setTime(\DateTime $time): Bug
     {
         $this->time = $time;
@@ -167,9 +113,6 @@ class Bug
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getTime(): \DateTime
     {
         return $this->time;

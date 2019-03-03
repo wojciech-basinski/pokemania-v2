@@ -1,12 +1,9 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Friends
- *
  * @ORM\Table(name="friends")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\FriendRepository")
  */
@@ -31,7 +28,7 @@ class Friend
     /**
      * @var bool
      *
-     * @ORM\Column(name="invitation", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $invitation;
 
@@ -45,27 +42,15 @@ class Friend
     /**
      * @var bool
      *
-     * @ORM\Column(name="accepted", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $accepted;
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set userId
-     *
-     * @param User $userId
-     *
-     * @return Friend
-     */
     public function setUserId(User $userId): self
     {
         $this->userId = $userId;
@@ -73,23 +58,11 @@ class Friend
         return $this;
     }
 
-    /**
-     * Get userId
-     *
-     * @return User
-     */
     public function getUserId(): User
     {
         return $this->userId;
     }
 
-    /**
-     * Set invitation
-     *
-     * @param boolean $invitation
-     *
-     * @return Friend
-     */
     public function setInvitation(bool $invitation): self
     {
         $this->invitation = $invitation;
@@ -97,23 +70,11 @@ class Friend
         return $this;
     }
 
-    /**
-     * Get invitation
-     *
-     * @return bool
-     */
     public function getInvitation(): bool
     {
         return $this->invitation;
     }
 
-    /**
-     * Set whoId
-     *
-     * @param User $whoId
-     *
-     * @return Friend
-     */
     public function setWhoId(User $whoId): self
     {
         $this->whoId = $whoId;
@@ -121,23 +82,11 @@ class Friend
         return $this;
     }
 
-    /**
-     * Get whoId
-     *
-     * @return User
-     */
     public function getWhoId(): User
     {
         return $this->whoId;
     }
 
-    /**
-     * Set accepted
-     *
-     * @param boolean $accepted
-     *
-     * @return Friend
-     */
     public function setAccepted(bool $accepted): self
     {
         $this->accepted = $accepted;
@@ -145,11 +94,6 @@ class Friend
         return $this;
     }
 
-    /**
-     * Get accepted
-     *
-     * @return bool
-     */
     public function getAccepted(): bool
     {
         return $this->accepted;

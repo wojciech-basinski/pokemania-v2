@@ -1,12 +1,9 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Items
- *
  * @ORM\Table(name="items")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ItemsRepository")
  */
@@ -24,506 +21,308 @@ class Items
     /**
      * @var int
      *
-     * @ORM\Column(name="mpa", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $mpa;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="lemonade", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $lemonade;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="soda", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $soda;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="water", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $water;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="flashlight", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $flashlight;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="battery", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $battery;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="box", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $box;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="pokedex", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $pokedex;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="cookie", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $cookie;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="bar", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $bar;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="kit", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $kit;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="pokemon_food", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $pokemonFood;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="parts", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $parts;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="candy", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $candy;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="shovel", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $shovel;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="coins", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $coins;
 
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set mpa
-     *
-     * @param integer $mpa
-     *
-     * @return Items
-     */
-    public function setMpa($mpa)
+    public function setMpa(int $mpa): self
     {
         $this->mpa = $mpa;
 
         return $this;
     }
 
-    /**
-     * Get mpa
-     *
-     * @return int
-     */
-    public function getMpa()
+    public function getMpa(): int
     {
         return $this->mpa;
     }
 
-    /**
-     * Set lemonade
-     *
-     * @param integer $lemonade
-     *
-     * @return Items
-     */
-    public function setLemonade($lemonade)
+    public function setLemonade(int $lemonade): self
     {
         $this->lemonade = $lemonade;
 
         return $this;
     }
 
-    /**
-     * Get lemonade
-     *
-     * @return int
-     */
-    public function getLemonade()
+    public function getLemonade(): int
     {
         return $this->lemonade;
     }
 
-    /**
-     * Set soda
-     *
-     * @param integer $soda
-     *
-     * @return Items
-     */
-    public function setSoda($soda)
+    public function setSoda(int $soda): self
     {
         $this->soda = $soda;
 
         return $this;
     }
 
-    /**
-     * Get soda
-     *
-     * @return int
-     */
-    public function getSoda()
+    public function getSoda(): int
     {
         return $this->soda;
     }
 
-    /**
-     * Set water
-     *
-     * @param integer $water
-     *
-     * @return Items
-     */
-    public function setWater($water)
+    public function setWater(int $water): self
     {
         $this->water = $water;
 
         return $this;
     }
 
-    /**
-     * Get water
-     *
-     * @return int
-     */
-    public function getWater()
+    public function getWater(): int
     {
         return $this->water;
     }
 
-    /**
-     * Set flashlight
-     *
-     * @param boolean $flashlight
-     *
-     * @return Items
-     */
-    public function setFlashlight($flashlight)
+    public function setFlashlight(bool $flashlight): self
     {
         $this->flashlight = $flashlight;
 
         return $this;
     }
 
-    /**
-     * Get flashlight
-     *
-     * @return bool
-     */
-    public function getFlashlight()
+    public function getFlashlight(): bool
     {
         return $this->flashlight;
     }
 
-    /**
-     * Set battery
-     *
-     * @param integer $battery
-     *
-     * @return Items
-     */
-    public function setBattery($battery)
+    public function setBattery(int $battery): self
     {
         $this->battery = $battery;
 
         return $this;
     }
 
-    /**
-     * Get battery
-     *
-     * @return int
-     */
-    public function getBattery()
+    public function getBattery(): int
     {
         return $this->battery;
     }
 
-    /**
-     * Set box
-     *
-     * @param integer $box
-     *
-     * @return Items
-     */
-    public function setBox($box)
+    public function setBox(int $box): self
     {
         $this->box = $box;
 
         return $this;
     }
 
-    /**
-     * Get box
-     *
-     * @return int
-     */
-    public function getBox()
+    public function getBox(): int
     {
         return $this->box;
     }
 
-    /**
-     * Set pokedex
-     *
-     * @param integer $pokedex
-     *
-     * @return Items
-     */
-    public function setPokedex($pokedex)
+    public function setPokedex(int $pokedex): self
     {
         $this->pokedex = $pokedex;
 
         return $this;
     }
 
-    /**
-     * Get pokedex
-     *
-     * @return int
-     */
-    public function getPokedex()
+    public function getPokedex(): int
     {
         return $this->pokedex;
     }
 
-    /**
-     * Set cookie
-     *
-     * @param integer $cookie
-     *
-     * @return Items
-     */
-    public function setCookie($cookie)
+    public function setCookie(int $cookie): self
     {
         $this->cookie = $cookie;
 
         return $this;
     }
 
-    /**
-     * Get cookie
-     *
-     * @return int
-     */
-    public function getCookie()
+    public function getCookie(): int
     {
         return $this->cookie;
     }
 
-    /**
-     * Set bar
-     *
-     * @param integer $bar
-     *
-     * @return Items
-     */
-    public function setBar($bar)
+    public function setBar(int $bar): self
     {
         $this->bar = $bar;
 
         return $this;
     }
 
-    /**
-     * Get bar
-     *
-     * @return int
-     */
-    public function getBar()
+    public function getBar(): int
     {
         return $this->bar;
     }
 
-    /**
-     * Set kit
-     *
-     * @param integer $kit
-     *
-     * @return Items
-     */
-    public function setKit($kit)
+    public function setKit(int $kit): self
     {
         $this->kit = $kit;
 
         return $this;
     }
 
-    /**
-     * Get kit
-     *
-     * @return int
-     */
-    public function getKit()
+    public function getKit(): int
     {
         return $this->kit;
     }
 
-    /**
-     * Set pokemonFood
-     *
-     * @param integer $pokemonFood
-     *
-     * @return Items
-     */
-    public function setPokemonFood($pokemonFood)
+    public function setPokemonFood(int $pokemonFood): self
     {
         $this->pokemonFood = $pokemonFood;
 
         return $this;
     }
 
-    /**
-     * Get pokemonFood
-     *
-     * @return int
-     */
-    public function getPokemonFood()
+    public function getPokemonFood(): int
     {
         return $this->pokemonFood;
     }
 
-    /**
-     * Set parts
-     *
-     * @param integer $parts
-     *
-     * @return Items
-     */
-    public function setParts($parts)
+    public function setParts(int $parts): self
     {
         $this->parts = $parts;
 
         return $this;
     }
 
-    /**
-     * Get parts
-     *
-     * @return int
-     */
-    public function getParts()
+    public function getParts(): int
     {
         return $this->parts;
     }
 
-    /**
-     * Set candy
-     *
-     * @param integer $candy
-     *
-     * @return Items
-     */
-    public function setCandy($candy)
+    public function setCandy(int $candy): self
     {
         $this->candy = $candy;
 
         return $this;
     }
 
-    /**
-     * Get candy
-     *
-     * @return int
-     */
-    public function getCandy()
+    public function getCandy(): int
     {
         return $this->candy;
     }
 
-    /**
-     * Set shovel
-     *
-     * @param boolean $shovel
-     *
-     * @return Items
-     */
-    public function setShovel($shovel)
+    public function setShovel(bool $shovel): self
     {
         $this->shovel = $shovel;
 
         return $this;
     }
 
-    /**
-     * Get shovel
-     *
-     * @return bool
-     */
-    public function getShovel()
+    public function getShovel(): bool
     {
         return $this->shovel;
     }
 
-    /**
-     * Set coins
-     *
-     * @param string $coins
-     *
-     * @return Items
-     */
-    public function setCoins($coins)
+    public function setCoins(int $coins): self
     {
         $this->coins = $coins;
 
         return $this;
     }
 
-    /**
-     * Get coins
-     *
-     * @return string
-     */
-    public function getCoins()
+    public function getCoins(): int
     {
         return $this->coins;
     }

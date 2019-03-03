@@ -1,12 +1,9 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Achievements
- *
  * @ORM\Table(name="achievements")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AchievementRepository")
  */
@@ -24,971 +21,594 @@ class Achievement
     /**
      * @var int
      *
-     * @ORM\Column(name="polana", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $polana;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="wyspa", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $wyspa;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="grota", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $grota;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="dom_strachow", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $domStrachow;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="gory", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $gory;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="wodospad", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $wodospad;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="safari", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $safari;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="catched_pokemons", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $catchedPokemons;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="wins_with_trainers", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $winsWithTrainers;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="wins_with_pokemons", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $winsWithPokemons;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="begged_berrys", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $beggedBerrys;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="catched_pokeball", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $catchedPokeball;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="catched_nestball", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $catchedNestball;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="catched_greatball", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $catchedGreatball;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="catched_ultraball", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $catchedUltraball;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="catched_duskball", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $catchedDuskball;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="catched_lureball", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $catchedLureball;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="catched_cherishball", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $catchedCherishball;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="catched_repeatball", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $catchedRepeatball;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="catched_safariball", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $catchedSafariball;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="snacks", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $snacks;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="logged_in", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $loggedIn;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="trainings_with_pokemons", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $trainingsWithPokemons;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="catched_shiny", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $catchedShiny;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="wulkan", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $wulkan;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="laka", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $laka;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="lodowiec", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $lodowiec;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="mokradla", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $mokradla;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="johto5", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $johto5;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="jezioro", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $jezioro;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="mroczny_las", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $mrocznyLas;
 
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set polana
-     *
-     * @param integer $polana
-     *
-     * @return Achievements
-     */
-    public function setPolana($polana)
+    public function setPolana(int $polana): self
     {
         $this->polana = $polana;
 
         return $this;
     }
 
-    /**
-     * Get polana
-     *
-     * @return int
-     */
-    public function getPolana()
+    public function getPolana(): int
     {
         return $this->polana;
     }
 
-    /**
-     * Set wyspa
-     *
-     * @param integer $wyspa
-     *
-     * @return Achievements
-     */
-    public function setWyspa($wyspa)
+    public function setWyspa(int $wyspa): self
     {
         $this->wyspa = $wyspa;
 
         return $this;
     }
 
-    /**
-     * Get wyspa
-     *
-     * @return int
-     */
-    public function getWyspa()
+    public function getWyspa(): int
     {
         return $this->wyspa;
     }
 
-    /**
-     * Set grota
-     *
-     * @param integer $grota
-     *
-     * @return Achievements
-     */
-    public function setGrota($grota)
+    public function setGrota(int $grota): self
     {
         $this->grota = $grota;
 
         return $this;
     }
 
-    /**
-     * Get grota
-     *
-     * @return int
-     */
-    public function getGrota()
+    public function getGrota(): int
     {
         return $this->grota;
     }
 
-    /**
-     * Set domStrachow
-     *
-     * @param integer $domStrachow
-     *
-     * @return Achievements
-     */
-    public function setDomStrachow($domStrachow)
+    public function setDomStrachow(int $domStrachow): self
     {
         $this->domStrachow = $domStrachow;
 
         return $this;
     }
 
-    /**
-     * Get domStrachow
-     *
-     * @return int
-     */
-    public function getDomStrachow()
+    public function getDomStrachow(): int
     {
         return $this->domStrachow;
     }
 
-    /**
-     * Set gory
-     *
-     * @param integer $gory
-     *
-     * @return Achievements
-     */
-    public function setGory($gory)
+    public function setGory(int $gory): self
     {
         $this->gory = $gory;
 
         return $this;
     }
 
-    /**
-     * Get gory
-     *
-     * @return int
-     */
-    public function getGory()
+    public function getGory(): int
     {
         return $this->gory;
     }
 
-    /**
-     * Set wodospad
-     *
-     * @param integer $wodospad
-     *
-     * @return Achievements
-     */
-    public function setWodospad($wodospad)
+    public function setWodospad(int $wodospad): self
     {
         $this->wodospad = $wodospad;
 
         return $this;
     }
 
-    /**
-     * Get wodospad
-     *
-     * @return int
-     */
-    public function getWodospad()
+    public function getWodospad(): int
     {
         return $this->wodospad;
     }
 
-    /**
-     * Set safari
-     *
-     * @param integer $safari
-     *
-     * @return Achievements
-     */
-    public function setSafari($safari)
+    public function setSafari(int $safari): self
     {
         $this->safari = $safari;
 
         return $this;
     }
 
-    /**
-     * Get safari
-     *
-     * @return int
-     */
-    public function getSafari()
+    public function getSafari(): int
     {
         return $this->safari;
     }
 
-    /**
-     * Set catchedPokemons
-     *
-     * @param integer $catchedPokemons
-     *
-     * @return Achievements
-     */
-    public function setCatchedPokemons($catchedPokemons)
+    public function setCatchedPokemons(int $catchedPokemons): self
     {
         $this->catchedPokemons = $catchedPokemons;
 
         return $this;
     }
 
-    /**
-     * Get catchedPokemons
-     *
-     * @return int
-     */
-    public function getCatchedPokemons()
+    public function getCatchedPokemons(): int
     {
         return $this->catchedPokemons;
     }
 
-    /**
-     * Set winsWithTrainers
-     *
-     * @param integer $winsWithTrainers
-     *
-     * @return Achievements
-     */
-    public function setWinsWithTrainers($winsWithTrainers)
+    public function setWinsWithTrainers(int $winsWithTrainers): self
     {
         $this->winsWithTrainers = $winsWithTrainers;
 
         return $this;
     }
 
-    /**
-     * Get winsWithTrainers
-     *
-     * @return int
-     */
-    public function getWinsWithTrainers()
+    public function getWinsWithTrainers(): int
     {
         return $this->winsWithTrainers;
     }
 
-    /**
-     * Set winsWithPokemons
-     *
-     * @param integer $winsWithPokemons
-     *
-     * @return Achievements
-     */
-    public function setWinsWithPokemons($winsWithPokemons)
+    public function setWinsWithPokemons(int $winsWithPokemons): self
     {
         $this->winsWithPokemons = $winsWithPokemons;
 
         return $this;
     }
 
-    /**
-     * Get winsWithPokemons
-     *
-     * @return int
-     */
-    public function getWinsWithPokemons()
+    public function getWinsWithPokemons(): int
     {
         return $this->winsWithPokemons;
     }
 
-    /**
-     * Set beggedBerrys
-     *
-     * @param integer $beggedBerrys
-     *
-     * @return Achievements
-     */
-    public function setBeggedBerrys($beggedBerrys)
+    public function setBeggedBerrys(int $beggedBerrys): self
     {
         $this->beggedBerrys = $beggedBerrys;
 
         return $this;
     }
 
-    /**
-     * Get beggedBerrys
-     *
-     * @return int
-     */
-    public function getBeggedBerrys()
+    public function getBeggedBerrys(): int
     {
         return $this->beggedBerrys;
     }
 
-    /**
-     * Set catchedPokeball
-     *
-     * @param integer $catchedPokeball
-     *
-     * @return Achievements
-     */
-    public function setCatchedPokeball($catchedPokeball)
+    public function setCatchedPokeball(int $catchedPokeball): self
     {
         $this->catchedPokeball = $catchedPokeball;
 
         return $this;
     }
 
-    /**
-     * Get catchedPokeball
-     *
-     * @return int
-     */
-    public function getCatchedPokeball()
+    public function getCatchedPokeball(): int
     {
         return $this->catchedPokeball;
     }
 
-    /**
-     * Set catchedNestball
-     *
-     * @param integer $catchedNestball
-     *
-     * @return Achievements
-     */
-    public function setCatchedNestball($catchedNestball)
+    public function setCatchedNestball(int $catchedNestball): self
     {
         $this->catchedNestball = $catchedNestball;
 
         return $this;
     }
 
-    /**
-     * Get catchedNestball
-     *
-     * @return int
-     */
-    public function getCatchedNestball()
+    public function getCatchedNestball(): int
     {
         return $this->catchedNestball;
     }
 
-    /**
-     * Set catchedGreatball
-     *
-     * @param integer $catchedGreatball
-     *
-     * @return Achievements
-     */
-    public function setCatchedGreatball($catchedGreatball)
+    public function setCatchedGreatball(int $catchedGreatball): self
     {
         $this->catchedGreatball = $catchedGreatball;
 
         return $this;
     }
 
-    /**
-     * Get catchedGreatball
-     *
-     * @return int
-     */
-    public function getCatchedGreatball()
+    public function getCatchedGreatball(): int
     {
         return $this->catchedGreatball;
     }
 
-    /**
-     * Set catchedUltraball
-     *
-     * @param integer $catchedUltraball
-     *
-     * @return Achievements
-     */
-    public function setCatchedUltraball($catchedUltraball)
+    public function setCatchedUltraball(int $catchedUltraball): self
     {
         $this->catchedUltraball = $catchedUltraball;
 
         return $this;
     }
 
-    /**
-     * Get catchedUltraball
-     *
-     * @return int
-     */
-    public function getCatchedUltraball()
+    public function getCatchedUltraball(): int
     {
         return $this->catchedUltraball;
     }
 
-    /**
-     * Set catchedDuskball
-     *
-     * @param integer $catchedDuskball
-     *
-     * @return Achievements
-     */
-    public function setCatchedDuskball($catchedDuskball)
+    public function setCatchedDuskball(int $catchedDuskball): self
     {
         $this->catchedDuskball = $catchedDuskball;
 
         return $this;
     }
 
-    /**
-     * Get catchedDuskball
-     *
-     * @return int
-     */
-    public function getCatchedDuskball()
+    public function getCatchedDuskball(): int
     {
         return $this->catchedDuskball;
     }
 
-    /**
-     * Set catchedLureball
-     *
-     * @param string $catchedLureball
-     *
-     * @return Achievements
-     */
-    public function setCatchedLureball($catchedLureball)
+    public function setCatchedLureball(int $catchedLureball): self
     {
         $this->catchedLureball = $catchedLureball;
 
         return $this;
     }
 
-    /**
-     * Get catchedLureball
-     *
-     * @return string
-     */
-    public function getCatchedLureball()
+    public function getCatchedLureball(): int
     {
         return $this->catchedLureball;
     }
 
-    /**
-     * Set catchedCherishball
-     *
-     * @param integer $catchedCherishball
-     *
-     * @return Achievements
-     */
-    public function setCatchedCherishball($catchedCherishball)
+    public function setCatchedCherishball(int $catchedCherishball): self
     {
         $this->catchedCherishball = $catchedCherishball;
 
         return $this;
     }
 
-    /**
-     * Get catchedCherishball
-     *
-     * @return int
-     */
-    public function getCatchedCherishball()
+    public function getCatchedCherishball(): int
     {
         return $this->catchedCherishball;
     }
 
-    /**
-     * Set catchedRepeatball
-     *
-     * @param integer $catchedRepeatball
-     *
-     * @return Achievements
-     */
-    public function setCatchedRepeatball($catchedRepeatball)
+    public function setCatchedRepeatball(int $catchedRepeatball): self
     {
         $this->catchedRepeatball = $catchedRepeatball;
 
         return $this;
     }
 
-    /**
-     * Get catchedRepeatball
-     *
-     * @return int
-     */
-    public function getCatchedRepeatball()
+    public function getCatchedRepeatball(): int
     {
         return $this->catchedRepeatball;
     }
 
-    /**
-     * Set catchedSafariball
-     *
-     * @param integer $catchedSafariball
-     *
-     * @return Achievements
-     */
-    public function setCatchedSafariball($catchedSafariball)
+    public function setCatchedSafariball(int $catchedSafariball): self
     {
         $this->catchedSafariball = $catchedSafariball;
 
         return $this;
     }
 
-    /**
-     * Get catchedSafariball
-     *
-     * @return int
-     */
-    public function getCatchedSafariball()
+    public function getCatchedSafariball(): int
     {
         return $this->catchedSafariball;
     }
 
-    /**
-     * Set snacks
-     *
-     * @param integer $snacks
-     *
-     * @return Achievements
-     */
-    public function setSnacks($snacks)
+    public function setSnacks(int $snacks): self
     {
         $this->snacks = $snacks;
 
         return $this;
     }
 
-    /**
-     * Get snacks
-     *
-     * @return int
-     */
-    public function getSnacks()
+    public function getSnacks(): int
     {
         return $this->snacks;
     }
 
-    /**
-     * Set loggedIn
-     *
-     * @param integer $loggedIn
-     *
-     * @return Achievements
-     */
-    public function setLoggedIn($loggedIn)
+    public function setLoggedIn(int $loggedIn): self
     {
         $this->loggedIn = $loggedIn;
 
         return $this;
     }
 
-    /**
-     * Get loggedIn
-     *
-     * @return int
-     */
-    public function getLoggedIn()
+    public function getLoggedIn(): int
     {
         return $this->loggedIn;
     }
 
-    /**
-     * Set trainingsWithPokemons
-     *
-     * @param integer $trainingsWithPokemons
-     *
-     * @return Achievements
-     */
-    public function setTrainingsWithPokemons($trainingsWithPokemons)
+    public function setTrainingsWithPokemons(int $trainingsWithPokemons): self
     {
         $this->trainingsWithPokemons = $trainingsWithPokemons;
 
         return $this;
     }
 
-    /**
-     * Get trainingsWithPokemons
-     *
-     * @return int
-     */
-    public function getTrainingsWithPokemons()
+    public function getTrainingsWithPokemons(): int
     {
         return $this->trainingsWithPokemons;
     }
 
-    /**
-     * Set catchedShiny
-     *
-     * @param integer $catchedShiny
-     *
-     * @return Achievements
-     */
-    public function setCatchedShiny($catchedShiny)
+    public function setCatchedShiny(int $catchedShiny): self
     {
         $this->catchedShiny = $catchedShiny;
 
         return $this;
     }
 
-    /**
-     * Get catchedShiny
-     *
-     * @return int
-     */
-    public function getCatchedShiny()
+    public function getCatchedShiny(): int
     {
         return $this->catchedShiny;
     }
 
-    /**
-     * Set wulkan
-     *
-     * @param integer $wulkan
-     *
-     * @return Achievements
-     */
-    public function setWulkan($wulkan)
+    public function setWulkan(int $wulkan): self
     {
         $this->wulkan = $wulkan;
 
         return $this;
     }
 
-    /**
-     * Get wulkan
-     *
-     * @return int
-     */
-    public function getWulkan()
+    public function getWulkan(): int
     {
         return $this->wulkan;
     }
 
-    /**
-     * Set laka
-     *
-     * @param integer $laka
-     *
-     * @return Achievements
-     */
-    public function setLaka($laka)
+    public function setLaka(int $laka): self
     {
         $this->laka = $laka;
 
         return $this;
     }
 
-    /**
-     * Get laka
-     *
-     * @return int
-     */
-    public function getLaka()
+    public function getLaka(): int
     {
         return $this->laka;
     }
 
-    /**
-     * Set lodowiec
-     *
-     * @param integer $lodowiec
-     *
-     * @return Achievements
-     */
-    public function setLodowiec($lodowiec)
+    public function setLodowiec(int $lodowiec): self
     {
         $this->lodowiec = $lodowiec;
 
         return $this;
     }
 
-    /**
-     * Get lodowiec
-     *
-     * @return int
-     */
-    public function getLodowiec()
+    public function getLodowiec(): int
     {
         return $this->lodowiec;
     }
 
-    /**
-     * Set mokradla
-     *
-     * @param integer $mokradla
-     *
-     * @return Achievements
-     */
-    public function setMokradla($mokradla)
+    public function setMokradla(int $mokradla): self
     {
         $this->mokradla = $mokradla;
 
         return $this;
     }
 
-    /**
-     * Get mokradla
-     *
-     * @return int
-     */
-    public function getMokradla()
+    public function getMokradla(): int
     {
         return $this->mokradla;
     }
 
-    /**
-     * Set johto5
-     *
-     * @param integer $johto5
-     *
-     * @return Achievements
-     */
-    public function setJohto5($johto5)
+    public function setJohto5(int $johto5): self
     {
         $this->johto5 = $johto5;
 
         return $this;
     }
 
-    /**
-     * Get johto5
-     *
-     * @return int
-     */
-    public function getJohto5()
+    public function getJohto5(): int
     {
         return $this->johto5;
     }
 
-    /**
-     * Set jezioro
-     *
-     * @param integer $jezioro
-     *
-     * @return Achievements
-     */
-    public function setJezioro($jezioro)
+    public function setJezioro(int $jezioro): self
     {
         $this->jezioro = $jezioro;
 
         return $this;
     }
 
-    /**
-     * Get jezioro
-     *
-     * @return int
-     */
-    public function getJezioro()
+    public function getJezioro(): int
     {
         return $this->jezioro;
     }
 
-    /**
-     * Set mrocznyLas
-     *
-     * @param integer $mrocznyLas
-     *
-     * @return Achievements
-     */
-    public function setMrocznyLas($mrocznyLas)
+    public function setMrocznyLas(int $mrocznyLas): self
     {
         $this->mrocznyLas = $mrocznyLas;
 
         return $this;
     }
 
-    /**
-     * Get mrocznyLas
-     *
-     * @return int
-     */
-    public function getMrocznyLas()
+    public function getMrocznyLas(): int
     {
         return $this->mrocznyLas;
     }

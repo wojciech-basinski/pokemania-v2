@@ -1,13 +1,9 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Skill
- *
- * @ORM\Table(name="skill")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SkillRepository")
  */
 class Skill
@@ -28,37 +24,19 @@ class Skill
      */
     private $skill1;
 
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set skill1.
-     *
-     * @param int $skill1
-     *
-     * @return Skill
-     */
-    public function setSkill1($skill1)
+    public function setSkill1(int $skill1): self
     {
         $this->skill1 = $skill1;
 
         return $this;
     }
 
-    /**
-     * Get skill1.
-     *
-     * @return int
-     */
-    public function getSkill1()
+    public function getSkill1(): int
     {
         return $this->skill1;
     }

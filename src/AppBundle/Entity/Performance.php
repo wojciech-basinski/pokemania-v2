@@ -1,13 +1,9 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Performance
- *
- * @ORM\Table(name="performance")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PerformanceRepository")
  */
 class Performance
@@ -24,506 +20,308 @@ class Performance
     /**
      * @var int
      *
-     * @ORM\Column(name="lapanie", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $lapanie;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="pokonane", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $pokonane;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="trenerzy", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $trenerzy;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="zbieranie", type="smallint")
+     * @ORM\Column( type="smallint")
      */
     private $zbieranie;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="hazardzista", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $hazardzista;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="szkolenie", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $szkolenie;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="trener", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $trener;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="nolife", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $nolife;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="znawca_kanto", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $znawcaKanto;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="znawca_kanto1", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $znawcaKanto1;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="znawca_kanto2", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $znawcaKanto2;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="znawca_kanto3", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $znawcaKanto3;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="znawca_kanto4", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $znawcaKanto4;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="znawca_kanto5", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $znawcaKanto5;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="znawca_kanto6", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $znawcaKanto6;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="znawca_kanto7", type="smallint")
+     * @ORM\Column(type="smallint")
      */
     private $znawcaKanto7;
 
-
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set lapanie
-     *
-     * @param integer $lapanie
-     *
-     * @return Performance
-     */
-    public function setLapanie($lapanie)
+    public function setLapanie(int $lapanie): self
     {
         $this->lapanie = $lapanie;
 
         return $this;
     }
 
-    /**
-     * Get lapanie
-     *
-     * @return int
-     */
-    public function getLapanie()
+    public function getLapanie(): int
     {
         return $this->lapanie;
     }
 
-    /**
-     * Set pokonane
-     *
-     * @param integer $pokonane
-     *
-     * @return Performance
-     */
-    public function setPokonane($pokonane)
+    public function setPokonane(int $pokonane): self
     {
         $this->pokonane = $pokonane;
 
         return $this;
     }
 
-    /**
-     * Get pokonane
-     *
-     * @return int
-     */
-    public function getPokonane()
+    public function getPokonane(): int
     {
         return $this->pokonane;
     }
 
-    /**
-     * Set trenerzy
-     *
-     * @param integer $trenerzy
-     *
-     * @return Performance
-     */
-    public function setTrenerzy($trenerzy)
+    public function setTrenerzy(int $trenerzy): self
     {
         $this->trenerzy = $trenerzy;
 
         return $this;
     }
 
-    /**
-     * Get trenerzy
-     *
-     * @return int
-     */
-    public function getTrenerzy()
+    public function getTrenerzy(): int
     {
         return $this->trenerzy;
     }
 
-    /**
-     * Set zbieranie
-     *
-     * @param integer $zbieranie
-     *
-     * @return Performance
-     */
-    public function setZbieranie($zbieranie)
+    public function setZbieranie(int $zbieranie): self
     {
         $this->zbieranie = $zbieranie;
 
         return $this;
     }
 
-    /**
-     * Get zbieranie
-     *
-     * @return int
-     */
-    public function getZbieranie()
+    public function getZbieranie(): int
     {
         return $this->zbieranie;
     }
 
-    /**
-     * Set hazardzista
-     *
-     * @param integer $hazardzista
-     *
-     * @return Performance
-     */
-    public function setHazardzista($hazardzista)
+    public function setHazardzista(int $hazardzista): self
     {
         $this->hazardzista = $hazardzista;
 
         return $this;
     }
 
-    /**
-     * Get hazardzista
-     *
-     * @return int
-     */
-    public function getHazardzista()
+    public function getHazardzista(): int
     {
         return $this->hazardzista;
     }
 
-    /**
-     * Set szkolenie
-     *
-     * @param integer $szkolenie
-     *
-     * @return Performance
-     */
-    public function setSzkolenie($szkolenie)
+    public function setSzkolenie(int $szkolenie): self
     {
         $this->szkolenie = $szkolenie;
 
         return $this;
     }
 
-    /**
-     * Get szkolenie
-     *
-     * @return int
-     */
-    public function getSzkolenie()
+    public function getSzkolenie(): int
     {
         return $this->szkolenie;
     }
 
-    /**
-     * Set trener
-     *
-     * @param integer $trener
-     *
-     * @return Performance
-     */
-    public function setTrener($trener)
+    public function setTrener(int $trener): self
     {
         $this->trener = $trener;
 
         return $this;
     }
 
-    /**
-     * Get trener
-     *
-     * @return int
-     */
-    public function getTrener()
+    public function getTrener(): int
     {
         return $this->trener;
     }
 
-    /**
-     * Set nolife
-     *
-     * @param integer $nolife
-     *
-     * @return Performance
-     */
-    public function setNolife($nolife)
+    public function setNolife(int $nolife): self
     {
         $this->nolife = $nolife;
 
         return $this;
     }
 
-    /**
-     * Get nolife
-     *
-     * @return int
-     */
-    public function getNolife()
+    public function getNolife(): int
     {
         return $this->nolife;
     }
 
-    /**
-     * Set znawcaKanto
-     *
-     * @param integer $znawcaKanto
-     *
-     * @return Performance
-     */
-    public function setZnawcaKanto($znawcaKanto)
+    public function setZnawcaKanto(int $znawcaKanto): self
     {
         $this->znawcaKanto = $znawcaKanto;
 
         return $this;
     }
 
-    /**
-     * Get znawcaKanto
-     *
-     * @return int
-     */
-    public function getZnawcaKanto()
+    public function getZnawcaKanto(): int
     {
         return $this->znawcaKanto;
     }
 
-    /**
-     * Set znawcaKanto1
-     *
-     * @param integer $znawcaKanto1
-     *
-     * @return Performance
-     */
-    public function setZnawcaKanto1($znawcaKanto1)
+    public function setZnawcaKanto1(int $znawcaKanto1): self
     {
         $this->znawcaKanto1 = $znawcaKanto1;
 
         return $this;
     }
 
-    /**
-     * Get znawcaKanto1
-     *
-     * @return int
-     */
-    public function getZnawcaKanto1()
+    public function getZnawcaKanto1(): int
     {
         return $this->znawcaKanto1;
     }
 
-    /**
-     * Set znawcaKanto2
-     *
-     * @param integer $znawcaKanto2
-     *
-     * @return Performance
-     */
-    public function setZnawcaKanto2($znawcaKanto2)
+    public function setZnawcaKanto2(int $znawcaKanto2): self
     {
         $this->znawcaKanto2 = $znawcaKanto2;
 
         return $this;
     }
 
-    /**
-     * Get znawcaKanto2
-     *
-     * @return int
-     */
-    public function getZnawcaKanto2()
+    public function getZnawcaKanto2(): int
     {
         return $this->znawcaKanto2;
     }
 
-    /**
-     * Set znawcaKanto3
-     *
-     * @param integer $znawcaKanto3
-     *
-     * @return Performance
-     */
-    public function setZnawcaKanto3($znawcaKanto3)
+    public function setZnawcaKanto3(int $znawcaKanto3): self
     {
         $this->znawcaKanto3 = $znawcaKanto3;
 
         return $this;
     }
 
-    /**
-     * Get znawcaKanto3
-     *
-     * @return int
-     */
-    public function getZnawcaKanto3()
+    public function getZnawcaKanto3(): int
     {
         return $this->znawcaKanto3;
     }
 
-    /**
-     * Set znawcaKanto4
-     *
-     * @param integer $znawcaKanto4
-     *
-     * @return Performance
-     */
-    public function setZnawcaKanto4($znawcaKanto4)
+    public function setZnawcaKanto4(int $znawcaKanto4): self
     {
         $this->znawcaKanto4 = $znawcaKanto4;
 
         return $this;
     }
 
-    /**
-     * Get znawcaKanto4
-     *
-     * @return int
-     */
-    public function getZnawcaKanto4()
+    public function getZnawcaKanto4(): int
     {
         return $this->znawcaKanto4;
     }
 
-    /**
-     * Set znawcaKanto5
-     *
-     * @param integer $znawcaKanto5
-     *
-     * @return Performance
-     */
-    public function setZnawcaKanto5($znawcaKanto5)
+    public function setZnawcaKanto5(int $znawcaKanto5): self
     {
         $this->znawcaKanto5 = $znawcaKanto5;
 
         return $this;
     }
 
-    /**
-     * Get znawcaKanto5
-     *
-     * @return int
-     */
-    public function getZnawcaKanto5()
+    public function getZnawcaKanto5(): int
     {
         return $this->znawcaKanto5;
     }
 
-    /**
-     * Set znawcaKanto6
-     *
-     * @param integer $znawcaKanto6
-     *
-     * @return Performance
-     */
-    public function setZnawcaKanto6($znawcaKanto6)
+    public function setZnawcaKanto6(int $znawcaKanto6): self
     {
         $this->znawcaKanto6 = $znawcaKanto6;
 
         return $this;
     }
 
-    /**
-     * Get znawcaKanto6
-     *
-     * @return int
-     */
-    public function getZnawcaKanto6()
+    public function getZnawcaKanto6(): int
     {
         return $this->znawcaKanto6;
     }
 
-    /**
-     * Set znawcaKanto7
-     *
-     * @param integer $znawcaKanto7
-     *
-     * @return Performance
-     */
-    public function setZnawcaKanto7($znawcaKanto7)
+    public function setZnawcaKanto7(int $znawcaKanto7): self
     {
         $this->znawcaKanto7 = $znawcaKanto7;
 
         return $this;
     }
 
-    /**
-     * Get znawcaKanto7
-     *
-     * @return int
-     */
-    public function getZnawcaKanto7()
+    public function getZnawcaKanto7(): int
     {
         return $this->znawcaKanto7;
     }
