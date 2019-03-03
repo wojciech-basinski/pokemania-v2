@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Twig\Extension;
 
 use AppBundle\Utils\PokemonHelper;
@@ -21,7 +20,7 @@ class PokemonInfoExtension extends \Twig_Extension
      *
      * @return array
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new \Twig_SimpleFunction('pokemonInfo', function ($id) {
@@ -30,7 +29,7 @@ class PokemonInfoExtension extends \Twig_Extension
         ];
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'pokemonInfo';
     }

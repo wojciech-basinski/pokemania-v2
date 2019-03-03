@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Twig\Extension;
 
 class ChangeString extends \Twig_Extension
