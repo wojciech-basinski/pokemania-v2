@@ -13,19 +13,15 @@ class UserSkills
         $this->catchingSkill = $u[0];
     }
 
-    /**
-     * @return int
-     */
     public function getCatchingSkill(): int
     {
         return $this->catchingSkill;
     }
 
-    /**
-     * @param int $catchingSkill
-     */
-    public function setCatchingSkill(int $catchingSkill)
+    public function setCatchingSkill(int $catchingSkill): self
     {
         $this->catchingSkill = $catchingSkill;
+
+        return $this;
     }
 }

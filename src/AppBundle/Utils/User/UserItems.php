@@ -16,73 +16,54 @@ class UserItems
         $this->shovel = $u[3];
     }
 
-    /**
-     * @return int
-     */
     public function getHeals(): int
     {
         return $this->heals;
     }
 
-    /**
-     * @param int $heals
-     */
-    public function setHeals($heals)
+    public function setHeals(int $heals): self
     {
         $this->heals = $heals;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getKit(): int
     {
         return $this->kit;
     }
 
-    /**
-     * @param int $kit
-     */
-    public function setKit($kit)
+    public function setKit(int $kit): self
     {
         $this->kit = $kit;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getPokedex(): int
     {
         return $this->pokedex;
     }
 
-    /**
-     * @param int $pokedex
-     */
-    public function setPokedex($pokedex)
+    public function setPokedex(int $pokedex): self
     {
         $this->pokedex = $pokedex;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getShovel(): int
+    public function getShovel(): bool
     {
         return $this->shovel;
     }
 
-    /**
-     * @param bool $shovel
-     */
-    public function setShovel($shovel)
+    public function setShovel(bool $shovel): self
     {
         $this->shovel = $shovel;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getAll(): string
     {
         return $this->heals . '|' . $this->kit . '|' . $this->pokedex . '|' . $this->shovel;

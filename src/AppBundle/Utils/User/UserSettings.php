@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Utils\User;
 
 class UserSettings
@@ -51,259 +50,196 @@ class UserSettings
         return $get;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLemonade()
+    public function getLemonade(): int
     {
         return $this->lemonade;
     }
 
-    /**
-     * @param mixed $lemonade
-     */
-    public function setLemonade($lemonade)
+    public function setLemonade(int $lemonade): self
     {
         $this->lemonade = $lemonade;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getWiki()
+    public function getWiki(): int
     {
         return $this->wiki;
     }
 
-    /**
-     * @param mixed $wiki
-     */
-    public function setWiki($wiki)
+
+    public function setWiki(int $wiki): self
     {
         $this->wiki = $wiki;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getHints()
+    public function getHints(): int
     {
         return $this->hints;
     }
 
-    /**
-     * @param mixed $hints
-     */
-    public function setHints($hints)
+    public function setHints(int $hints): self
     {
         $this->hints = $hints;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPanels()
+    public function getPanels(): int
     {
         return $this->panels;
     }
 
-    /**
-     * @param mixed $panels
-     */
-    public function setPanels($panels)
+    public function setPanels(int $panels): self
     {
         $this->panels = $panels;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getBackground()
+    public function getBackground(): string
     {
         return $this->background;
     }
 
-    /**
-     * @param mixed $background
-     */
-    public function setBackground($background)
+    public function setBackground(string $background): self
     {
         $this->background = $background;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTable()
+    public function getTable(): int
     {
         return $this->table;
     }
 
-    /**
-     * @param mixed $table
-     */
-    public function setTable($table)
+    public function setTable(int $table): self
     {
         $this->table = $table;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFeed()
+    public function getFeed(): int
     {
         return $this->feed;
     }
 
-    /**
-     * @param mixed $feed
-     */
-    public function setFeed($feed)
+    public function setFeed(int $feed): self
     {
         $this->feed = $feed;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTeam()
+    public function getTeam(): int
     {
         return $this->team;
     }
 
-    /**
-     * @param mixed $team
-     */
-    public function setTeam($team)
+    public function setTeam(int $team): self
     {
         $this->team = $team;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCheri()
+    public function getCheri(): int
     {
         return $this->cheri;
     }
 
-    /**
-     * @param mixed $cheri
-     */
-    public function setCheri($cheri)
+    public function setCheri(int $cheri): self
     {
         $this->cheri = $cheri;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMarket()
+    public function getMarket(): int
     {
         return $this->market;
     }
 
-    /**
-     * @param mixed $market
-     */
-    public function setMarket($market)
+    public function setMarket(int $market): self
     {
         $this->market = $market;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getClock()
+    public function getClock(): int
     {
         return $this->clock;
     }
 
-    /**
-     * @param mixed $clock
-     */
-    public function setClock($clock)
+    public function setClock(int $clock): self
     {
         $this->clock = $clock;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTooltip()
+    public function getTooltip(): int
     {
         return $this->tooltip;
     }
 
-    /**
-     * @param mixed $tooltip
-     */
-    public function setTooltip($tooltip)
+    public function setTooltip(int $tooltip): self
     {
         $this->tooltip = $tooltip;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getHeal()
+    public function getHeal(): int
     {
         return $this->heal;
     }
 
-    /**
-     * @param mixed $heal
-     */
-    public function setHeal($heal)
+    public function setHeal(int $heal): self
     {
         $this->heal = $heal;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getSoda()
+    public function getSoda(): int
     {
         return $this->soda;
     }
 
-    /**
-     * @param mixed $soda
-     */
-    public function setSoda($soda)
+    public function setSoda(int $soda): self
     {
         $this->soda = $soda;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getWater()
+    public function getWater(): int
     {
         return $this->water;
     }
 
-    /**
-     * @param mixed $water
-     */
-    public function setWater($water)
+    public function setWater(int $water): self
     {
         $this->water = $water;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getStyle()
+    public function getStyle(): int
     {
         return $this->style;
     }
 
-    /**
-     * @param mixed $style
-     */
-    public function setStyle($style): void
+    public function setStyle(int $style): self
     {
         $this->style = $style;
+
+        return $this;
     }
 }
