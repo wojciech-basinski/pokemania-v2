@@ -495,7 +495,7 @@ class GamePack
         $howMany = floor(($user->getMpa() - $user->getPa()) / $berryAddPa);
 
         if (!$howMany) {
-            $this->session->getFlashBag()->add('success', 'Nie potrzebujesz'. str_replace('_', ' ', $berry));
+            $this->session->getFlashBag()->add('success', 'Nie potrzebujesz '. str_replace('_', ' ', $berry));
             return false;
         }
         if ($value === 'max' || $value > $howMany) {
