@@ -1,6 +1,4 @@
 <?php
-
-
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
@@ -9,8 +7,9 @@ use AppBundle\Utils\GameHuntingBattleBetweenPokemons;
 use AppBundle\Utils\GameIndex;
 use AppBundle\Utils\LeftTable;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class OtherSpecialController extends Controller
 {
@@ -18,9 +17,9 @@ class OtherSpecialController extends Controller
      * @Route("/lewo", name="game_left")
      * @param LeftTable $leftTable
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function leftAction(LeftTable $leftTable)
+    public function leftAction(LeftTable $leftTable): Response
     {
 
         $pokemonsInTeam = $leftTable->getUsersPokemonsInTeam();
@@ -35,9 +34,9 @@ class OtherSpecialController extends Controller
      * @Method("POST")
      * @param GameHuntingBattleBetweenPokemons $battle
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function showBattleBetweenPokemonsAction(GameHuntingBattleBetweenPokemons  $battle)
+    public function showBattleBetweenPokemonsAction(GameHuntingBattleBetweenPokemons $battle): Response
     {
         $battle = $battle->showBattle($this->getUser()->getId());
         return $this->render('game/hunting/battleShow.html.twig', [
@@ -50,9 +49,9 @@ class OtherSpecialController extends Controller
      * @Method("POST")
      * @param GameHuntingBattleBetweenPokemons $battle
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function showBattleWithTrainerAction(GameHuntingBattleBetweenPokemons $battle)
+    public function showBattleWithTrainerAction(GameHuntingBattleBetweenPokemons $battle): Response
     {
         $battle = $battle->showBattle($this->getUser()->getId(), 1);
         return $this->render('game/hunting/battleShow.html.twig', [
@@ -64,9 +63,9 @@ class OtherSpecialController extends Controller
      * @Route("/", name="homepage")
      * @param GameIndex $index
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function indexAction(GameIndex $index)
+    public function indexAction(GameIndex $index): Response
     {
         if ($this->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('game_index');
@@ -85,9 +84,9 @@ class OtherSpecialController extends Controller
      * @Method("POST")
      * @param GameIndex $index
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return Response
      */
-    public function lastCaughtAction(GameIndex $index)
+    public function lastCaughtAction(GameIndex $index): Response
     {
         $last = $index->getLastCaughtPokemons();
 
