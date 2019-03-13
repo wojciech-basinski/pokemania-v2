@@ -736,7 +736,7 @@ class GamePack
             $this->session->getFlashBag()->add('error', 'Nie znaleziono Pokemona');
             return false;
         }
-        $usedBerrys = $this->pokemonAddHp($value, $pokemon, $berrys->getSitrusBerry());
+        $usedBerrys = $this->pokemonAddHp($value, $pokemon, $berrys->getFigyBerry());
         $berrys->setFigyBerry($berrys->getFigyBerry() - $usedBerrys);
         if ($usedBerrys) {
             $this->auth->pokemonsToTeam($user->getId());

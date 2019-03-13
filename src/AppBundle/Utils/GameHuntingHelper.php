@@ -72,7 +72,7 @@ class GameHuntingHelper
             }
             return $level;
         }
-        $minLevelPokemon = $this->pokemonHelper->getInfo($idPokemon)['min_poziom'];
+        $minLevelPokemon = $this->pokemonHelper->getInfo($idPokemon)['minLevel'];
         if (($userLevel + 6 - $minLevelPokemon) === 0) {
             $minLevelToRound = 1;
         } else {
@@ -179,7 +179,7 @@ class GameHuntingHelper
                 $co = 151;
             }
 
-            $min_poz = $this->pokemonHelper->getInfo($co)['min_poziom'];
+            $min_poz = $this->pokemonHelper->getInfo($co)['minLevel'];
         }
         return $co;
     }
@@ -267,7 +267,7 @@ class GameHuntingHelper
                 $co = 150;
             }
 
-            $min_poz = $this->pokemonHelper->getInfo($co)['min_poziom'];
+            $min_poz = $this->pokemonHelper->getInfo($co)['minLevel'];
         }
         return $co;
     }
@@ -339,7 +339,7 @@ class GameHuntingHelper
                 $co = 146;
             }
 
-            $min_poz = $this->pokemonHelper->getInfo($co)['min_poziom'];
+            $min_poz = $this->pokemonHelper->getInfo($co)['minLevel'];
         }
         return $co;
     }
@@ -403,7 +403,7 @@ class GameHuntingHelper
                 return -1;
             }
 
-            $min_poz = $this->pokemonHelper->getInfo($co)['min_poziom'];
+            $min_poz = $this->pokemonHelper->getInfo($co)['minLevel'];
         }
         return $co;
     }
@@ -479,7 +479,7 @@ class GameHuntingHelper
                 $co = 145;
             }
 
-            $min_poz = $this->pokemonHelper->getInfo($co)['min_poziom'];
+            $min_poz = $this->pokemonHelper->getInfo($co)['minLevel'];
         }
         return $co;
     }
@@ -565,7 +565,7 @@ class GameHuntingHelper
                 $co = 144;
             }
 
-            $min_poz = $this->pokemonHelper->getInfo($co)['min_poziom'];
+            $min_poz = $this->pokemonHelper->getInfo($co)['minLevel'];
         }
         return $co;
     }
@@ -629,7 +629,7 @@ class GameHuntingHelper
                 $co = 123;
             }
 
-            $min_poz = $this->pokemonHelper->getInfo($co)['min_poziom'];
+            $min_poz = $this->pokemonHelper->getInfo($co)['minLevel'];
         }
         return $co;
     }
@@ -695,7 +695,7 @@ class GameHuntingHelper
                 $co = 172;
             }
 
-            $min_poz = $this->pokemonHelper->getInfo($co)['min_poziom'];
+            $min_poz = $this->pokemonHelper->getInfo($co)['minLevel'];
         }
         return $co;
     }
@@ -741,7 +741,7 @@ class GameHuntingHelper
                 $co = 247;
             }
 
-            $min_poz = $this->pokemonHelper->getInfo($co)['min_poziom'];
+            $min_poz = $this->pokemonHelper->getInfo($co)['minLevel'];
         }
         return $co;
     }
@@ -779,7 +779,7 @@ class GameHuntingHelper
                 $co = 234;
             }
 
-            $min_poz = $this->pokemonHelper->getInfo($co)['min_poziom'];
+            $min_poz = $this->pokemonHelper->getInfo($co)['minLevel'];
         }
         return $co;
     }
@@ -829,7 +829,7 @@ class GameHuntingHelper
                 $co = 157;
             }
 
-            $min_poz = $this->pokemonHelper->getInfo($co)['min_poziom'];
+            $min_poz = $this->pokemonHelper->getInfo($co)['minLevel'];
         }
         return $co;
     }

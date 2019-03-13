@@ -781,8 +781,8 @@ Zbierasz z niego <strong>{$quantity}</strong> sztuk."
             /** @var Pokemon $pokemon */
             $pokemon = $this->session->get('pokemon' . $i);
             if ($pokemon) {
-                $type1 = $pokemon->getInfo()['typ1'];
-                $type2 = $pokemon->getInfo()['typ2'];
+                $type1 = $pokemon->getInfo()['type1'];
+                $type2 = $pokemon->getInfo()['type2'];
                 if ($type1 === 6 || $type2 === 6) {
                     $flying = 1;
                     break;

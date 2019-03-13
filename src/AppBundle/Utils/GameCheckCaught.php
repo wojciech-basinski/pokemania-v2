@@ -74,7 +74,7 @@ class GameCheckCaught
             $id = $this->getIdInCollection($pokemons[$i]);
             $table[$i] = [
                 'id' => $pokemons[$i],
-                'name' => $this->pokemonHelper->getInfo($pokemons[$i])['nazwa'],
+                'name' => $this->pokemonHelper->getInfo($pokemons[$i])['name'],
                 'caught' => $this->userCollection[$regionName][$id - 1]['caught'],
                 'met' => $this->userCollection[$regionName][$id - 1]['meet'],
             ];

@@ -58,7 +58,7 @@ class GameHuntingCatch
 
     public function catch(string $pokeball, User $user): void
     {
-        if (!$this->pokemon || $this->pokemon->getInfo()['trudnosc'] === 10) {
+        if (!$this->pokemon || $this->pokemon->getInfo()['difficulty'] === 10) {
             $this->session->getFlashBag()->add('error', 'Nie możesz złapać tego Pokemona');
             return;
         }
@@ -67,7 +67,7 @@ class GameHuntingCatch
             return;
         }
 
-        $baseRate = $this->calculateBaseRate($this->pokemon->getLevel(), $this->pokemon->getInfo()['trudnosc']);
+        $baseRate = $this->calculateBaseRate($this->pokemon->getLevel(), $this->pokemon->getInfo()['difficulty']);
 
         $rate = $this->calculateOtherThings($baseRate, $pokeball, $user);
         $catched = $this->draw($rate);
@@ -79,7 +79,7 @@ class GameHuntingCatch
             $this->deletePokemonFromSession();
             $this->deleteRepeatballFromSession();
             $this->addStatistics($user->getId(), $pokeball, $this->pokemon->getShiny());
-            $this->addExpToUser($user, $this->pokemon->getInfo()['trudnosc']);
+            $this->addExpToUser($user, $this->pokemon->getInfo()['difficulty']);
         } elseif ($pokeball === 'Repeatball') {
             $this->session->getFlashBag()->add('info', 'Repeatball ogłuszył Pokemona, masz szansę rzucić w niego kolejny pokeball');
         } else {
@@ -117,16 +117,16 @@ class GameHuntingCatch
             $this->session->set('huntingChangeRepeatball', $change+1);
         } elseif ($pokeball === "Nestball") {
             if ($this->pokemon->getLevel() < 16) {
-                if ($this->pokemon->getInfo()['trudnosc'] === 1) {
+                if ($this->pokemon->getInfo()['difficulty'] === 1) {
                     $rate = 50 - ($this->pokemon->getLevel() * 0.1);
                 } else {
-                    $rate = (55 - ($this->pokemon->getLevel() * 0.1)) / ($this->pokemon->getInfo()['trudnosc'] * 0.8);
+                    $rate = (55 - ($this->pokemon->getLevel() * 0.1)) / ($this->pokemon->getInfo()['difficulty'] * 0.8);
                 }
             } else {
-                if ($this->pokemon->getInfo()['trudnosc'] === 1) {
+                if ($this->pokemon->getInfo()['difficulty'] === 1) {
                     $rate = 30 - ($this->pokemon->getLevel() * 0.4);
                 } else {
-                    $rate = (25 - ($this->pokemon->getLevel() * 0.4)) / ($this->pokemon->getInfo()['trudnosc'] * 0.8);
+                    $rate = (25 - ($this->pokemon->getLevel() * 0.4)) / ($this->pokemon->getInfo()['difficulty'] * 0.8);
                 }
             }
         } elseif ($pokeball === "Greatball") {
@@ -153,13 +153,13 @@ class GameHuntingCatch
             $rate *= (1 + ($this->session->get('userSession')->getUserSkills()->getCatchingSkill() / 10));
         }
 
-        if ($this->pokemon->getInfo()['trudnosc'] > 4) {
+        if ($this->pokemon->getInfo()['difficulty'] > 4) {
             $rate *= 0.75;
-        } elseif ($this->pokemon->getLevel() <= 20 && $this->pokemon->getInfo()['trudnosc'] === 1 &&
-            $this->pokemon->getInfo()['trudnosc'] <= 4) {
+        } elseif ($this->pokemon->getLevel() <= 20 && $this->pokemon->getInfo()['difficulty'] === 1 &&
+            $this->pokemon->getInfo()['difficulty'] <= 4) {
             $rate *= 1.5;
-        } elseif ($this->pokemon->getLevel() <= 20 && $this->pokemon->getInfo()['trudnosc'] !== 1 &&
-            $this->pokemon->getInfo()['trudnosc'] <= 4) {
+        } elseif ($this->pokemon->getLevel() <= 20 && $this->pokemon->getInfo()['difficulty'] !== 1 &&
+            $this->pokemon->getInfo()['difficulty'] <= 4) {
             $rate *= 1.19;
         }
 

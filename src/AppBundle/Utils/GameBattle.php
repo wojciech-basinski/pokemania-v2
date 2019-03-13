@@ -1219,8 +1219,8 @@ class GameBattle
 
     private function calculatePower(int $pokemon)
     {
-        if ($this->currentAttack['typ'] === $this->pokemon[$pokemon]->getInfo()['typ1']
-            || $this->currentAttack['typ'] === $this->pokemon[$pokemon]->getInfo()['typ2']
+        if ($this->currentAttack['typ'] === $this->pokemon[$pokemon]->getInfo()['type1']
+            || $this->currentAttack['typ'] === $this->pokemon[$pokemon]->getInfo()['type2']
         ) {
             $power = 1.25;
         } else {

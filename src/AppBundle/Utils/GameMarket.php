@@ -706,8 +706,8 @@ class GameMarket
         $pokemonMarket->setGender($pokemon->getGender());
         $pokemonMarket->setIdPokemonBase($pokemon->getIdPokemon());
         $pokemonMarket->setShiny($pokemon->getShiny());
-        $pokemonMarket->setType1($pokemon->getInfo()['typ1']);
-        $pokemonMarket->setType2($pokemon->getInfo()['typ2']);
+        $pokemonMarket->setType1($pokemon->getInfo()['type1']);
+        $pokemonMarket->setType2($pokemon->getInfo()['type2']);
         $pokemonMarket->setOwnerId($user->getId());
         $pokemonMarket->setMessage($message);
         $pokemonMarket->setValue($value);
