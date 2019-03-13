@@ -24,7 +24,7 @@
                         {{ hunting.pokedex > 2 ? ('Jakość: <span class="pogrubienie">' ~ hunting.pokemon.quality ~ '%</span><br />')|raw : '' }}
 
                         <div class="polowanie_trudnosc {{ hunting.pokemon.info.difficulty < 3 ? 'zielony-tlo' :
-                        (hunting.pokemon.info.trudnosc < 5 ? 'zolty-tlo' : 'czerwony-tlo')}}"
+                        (hunting.pokemon.info.difficulty < 5 ? 'zolty-tlo' : 'czerwony-tlo')}}"
                              data-original-title="trudność łapania: {{ catchDifficulty(hunting.pokemon.info.difficulty) }}"
                              data-toggle="tooltip">{{ hunting.pokemon.info.difficulty }}</div>
 
