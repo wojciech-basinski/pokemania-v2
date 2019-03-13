@@ -189,7 +189,7 @@ class GameRegionController extends Controller
     }
 
     /**
-     * @Route("kupiec/jeden", name="game_merchant_sell")
+     * @Route("kupiec/jeden", name="game_merchant_sell_one")
      * @Method("POST")
      * @param GameMerchant $merchant
      *
