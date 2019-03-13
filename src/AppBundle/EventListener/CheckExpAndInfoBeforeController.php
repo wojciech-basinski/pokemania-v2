@@ -234,9 +234,9 @@ Otrzymujesz '.$points.' punkty umiejętności.</div><div class="col-xs-12">';
 
     private function checkEvolution(Pokemon $pokemon): bool
     {
-        if (!$pokemon->getEwolution() && $this->pokemonHelper->getInfo($pokemon->getIdPokemon())['ewolucja_p']) {
+        if (!$pokemon->getEwolution() && $this->pokemonHelper->getInfo($pokemon->getIdPokemon())['lvlEvolution']) {
             //sprawdzenie ewolucji
-            $id = $this->pokemonHelper->getInfo($pokemon->getIdPokemon())['ewolucja_p'];///zeby pobrac id ewo
+            $id = $this->pokemonHelper->getInfo($pokemon->getIdPokemon())['lvlEvolution'];///zeby pobrac id ewo
             if ($id === 80000199) {
                 $id = 80;
                 //$pokemon->setEwolution(80);
@@ -248,8 +248,8 @@ Otrzymujesz '.$points.' punkty umiejętności.</div><div class="col-xs-12">';
                 $data = $this->pokemonHelper->getInfo($id);
             }
             //sprawdzenie warunków ewo
-            if (($data['min_poziom'] <= ($pokemon->getLevel()+1)) && $data['wymagania'] != 999) {
-                switch ($data['wymagania']) {
+            if (($data['minLevel'] <= ($pokemon->getLevel()+1)) && $data['requirements'] != 999) {
+                switch ($data['requirements']) {
                     case 998:
                         if ($pokemon->getCountedAttachment() >= 90) {
                             $pokemon->setIdPokemon($id);
@@ -267,11 +267,11 @@ Otrzymujesz '.$points.' punkty umiejętności.</div><div class="col-xs-12">';
 
     private function addStatistics(array $increase, int $huge, Pokemon $pokemon, bool $nameChanged): void
     {
-        $attack = $huge * $increase['atak'];
-        $spAttack = $huge * $increase['sp_atak'];
-        $defence = $huge * $increase['obrona'];
-        $spDefence = $huge * $increase['sp_obrona'];
-        $speed = $huge * $increase['szybkosc'];
+        $attack = $huge * $increase['attack'];
+        $spAttack = $huge * $increase['spAttack'];
+        $defence = $huge * $increase['defence'];
+        $spDefence = $huge * $increase['spDefence'];
+        $speed = $huge * $increase['speed'];
         $hp = $huge * $increase['hp'];
 
         $pokemon->setAttack($pokemon->getAttack() + $attack);
@@ -293,7 +293,7 @@ Otrzymujesz '.$points.' punkty umiejętności.</div><div class="col-xs-12">';
 
         $oldName = $pokemon->getName();
         if ($huge === 4) { //ewolucja
-            $newName = $this->pokemonHelper->getInfo($pokemon->getIdPokemon())['nazwa'];
+            $newName = $this->pokemonHelper->getInfo($pokemon->getIdPokemon())['name'];
             if (!$nameChanged) {
                 $pokemon->setName($newName);
             }
@@ -329,7 +329,7 @@ Twój Pokemon <span class="pogrubienie">'.$oldName.'</span> awansował na kolejn
     private function checkName(Pokemon $pokemon): bool
     {
         $data = $this->pokemonHelper->getInfo($pokemon->getIdPokemon());
-        return $data['nazwa'] === $pokemon->getName();
+        return $data['name'] === $pokemon->getName();
     }
 
     private function checkCollection(Pokemon $pokemon): void

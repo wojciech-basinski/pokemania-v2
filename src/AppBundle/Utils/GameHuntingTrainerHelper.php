@@ -123,12 +123,12 @@ class GameHuntingTrainerHelper
                 continue;
             }
             $pokemonInfo = $this->pokemonHelper->getInfo($pokemonId);
-            $minLevel = $pokemonInfo['min_poziom'];
+            $minLevel = $pokemonInfo['minLevel'];
         }
         if ($this->user->getTrainerLevel() < 21) {
             $pokemonLevel = mt_rand(1, ($this->user->getTrainerLevel() + 5));
-        } elseif ($pokemonInfo['min_poziom'] > ($this->user->getTrainerLevel() - 10)) {
-            $pokemonLevel = mt_rand($pokemonInfo['min_poziom'], $this->user->getTrainerLevel() + 5);
+        } elseif ($pokemonInfo['minLevel'] > ($this->user->getTrainerLevel() - 10)) {
+            $pokemonLevel = mt_rand($pokemonInfo['minLevel'], $this->user->getTrainerLevel() + 5);
         } else {
             if ($this->user->getTrainerLevel() >= 95) {
                 $pokemonLevel = mt_rand(80, 100);

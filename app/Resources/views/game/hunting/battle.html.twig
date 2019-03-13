@@ -105,7 +105,7 @@
                 <span>Walka nauczyła coś twojego Pokemona, zyskuje on {{ battle['pokemonExp'] }} punktów doświadczenia
                     <br />Dzięki walce zyskujesz {{ battle['userExp'] }} punktów doświadczenia.</span>
             </div>
-            {% if app.session.get('pokemonHunting').getInfo['trudnosc'] < 10 %}
+            {% if app.session.get('pokemonHunting').getInfo['difficulty'] < 10 %}
                 <div class="walka_alert alert alert-success text-medium text-center-alert margin-top">
                     <span class="span-text-center">Pokemon jest ogłuszony, możesz rzucić w niego pokeball</span>
                 </div>

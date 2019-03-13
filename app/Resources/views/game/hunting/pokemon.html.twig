@@ -23,18 +23,18 @@
                         {{ hunting.pokedex ? (' na poziomie: <span class="span_nazwa">' ~ hunting.pokemon.level ~ '</span><br />')|raw : '' }}
                         {{ hunting.pokedex > 2 ? ('Jakość: <span class="pogrubienie">' ~ hunting.pokemon.quality ~ '%</span><br />')|raw : '' }}
 
-                        <div class="polowanie_trudnosc {{ hunting.pokemon.info.trudnosc < 3 ? 'zielony-tlo' :
+                        <div class="polowanie_trudnosc {{ hunting.pokemon.info.difficulty < 3 ? 'zielony-tlo' :
                         (hunting.pokemon.info.trudnosc < 5 ? 'zolty-tlo' : 'czerwony-tlo')}}"
-                             data-original-title="trudność łapania: {{ catchDifficulty(hunting.pokemon.info.trudnosc) }}"
-                             data-toggle="tooltip">{{ hunting.pokemon.info.trudnosc }}</div>
+                             data-original-title="trudność łapania: {{ catchDifficulty(hunting.pokemon.info.difficulty) }}"
+                             data-toggle="tooltip">{{ hunting.pokemon.info.difficulty }}</div>
 
                         <img src="{{ asset('img/zl/' ~ (hunting.pokemonInfo.caught ? '1' : '0') ~ '.png') }}"
                              data-original-title="{{ hunting.pokemonInfo.caught ? 'Złapany' : 'Nie złapany' }}" data-toggle="tooltip" />
 
-                        <img src="{{ asset('img/typy/' ~  hunting.pokemon.info.typ1 ~ '.gif') }}"
+                        <img src="{{ asset('img/typy/' ~  hunting.pokemon.info.type1 ~ '.gif') }}"
                              data-original-title="{{ hunting.pokemon.info.type1Description }}" data-toggle="tooltip"/>
-                        {% if hunting.pokemon.info.typ2 %}
-                            <img src="{{ asset('img/typy/' ~  hunting.pokemon.info.typ2 ~ '.gif') }}"
+                        {% if hunting.pokemon.info.type2 %}
+                            <img src="{{ asset('img/typy/' ~  hunting.pokemon.info.type2 ~ '.gif') }}"
                                  data-original-title="{{ hunting.pokemon.info.type2Description }}" data-toggle="tooltip"/>
                         {% endif %}
 

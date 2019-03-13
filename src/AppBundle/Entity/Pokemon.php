@@ -860,7 +860,7 @@ class Pokemon
     public function getEffectiveness(): array
     {
         if ($this->effectiveness === null) {
-            $this->effectiveness = PokemonHelper::getEffectiveness($this->getInfo()['typ1'], $this->getInfo()['typ2']);
+            $this->effectiveness = PokemonHelper::getEffectiveness($this->getInfo()['type1'], $this->getInfo()['type2']);
         }
         return $this->effectiveness;
     }

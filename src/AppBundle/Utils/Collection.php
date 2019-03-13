@@ -70,7 +70,7 @@ class Collection
             $exploded = explode(',', $collection[$i]);
             $array['kanto'][] = [
                 'id' => $i+1,
-                'name' => $this->pokemonHelper->getInfo($i+1)['nazwa'],
+                'name' => $this->pokemonHelper->getInfo($i+1)['name'],
                 'meet' => $exploded[0],
                 'caught' => $exploded[1]
             ];
@@ -94,7 +94,7 @@ class Collection
             $exploded = explode(',', $collection[$i]);
             $array['johto'][] = [
                 'id' => $i+1,
-                'name' => $this->pokemonHelper->getInfo($i+1)['nazwa'],
+                'name' => $this->pokemonHelper->getInfo($i+1)['name'],
                 'meet' => $exploded[0],
                 'caught' => $exploded[1]
             ];
