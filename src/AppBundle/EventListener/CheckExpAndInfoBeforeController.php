@@ -84,9 +84,8 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
 
     public function onKernelController(FilterControllerEvent $event): void
     {
-        $controller = $event->getController()[0];
-
-        if (!$controller instanceof OtherSpecialController) {
+        $controller = $event->getController();
+        if (!\is_array($controller) || !$controller[0] instanceof OtherSpecialController) {
             if ($this->tokenStorage->getToken() &&
                 $this->tokenStorage->getToken()->getUser() instanceof User
             ) {

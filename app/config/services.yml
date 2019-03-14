@@ -49,3 +49,171 @@ services:
         class: Gedmo\SoftDeleteable\SoftDeleteableListener
         tags:
         - { name: doctrine.event_subscriber, connection: default }
+
+    app.admin.shiny:
+        class: AppBundle\Admin\ShinyAdmin
+        arguments: [~, AppBundle\Entity\Shiny, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Shiny }
+        public: true
+
+    app.admin.user:
+        class: AppBundle\Admin\UserAdmin
+        arguments: [~, AppBundle\Entity\User, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: User }
+        public: true
+
+    app.admin.pokemon:
+        class: AppBundle\Admin\PokemonAdmin
+        arguments: [~, AppBundle\Entity\Pokemon, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Pokemon }
+        public: true
+
+    app.admin.cron:
+        class: AppBundle\Admin\CronAdmin
+        arguments: [~, AppBundle\Entity\Cron, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Cron }
+        public: true
+
+    app.admin.user_team:
+        class: AppBundle\Admin\UserTeamAdmin
+        arguments: [~, AppBundle\Entity\UserTeam, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: UserTeam }
+        public: true
+
+    app.admin.message:
+        class: AppBundle\Admin\MessageAdmin
+        arguments: [~, AppBundle\Entity\Message, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Message }
+        public: true
+
+    app.admin.achievement:
+        class: AppBundle\Admin\AchievementAdmin
+        arguments: [~, AppBundle\Entity\Achievement, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Achievement }
+        public: true
+
+    app.admin.announcement:
+        class: AppBundle\Admin\AnnouncementAdmin
+        arguments: [~, AppBundle\Entity\Announcement, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Announcement }
+        public: true
+
+    app.admin.berry:
+        class: AppBundle\Admin\BerryAdmin
+        arguments: [~, AppBundle\Entity\Berry, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Berry }
+        public: true
+
+    app.admin.bug:
+        class: AppBundle\Admin\BugAdmin
+        arguments: [~, AppBundle\Entity\Bug, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Bug }
+        public: true
+
+    app.admin.collection:
+        class: AppBundle\Admin\CollectionAdmin
+        arguments: [~, AppBundle\Entity\Collection, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Collection }
+        public: true
+
+    app.admin.exchange:
+        class: AppBundle\Admin\ExchangeAdmin
+        arguments: [~, AppBundle\Entity\Exchange, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Exchange }
+        public: true
+
+    app.admin.exchange_pokemon:
+        class: AppBundle\Admin\ExchangePokemonAdmin
+        arguments: [~, AppBundle\Entity\ExchangePokemon, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: ExchangePokemon }
+        public: true
+
+    app.admin.friend:
+        class: AppBundle\Admin\FriendAdmin
+        arguments: [~, AppBundle\Entity\Friend, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Friend }
+        public: true
+
+    app.admin.items:
+        class: AppBundle\Admin\ItemsAdmin
+        arguments: [~, AppBundle\Entity\Items, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Items }
+        public: true
+
+    app.admin.market:
+        class: AppBundle\Admin\MarketAdmin
+        arguments: [~, AppBundle\Entity\Market, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Market }
+        public: true
+
+    app.admin.market_pokemon:
+        class: AppBundle\Admin\MarketPokemonAdmin
+        arguments: [~, AppBundle\Entity\MarketPokemon, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: MarketPokemon }
+        public: true
+
+    app.admin.performance:
+        class: AppBundle\Admin\PerformanceAdmin
+        arguments: [~, AppBundle\Entity\Performance, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Performance }
+        public: true
+
+    app.admin.pokeball:
+        class: AppBundle\Admin\PokeballAdmin
+        arguments: [~, AppBundle\Entity\Pokeball, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Pokeball }
+        public: true
+
+    app.admin.pokemon_training:
+        class: AppBundle\Admin\PokemonTrainingAdmin
+        arguments: [~, AppBundle\Entity\PokemonTraining, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: PokemonTraining }
+        public: true
+
+    app.admin.report:
+        class: AppBundle\Admin\ReportAdmin
+        arguments: [~, AppBundle\Entity\Report, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Report }
+        public: true
+
+    app.admin.skill:
+        class: AppBundle\Admin\SkillAdmin
+        arguments: [~, AppBundle\Entity\Skill, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Skill }
+        public: true
+
+    app.admin.statistic:
+        class: AppBundle\Admin\StatisticAdmin
+        arguments: [~, AppBundle\Entity\Statistic, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Statistic }
+        public: true
+
+    app.admin.stones:
+        class: AppBundle\Admin\StonesAdmin
+        arguments: [~, AppBundle\Entity\Stones, Sonata\AdminBundle\Controller\CRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Stones }
+        public: true

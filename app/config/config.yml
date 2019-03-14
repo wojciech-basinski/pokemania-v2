@@ -12,6 +12,7 @@ parameters:
 framework:
     #esi: ~
     #translator: { fallbacks: ['%locale%'] }
+    translator: { fallbacks: ['%locale%'] }
     secret: '%secret%'
     router:
         resource: '%kernel.project_dir%/app/config/routing.yml'
@@ -88,3 +89,9 @@ ewz_recaptcha:
     public_key:  6Lc5wRQTAAAAALTIk8kwWNaOGv3g9A1O1nZQrVQ1
     private_key: 6Lc5wRQTAAAAAH3XAxn90nwsHkOuZuJAA1euQykM
     locale_key:  pl
+
+sonata_block:
+    blocks:
+        # enable the SonataAdminBundle block
+        sonata.admin.block.admin_list:
+            contexts: [admin]

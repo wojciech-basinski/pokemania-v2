@@ -397,14 +397,14 @@ class User implements UserInterface
         return $this->pa;
     }
 
-    public function setBan(bool $ban): self
+    public function setBan(?bool $ban): self
     {
         $this->ban = $ban;
 
         return $this;
     }
 
-    public function getBan(): bool
+    public function getBan(): ?bool
     {
         return $this->ban;
     }
