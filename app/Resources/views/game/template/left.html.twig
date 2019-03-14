@@ -36,8 +36,8 @@
                     <div class="progress progress-gra prog_M progress2" data-original-title="Magazyn na Pokemony"
                          data-toggle="tooltip" data-placement="top">
                         <div class="progress-bar progress-bar-success progBarM line30" role="progressbar" aria-valuenow="40"
-                             aria-valuemin="0" aria-valuemax="100" style="width:{{ (app.session.get('pokemonsInReserve') / app.user.magazine) * 100 }}%;">
-                            <span>{{ app.session.get('userSession').PokemonInReserve }} / {{ app.user.magazine }} MAG</span>
+                             aria-valuemin="0" aria-valuemax="100" style="width:{{ (app.session.get('userSession').pokemonInReserve / app.user.magazine) * 100 }}%;">
+                            <span>{{ app.session.get('userSession').pokemonInReserve }} / {{ app.user.magazine }} MAG</span>
                         </div>
                     </div>
                 </div>

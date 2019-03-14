@@ -67,7 +67,8 @@
                                                 <span class="pogrubienie">Poziom: {{ pokemon.level }}</span>
                                                 ({{ pokemon.exp }}{{ pokemon.level < 100 ? (' / ' ~ pokemon.expOnLevel) }} PD)<br />
                                                 <span class="pogrubienie">Życie: {{ pokemon.actualHp }} / {{ pokemon.getHpToTable }}</span><br />
-                                                <span class="pogrubienie">Przywiązanie: {{ pokemon.getCountedAttachment }}%</span>
+                                                <span class="pogrubienie">Przywiązanie: {{ pokemon.getCountedAttachment }}%</span><br />
+                                                <span class="pogrubienie">Jakość: {{ pokemon.quality }} %</span>
                                             </div>
                                             <div class="col-xs-2 margin-top">
                                                 <div class="row nomargin">
@@ -131,7 +132,8 @@
                                                     {{ pokemon.gender == 0 ? '<span class="icon-mars text-extra-big" data-original-title="płeć męska" data-toggle="tooltip"></span>'
                                                     : (pokemon.gender == 1 ? '<span class="icon-venus text-extra-big" data-original-title="płeć żeńska" data-toggle="tooltip"></span>' :
                                                     '<span title="Pokemon jest bezpłciowy">!</span>')}}
-                                                    ({{ pokemon.level }})
+                                                    <span data-original-title="Poziom" data-toggle="tooltip">({{ pokemon.level }})</span>
+                                                    <span data-original-title="Jakość" data-toggle="tooltip"> ({{ pokemon.quality }} %)</span>
                                                 </span>
                                             </label>
                                         {% endfor %}
@@ -163,7 +165,8 @@
                                                     {{ pokemon.gender == 0 ? '<span class="icon-mars text-extra-big" data-original-title="płeć męska" data-toggle="tooltip"></span>'
                                                     : (pokemon.gender == 1 ? '<span class="icon-venus text-extra-big" data-original-title="płeć żeńska" data-toggle="tooltip"></span>' :
                                                     '<span title="Pokemon jest bezpłciowy">!</span>')}}
-                                                    ({{ pokemon.level }})
+                                                    <span data-original-title="Poziom" data-toggle="tooltip">({{ pokemon.level }})</span>
+                                                    <span data-original-title="Jakość" data-toggle="tooltip"> ({{ pokemon.quality }} %)</span>
                                                 </span>
                                             </label>
                                     {% endfor %}
