@@ -3,6 +3,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Utils\GameHospital;
 use AppBundle\Utils\GamePack;
+use AppBundle\Utils\PokemonHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -106,4 +107,13 @@ class FooterController extends Controller
         $pack->useItem('food', 'all', $this->getUser(), $id);
         return $this->render('game/footer.html.twig');
     }
+
+    /**
+     * @Route("/dupa", name="game_footer_feed")
+     */
+    public function dupaAction(): Response
+    {
+        dump(PokemonHelper::generatePokemon(19, 1));die;
+    }
+
 }
