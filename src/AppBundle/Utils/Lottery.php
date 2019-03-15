@@ -36,15 +36,15 @@ class Lottery
         $this->collection = $collection;
     }
 
-    public function countUserTickets(int $userId): int
+    public function countUserTickets(User $user): int
     {
-        $this->userStatistics =  $this->em->getRepository('AppBundle:Statistic')->find($userId);
+        $this->userStatistics =  $user->getStatistics();
         return $this->userStatistics->getLottery();
     }
 
     public function playTheLottery(User $user): array
     {
-        if (!$this->countUserTickets($user->getId())) {
+        if (!$this->countUserTickets($user)) {
             return ['status' => 0];
         }
 
@@ -70,67 +70,67 @@ class Lottery
             $user->setCash($user->getCash() + 2000000);
         } elseif ($rand <= 75) {
             $status = 'Wygrywasz 30 Cheri Berry.';
-            $this->winBerry('CheriBerry', 30, $userId);
+            $this->winBerry('CheriBerry', 30, $user);
         } elseif ($rand <= 90) {
             $status = 'Wygrywasz 20 Chesto Berry.';
-            $this->winBerry('ChestoBerry', 20, $userId);
+            $this->winBerry('ChestoBerry', 20, $user);
         } elseif ($rand <= 120) {
             $status = 'Wygrywasz 20 Pecha Berry!';
-            $this->winBerry('PechaBerry', 20, $userId);
+            $this->winBerry('PechaBerry', 20, $user);
         } elseif ($rand <= 150) {
             $status = 'Wygrywasz 20 Rawst Berry.';
-            $this->winBerry('RawstBerry', 20, $userId);
+            $this->winBerry('RawstBerry', 20, $user);
         } elseif ($rand <= 170) {
             $status = 'Wygrywasz 15 Wiki Berry.';
-            $this->winBerry('WikiBerry', 15, $userId);
+            $this->winBerry('WikiBerry', 15, $user);
         } elseif ($rand <= 190) {
             $status = 'Wygrywasz 15 Mago Berry.';
-            $this->winBerry('MagoBerry', 15, $userId);
+            $this->winBerry('MagoBerry', 15, $user);
         } elseif ($rand <= 210) {
             $status = 'Wygrywasz 15 Lapapa Berry.';
-            $this->winBerry('LapapaBerry', 15, $userId);
+            $this->winBerry('LapapaBerry', 15, $user);
         } elseif ($rand <= 230) {
             $status = 'Wygrywasz 15 Aguav Berry.';
-            $this->winBerry('AguavBerry', 15, $userId);
+            $this->winBerry('AguavBerry', 15, $user);
         } elseif ($rand <= 290) {
             $status = 'Wygrywasz 30 Pokeballi.';
-            $this->winPokeball('Pokeballs', 30, $userId);
+            $this->winPokeball('Pokeballs', 30, $user);
         } elseif ($rand <= 320) {
             $status = 'Wygrywasz 20 Nestballi.';
-            $this->winPokeball('Nestballs', 20, $userId);
+            $this->winPokeball('Nestballs', 20, $user);
         } elseif ($rand <= 350) {
             $status = 'Wygrywasz 20 Greatballi.';
-            $this->winPokeball('Greatballs', 20, $userId);
+            $this->winPokeball('Greatballs', 20, $user);
         } elseif ($rand <= 360) {
             $status = 'Wygrywasz 5 Ultraballi.';
-            $this->winPokeball('Ultraballs', 5, $userId);
+            $this->winPokeball('Ultraballs', 5, $user);
         } elseif ($rand <= 370) {
             $status = 'Wygrywasz 3 Cherishballe.';
-            $this->winPokeball('Cherishballs', 3, $userId);
+            $this->winPokeball('Cherishballs', 3, $user);
         } elseif ($rand <= 371) {
             $status = 'Gratulacje, wygrywasz Masterballa.';
-            $this->winPokeball('Masterballs', 1, $userId);
+            $this->winPokeball('Masterballs', 1, $user);
         } elseif ($rand <= 375) {
             $status = 'Wygrywasz 10 losów do loterii';
             $this->winTenCupons();
         } elseif ($rand <= 377) {
             $status = 'Wygrywasz kamień roślinny.';
-            $this->winStone('LeafStone', $userId);
+            $this->winStone('LeafStone', $user);
         } elseif ($rand <= 379) {
             $status = 'Wygrywasz kamień ognisty.';
-            $this->winStone('FireStone', $userId);
+            $this->winStone('FireStone', $user);
         } elseif ($rand <= 381) {
             $status = 'Wygrywasz kamień gromu.';
-            $this->winStone('ThunderStone', $userId);
+            $this->winStone('ThunderStone', $user);
         } elseif ($rand <= 383) {
             $status = 'Wygrywasz kamień księżycowy.';
-            $this->winStone('MoonStone', $userId);
+            $this->winStone('MoonStone', $user);
         } elseif ($rand <= 385) {
             $status = 'Wygrywasz kamień wodny.';
-            $this->winStone('WaterStone', $userId);
+            $this->winStone('WaterStone', $user);
         } elseif ($rand <= 387) {
             $status = 'Wygrywasz kamień słoneczny.';
-            $this->winStone('SunStone', $userId);
+            $this->winStone('SunStone', $user);
         } else {
             $rand = rand(9000, 11000) / 10000;
             $kasa = floor($user->getTrainerLevel() * $rand * 1000);
@@ -150,35 +150,33 @@ class Lottery
         $this->userStatistics->setLottery($this->userStatistics->getLottery() + 10);
     }
 
-    private function winStone(string $name, int $userId): void
+    private function winStone(string $name, User $user): void
     {
-        $stone = $this->em->getRepository('AppBundle:Stones')->find($userId);
+        $stone = $user->getStones();
         $stone->{'set'.$name}($stone->{'get'.$name}() + 1);
 
         $this->em->persist($stone);
     }
-    private function winPokeball(string $name, int $value, int $userId): void
+    private function winPokeball(string $name, int $value, User $user): void
     {
-        $pokeball = $this->em->getRepository('AppBundle:Pokeball')->find($userId);
+        $pokeball = $user->getPokeballs();
         $pokeball->{'set'.$name}($pokeball->{'get'.$name}() + $value);
-
-        $this->em->persist($pokeball);
     }
 
-    private function winBerry(string $name, int $value, int $userId): void
+    private function winBerry(string $name, int $value, User $user): void
     {
-        $berry = $this->em->getRepository('AppBundle:Berry')->find($userId);
+        $berry = $user->getBerrys();
         $berry->{'set'.$name}($berry->{'get'.$name}() + $value);
 
         $this->em->persist($berry);
     }
 
-    private function winDratini(int $owner): void
+    private function winDratini(User $user): void
     {
         $dratini = new Pokemon();
         $training = new PokemonTraining();
 
-        $this->collection->addOneToPokemonCatchAndMet(147, $owner);
+        $this->collection->addOneToPokemonCatchAndMet(147, $user);
 
         $training->setTr1(0);
         $training->setTr2(0);
@@ -198,8 +196,8 @@ class Lottery
         $dratini->setName('Dratini');
         $dratini->setIdPokemon(147);
         $dratini->setValue(100000);
-        $dratini->setOwner($owner);
-        $dratini->setFirstOwner($owner);
+        $dratini->setOwner($user->getId());
+        $dratini->setFirstOwner($user->getId());
         $dratini->setCatched('lottery');
         $dratini->setLevel(1);
         $dratini->setQuality(90);

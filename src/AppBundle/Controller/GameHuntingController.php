@@ -92,7 +92,7 @@ class GameHuntingController extends Controller
         }
 
         if ($battle['score']) {
-            $pokeballs = $catching->getPokeballs($this->getUser()->getId());
+            $pokeballs = $this->getUser()->getPokeballs();
         }
 
         return $this->render('game/hunting/battle.html.twig', [

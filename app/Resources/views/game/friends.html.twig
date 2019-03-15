@@ -29,24 +29,24 @@
                     <div class="col-xs-12 margin-top">
                         {% for friend in friends %}
                             <div class="row nomargin">
-                                {% if friend.whoId.id == app.user.id %}
-                                    <a class="col-xs-4 col-lg-3 btn btn-success" href="profil/{{ friend.userId.id }}">{{  friend.userId.login }}</a>
+                                {% if friend.who.id == app.user.id %}
+                                    <a class="col-xs-4 col-lg-3 btn btn-success" href="profil/{{ friend.user.id }}">{{  friend.user.login }}</a>
                                     <a class="btn btn-primary" href="'.URL.'wiadomosci/nowa/{# friend.userInfo.login #}">Wyślij wiadomość</a>
                                     <button class="btn btn-primary nakarm" id="' . $value['karmienie'] . '">Nakarm Pokemony</button>
                                     <button class="btn btn-danger usun" data-id="{{ path('game_friends_delete', {'id' : friend.id}) }}">Usuń ze znajomych</button>
                                 {% else %}
-                                    <a class="col-xs-4 col-lg-3 btn btn-success" href="profil/{{ friend.whoId.id }}">{{  friend.whoId.login }}</a>
+                                    <a class="col-xs-4 col-lg-3 btn btn-success" href="profil/{{ friend.who.id }}">{{  friend.who.login }}</a>
+                                    {% if friend.who.sessionId %}
+                                        <img src="{{ asset('img/dost.png') }}" data-toggle="tooltip" data-title="ONLINE" />
+                                    {% else %}
+                                        <img src="{{ asset('img/nied.png') }}" data-toggle="tooltip" data-title="OFFLINE" />
+                                    {% endif %}
                                     <a class="btn btn-primary" href="'.URL.'wiadomosci/nowa/{# friend.userInfo.login #}">Wyślij wiadomość</a>
                                     <button class="btn btn-primary nakarm" id="' . $value['karmienie'] . '">Nakarm Pokemony</button>
                                     <button class="btn btn-danger usun" data-id="{{ path('game_friends_delete', {'id' : friend.id}) }}">Usuń ze znajomych</button>
                                 {% endif %}
                             </div>
                         {% endfor %}
-                        {#if ($value['id_sesji']) {
-                        echo '<img src="img/dost.png" data-toggle="tooltip" data-title="ONLINE" />';
-                        } else {
-                        echo '<img src="img/nied.png" data-toggle="tooltip" data-title="OFFLINE" />';
-                        }#}
                     </div>
                     <div id="karmienie"></div>
                 </div>
@@ -59,7 +59,7 @@
                 <div class="row nomargin">
                 {% for invitation in invitations %}
                     <div class="col-xs-12 margin-top">
-                        <a class="btn btn-primary" href="{{ path('game_user_profile', {'id' : invitation.userId.id}) }}">Zaproszenie od {{ invitation.userId.login }}</a>
+                        <a class="btn btn-primary" href="{{ path('game_user_profile', {'id' : invitation.user.id}) }}">Zaproszenie od {{ invitation.user.login }}</a>
                         <button class="btn btn-success zaakceptuj" data-id="{{ path('game_friends_accept', {'id' : invitation.id}) }}">Zaakceptuj</button>
                         <button class="btn btn-danger odrzuc" data-id="{{ path('game_friends_reject', {'id' : invitation.id}) }}">Odrzuć</button>
                     </div>
@@ -72,7 +72,7 @@
                 <div class="row nomargin">
                     {% for invitation in invitationsSent %}
                     <div class="col-xs-12 margin-top">
-                        <a class="btn btn-primary" href="{{ path('game_user_profile', {'id' : invitation.whoId.id }) }}">Zaproszenie dla gracza {{ invitation.whoId.login }}</a>
+                        <a class="btn btn-primary" href="{{ path('game_user_profile', {'id' : invitation.who.id }) }}">Zaproszenie dla gracza {{ invitation.who.login }}</a>
                         <button class="btn btn-danger anuluj" data-id="{{ path('game_friends_cancel', {'id' : invitation.id}) }}">Anuluj zaproszenie</button></div>
                     {% endfor %}
                 </div>

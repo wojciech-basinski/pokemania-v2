@@ -319,7 +319,7 @@ class GameHuntingBattleBetweenPokemons
     private function addWinToAchievements(User $user)
     {
         $this->em->getRepository('AppBundle:Achievement')
-            ->addWinWithPokemon($user->getId());
+            ->addWinWithPokemon($user->getAchievements()->getId());
     }
 
     private function pokemonsInPlacePrepare(): array

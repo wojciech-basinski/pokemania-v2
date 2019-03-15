@@ -18,9 +18,9 @@ class ExchangePokemon
     private $id;
 
     /**
-     * @var int
+     * @var User
      *
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity=User::class, fetch="EAGER")
      */
     private $owner;
 
@@ -70,14 +70,14 @@ class ExchangePokemon
         return $this->id;
     }
 
-    public function setOwner(int $owner): self
+    public function setOwner(User $owner): self
     {
         $this->owner = $owner;
 
         return $this;
     }
 
-    public function getOwner(): int
+    public function getOwner(): User
     {
         return $this->owner;
     }

@@ -244,7 +244,7 @@ class GameCheckCaught
     private function prepareCollection(): void
     {
         if ($this->userCollection === null) {
-            $this->userCollection = $this->collectionService->getUserCollection($this->user->getId());
+            $this->userCollection = $this->collectionService->getUserCollection($this->user);
         }
     }
 }

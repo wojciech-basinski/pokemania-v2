@@ -38,7 +38,7 @@
                 {% for pokemon in oferts %}
                     <div class="row nomargin text-center">
                         <div class="col-xs-12 nopadding">
-                            {% if app.user.id == pokemon.ownerId %}
+                            {% if app.user.id == pokemon.owner.id %}
                                 <div class="well targ_oferta_wlasna nopadding">
                             {% else %}
                                 <div class="well targ_oferta nopadding">
@@ -77,11 +77,11 @@
                                     </div>
                                     <div class="col-xs-3 targ-line">{{ pokemon.value }} &yen;</div>
                                     <div class="col-xs-1 targ-line">
-                                        {% if app.user.id == pokemon.ownerId %}
+                                        {% if app.user.id == pokemon.owner.id %}
                                             <button class="btn btn-primary disabled" data-toggle="tooltip" data-title="To Twoja oferta">KUP</button>
                                         {% else %}
                                             <button class="kup_pokemon btn btn-primary" id="{{ pokemon.id }}">KUP</button>
-                                            <a href="{{ path('game_user_profile', {'id' : pokemon.ownerId}) }}" style="float:left;">?</a>
+                                            <a href="{{ path('game_user_profile', {'id' : pokemon.owner.id}) }}" style="float:left;">?</a>
                                         {% endif %}
                                     </div>
                                 </div>

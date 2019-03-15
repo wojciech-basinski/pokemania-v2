@@ -62,7 +62,7 @@ class GameAchievements
     {
         $this->user = $user;
         $this->prepareFromDb();
-        $this->checkIfAchievementsCanHaveNextLevel($user->getId());
+        $this->checkIfAchievementsCanHaveNextLevel($user);
         $this->checkAchievements('main');
         $this->checkAchievements('secondary');
         $this->checkAchievements('kanto');
@@ -90,9 +90,9 @@ class GameAchievements
         return $this->kantoMaster;
     }
 
-    private function checkIfAchievementsCanHaveNextLevel(int $userId): void
+    private function checkIfAchievementsCanHaveNextLevel(User $user): void
     {
-        $items = $this->em->getRepository('AppBundle:Items')->find($userId);
+        $items = $user->getItems();
         $requirements = $this->performance->getZnawcaKanto() + 1;
         if ($requirements <= 5) {
             $quantity = 0;
@@ -113,7 +113,7 @@ class GameAchievements
                 $performance = 'Znawca regionu Kanto</span>, poziom: ' . $requirements;
                 $this->addReport(
                     $performance,
-                    $userId
+                    $user
                 );
                 $this->addFlash('Znawca regionu Kanto', $requirements, $coins);
             }
@@ -152,23 +152,19 @@ class GameAchievements
                         } else {
                             $coins = 2;
                         }
-                        $this->addReport($main[$i]['name'], $userId);
+                        $this->addReport($main[$i]['name'], $user);
                         $this->addFlash($main[$i]['name'], $requirements, $coins);
                         $items->setCoins($items->getCoins() + $coins);
                     }
                 }
             }
         }
-        $this->em->persist($items);
-        $this->em->persist($this->performance);
     }
 
     private function prepareFromDb(): void
     {
-        $this->achievements =
-            $this->em->getRepository('AppBundle:Achievement')->findOneBy(['id' => $this->user->getId()]);
-        $this->performance =
-            $this->em->getRepository('AppBundle:Performance')->findOneBy(['id' => $this->user->getId()]);
+        $this->achievements = $this->user->getAchievements();
+        $this->performance = $this->user->getPerformance();
     }
 
     private function checkAchievements(string $what): void
@@ -237,11 +233,11 @@ class GameAchievements
         }
     }
 
-    private function addReport(string $performance, int $userId): void
+    private function addReport(string $performance, User $user): void
     {
         $report = new Report();
         $report->setTitle('Nowe osiągnięcie');
-        $report->setUserId($userId);
+        $report->setUser($user);
         $report->setIsRead(0);
         $report->setTime(new \DateTime());
         $report->setContent("<div class=\"row nomargin text-center\"><div class=\"col-xs-12\">

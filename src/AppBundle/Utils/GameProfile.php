@@ -74,7 +74,7 @@ class GameProfile
             return null;
         }
         return $this->em->getRepository('AppBundle:Pokemon')
-                    ->getUsersPokemonsFromTeam($this->user->getId())['pokemons'];
+                    ->getUsersPokemonsFromTeam($this->user)['pokemons'];
     }
 
     public function getUserSkills(): array
@@ -82,7 +82,7 @@ class GameProfile
         $userSkills = [];
         $skills = $this->helper->getSkills();
         $count = count($skills);
-        $userGetSkills = $this->em->find('AppBundle:Skill', $this->id);
+        $userGetSkills = $this->user->getSkills();
         for ($i = 0; $i < $count; $i++) {
             $need = explode(';', $skills[$i]['need']);
             $needInfo = $this->getFromDb($need[0]);
@@ -105,7 +105,7 @@ class GameProfile
             return;
         }
         $this->id = $user->getId();
-        $userGetSkills = $this->em->find('AppBundle:Skill', $this->id);
+        $userGetSkills = $user->getSkills();
         $need = explode(';', $skills['need']);
         $needInfo = $this->getFromDb($need[0]);
         $quantity = $needInfo->{'get'.$need[1]}();
@@ -143,17 +143,17 @@ class GameProfile
             return 0;
         }
         $friend = $this->em->getRepository('AppBundle:Friend')
-            ->getOneFriendship($this->id, $this->user->getId());
+            ->getOneFriendship($this->id, $this->user);
         if ($friend) {
             return 1;
         }
         $invite = $this->em->getRepository('AppBundle:Friend')
-            ->checkIfUserSentInvitation($this->id, $this->user->getId());
+            ->checkIfUserSentInvitation($this->id, $this->user);
         if ($invite) {
             return 2;
         }
         $inviteGot = $this->em->getRepository('AppBundle:Friend')
-            ->checkIfUserReceivedInvitation($this->id, $this->user->getId());
+            ->checkIfUserReceivedInvitation($this->id, $this->user);
         if ($inviteGot) {
             return 3;
         }

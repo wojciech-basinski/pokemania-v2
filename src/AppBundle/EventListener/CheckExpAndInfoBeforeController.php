@@ -91,7 +91,7 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
             ) {
                 $user = $this->tokenStorage->getToken()->getUser();
                 $this->checkUserExp($user);
-                if (!$this->getUserSession($user) &&
+                if (!$this->userHasSession($user) &&
                     !$this->request->cookies->has('REMEMBERME')
                 ) {
                     $logoutUrl = $this->router->generate('logout');
@@ -136,7 +136,7 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
         if ($user->getPokemonFeeded()) {
             $user->setPokemonFeeded(false);
             $this->clearPokemonsInSession();
-            $this->auth->pokemonsToTeam($user->getId());
+            $this->auth->pokemonsToTeam($user);
         }
         $pokemonLevelUpCounter = 0;
         for ($i = 0; $i < 6; $i++) {
@@ -161,7 +161,7 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
         }
         if ($pokemonLevelUpCounter > 0) {
             $this->clearPokemonsInSession();
-            $this->auth->pokemonsToTeam($user->getId());
+            $this->auth->pokemonsToTeam($user);
         }
     }
 
@@ -195,13 +195,13 @@ class CheckExpAndInfoBeforeController implements EventSubscriberInterface
             $lemonade = 3;
         }
 
-        $this->addItems($lemonade, $water, $user->getId());
+        $this->addItems($lemonade, $water, $user);
 
         $report = new Report();
         $report->setTitle('Nowy poziom trenera ('.($user->getTrainerLevel() + 1).')');
         $report->setTime(new \DateTime());
         $report->setIsRead(0);
-        $report->setUserId($user->getId());
+        $report->setUser($user);
         $raport = '<div class="row nomargin text-center"><div class="col-xs-12">
 Awansowałeś na kolejny, ' . ($user->getTrainerLevel() + 1) . ' poziom.</div><div class="col-xs-12"> 
 Otrzymujesz '.$points.' punkty umiejętności.</div><div class="col-xs-12">';
@@ -224,9 +224,9 @@ Otrzymujesz '.$points.' punkty umiejętności.</div><div class="col-xs-12">';
         $this->em->persist($report);
     }
 
-    private function addItems(int $lemonade, int $water, int $userId): void
+    private function addItems(int $lemonade, int $water, User $user): void
     {
-        $userItems = $this->em->getRepository('AppBundle:Items')->find($userId);
+        $userItems = $user->getItems();
         $userItems->setLemonade($userItems->getLemonade() + $lemonade);
         $userItems->setWater($userItems->getWater() + $water);
     }
@@ -287,7 +287,7 @@ Otrzymujesz '.$points.' punkty umiejętności.</div><div class="col-xs-12">';
 
         $report = new Report();
         $report->setTime(new \DateTime);
-        $report->setUserId($this->tokenStorage->getToken()->getUser()->getId());
+        $report->setUser($this->tokenStorage->getToken()->getUser());
         $report->setIsRead(0);
 
         $oldName = $pokemon->getName();
@@ -336,7 +336,7 @@ Twój Pokemon <span class="pogrubienie">'.$oldName.'</span> awansował na kolejn
         if (in_array($pokemon->getIdPokemon(), [148, 149, 139, 141])) {
             $this->collection->addOneToPokemonCatchAndMet(
                 $pokemon->getIdPokemon(),
-                $this->tokenStorage->getToken()->getUser()->getId()
+                $this->tokenStorage->getToken()->getUser()
             );
         }
     }
@@ -348,7 +348,7 @@ Twój Pokemon <span class="pogrubienie">'.$oldName.'</span> awansował na kolejn
         }
     }
 
-    private function getUserSession(User $user): bool
+    private function userHasSession(User $user): bool
     {
         if ($user->getSessionId() && $user->getSessionId() === $this->session->getId()) {
             return 1;

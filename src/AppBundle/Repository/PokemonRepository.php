@@ -2,20 +2,15 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\Pokemon;
+use AppBundle\Entity\User;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\ORM\EntityRepository;
 
 class PokemonRepository extends EntityRepository
 {
-    private static $userTeam = null;
-
-    public function getUsersPokemonsFromTeam(int $userId, array $team = null): array
+    public function getUsersPokemonsFromTeam(User $user): array
     {
-        if (self::$userTeam === null) {
-            self::$userTeam = $this->_em->find('AppBundle:UserTeam', $userId);
-        }
-        $userTeam = self::$userTeam;
-
+        $userTeam = $user->getUserTeam();
 
         $kwer = "SELECT p.* FROM pokemons p WHERE p.id in (";
         $kwer2 = "order by case p.id";

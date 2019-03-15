@@ -74,26 +74,6 @@ class GameHunting
     private $request;
 
     /**
-     * @var null|Berry
-     */
-    private $berry = null;
-
-    /**
-     * @var null|Pokeball
-     */
-    private $pokeball = null;
-
-    /**
-     * @var null|Stones
-     */
-    private $stone = null;
-
-    /**
-     * @var null|Items
-     */
-    private $item = null;
-
-    /**
      * @var GameHuntingTrainerHelper
      */
     private $trainerHelper;
@@ -150,7 +130,7 @@ class GameHunting
     public function getPlacesJohto(User $user): array
     {
         $this->user = $user;
-        $this->getCollection($user->getId());
+        $this->getCollection($user);
         return [
             'polana' => [
                 'name' => 'laka',
@@ -200,7 +180,7 @@ class GameHunting
     public function getPlacesKanto(User $user): array
     {
         $this->user = $user;
-        $this->getCollection($user->getId());
+        $this->getCollection($user);
         return [
             'polana' => [
                 'name' => 'polana',
@@ -337,14 +317,14 @@ class GameHunting
         }
 
         if ($this->place === 'safari') {
-            $statistics = $this->em->getRepository('AppBundle:Statistic')->find($user->getId());
+            $statistics = $user->getStatistics();
             if (!$statistics->getCupons()) {
                 $this->session->getFlashBag()->add('error', 'Niestety nie posiadasz kuponu na safari');
                 return false;
             }
             $statistics->setCupons($statistics->getCupons() - 1);
         } elseif ($this->place === 'grota') {
-            $items = $this->em->getRepository('AppBundle:Items')->find($user->getId());
+            $items = $user->getItems();
             if (!$items->getFlashlight()) {
                 $this->session->getFlashBag()->add('error', 'Niestety nie posiadasz latarki');
                 return false;
@@ -453,7 +433,7 @@ class GameHunting
 
             case 1024:
                 $this->generatePokemon($user);
-                $this->addPokemonToCollection($this->pokemon->getIdPokemon(), $user->getId());
+                $this->addPokemonToCollection($this->pokemon->getIdPokemon(), $user);
                 break;
         }
 
@@ -486,14 +466,11 @@ class GameHunting
 
     private function addAchievement(User $user)
     {
-        $statistics = $this->em->getRepository('AppBundle:Statistic')->find($user->getId());
-        $achievements = $this->em->getRepository('AppBundle:Achievement')->find($user->getId());
+        $statistics = $user->getStatistics();
+        $achievements = $user->getAchievements();
 
         $statistics->setTravels($statistics->getTravels() + 1);
         $achievements->{'set' . $this->place}($achievements->{'get' . $this->place}() + 1);
-
-        $this->em->persist($statistics);
-        $this->em->persist($achievements);
     }
 
     private function pokemonCatchedInPlaces(string $place): array
@@ -501,10 +478,10 @@ class GameHunting
         return $this->checkCaught->check($place, $this->user, $this->collection);
     }
 
-    private function getCollection(int $userId)
+    private function getCollection(User $user)
     {
         if ($this->userCollection === null) {
-            $this->userCollection = $this->collection->getUserCollection($userId);
+            $this->userCollection = $user->getCollection();
         }
     }
 
@@ -514,9 +491,9 @@ class GameHunting
         $this->session->set('pokemonHunting', $this->pokemon);
     }
 
-    private function addPokemonToCollection(int $id, int $userId)
+    private function addPokemonToCollection(int $id, User $user)
     {
-        $info = $this->collection->addOneToPokemonMetAndReturnIfMetAndCaught($id, $userId);
+        $info = $this->collection->addOneToPokemonMetAndReturnIfMetAndCaught($id, $user);
 
         $this->pokemonInfo['met'] = $info[0];
         $this->pokemonInfo['caught'] = $info[1];
@@ -822,7 +799,7 @@ Zbierasz z niego <strong>{$quantity}</strong> sztuk."
                     $kamien = 'słoneczny';
                     $name = 'FireStone';
                 }
-                $stones = $this->em->find('AppBundle:Stones', $user->getId());
+                $stones = $user->getStones();
                 $stones->{'set' . $name}($stones->{'get' . $name}() + 1);
                 $this->session->getFlashBag()->add('success', "Pokemon przyniósł kamień {$kamien}");
             } elseif ($losuj <= 600) {
@@ -834,7 +811,7 @@ Zbierasz z niego <strong>{$quantity}</strong> sztuk."
                 $user->setCash($user->getCash() + $value);
             } elseif ($losuj <= 610) {
                 $this->session->getFlashBag()->add('success', 'Pokemon przyniósł puszkę wody.');
-                $items = $this->em->find('AppBundle:Items', $user->getId());
+                $items = $user->getItems();
                 $items->setWater($items->getWater() + 1);
                 $this->em->persist($items);
             } else {
@@ -875,7 +852,7 @@ Zbierasz z niego <strong>{$quantity}</strong> sztuk."
                     $name = 'SunStone';
                     $prz = 'słoneczny';
                 }
-                $stones = $this->em->find('AppBundle:Stones', $user->getId());
+                $stones = $user->getStones();
                 $stones->{'set' . $name}($stones->{'get' . $name}() + 1);
                 $this->session->getFlashBag()->add('success', "Znalazłeś kamień {$prz}!");
             } elseif ($r < 35) {//karta
@@ -885,7 +862,7 @@ Zbierasz z niego <strong>{$quantity}</strong> sztuk."
                 );
             } elseif ($r < 45) {//soda
                 $this->session->getFlashBag()->add('success', 'Znalazłeś sodę!');
-                $items = $this->em->find('AppBundle:Items', $user->getId());
+                $items = $user->getItems();
                 $items->setSoda($items->getSoda() + 1);
             } elseif ($r < 150) {//pokeballe
                 $r2 = mt_rand(1, 91);
@@ -1114,79 +1091,78 @@ Wykopane przedmioty, które zabierasz ze sobą:<br />';
                             $user->setCash($user->getCash() + $event[1]);
                         }
                         if ($event[2]) {
-                            $stones = $this->getStones($user->getId());
+                            $stones = $user->getStones();
                             $info .= $event[2] . 'x kamień ognisty<br />';
                             $stones->setFireStone($stones->getFireStone() + $event[2]);
                         }
                         if ($event[3]) {
-                            $stones = $this->getStones($user->getId());
+                            $stones = $user->getStones();
                             $info .= $event[3] . 'x kamień wodny<br />';
                             $stones->setWaterStone($stones->getWaterStone() + $event[3]);
                         }
                         if ($event[4]) {
-                            $stones = $this->getStones($user->getId());
+                            $stones = $user->getStones();
                             $info .= $event[4] . 'x kamień gromu<br />';
                             $stones->setThunderStone($stones->getThunderStone() + $event[4]);
                         }
                         if ($event[5]) {
-                            $stones = $this->getStones($user->getId());
+                            $stones = $user->getStones();
                             $info .= $event[5] . 'x kamień księżycowy<br />';
                             $stones->setMoonStone($stones->getMoonStone() + $event[5]);
                         }
                         if ($event[6]) {
-                            $stones = $this->getStones($user->getId());
+                            $stones = $user->getStones();
                             $info .= $event[6] . 'x kamień słoneczny<br />';
                             $stones->setSunStone($stones->getSunStone() + $event[6]);
                         }
                         if ($event[7]) {
-                            $items = $this->getItems($user->getId());
+                            $items = $user->getItems();
                             $info .= $event[7] . 'x Rare Candy<br />';
                             $items->setCandy($items->getCandy() + $event[7]);
                         }
                         if ($event[8]) {
-                            $pokeballs = $this->getPokeballs($user->getId());
+                            $pokeballs = $user->getPokeballs();
                             $info .= $event[8] . 'x Masterball<br />';
                             $pokeballs->setMasterballs($pokeballs->getMasterballs() + $event[8]);
                         }
                         if ($event[9]) {
-                            $berrys = $this->getBerrys($user->getId());
+                            $berrys = $user->getBerrys();
                             $info .= $event[9] . 'x Chesto Berry<br />';
                             $berrys->setChestoBerry($berrys->getChestoBerry() + $event[9]);
                         }
                         if ($event[10]) {
-                            $berrys = $this->getBerrys($user->getId());
+                            $berrys = $user->getBerrys();
                             $info .= $event[10] . 'x Aspear Berry<br />';
                             $berrys->setAspearBerry($berrys->getAspearBerry() + $event[10]);
                         }
                         if ($event[11]) {
-                            $berrys = $this->getBerrys($user->getId());
+                            $berrys = $user->getBerrys();
                             $info .= $event[11] . 'x Lapapa Berry<br />';
                             $berrys->setLapapaBerry($berrys->getLapapaBerry() + $event[11]);
                         }
                         if ($event[12]) {
-                            $berrys = $this->getBerrys($user->getId());
+                            $berrys = $user->getBerrys();
                             $info .= $event[12] . 'x Aguav Berry<br />';
                             $berrys->setAguavBerry($berrys->getAguavBerry() + $event[12]);
                         }
                         if ($event[13]) {
-                            $items = $this->getItems($user->getId());
+                            $items = $user->getItems();
                             $info .= $event[13] . 'x Lemoniada<br />';
                             $items->setLemonade($items->getLemonade() + $event[13]);
                         }
                         if ($event[14] > 0) {
-                            $pokeballs = $this->getPokeballs($user->getId());
+                            $pokeballs = $user->getPokeballs();
                             $info .= $event[14] . 'x Repeatball<br />';
                             $pokeballs->setRepeatballs($pokeballs->getRepeatballs() + $event[14]);
                         }
                         if ($event[15] > 0) {
-                            $items = $this->getItems($user->getId());
+                            $items = $user->getItems();
                             $info .= $event[15] . 'x Skamielina<br />';
                             $items->setParts($items->getParts() + $event[15]);
                         }
                         $info .= '</div>';
                         $this->session->getFlashBag()->add('info2', $info);
 
-                        $this->addItemsFromSafariDiging();
                     }
                     $this->session->remove('eventHunting');
                     $this->session->remove('eventHunting_set');
@@ -1195,54 +1171,6 @@ Wykopane przedmioty, które zabierasz ze sobą:<br />';
             default:
                 $this->session->remove('eventHunting');
                 break;
-        }
-    }
-
-    private function getStones(int $userId): Stones
-    {
-        if ($this->stone === null) {
-            $this->stone = $this->em->find('AppBundle:Stones', $userId);
-        }
-        return $this->stone;
-    }
-
-    private function getItems(int $userId): Items
-    {
-        if ($this->item === null) {
-            $this->item = $this->em->find('AppBundle:Items', $userId);
-        }
-        return $this->item;
-    }
-
-    private function getPokeballs(int $userId): Pokeball
-    {
-        if ($this->pokeball === null) {
-            $this->pokeball = $this->em->find('AppBundle:Pokeball', $userId);
-        }
-        return $this->pokeball;
-    }
-
-    private function getBerrys(int $userId): Berry
-    {
-        if ($this->berry === null) {
-            $this->berry = $this->em->find('AppBundle:Berry', $userId);
-        }
-        return $this->berry;
-    }
-
-    private function addItemsFromSafariDiging()
-    {
-        if ($this->stone !== null) {
-            $this->em->persist($this->stone);
-        }
-        if ($this->item !== null) {
-            $this->em->persist($this->item);
-        }
-        if ($this->pokeball !== null) {
-            $this->em->persist($this->pokeball);
-        }
-        if ($this->berry !== null) {
-            $this->em->persist($this->berry);
         }
     }
 

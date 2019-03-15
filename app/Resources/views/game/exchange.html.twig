@@ -49,7 +49,7 @@
                                             <div class="col-xs-2">
                                                 <img src="{{ asset('img/poki/'~pokemon.pokemonId~'.png') }}" class="img-responsive targ_pok"/>
                                             </div>
-                                            <div class="col-xs-2 targ-line">{{ pokemonInfo(pokemon.pokemonId)['nazwa'] }}</div>
+                                            <div class="col-xs-2 targ-line">{{ pokemonInfo(pokemon.pokemonId)['name'] }}</div>
                                             <div class="col-xs-8 targ-line">
                                                 {% if pokemon.time <= date().timestamp %}
                                                     <button class="btn btn-primary oddaj" data-id="{{ pokemon.id }}">Odbierz Pokemona</button>

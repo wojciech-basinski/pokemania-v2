@@ -284,6 +284,66 @@ class User implements UserInterface
      */
     private $ip;
 
+    /**
+     * @var Berry
+     * @ORM\OneToOne(targetEntity=Berry::class, cascade={"persist"})
+     */
+    private $berrys;
+
+    /**
+     * @var Pokeball
+     * @ORM\OneToOne(targetEntity=Pokeball::class, cascade={"persist"})
+     */
+    private $pokeballs;
+
+    /**
+     * @var Statistic
+     * @ORM\OneToOne(targetEntity=Statistic::class, cascade={"persist"})
+     */
+    private $statistics;
+
+    /**
+     * @var Achievement
+     * @ORM\OneToOne(targetEntity=Achievement::class, cascade={"persist"})
+     */
+    private $achievements;
+
+    /**
+     * @var Collection
+     * @ORM\OneToOne(targetEntity=Collection::class, cascade={"persist"})
+     */
+    private $collection;
+
+    /**
+     * @var Items
+     * @ORM\OneToOne(targetEntity=Items::class, cascade={"persist"})
+     */
+    private $items;
+
+    /**
+     * @var Stones
+     * @ORM\OneToOne(targetEntity=Stones::class, cascade={"persist"})
+     */
+    private $stones;
+
+    /**
+     * @var Performance
+     * @ORM\OneToOne(targetEntity=Performance::class, cascade={"persist"})
+     */
+    private $performance;
+
+    /**
+     * @var Skill
+     * @ORM\OneToOne(targetEntity=Skill::class, cascade={"persist"})
+     */
+    private $skills;
+
+    /**
+     * @var UserTeam
+     * @ORM\OneToOne(targetEntity=UserTeam::class, cascade={"persist"})
+     */
+    private $userTeam;
+
     public function getId(): int
     {
         return $this->id;
@@ -759,5 +819,115 @@ class User implements UserInterface
     public function getIp(): string
     {
         return $this->ip;
+    }
+
+    public function getBerrys(): Berry
+    {
+        return $this->berrys;
+    }
+
+    public function setBerrys(Berry $berrys): User
+    {
+        $this->berrys = $berrys;
+        return $this;
+    }
+
+    public function getPokeballs(): Pokeball
+    {
+        return $this->pokeballs;
+    }
+
+    public function setPokeballs(Pokeball $pokeballs): User
+    {
+        $this->pokeballs = $pokeballs;
+        return $this;
+    }
+
+    public function setStatistics(Statistic $statistics): User
+    {
+        $this->statistics = $statistics;
+        return $this;
+    }
+
+    public function getStatistics(): Statistic
+    {
+        return $this->statistics;
+    }
+
+    public function setAchievements(Achievement $achievements): User
+    {
+        $this->achievements = $achievements;
+        return $this;
+    }
+
+    public function getAchievements(): Achievement
+    {
+        return $this->achievements;
+    }
+
+    public function setCollection(Collection $collection): User
+    {
+        $this->collection = $collection;
+        return $this;
+    }
+
+    public function getCollection(): Collection
+    {
+        return $this->collection;
+    }
+
+    public function getItems(): Items
+    {
+        return $this->items;
+    }
+
+    public function setItems(Items $items): User
+    {
+        $this->items = $items;
+        return $this;
+    }
+
+    public function setStones(Stones $stones): User
+    {
+        $this->stones = $stones;
+        return $this;
+    }
+
+    public function getStones(): Stones
+    {
+        return $this->stones;
+    }
+
+    public function getPerformance(): Performance
+    {
+        return $this->performance;
+    }
+
+    public function setPerformance(Performance $performance): User
+    {
+        $this->performance = $performance;
+        return $this;
+    }
+
+    public function getSkills(): Skill
+    {
+        return $this->skills;
+    }
+
+    public function setSkills(Skill $skills): User
+    {
+        $this->skills = $skills;
+        return $this;
+    }
+
+    public function setUserTeam(UserTeam $userTeam): User
+    {
+        $this->userTeam = $userTeam;
+        return $this;
+    }
+
+    public function getUserTeam(): UserTeam
+    {
+        return $this->userTeam;
     }
 }

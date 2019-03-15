@@ -358,6 +358,7 @@ class GameHuntingTrainerHelper
 
     private function addWinWithTrainer()
     {
-        $this->em->getRepository('AppBundle:Achievement')->addWinWithTrainer($this->user->getId());
+        $this->em->getRepository('AppBundle:Achievement')
+            ->addWinWithTrainer($this->user->getAchievements()->getId());
     }
 }

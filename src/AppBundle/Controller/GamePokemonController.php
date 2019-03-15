@@ -119,7 +119,7 @@ class GamePokemonController extends Controller
     public function trainingAction(AttackHelper $attackHelper, GameTraining $trainingService, int $id = 0): Response
     {
         $pokemonExists = $trainingService->checkId($id);
-        $pokemons = $trainingService->getPokemons($this->getUser()->getId())['pokemons'];
+        $pokemons = $trainingService->getPokemons($this->getUser())['pokemons'];
         $trainings = $trainingService->calculateTrainings($pokemons);
 
         return $this->render('game/training.html.twig', [
@@ -266,8 +266,8 @@ class GamePokemonController extends Controller
     {
         $i = $this->request->request->get('i');
         $this->request->request->get('up') ?
-            $pokemons->getOrderUp($i, $this->getUser()->getId()) :
-            $pokemons->getOrderDown($i, $this->getUser()->getId());
+            $pokemons->getOrderUp($i, $this->getUser()) :
+            $pokemons->getOrderDown($i, $this->getUser());
 
         return $this->redirectToRoute('game_user_pokemons');
     }
@@ -288,7 +288,7 @@ class GamePokemonController extends Controller
             'ajax' => $this->request->isXmlHttpRequest(),
             'inExchange' => $pokemonsExchange->inExchange($this->getUser()->getId()),
             'toExchange' => $pokemonsExchange->toExchange(),
-            'stones' => $gamePack->getStones($this->getUser()->getId())
+            'stones' => $this->getUser()->getStones()
         ]);
     }
 

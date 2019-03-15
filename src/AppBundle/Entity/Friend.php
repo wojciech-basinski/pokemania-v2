@@ -23,7 +23,7 @@ class Friend
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", fetch="EAGER")
      */
-    private $userId;
+    private $user;
 
     /**
      * @var bool
@@ -37,7 +37,7 @@ class Friend
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", fetch="EAGER")
      */
-    private $whoId;
+    private $who;
 
     /**
      * @var bool
@@ -51,16 +51,16 @@ class Friend
         return $this->id;
     }
 
-    public function setUserId(User $userId): self
+    public function setUser(User $user): self
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getUserId(): User
+    public function getUser(): User
     {
-        return $this->userId;
+        return $this->user;
     }
 
     public function setInvitation(bool $invitation): self
@@ -75,16 +75,16 @@ class Friend
         return $this->invitation;
     }
 
-    public function setWhoId(User $whoId): self
+    public function setWho(User $who): self
     {
-        $this->whoId = $whoId;
+        $this->who = $who;
 
         return $this;
     }
 
-    public function getWhoId(): User
+    public function getWho(): User
     {
-        return $this->whoId;
+        return $this->who;
     }
 
     public function setAccepted(bool $accepted): self

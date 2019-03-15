@@ -118,7 +118,7 @@ class GamePokemonsExchange
 
         $exchange = new ExchangePokemon();
         $exchange->setPokemonId($pokemon->getIdPokemon());
-        $exchange->setOwner($user->getId());
+        $exchange->setOwner($user);
         $exchange->setTime(time() + 3600);
         $exchange->setName($pokemon->getName());
         $exchange->setIdInDb($pokemon->getId());
@@ -205,7 +205,7 @@ class GamePokemonsExchange
 
     private function checkItems(User $user, int $id): bool
     {
-        $items = $this->pack->getStones($user->getId());
+        $items = $user->getStones();
         if (!$items->getRunes()) {
             return false;
         }
@@ -260,18 +260,18 @@ class GamePokemonsExchange
             $increases
         );
 
-        $pokemon = $this->em->getRepository('AppBundle:Pokemon')->findOneBy(['owner' => $user->getId(), 'id' => $exchange->getIdInDb()]);
+        $pokemon = $this->em->getRepository('AppBundle:Pokemon')->findOneBy(['owner' => $user, 'id' => $exchange->getIdInDb()]);
 
         if (!$pokemon) {
             $this->session->getFlashBag()->add('error', 'Wystąpił nieoczekiwany błąd');
             return;
         }
 
-        $pokemon->setAttack($pokemon->getAttack() + $increases['atak']);
-        $pokemon->setSpAttack($pokemon->getSpAttack() + $increases['sp_atak']);
-        $pokemon->setDefence($pokemon->getDefence() + $increases['obrona']);
-        $pokemon->setSpDefence($pokemon->getSpDefence() + $increases['sp_obrona']);
-        $pokemon->setSpeed($pokemon->getSpeed() + $increases['szybkosc']);
+        $pokemon->setAttack($pokemon->getAttack() + $increases['attack']);
+        $pokemon->setSpAttack($pokemon->getSpAttack() + $increases['spAttack']);
+        $pokemon->setDefence($pokemon->getDefence() + $increases['defence']);
+        $pokemon->setSpDefence($pokemon->getSpDefence() + $increases['spDefence']);
+        $pokemon->setSpeed($pokemon->getSpeed() + $increases['speed']);
         $pokemon->setHp($pokemon->getHp() + $increases['hp']);
         $pokemon->setActualHp($pokemon->getHpToTable());
         $pokemon->setExchange(0);
@@ -280,29 +280,29 @@ class GamePokemonsExchange
 
         $oldName = $pokemon->getName();
 
-        if ($pokemon->getName() === $this->helper->getInfo($exchange->getPokemonId())['nazwa']) {
-            $pokemon->setName($this->helper->getInfo($id)['nazwa']);
+        if ($pokemon->getName() === $this->helper->getInfo($exchange->getPokemonId())['name']) {
+            $pokemon->setName($this->helper->getInfo($id)['name']);
         }
 
         $this->em->persist($pokemon);
 
         $this->session->getFlashBag()->add(
             'success',
-            'Pokemon ewoluował w ' . $this->helper->getInfo($id)['nazwa'] . ' i znajduje się w Twojej rezerwie.'
+            'Pokemon ewoluował w ' . $this->helper->getInfo($id)['name'] . ' i znajduje się w Twojej rezerwie.'
         );
 
-        $this->addReport($increases, $oldName, $this->helper->getInfo($id)['nazwa'], $pokemon->getGender(), $user->getId());
+        $this->addReport($increases, $oldName, $this->helper->getInfo($id)['name'], $pokemon->getGender(), $user);
 
-        $this->addToCollection($id, $user->getId());
+        $this->addToCollection($id, $user);
 
         $this->em->remove($exchange);
     }
 
-    private function addReport(array $increases, string $oldName, string $name, int $gender, int $userId): void
+    private function addReport(array $increases, string $oldName, string $name, int $gender, User $user): void
     {
         $report = new Report();
         $report->setTime(new \DateTime);
-        $report->setUserId($userId);
+        $report->setUser($user);
         $report->setIsRead(0);
         $report->setTitle('Twój Pokemon '.$oldName.' ewoluował w '.$name.'.');
 
@@ -316,17 +316,17 @@ class GamePokemonsExchange
             $content .= 'Jego';
         }
         $content .= ' statystyki rosną:</div><div class="col-xs-12"><div class="row nomargin">
-            <div class="col-xs-4">Atak +'.$increases['atak'].'</div><div class="col-xs-4">Sp. Atak +'.$increases['sp_atak'].'</div>
-            <div class="col-xs-4">Obrona +'.$increases['obrona'].'</div></div></div> 
+            <div class="col-xs-4">Atak +'.$increases['attack'].'</div><div class="col-xs-4">Sp. Atak +'.$increases['spAttack'].'</div>
+            <div class="col-xs-4">Obrona +'.$increases['defence'].'</div></div></div> 
             <div class="col-xs-12"><div class="row nomargin">
-            <div class="col-xs-4">Sp.Obrona +'.$increases['sp_obrona'].'</div><div class="col-xs-4">Szybkość +'.$increases['szybkosc'].'</div>
+            <div class="col-xs-4">Sp.Obrona +'.$increases['spDefence'].'</div><div class="col-xs-4">Szybkość +'.$increases['speed'].'</div>
             <div class="col-xs-4">HP +'.$increases['hp'].'</div></div></div></div>';
         $report->setContent($content);
         $this->em->persist($report);
     }
 
-    private function addToCollection(int $id, int $userId): void
+    private function addToCollection(int $id, User $user): void
     {
-        $this->collection->addOneToPokemonCatchAndMet($id, $userId);
+        $this->collection->addOneToPokemonCatchAndMet($id, $user);
     }
 }
