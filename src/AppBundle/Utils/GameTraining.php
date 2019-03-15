@@ -118,9 +118,9 @@ class GameTraining
         }//$this->view->blad = '<div class="alert alert-danger"><span>!</span></div>';
     }
 
-    public function getPokemons(int $userId): array
+    public function getPokemons(User $user): array
     {
-        $this->pokemonsAndTrainings = $this->em->getRepository('AppBundle:Pokemon')->getUsersPokemonsFromTeam($userId);
+        $this->pokemonsAndTrainings = $this->em->getRepository('AppBundle:Pokemon')->getUsersPokemonsFromTeam($user);
         return $this->pokemonsAndTrainings;
     }
 

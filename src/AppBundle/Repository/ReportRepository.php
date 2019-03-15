@@ -11,7 +11,7 @@ class ReportRepository extends EntityRepository
         $qb = $this->_em->createQueryBuilder();
         $qb->select('count(reports.id)');
         $qb->from('AppBundle:Report', 'reports');
-        $qb->where('reports.userId = :id');
+        $qb->where('reports.user = :id');
         $qb->andWhere('reports.isRead = 0');
         $qb->setParameter(':id', $userId);
 
@@ -21,7 +21,7 @@ class ReportRepository extends EntityRepository
     public function getReports(int $userId): array
     {
         return $this->createQueryBuilder('r')
-                    ->where('r.userId = :id')
+                    ->where('r.user = :id')
                     ->setParameter(':id', $userId)
                     ->orderBy('r.id', 'DESC')
                     ->getQuery()
@@ -33,7 +33,7 @@ class ReportRepository extends EntityRepository
         $this->createQueryBuilder('r')
             ->update()
             ->set('r.isRead', 1)
-            ->where('r.userId = :id')
+            ->where('r.user = :id')
             ->andWhere('r.isRead = 0')
             ->setParameter(':id', $userId)
             ->getQuery()
@@ -43,7 +43,7 @@ class ReportRepository extends EntityRepository
     public function getOneReport(int $userId, int $id): ?Report
     {
         return $this->createQueryBuilder('r')
-                    ->where('r.userId = :userId')
+                    ->where('r.user = :userId')
                     ->andWhere('r.id = :id')
                     ->setParameter(':userId', $userId)
                     ->setParameter(':id', $id)
@@ -56,7 +56,7 @@ class ReportRepository extends EntityRepository
         return $this->createQueryBuilder('r')
             ->delete()
             ->where('r.id = :reportId')
-            ->andWhere('r.userId = :userId')
+            ->andWhere('r.user = :userId')
             ->setParameter(':reportId', $reportId)
             ->setParameter(':userId', $userId)
             ->getQuery()
@@ -67,7 +67,7 @@ class ReportRepository extends EntityRepository
     {
         $this->createQueryBuilder('r')
             ->delete()
-            ->where('r.userId = :userId')
+            ->where('r.user = :userId')
             ->setParameter(':userId', $userId)
             ->getQuery()
             ->getResult();

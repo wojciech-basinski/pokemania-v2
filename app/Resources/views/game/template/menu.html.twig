@@ -128,7 +128,7 @@
                     <li><a class="kursor">POKEDEX</a></li>
                     <li><a href="{{ path('game_settings') }}">USTAWIENIA</a></li>
                     {% if app.user.admin %}
-                        <li><a href="{{ path('sonata_admin_dashboard') }}">PANEL ADMINISTRATORA</a></li>
+                        <li><a target="_blank" href="{{ path('sonata_admin_dashboard') }}">PANEL ADMINISTRATORA</a></li>
                     {% endif %}
                     <li><a href="{{ path('game_bugs') }}">ZGŁOŚ BŁĄD</a></li>
                 </ul>

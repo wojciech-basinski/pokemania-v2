@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Utils;
 
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -26,11 +27,9 @@ class Collection
         $this->session = $session;
     }
 
-    public function getUserCollection(int $userId): array
+    public function getUserCollection(User $user): array
     {
-        $collection = $this->em->getRepository('AppBundle:Collection')
-                        ->find($userId)
-                        ->getCollectionAsArray();
+        $collection = $user->getCollection()->getCollectionAsArray();
 
         $kanto = $this->createArrayWithKanto($collection);
         $johto = $this->createArrayWithJohto($collection);
@@ -45,10 +44,9 @@ class Collection
         ];
     }
 
-    public function addOneToPokemonMetAndReturnIfMetAndCaught(int $id, int $userId): array
+    public function addOneToPokemonMetAndReturnIfMetAndCaught(int $id, User $user): array
     {
-        $collection = $this->em->getRepository('AppBundle:Collection')
-                        ->find($userId);
+        $collection = $user->getCollection();
 
         $collectionArray = $collection->getCollectionAsArray();
         $newCollection = explode(',', $collectionArray[$id-1]);
@@ -109,10 +107,9 @@ class Collection
         return array_merge($array, ['met' => $metPokemons, 'caught' => $caughtPokemons]);
     }
 
-    public function addOneToPokemonCatchAndReturnIfMetAndCaught(int $id, int $userId): array
+    public function addOneToPokemonCatchAndReturnIfMetAndCaught(int $id, User $user): array
     {
-        $collection = $this->em->getRepository('AppBundle:Collection')
-            ->find($userId);
+        $collection = $user->getCollection();
 
         $collectionArray = $collection->getCollectionAsArray();
         $newCollection = explode(',', $collectionArray[$id-1]);
@@ -128,10 +125,9 @@ class Collection
         return $metAndCaughtBefore;
     }
 
-    public function addOneToPokemonCatchAndMet(int $id, int $userId): void
+    public function addOneToPokemonCatchAndMet(int $id, User $user): void
     {
-        $collection = $this->em->getRepository('AppBundle:Collection')
-            ->find($userId);
+        $collection = $user->getCollection();
 
         $collectionArray = $collection->getCollectionAsArray();
         $newCollection = explode(',', $collectionArray[$id-1]);

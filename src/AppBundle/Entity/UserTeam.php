@@ -19,8 +19,8 @@ class UserTeam
 
     /**
      * @var int
-     * @ORM\Column(type="integer", nullable=true)
      *
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $pokemon1;
 

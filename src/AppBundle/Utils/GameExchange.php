@@ -15,10 +15,6 @@ class GameExchange
      */
     private $em;
     /**
-     * @var null|Items
-     */
-    private $items = null;
-    /**
      * @var Session
      */
     private $session;
@@ -46,16 +42,6 @@ class GameExchange
     public function getPokemonsInExchange(User $user): array
     {
         return $this->em->getRepository('AppBundle:Exchange')->findBy(['userId' => $user->getId()]);
-    }
-
-    public function getParts(User $user): int
-    {
-        return $this->getItems($user->getId())->getParts();
-    }
-
-    public function getCoins(User $user): int
-    {
-        return $this->getItems($user->getId())->getCoins();
     }
 
     public function parts(?int $id, bool $confirm, User $user): void
@@ -88,6 +74,7 @@ class GameExchange
             return;
         }
         $this->makePokemonOrItemFromCoins($id, $user);
+        $this->em->flush();
     }
 
     public function getPokemon(int $id, User $user): void
@@ -101,7 +88,7 @@ class GameExchange
             $this->session->getFlashBag()->add('error', 'Nie możesz jeszcze odebrać tego Pokemona');
             return;
         }
-        $this->addPokemonToReserve($pokemon->getPokemonId(), $user->getId());
+        $this->addPokemonToReserve($pokemon->getPokemonId(), $user);
         $this->em->remove($pokemon);
         $this->em->flush();
         $this->session->getFlashBag()->add(
@@ -110,24 +97,16 @@ class GameExchange
         );
     }
 
-    private function getItems(int $id): Items
-    {
-        if ($this->items === null) {
-            $this->items = $this->em->getRepository('AppBundle:Items')->find($id);
-        }
-        return $this->items;
-    }
-
     private function makePokemonFromParts(int $id, User $user): void
     {
-        $parts = $this->getParts($user);
+        $items = $user->getItems();
         $pokemon = $this->checkPokemonParts($id);
-        if ($parts < $pokemon['partsRequired']) {
+        if ($items->getParts() < $pokemon['partsRequired']) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz wystarczającej ilości części');
             return;
         }
-        $this->items->setParts($this->items->getParts() - $pokemon['partsRequired']);
-        $this->addPokemon($id, $user->getId());
+        $items->setParts($items->getParts() - $pokemon['partsRequired']);
+        $this->addPokemon($id, $user);
     }
 
     private function checkPokemonParts(int $id): array
@@ -149,22 +128,22 @@ class GameExchange
         return $pok;
     }
 
-    private function addPokemon(int $id, int $userId): void
+    private function addPokemon(int $id, User $user): void
     {
         $exchange = new Exchange();
-        $exchange->setUserId($userId);
+        $exchange->setUserId($user);
         $exchange->setPokemonId($id);
         $exchange->setTime(time()+86400);
         $this->em->persist($exchange);
     }
 
-    private function addPokemonToReserve(int $id, int $userId): void
+    private function addPokemonToReserve(int $id, User $user): void
     {
-        $this->collection->addOneToPokemonCatchAndMet($id, $userId);
+        $this->collection->addOneToPokemonCatchAndMet($id, $user);
 
         $pokemon = $this->pokemonHelper->generatePokemon($id, 1);
-        $pokemon->setOwner($userId);
-        $pokemon->setFirstOwner($userId);
+        $pokemon->setOwner($user->getId());
+        $pokemon->setFirstOwner($user->getId());
         $pokemon->setDateOfCatch(new \DateTime());
         $pokemon->setDescription('');
         $pokemon->setExchange(0);
@@ -180,7 +159,7 @@ class GameExchange
     private function addConfirmFlashParts($id): void
     {
         $parts = ($id === 142) ? 65 : 40;
-        $name = $this->pokemonHelper->getInfo($id)['nazwa'];
+        $name = $this->pokemonHelper->getInfo($id)['name'];
         $this->session->getFlashBag()->add(
             'success',
             "Czy na pewno chcesz wymienić {$parts} części na {$name}?<br />
@@ -197,15 +176,14 @@ class GameExchange
      */
     private function makePokemonOrItemFromCoins($id, User $user): void
     {
-        $coins = $this->getCoins($user);
+        $items = $user->getItems();
         $item = $this->checkPokemonCoins($id);
-        if ($coins < $item['coinsRequired']) {
+        if ($items->getCoins() < $item['coinsRequired']) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz wystarczającej ilości monet');
             return;
         }
         $this->createItemOrPokemon($item, $user);
-        $this->items->setCoins($this->items->getCoins() - $item['coinsRequired']);
-        $this->em->flush();
+        $items->setCoins($items->getCoins() - $item['coinsRequired']);
     }
 
     /**
@@ -243,23 +221,23 @@ class GameExchange
     {
         switch ($item['name']) {
             case 'Ditto':
-                $this->addPokemonToReserve(132, $user->getId());
+                $this->addPokemonToReserve(132, $user);
                 $this->session->getFlashBag()->add('success', 'Wymieniono 50 monet na Ditto, Pokemona znajdziesz w swojej przechowalni.');
                 break;
             case 'Eevee':
-                $this->addPokemonToReserve(133, $user->getId());
+                $this->addPokemonToReserve(133, $user);
                 $this->session->getFlashBag()->add('success', 'Wymieniono 150 monet na Eevee, Pokemona znajdziesz w swojej przechowalni.');
                 break;
             case 'Masterballa':
-                $this->addMasterball($user->getId());
+                $this->addMasterball($user);
                 $this->session->getFlashBag()->add('success', 'Wymieniono 120 monet na Masterballa.');
                 break;
             case 'Część skamieliny':
-                $this->addPart();
+                $this->addPart($user);
                 $this->session->getFlashBag()->add('success', 'Wymieniono 80 monet na część skamieliny.');
                 break;
             case 'Rare Candy':
-                $this->addCandy();
+                $this->addCandy($user);
                 $this->session->getFlashBag()->add('success', 'Wymieniono 100 monet na Rare Candy.');
                 break;
         }
@@ -284,22 +262,21 @@ class GameExchange
         );
     }
 
-    private function addMasterball(int $userId): void
+    private function addMasterball(User $user): void
     {
-        $pokeballs = $this->em->getRepository('AppBundle:Pokeball')->find($userId);
+        $pokeballs = $user->getPokeballs();
         $pokeballs->setMasterballs($pokeballs->getMasterballs() + 1);
-        $this->em->persist($pokeballs);
     }
 
-    private function addCandy(): void
+    private function addCandy(User $user): void
     {
-        $this->items->setCandy($this->items->getCandy() + 1);
-        $this->em->persist($this->items);
+        $items = $user->getItems();
+        $items->setCandy($items->getCandy() + 1);
     }
 
-    private function addPart(): void
+    private function addPart(User $user): void
     {
-        $this->items->setParts($this->items->getParts() + 1);
-        $this->em->persist($this->items);
+        $items = $user->getItems();
+        $items->setParts($items->getParts() + 1);
     }
 }

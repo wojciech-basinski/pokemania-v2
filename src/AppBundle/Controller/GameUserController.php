@@ -69,9 +69,9 @@ class GameUserController extends Controller
     {
         $friendsRepository = $this->getDoctrine()->getRepository('AppBundle:Friend');
 
-        $friends = $friendsRepository->getAllFriends($this->getUser()->getId());
-        $invitations = $friendsRepository->getAllInvitations($this->getUser()->getId());
-        $invitationsSent = $friendsRepository->getAllSentInvitations($this->getUser()->getId());
+        $friends = $friendsRepository->getAllFriends($this->getUser());
+        $invitations = $friendsRepository->getAllInvitations($this->getUser());
+        $invitationsSent = $friendsRepository->getAllSentInvitations($this->getUser());
 
         return $this->render('game/friends.html.twig', [
             'ajax' => $this->request->isXmlHttpRequest(),
@@ -91,7 +91,7 @@ class GameUserController extends Controller
      */
     public function gameFriendsDeleteAction(int $id, Friends $friendsService): Response
     {
-        $status = $friendsService->deleteFriendship($id, $this->getUser()->getId(), $this->getUser()->getLogin());
+        $status = $friendsService->deleteFriendship($id, $this->getUser(), $this->getUser()->getLogin());
 
         if ($status) {
             $this->addFlash('success', 'Z powodzeniem usunięto znajomość.');
@@ -111,7 +111,7 @@ class GameUserController extends Controller
      */
     public function gameFriendsAcceptAction(int $id, Friends $friendsService): Response
     {
-        $status = $friendsService->acceptFriendship($id, $this->getUser()->getId(), $this->getUser()->getLogin());
+        $status = $friendsService->acceptFriendship($id, $this->getUser(), $this->getUser()->getLogin());
 
         if ($status) {
             $this->addFlash('success', 'Z powodzeniem zaakceptowano znajomość.');
@@ -131,7 +131,7 @@ class GameUserController extends Controller
      */
     public function gameFriendsRejectAction(int $id, Friends $friendsService): Response
     {
-        $status = $friendsService->rejectFriendship($id, $this->getUser()->getId(), $this->getUser()->getLogin());
+        $status = $friendsService->rejectFriendship($id, $this->getUser(), $this->getUser()->getLogin());
 
         if ($status) {
             $this->addFlash('success', 'Z powodzeniem odrzucono zaproszenie.');
@@ -151,7 +151,7 @@ class GameUserController extends Controller
      */
     public function gameFriendsCancelAction(int $id, Friends $friendsService): Response
     {
-        $status = $friendsService->cancelInvitation($id, $this->getUser()->getId(), $this->getUser()->getLogin());
+        $status = $friendsService->cancelInvitation($id, $this->getUser(), $this->getUser()->getLogin());
 
         if ($status) {
             $this->addFlash('success', 'Z powodzeniem anulowano zaproszenie.');
@@ -184,7 +184,7 @@ class GameUserController extends Controller
      */
     public function userCollectionAction(Collection $collection): Response
     {
-        $collectionAsArray = $collection->getUserCollection($this->getUser()->getId());
+        $collectionAsArray = $collection->getUserCollection($this->getUser());
 
         return $this->render('game/collection.html.twig', [
             'ajax' => $this->request->isXmlHttpRequest(),
@@ -237,11 +237,12 @@ class GameUserController extends Controller
     public function userPackAction(GamePack $packService): Response
     {
         $userId = $this->getUser()->getId();
+        $user = $this->getUser();
 
-        $pokeballs = $packService->getPokeballs($userId);
-        $berrys = $packService->getBerrys($userId);
-        $stones = $packService->getStones($userId);
-        $items = $packService->getItems($userId);
+        $pokeballs = $user->getPokeballs();
+        $berrys = $user->getBerrys();
+        $stones = $user->getStones();
+        $items = $user->getItems();
         $pokemonsToSelect = $packService->getPokemonsToSelect();
         //$cards = $packService->getCards($userId);
 
@@ -357,8 +358,8 @@ class GameUserController extends Controller
             'title' => 'Wymiana',
             'active' => $this->request->query->get('active') ?? 1,
             'pokemonsInExchange' => $exchange->getPokemonsInExchange($this->getUser()),
-            'parts' => $exchange->getParts($this->getUser()),
-            'coins' => $exchange->getCoins($this->getUser())
+            'parts' => $this->getUser()->getItems()->getParts(),
+            'coins' => $this->getUser()->getItems()->getCoins()
         ]);
     }
 
@@ -378,7 +379,6 @@ class GameUserController extends Controller
         } else {
             $exchange->coins($id, $confirm, $this->getUser());
         }
-
         return $this->redirectToRoute('game_exchange', [
             'active' => $this->request->request->get('active') ?? 1
         ]);

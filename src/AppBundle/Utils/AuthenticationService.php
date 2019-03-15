@@ -71,15 +71,16 @@ class AuthenticationService
     {
         try {
             $this->em->beginTransaction();
-            $user = $this->prepareUserToRegister($user);
+            $this->prepareUserToRegister($user);
+            $this->createUserTables($user);
             $this->em->persist($user);
             $this->em->flush();
 
-            $this->createUserStarter($user->getId(), $starterId);
-            $this->createUserTables();
+            $this->createUserStarter($user, $starterId);
             $this->em->commit();
         } catch (\Throwable $e) {
             $this->em->rollback();
+            dump($e);
             echo 'błąd';
             die;
         }
@@ -92,11 +93,11 @@ class AuthenticationService
         $this->setSession();
     }
 
-    public function pokemonsToTeam(int $userId): void
+    public function pokemonsToTeam(User $user): void
     {
         $pokemonRepository = $this->em->getRepository('AppBundle:Pokemon');
 
-        $pokemonsAndTrainings = $pokemonRepository->getUsersPokemonsFromTeam($userId);
+        $pokemonsAndTrainings = $pokemonRepository->getUsersPokemonsFromTeam($user);
         $pokemonCounts = count($pokemonsAndTrainings['pokemons']);
 
         for ($i = 0; $i < $pokemonCounts; $i++) {
@@ -117,17 +118,17 @@ class AuthenticationService
         }
         $user->setIp($this->request->server->get('REMOTE_ADDR'));
         $this->em->flush();
-        $this->pokemonsToTeam($user->getId());
+        $this->pokemonsToTeam($user);
         $this->createUserInSession($user);
         $this->createUserSettings($user->getSettings());
-        $this->createUserItemsInSession($user->getId());
-        $this->createUserSkillsInSession($user->getId());
+        $this->createUserItemsInSession($user);
+        $this->createUserSkillsInSession($user);
     }
 
     private function createUserInSession(User $user): void
     {
-        $userItems = $this->createUserItemsInSession($user->getId());
-        $userSkills = $this->createUserSkillsInSession($user->getId());
+        $userItems = $this->createUserItemsInSession($user);
+        $userSkills = $this->createUserSkillsInSession($user);
         $userSettings = $this->createUserSettings($user->getSettings());
         $pokemonInReserve = $this->setUserPokemonsInReserve($user->getId());
         $reports = $this->setUserReports($user->getId());
@@ -148,9 +149,9 @@ class AuthenticationService
         );
     }
 
-    private function createUserItemsInSession(int $userId): UserItems
+    private function createUserItemsInSession(User $user): UserItems
     {
-        $items = $this->em->getRepository('AppBundle:Items')->find($userId);
+        $items = $user->getItems();
 
         $u = [
             0,//karty darmowego leczenia
@@ -161,9 +162,9 @@ class AuthenticationService
         return new UserItems($u);
     }
 
-    private function createUserSkillsInSession(int $userId): UserSkills
+    private function createUserSkillsInSession(User $user): UserSkills
     {
-        $skills = $this->em->getRepository('AppBundle:Skill')->find($userId);
+        $skills = $user->getSkills();
 
         $u = [
             $skills->getSkill1()
@@ -196,7 +197,7 @@ class AuthenticationService
         return $this->userExperience->getExperienceOnLevel($userLevel);
     }
 
-    private function prepareUserToRegister(User $user): User
+    private function prepareUserToRegister(User $user): void
     {
         $user->setCash(500000000);
         $user->setTrainerLevel(1);
@@ -227,8 +228,6 @@ class AuthenticationService
             '00-00-0000;00-00-0000;00-00-0000;00-00-0000;00-00-0000;00-00-0000;00-00-0000;00-00-0000'
         );
 
-        return $user;
-
         //TODO:
         /*
         $this->db->insert('INSERT INTO logowanie VALUES (NULL, ?, ?, ?, \'rejestracja\', \'\')', [$id, $godzina, $ip]);
@@ -242,7 +241,7 @@ class AuthenticationService
         */
     }
 
-    private function createUserStarter(int $userId, int $starterId): void
+    private function createUserStarter(User $user, int $starterId): void
     {
         $starter = new Pokemon();
 
@@ -251,14 +250,14 @@ class AuthenticationService
         $randValue = rand(90, 110)/100;
         $pokemonValue = floor(18450 * $randValue);
 
-        $gender0 = $pokemonInfo['plec_m'];
+        $gender0 = $pokemonInfo['genderMale'];
         $p = rand()%1000;
         ($p < $gender0) ? $starter->setGender(0) : $starter->setGender(1);
-        $starter->setName($pokemonInfo['nazwa']);
+        $starter->setName($pokemonInfo['name']);
         $starter->setIdPokemon($starterId);
         $starter->setValue($pokemonValue);
-        $starter->setOwner($userId);
-        $starter->setFirstOwner($userId);
+        $starter->setOwner($user->getId());
+        $starter->setFirstOwner($user->getId());
         $starter->setCatched('starter');
         $starter->setLevel(5);
         $starter->setQuality(100);
@@ -298,14 +297,14 @@ class AuthenticationService
         $this->em->flush();
 
         $userTeam = new UserTeam();
-        $userTeam->setPokemon1($starter->getId());
-        $userTeam->setPokemon2(0);
-        $userTeam->setPokemon3(0);
-        $userTeam->setPokemon4(0);
-        $userTeam->setPokemon5(0);
-        $userTeam->setPokemon6(0);
+        $userTeam->setPokemon1($starter->getId())
+            ->setPokemon2(0)
+            ->setPokemon3(0)
+            ->setPokemon4(0)
+            ->setPokemon5(0)
+            ->setPokemon6(0);
 
-        $this->em->persist($userTeam);
+        $user->setUserTeam($userTeam);
         $this->em->flush();
     }
 
@@ -348,111 +347,109 @@ class AuthenticationService
         $pokemon->setAttack3(0);
     }
 
-    private function createUserTables(): void
+    private function createUserTables(User $user): void
     {
-        $this->createUserStatistics();
-        $this->createUserAchievements();
-        $this->createUserCollection();
-        $this->createUserBerrys();
-        $this->createUserPokeballs();
-        $this->createUserItems();
-        $this->createUserStones();
-        $this->createUserPerformance();
-        $this->createUserSkills();
-
-        $this->em->flush();
+        $this->createUserBerrys($user);//done
+        $this->createUserPokeballs($user);//done
+        $this->createUserStatistics($user);//done
+        $this->createUserAchievements($user);//done
+        $this->createUserCollection($user);//done
+        $this->createUserItems($user);//done
+        $this->createUserStones($user);//done
+        $this->createUserPerformance($user);//done
+        $this->createUserSkills($user);//done
     }
 
-    private function createUserStones(): void
+    private function createUserStones(User $user): void
     {
         $stones = new Stones();
-        $stones->setFireStone(0);
-        $stones->setWaterStone(0);
-        $stones->setLeafStone(0);
-        $stones->setThunderStone(0);
-        $stones->setMoonStone(0);
-        $stones->setSunStone(0);
-        $stones->setRunes(0);
-        $stones->setObsydian(0);
-        $stones->setBelt(0);
-        $stones->setEctoplasm(0);
-        $stones->setPhilosophicalStone(0);
+        $stones->setFireStone(0)
+            ->setWaterStone(0)
+            ->setLeafStone(0)
+            ->setThunderStone(0)
+            ->setMoonStone(0)
+            ->setSunStone(0)
+            ->setRunes(0)
+            ->setObsydian(0)
+            ->setBelt(0)
+            ->setEctoplasm(0)
+            ->setPhilosophicalStone(0);
 
-        $this->em->persist($stones);
+        $user->setStones($stones);
     }
 
-    private function createUserSkills(): void
+    private function createUserSkills(User $user): void
     {
         $skills = new Skill();
         $skills->setSkill1(0);
 
-        $this->em->persist($skills);
+        $user->setSkills($skills);
     }
 
-    private function createUserItems(): void
+    private function createUserItems(User $user): void
     {
         $items = new Items();
-        $items->setMpa(0);
-        $items->setLemonade(10);
-        $items->setSoda(20);
-        $items->setWater(30);
-        $items->setFlashlight(0);
-        $items->setBattery(0);
-        $items->setBox(1);
-        $items->setPokedex(0);
-        $items->setCookie(20);
-        $items->setBar(20);
-        $items->setKit(0);
-        $items->setPokemonFood(200);
-        $items->setParts(0);
-        $items->setCandy(0);
-        $items->setShovel(0);
-        $items->setCoins(0);
+        $items->setMpa(0)
+            ->setLemonade(10)
+            ->setSoda(20)
+            ->setWater(30)
+            ->setFlashlight(0)
+            ->setBattery(0)
+            ->setBox(1)
+            ->setPokedex(0)
+            ->setCookie(20)
+            ->setBar(20)
+            ->setKit(0)
+            ->setPokemonFood(200)
+            ->setParts(0)
+            ->setCandy(0)
+            ->setShovel(0)
+            ->setCoins(0);
 
-        $this->em->persist($items);
+        $user->setItems($items);
     }
 
-    private function createUserPokeballs(): void
+    private function createUserPokeballs(User $user): void
     {
         $pokeball = new Pokeball();
-        $pokeball->setPokeballs(15);
-        $pokeball->setNestballs(15);
-        $pokeball->setGreatballs(15);
-        $pokeball->setUltraballs(5);
-        $pokeball->setDuskballs(15);
-        $pokeball->setLureballs(15);
-        $pokeball->setCherishballs(10);
-        $pokeball->setMasterballs(0);
-        $pokeball->setRepeatballs(5);
-        $pokeball->setSafariballs(20);
+        $pokeball->setPokeballs(15)
+            ->setNestballs(15)
+            ->setGreatballs(15)
+            ->setUltraballs(5)
+            ->setDuskballs(15)
+            ->setLureballs(15)
+            ->setCherishballs(10)
+            ->setMasterballs(0)
+            ->setRepeatballs(5)
+            ->setSafariballs(20);
 
-        $this->em->persist($pokeball);
+        $user->setPokeballs($pokeball);
     }
 
-    private function createUserBerrys(): void
+    private function createUserBerrys(User $user): void
     {
         $berrys = new Berry();
-        $berrys->setCheriBerry(30);
-        $berrys->setChestoBerry(15);
-        $berrys->setPechaBerry(5);
-        $berrys->setRawstBerry(5);
-        $berrys->setAspearBerry(5);
-        $berrys->setLeppaBerry(0);
-        $berrys->setOranBerry(0);
-        $berrys->setPersimBerry(0);
-        $berrys->setLumBerry(0);
-        $berrys->setSitrusBerry(0);
-        $berrys->setFigyBerry(0);
-        $berrys->setWikiBerry(5);
-        $berrys->setMagoBerry(3);
-        $berrys->setAguavBerry(1);
-        $berrys->setLapapaBerry(1);
-        $berrys->setRazzBerry(1);
+        $berrys->setCheriBerry(30)
+            ->setChestoBerry(15)
+            ->setPechaBerry(5)
+            ->setRawstBerry(5)
+            ->setAspearBerry(5)
+            ->setLeppaBerry(0)
+            ->setOranBerry(0)
+            ->setPersimBerry(0)
+            ->setLumBerry(0)
+            ->setSitrusBerry(0)
+            ->setFigyBerry(0)
+            ->setWikiBerry(5)
+            ->setMagoBerry(3)
+            ->setAguavBerry(1)
+            ->setLapapaBerry(1)
+            ->setRazzBerry(1);
 
-        $this->em->persist($berrys);
+        $user->setBerrys($berrys);
     }
 
-    private function createUserCollection(): void
+    private function createUserCollection(User $user): void
     {
         $collection = new Collection();
         $collection->setCollection(
@@ -468,56 +465,56 @@ class AuthenticationService
             0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;'
         );
 
-        $this->em->persist($collection);
+        $user->setCollection($collection);
     }
 
-    private function createUserStatistics(): void
+    private function createUserStatistics(User $user): void
     {
         $statistics = new Statistic();
-        $statistics->setCatched(0);
-        $statistics->setCupons(0);
-        $statistics->setLottery(2);
-        $statistics->setTravels(0);
+        $statistics->setCatched(0)
+            ->setCupons(0)
+            ->setLottery(2)
+            ->setTravels(0);
 
-        $this->em->persist($statistics);
+        $user->setStatistics($statistics);
     }
 
-    private function createUserAchievements(): void
+    private function createUserAchievements(User $user): void
     {
         $achievements = new Achievement();
-        $achievements->setPolana(0);
-        $achievements->setWyspa(0);
-        $achievements->setGrota(0);
-        $achievements->setDomStrachow(0);
-        $achievements->setGory(0);
-        $achievements->setWodospad(0);
-        $achievements->setSafari(0);
-        $achievements->setCatchedPokemons(0);
-        $achievements->setWinsWithTrainers(0);
-        $achievements->setWinsWithPokemons(0);
-        $achievements->setBeggedBerrys(0);
-        $achievements->setCatchedPokeball(0);
-        $achievements->setCatchedNestball(0);
-        $achievements->setCatchedGreatball(0);
-        $achievements->setCatchedUltraball(0);
-        $achievements->setCatchedDuskball(0);
-        $achievements->setCatchedLureball(0);
-        $achievements->setCatchedCherishball(0);
-        $achievements->setCatchedRepeatball(0);
-        $achievements->setCatchedSafariball(0);
-        $achievements->setSnacks(0);
-        $achievements->setLoggedIn(0);
-        $achievements->setTrainingsWithPokemons(0);
-        $achievements->setCatchedShiny(0);
-        $achievements->setWulkan(0);
-        $achievements->setLaka(0);
-        $achievements->setLodowiec(0);
-        $achievements->setMokradla(0);
-        $achievements->setJohto5(0);
-        $achievements->setJezioro(0);
-        $achievements->setMrocznyLas(0);
+        $achievements->setPolana(0)
+            ->setWyspa(0)
+            ->setGrota(0)
+            ->setDomStrachow(0)
+            ->setGory(0)
+            ->setWodospad(0)
+            ->setSafari(0)
+            ->setCatchedPokemons(0)
+            ->setWinsWithTrainers(0)
+            ->setWinsWithPokemons(0)
+            ->setBeggedBerrys(0)
+            ->setCatchedPokeball(0)
+            ->setCatchedNestball(0)
+            ->setCatchedGreatball(0)
+            ->setCatchedUltraball(0)
+            ->setCatchedDuskball(0)
+            ->setCatchedLureball(0)
+            ->setCatchedCherishball(0)
+            ->setCatchedRepeatball(0)
+            ->setCatchedSafariball(0)
+            ->setSnacks(0)
+            ->setLoggedIn(0)
+            ->setTrainingsWithPokemons(0)
+            ->setCatchedShiny(0)
+            ->setWulkan(0)
+            ->setLaka(0)
+            ->setLodowiec(0)
+            ->setMokradla(0)
+            ->setJohto5(0)
+            ->setJezioro(0)
+            ->setMrocznyLas(0);
 
-        $this->em->persist($achievements);
+        $user->setAchievements($achievements);
     }
 
     private function pokemonTraining(): PokemonTraining
@@ -550,26 +547,26 @@ class AuthenticationService
         $user->setLastActive(time());
     }
 
-    private function createUserPerformance(): void
+    private function createUserPerformance(User $user): void
     {
         $performance = new Performance();
-        $performance->setHazardzista(0);
-        $performance->setLapanie(0);
-        $performance->setNolife(0);
-        $performance->setPokonane(0);
-        $performance->setSzkolenie(0);
-        $performance->setTrener(0);
-        $performance->setTrenerzy(0);
-        $performance->setZbieranie(0);
-        $performance->setZnawcaKanto(0);
-        $performance->setZnawcaKanto1(0);
-        $performance->setZnawcaKanto2(0);
-        $performance->setZnawcaKanto3(0);
-        $performance->setZnawcaKanto4(0);
-        $performance->setZnawcaKanto5(0);
-        $performance->setZnawcaKanto6(0);
-        $performance->setZnawcaKanto7(0);
+        $performance->setHazardzista(0)
+            ->setLapanie(0)
+            ->setNolife(0)
+            ->setPokonane(0)
+            ->setSzkolenie(0)
+            ->setTrener(0)
+            ->setTrenerzy(0)
+            ->setZbieranie(0)
+            ->setZnawcaKanto(0)
+            ->setZnawcaKanto1(0)
+            ->setZnawcaKanto2(0)
+            ->setZnawcaKanto3(0)
+            ->setZnawcaKanto4(0)
+            ->setZnawcaKanto5(0)
+            ->setZnawcaKanto6(0)
+            ->setZnawcaKanto7(0);
 
-        $this->em->persist($performance);
+        $user->setPerformance($performance);
     }
 }

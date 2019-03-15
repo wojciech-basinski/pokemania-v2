@@ -34,7 +34,7 @@ class Bugs
         }
     }
 
-    public function add(?string $title, ?string $content, int $userId): bool
+    public function add(?string $title, ?string $content, User $user): bool
     {
         if ($title === '') {
             $this->session->getFlashBag()->add('error', 'Tytuł nie może być pusty');
@@ -44,7 +44,7 @@ class Bugs
             $this->session->getFlashBag()->add('error', 'Treść nie może być pusta');
             return false;
         }
-        $this->addBugToDb($title, $content, $userId);
+        $this->addBugToDb($title, $content, $user);
         $this->em->flush();
 
         $this->session->getFlashBag()->add('success', 'Dodano błąd i powiadomomiono administratora o nim.');
@@ -93,27 +93,26 @@ class Bugs
         return $this->em->getRepository('AppBundle:Bug')->findBy(['reportedBy' => $userId]);
     }
 
-    private function addBugToDb(string $title, string $content, int $userId): void
+    private function addBugToDb(string $title, string $content, User $user): void
     {
         $bug = new Bug();
         $bug->setContent($content);
         $bug->setTitle($title);
         $bug->setDone(0);
-        $bug->setReportedBy($userId);
+        $bug->setReportedBy($user);
         $bug->setTime(new \DateTime());
 
         $this->em->persist($bug);
-        $this->addReport(1, 'Dodano nowy błąd');
     }
 
-    private function addReport(int $userId, string $title, string $content = ''): void
+    private function addReport(User $user, string $title, string $content = ''): void
     {
         $report = new Report();
         $report->setIsRead(0);
         $report->setTime(new \DateTime());
         $report->setTitle($title);
         $report->setContent($content);
-        $report->setUserId($userId);
+        $report->setUser($user);
 
         $this->em->persist($report);
     }

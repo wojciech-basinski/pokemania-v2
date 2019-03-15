@@ -41,7 +41,7 @@ class MarketPokemonRepository extends EntityRepository
             $qb->setParameter(':maxValue', $maxValue);
         }
         if (!$own) {
-            $qb->andWhere('pokemon.ownerId <> :idUser');
+            $qb->andWhere('pokemon.owner <> :idUser');
             $qb->setParameter(':idUser', $userId);
         }
 
@@ -98,7 +98,7 @@ class MarketPokemonRepository extends EntityRepository
             $qb->setParameter(':maxValue', $maxValue);
         }
         if (!$own) {
-            $qb->andWhere('pokemon.ownerId <> :userId');
+            $qb->andWhere('pokemon.owner <> :userId');
             $qb->setParameter(':userId', $userId);
         }
         $qb->orderBy('pokemon.id', 'ASC');
@@ -113,7 +113,7 @@ class MarketPokemonRepository extends EntityRepository
         $qb = $this->_em->createQueryBuilder();
         $qb->select('pokemon');
         $qb->from('AppBundle:MarketPokemon', 'pokemon');
-        $qb->where('pokemon.ownerId = :id');
+        $qb->where('pokemon.owner = :id');
         $qb->setParameter(':id', $userId);
 
         return $qb->getQuery()->getResult();

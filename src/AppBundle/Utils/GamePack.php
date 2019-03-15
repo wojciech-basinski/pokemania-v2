@@ -57,26 +57,6 @@ class GamePack
         $this->collection = $collection;
     }
 
-    public function getPokeballs(int $userId): Pokeball
-    {
-        return $this->em->getRepository('AppBundle:Pokeball')->find($userId);
-    }
-
-    public function getBerrys(int $userId): Berry
-    {
-        return $this->em->getRepository('AppBundle:Berry')->find($userId);
-    }
-
-    public function getStones(int $userId): Stones
-    {
-        return $this->em->getRepository('AppBundle:Stones')->find($userId);
-    }
-
-    public function getItems(int $userId): Items
-    {
-        return $this->em->getRepository('AppBundle:Items')->find($userId);
-    }
-
     public function getPokemonsToSelect(): array
     {
         $pokemon = [];
@@ -295,7 +275,7 @@ class GamePack
     private function cheri_BerryUse($value, User $user, int $pokemon): bool
     {
         if ($value === 'all') {
-            $berrys = $this->getBerrys($user->getId());
+            $berrys = $user->getBerrys();
             if (!$berrys->getCheriBerry()) {
                 $this->session->getFlashBag()->add('error', 'Nie posiadasz Cheri Berry');
                 return false;
@@ -325,7 +305,7 @@ class GamePack
                 $usedBerrys += $thisPokemonUsedBerrys;
             }
             if ($usedBerrys > 0) {
-                $this->auth->pokemonsToTeam($user->getId());
+                $this->auth->pokemonsToTeam($user);
                 if ($healAll) {
                     $this->session->getFlashBag()
                         ->add('success', "Wyleczono Pokemony, użyto $usedBerrys Cherri Berry");
@@ -340,7 +320,7 @@ class GamePack
 
             return true;
         } else {
-            $berrys = $this->getBerrys($user->getId());
+            $berrys = $user->getBerrys();
             if (!$berrys->getCheriBerry()) {
                 $this->session->getFlashBag()->add('error', 'Nie posiadasz Cheri Berry');
                 return false;
@@ -358,7 +338,7 @@ class GamePack
             $pokemon = $this->em->merge($pokemon);
             $usedBerrys = $this->healPokemon('Cheri_Berry', $pokemon, $berrys->getCheriBerry(), $value);
             $berrys->setCheriBerry($berrys->getCheriBerry() - $usedBerrys);
-            $this->auth->pokemonsToTeam($user->getId());
+            $this->auth->pokemonsToTeam($user);
             return true;
         }
     }
@@ -367,7 +347,7 @@ class GamePack
     private function wiki_BerryUse($value, User $user, int $pokemon): bool
     {
         if ($value === 'all') {
-            $berrys = $this->getBerrys($user->getId());
+            $berrys = $user->getBerrys();
             if (!$berrys->getWikiBerry()) {
                 $this->session->getFlashBag()->add('error', 'Nie posiadasz Wiki Berry');
                 return false;
@@ -397,7 +377,7 @@ class GamePack
                 $usedBerrys += $thisPokemonUsedBerrys;
             }
             if ($usedBerrys > 0) {
-                $this->auth->pokemonsToTeam($user->getId());
+                $this->auth->pokemonsToTeam($user);
                 if ($healAll) {
                     $this->session->getFlashBag()
                         ->add('success', "Wyleczono Pokemony, użyto $usedBerrys Wiki Berry");
@@ -412,7 +392,7 @@ class GamePack
 
             return true;
         } else {
-            $berrys = $this->getBerrys($user->getId());
+            $berrys = $user->getBerrys();
             if (!$berrys->getWikiBerry()) {
                 $this->session->getFlashBag()->add('error', 'Nie posiadasz Wiki Berry');
                 return false;
@@ -429,7 +409,7 @@ class GamePack
             }
             $pokemon = $this->em->merge($pokemon);
             $usedBerrys = $this->healPokemon('Wiki_Berry', $pokemon, $berrys->getWikiBerry(), $value);
-            $this->auth->pokemonsToTeam($user->getId());
+            $this->auth->pokemonsToTeam($user);
             $berrys->setWikiBerry($berrys->getWikiBerry() - $usedBerrys);
             return true;
         }
@@ -438,7 +418,7 @@ class GamePack
 
     private function mago_BerryUse($value, User $user): bool
     {
-        $berrys = $this->getBerrys($user->getId());
+        $berrys = $user->getBerrys();
         if (!$berrys->getMagoBerry()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz Mago Berry');
             return false;
@@ -451,7 +431,7 @@ class GamePack
 
     private function chesto_BerryUse($value, User $user): bool
     {
-        $berrys = $this->getBerrys($user->getId());
+        $berrys = $user->getBerrys();
         if (!$berrys->getChestoBerry()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz Chesto Berry');
             return false;
@@ -494,7 +474,7 @@ class GamePack
 
     private function pecha_BerryUse($value, User $user, int $pokemon): bool
     {
-        $berrys = $this->getBerrys($user->getId());
+        $berrys = $user->getBerrys();
         if (!$berrys->getPechaBerry()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz Pecha Berry');
             return false;
@@ -507,14 +487,14 @@ class GamePack
         $pokemon = $this->em->merge($this->session->get('pokemon'.$iPokemon));
         $usedBerrys = $this->addExpBerry('Pecha_Berry', $pokemon, $berrys->getPechaBerry(), $value);
         $berrys->setPechaBerry($berrys->getPechaBerry() - $usedBerrys);
-        $this->auth->pokemonsToTeam($user->getId());
+        $this->auth->pokemonsToTeam($user);
         return true;
     }
 
 
     private function aguav_BerryUse($value, User $user, int $pokemon): bool
     {
-        $berrys = $this->getBerrys($user->getId());
+        $berrys = $user->getBerrys();
         if (!$berrys->getAguavBerry()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz Aguqv Berry');
             return false;
@@ -527,7 +507,7 @@ class GamePack
         $pokemon = $this->em->merge($this->session->get('pokemon'.$iPokemon));
         $usedBerrys = $this->addExpBerry('Aguav_Berry', $pokemon, $berrys->getAguavBerry(), $value);
         $berrys->setAguavBerry($berrys->getAguavBerry() - $usedBerrys);
-        $this->auth->pokemonsToTeam($user->getId());
+        $this->auth->pokemonsToTeam($user);
         return true;
     }
 
@@ -549,7 +529,7 @@ class GamePack
 
     private function rawst_BerryUse($value, User $user): bool
     {
-        $berrys = $this->getBerrys($user->getId());
+        $berrys = $user->getBerrys();
         if (!$berrys->getRawstBerry()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz Rawst Berry');
             return false;
@@ -561,7 +541,7 @@ class GamePack
 
     private function lapapa_BerryUse($value, User $user): bool
     {
-        $berrys = $this->getBerrys($user->getId());
+        $berrys = $user->getBerrys();
         if (!$berrys->getLapapaBerry()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz Lapapa Berry');
             return false;
@@ -589,7 +569,7 @@ class GamePack
 
     private function aspear_BerryUse($value, User $user): bool
     {
-        $berrys = $this->getBerrys($user->getId());
+        $berrys = $user->getBerrys();
         if (!$berrys->getAspearBerry()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz Aspear Berry');
             return false;
@@ -601,7 +581,7 @@ class GamePack
 
     private function razz_BerryUse($value, User $user): bool
     {
-        $berrys = $this->getBerrys($user->getId());
+        $berrys = $user->getBerrys();
         if (!$berrys->getRazzBerry()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz Razz Berry');
             return false;
@@ -641,7 +621,7 @@ class GamePack
 
     private function leppa_BerryUse($value, User $user, int $pokemon): bool
     {
-        $berrys = $this->getBerrys($user->getId());
+        $berrys = $user->getBerrys();
         if (!$berrys->getLeppaBerry()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz Leppa Berry');
             return false;
@@ -658,7 +638,7 @@ class GamePack
 
     private function oran_BerryUse($value, User $user, int $pokemon): bool
     {
-        $berrys = $this->getBerrys($user->getId());
+        $berrys = $user->getBerrys();
         if (!$berrys->getOranBerry()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz Oran Berry');
             return false;
@@ -675,7 +655,7 @@ class GamePack
 
     private function persim_BerryUse($value, User $user, int $pokemon): bool
     {
-        $berrys = $this->getBerrys($user->getId());
+        $berrys = $user->getBerrys();
         if (!$berrys->getPersimBerry()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz Persim Berry');
             return false;
@@ -692,7 +672,7 @@ class GamePack
 
     private function lum_BerryUse($value, User $user, int $pokemon): bool
     {
-        $berrys = $this->getBerrys($user->getId());
+        $berrys = $user->getBerrys();
         if (!$berrys->getLumBerry()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz Lum Berry');
             return false;
@@ -709,7 +689,7 @@ class GamePack
 
     private function sitrus_BerryUse($value, User $user, int $pokemon): bool
     {
-        $berrys = $this->getBerrys($user->getId());
+        $berrys = $user->getBerrys();
         if (!$berrys->getSitrusBerry()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz Sitrus Berry');
             return false;
@@ -726,7 +706,7 @@ class GamePack
 
     private function Figy_BerryUse($value, User $user, int $pokemon): bool
     {
-        $berrys = $this->getBerrys($user->getId());
+        $berrys = $user->getBerrys();
         if (!$berrys->getFigyBerry()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz Figy Berry');
             return false;
@@ -739,7 +719,7 @@ class GamePack
         $usedBerrys = $this->pokemonAddHp($value, $pokemon, $berrys->getFigyBerry());
         $berrys->setFigyBerry($berrys->getFigyBerry() - $usedBerrys);
         if ($usedBerrys) {
-            $this->auth->pokemonsToTeam($user->getId());
+            $this->auth->pokemonsToTeam($user);
         }
         return true;
     }
@@ -821,7 +801,7 @@ więc część zostanie zmarnowana!<br />
 <button class="btn btn-primary confirmDrink" data-add="?item=lemonade&confirm=1">Wypij mimo to</button>'
             );
         } else {
-            $items = $this->getItems($user->getId());
+            $items = $user->getItems();
             if ($items->getLemonade()) {
                 $items->setLemonade($items->getLemonade() - 1);
                 $user->setPa($user->getMpa());
@@ -840,7 +820,7 @@ więc część zostanie zmarnowana!<br />
         if ($value > 4) {
             $value = 4;
         }
-        $items = $this->getItems($user->getId());
+        $items = $user->getItems();
 
         if ($items->getWater() < $value) {
             $value = $items->getWater();
@@ -881,7 +861,7 @@ więc część zostanie zmarnowana!<br />
         if ($value > 2) {
             $value = 2;
         }
-        $items = $this->getItems($user->getId());
+        $items = $user->getItems();
 
         if ($items->getSoda() < $value) {
             $value = $items->getSoda();
@@ -925,7 +905,7 @@ więc część zostanie zmarnowana!
                 $value = 4;
             }
         }
-        $items = $this->getItems($user->getId());
+        $items = $user->getItems();
 
         if ($value === 'all' && $pokemonId === 0) {
             $usedFood = 0;
@@ -1034,7 +1014,7 @@ więc część zostanie zmarnowana!
 
     private function barUse($value, User $user, int $pokemonId): void
     {
-        $items = $this->getItems($user->getId());
+        $items = $user->getItems();
         $pokemon = $this->getOneUsersPokemon($pokemonId, $user->getId());
         if (!$pokemon) {
             $this->session->getFlashBag()->add('error', 'Błędny ID Pokemona');
@@ -1060,13 +1040,13 @@ więc część zostanie zmarnowana!
 
         $items->setBar($items->getBar() - $value);
         $this->session->getFlashBag()->add('success', 'Pokemon zjadł '.$value.' batonów');
-        $this->pokemonEatSnack($pokemon, $addAttachment, $value, $user->getId());
+        $this->pokemonEatSnack($pokemon, $addAttachment, $value, $user);
     }
 
 
     private function cookieUse($value, User $user, int $pokemonId): void
     {
-        $items = $this->getItems($user->getId());
+        $items = $user->getItems();
         $pokemon = $this->getOneUsersPokemon($pokemonId, $user->getId());
         if (!$pokemon) {
             $this->session->getFlashBag()->add('error', 'Błędny ID Pokemona');
@@ -1091,7 +1071,7 @@ więc część zostanie zmarnowana!
 
         $items->setCookie($items->getCookie() - $value);
         $this->session->getFlashBag()->add('success', 'Pokemon zjadł '.$value.' ciastek');
-        $this->pokemonEatSnack($pokemon, $addAttachment, $value, $user->getId());
+        $this->pokemonEatSnack($pokemon, $addAttachment, $value, $user);
     }
 
     /**
@@ -1132,16 +1112,16 @@ więc część zostanie zmarnowana!
         return $value;
     }
 
-    private function pokemonEatSnack(Pokemon $pokemon, int $addAttachment, int $value, int $userId): void
+    private function pokemonEatSnack(Pokemon $pokemon, int $addAttachment, int $value, User $user): void
     {
         $pokemon->setAttachment($pokemon->getAttachment() + $addAttachment);
         $pokemon->setSnacks($pokemon->getSnacks() + $value);
-        $this->addSnacksToAchievements($value, $userId);
+        $this->addSnacksToAchievements($value, $user);
     }
 
-    private function addSnacksToAchievements(int $value, int $userId): void
+    private function addSnacksToAchievements(int $value, User $user): void
     {
-        $achievements = $this->em->getRepository('AppBundle:Achievement')->find($userId);
+        $achievements = $user->getAchievements();
         $achievements->setSnacks($achievements->getSnacks() + $value);
     }
 
@@ -1207,7 +1187,7 @@ więc część zostanie zmarnowana!
 
     private function ognisteUse($value, User $user, int $pokemon): void
     {
-        $stones = $this->getStones($user->getId());
+        $stones = $user->getStones();
         if (!$stones->getFireStone()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz kamienia ognistego');
             return;
@@ -1227,7 +1207,7 @@ więc część zostanie zmarnowana!
 
     private function wodneUse($value, User $user, int $pokemon): void
     {
-        $stones = $this->getStones($user->getId());
+        $stones = $user->getStones();
         if (!$stones->getWaterStone()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz kamienia wodnego');
             return;
@@ -1247,7 +1227,7 @@ więc część zostanie zmarnowana!
 
     private function roslinneUse($value, User $user, int $pokemon): void
     {
-        $stones = $this->getStones($user->getId());
+        $stones = $user->getStones();
         if (!$stones->getLeafStone()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz kamienia roślinnego');
             return;
@@ -1267,7 +1247,7 @@ więc część zostanie zmarnowana!
 
     private function gromuUse($value, User $user, int $pokemon): void
     {
-        $stones = $this->getStones($user->getId());
+        $stones = $user->getStones();
         if (!$stones->getThunderStone()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz kamienia gromu');
             return;
@@ -1287,7 +1267,7 @@ więc część zostanie zmarnowana!
 
     private function ksiezycoweUse($value, User $user, int $pokemon): void
     {
-        $stones = $this->getStones($user->getId());
+        $stones = $user->getStones();
         if (!$stones->getMoonStone()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz kamienia księżycowego');
             return;
@@ -1374,7 +1354,7 @@ więc część zostanie zmarnowana!
         $speed = $increase['szybkosc'] * $multiplier;
         $hp = $increase['hp'] * $multiplier;
 
-        $this->collection->addOneToPokemonCatchAndMet($id, $user->getId());
+        $this->collection->addOneToPokemonCatchAndMet($id, $user);
 
         $title = 'Twój Pokemon ' . $pokemon->getName() . ' ewoluował w ' . $newPokemon['nazwa'] . '.';
         $this->session->getFlashBag()->add('success', $title);
@@ -1384,7 +1364,7 @@ więc część zostanie zmarnowana!
             . '<div class="col-xs-4">Atak +' . $attack . '</div><div class="col-xs-4">Sp. Atak +' . $spAttack . '</div><div class="col-xs-4">Obrona +' . $defence . '</div></div></div> '
             . '<div class="col-xs-12"><div class="row nomargin">'
             . '<div class="col-xs-4">Sp.Obrona +' . $spDefence . '</div><div class="col-xs-4">Szybkość +' . $speed . '</div><div class="col-xs-4">HP +' . $hp . '</div></div></div></div>';
-        $this->addReport($title, $report, $user->getId());
+        $this->addReport($title, $report, $user);
 
         $pokemon->setAttack($pokemon->getAttack() + $attack);
         $pokemon->setSpAttack($pokemon->getSpAttack() + $spAttack);
@@ -1397,23 +1377,23 @@ więc część zostanie zmarnowana!
         if (!$nameChanged) {
             $pokemon->setName($newPokemon['nazwa']);
         }
-        $this->auth->pokemonsToTeam($user->getId());
+        $this->auth->pokemonsToTeam($user);
     }
 
-    private function addReport(string $title, string $content, int $userId): void
+    private function addReport(string $title, string $content, User $user): void
     {
         $report = new Report();
         $report->setTitle($title);
         $report->setContent($content);
         $report->setIsRead(0);
         $report->setTime(new \DateTime());
-        $report->setUserId($userId);
+        $report->setUser($user);
         $this->em->persist($report);
     }
 
     private function candyUse($value, User $user, int $pokemon): void
     {
-        $items = $this->getItems($user->getId());
+        $items = $user->getItems();
         if (!$items->getCandy()) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz Rare Candy');
             return;

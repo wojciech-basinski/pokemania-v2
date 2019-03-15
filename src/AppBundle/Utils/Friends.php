@@ -24,83 +24,82 @@ class Friends
         $this->session = $session;
     }
 
-    public function deleteFriendship(int $id, int $userId, string $userName): bool
+    public function deleteFriendship(int $id, User $user, string $userName): bool
     {
         $friendship = $this->em->getRepository('AppBundle:Friend')->find($id);
         if (!$friendship) {
             return 0;
         }
-        if (!$friendship->getUserId() === $userId && !$friendship->getWhoId() === $userId) {
+        if (!$friendship->getUser() === $user && !$friendship->getWho() === $user) {
             return 0;
         }
 
-        $secondUserId = $friendship->getUserId()->getId();
-        if ($secondUserId === $userId) {
-            $secondUserId = $friendship->getWhoId()->getId();
+        $secondUser = $friendship->getUser();
+        if ($secondUser === $user) {
+            $secondUser = $friendship->getWho();
         }
         $this->em->remove($friendship);
 
-        $this->insertMessageAboutDelete($secondUserId, $userName);
+        $this->insertMessageAboutDelete($secondUser, $userName);
 
         return 1;
     }
 
-    public function acceptFriendship(int $id, int $userId, string $userName): bool
+    public function acceptFriendship(int $id, User $user, string $userName): bool
     {
-        $friendship = $this->em->getRepository('AppBundle:Friend')->getOneInvitation($id, $userId);
+        $friendship = $this->em->getRepository('AppBundle:Friend')->getOneInvitation($id, $user);
         if (!$friendship) {
             return 0;
         }
 
-        $secondUserId = $friendship->getUserId()->getId();
-        if ($secondUserId === $userId) {
-            $secondUserId = $friendship->getWhoId()->getId();
+        $secondUser = $friendship->getUser();
+        if ($secondUser === $user) {
+            $secondUser = $friendship->getWho();
         }
         $friendship->setInvitation(0);
         $friendship->setAccepted(1);
 
         $this->em->persist($friendship);
-        $this->em->flush();
 
-        $this->insertMessageAboutAccept($secondUserId, $userName);
-
-        return 1;
-    }
-
-    public function rejectFriendship(int $id, int $userId, string $userName): bool
-    {
-        $friendship = $this->em->getRepository('AppBundle:Friend')->getOneInvitation($id, $userId);
-        if (!$friendship) {
-            return 0;
-        }
-
-        $secondUserId = $friendship->getUserId()->getId();
-        if ($secondUserId === $userId) {
-            $secondUserId = $friendship->getWhoId()->getId();
-        }
-
-        $this->em->remove($friendship);
-
-        $this->insertMessageAboutReject($secondUserId, $userName);
+        $this->insertMessageAboutAccept($secondUser, $userName);
 
         return 1;
     }
 
-    public function cancelInvitation(int $id, int $userId, string $userName): bool
+    public function rejectFriendship(int $id, User $user, string $userName): bool
     {
-        $friendship = $this->em->getRepository('AppBundle:Friend')->getOneSentInvitation($id, $userId);
+        $friendship = $this->em->getRepository('AppBundle:Friend')->getOneInvitation($id, $user);
         if (!$friendship) {
             return 0;
         }
 
-        $secondUserId = $friendship->getUserId()->getId();
-        if ($secondUserId === $userId) {
-            $secondUserId = $friendship->getWhoId()->getId();
+        $secondUser = $friendship->getUser();
+        if ($secondUser === $user) {
+            $secondUser = $friendship->getWho();
         }
 
         $this->em->remove($friendship);
 
-        $this->insertMessageAboutCancelInvitation($secondUserId, $userName);
+        $this->insertMessageAboutReject($secondUser, $userName);
+
+        return 1;
+    }
+
+    public function cancelInvitation(int $id, User $user, string $userName): bool
+    {
+        $friendship = $this->em->getRepository('AppBundle:Friend')->getOneSentInvitation($id, $user);
+        if (!$friendship) {
+            return 0;
+        }
+
+        $secondUser = $friendship->getUser();
+        if ($secondUser === $user) {
+            $secondUser = $friendship->getWho();
+        }
+
+        $this->em->remove($friendship);
+
+        $this->insertMessageAboutCancelInvitation($secondUser, $userName);
 
         return 1;
     }
@@ -110,21 +109,22 @@ class Friends
         if (!$this->checkId($id, $user->getId())) {
             return 0;
         }
-        if ($this->em->getRepository('AppBundle:Friend')->getOneFriendship($id, $user->getId())) {
+        if ($this->em->getRepository('AppBundle:Friend')->getOneFriendship($id, $user)) {
             return 0;
         }
-        if ($this->em->getRepository('AppBundle:Friend')->checkIfUserReceivedInvitation($id, $user->getId())) {
+        if ($this->em->getRepository('AppBundle:Friend')->checkIfUserReceivedInvitation($id, $user)) {
             return 0;
         }
-        if ($this->em->getRepository('AppBundle:Friend')->checkIfUserSentInvitation($id, $user->getId())) {
+        if ($this->em->getRepository('AppBundle:Friend')->checkIfUserSentInvitation($id, $user)) {
             return 0;
         }
-        $this->insertMessageAboutInvitation($user->getUsername(), $id);
-        $this->insertInvitation($id, $user);
+        $userToInvite = $this->em->getRepository(User::class)->find($id);
+        $this->insertMessageAboutInvitation($user->getUsername(), $userToInvite);
+        $this->insertInvitation($userToInvite, $user);
         return 1;
     }
 
-    private function insertMessageAboutCancelInvitation(int $userId, string $userName): void
+    private function insertMessageAboutCancelInvitation(User $user, string $userName): void
     {
         $report = new Report();
         $report->setContent(
@@ -132,10 +132,10 @@ class Friends
         );
         $report->setTitle($userName . ' cofnął zaproszenie.');
 
-        $this->insertMessage($userId, $report);
+        $this->insertMessage($user, $report);
     }
 
-    private function insertMessageAboutReject(int $userId, string $userName): void
+    private function insertMessageAboutReject(User $user, string $userName): void
     {
         $report = new Report();
         $report->setContent(
@@ -143,19 +143,19 @@ class Friends
         );
         $report->setTitle($userName . ' odrzucił zaproszenie.');
 
-        $this->insertMessage($userId, $report);
+        $this->insertMessage($user, $report);
     }
 
-    private function insertMessageAboutDelete(int $userId, string $userName): void
+    private function insertMessageAboutDelete(User $user, string $userName): void
     {
         $report = new Report();
         $report->setContent('<div class="text-center">Gracz ' . $userName . ' usunął Cię ze znajomych.</div>');
         $report->setTitle($userName . ' usunął Cię ze znajomych.');
 
-        $this->insertMessage($userId, $report);
+        $this->insertMessage($user, $report);
     }
 
-    private function insertMessageAboutAccept(int $userId, string $userName): void
+    private function insertMessageAboutAccept(User $user, string $userName): void
     {
         $report = new Report();
         $report->setContent(
@@ -163,34 +163,33 @@ class Friends
         );
         $report->setTitle($userName . ' zaakceptował zaproszenie.');
 
-        $this->insertMessage($userId, $report);
+        $this->insertMessage($user, $report);
     }
 
-    private function insertMessage(int $userId, Report $report): void
+    private function insertMessage(User $user, Report $report): void
     {
         $report->setTime(new \DateTime);
-        $report->setUserId($userId);
+        $report->setUser($user);
         $report->setIsRead(0);
         $this->em->persist($report);
         $this->em->flush();
     }
 
-    private function insertMessageAboutInvitation(string $name, int $id): void
+    private function insertMessageAboutInvitation(string $name, User $user): void
     {
         $report = new Report();
         $report->setContent('Użytkownik '.$name.' zaprasza Cię do znajomych.');
         $report->setTitle('Nowe zaproszenie do znajomych');
-        $this->insertMessage($id, $report);
+        $this->insertMessage($user, $report);
     }
 
-    private function insertInvitation(int $id, User $user): void
+    private function insertInvitation(User $userToSent, User $user): void
     {
-        $userToSent = $this->em->find('AppBundle:User', $id);
         $friendship = new Friend();
         $friendship->setInvitation(1);
         $friendship->setAccepted(0);
-        $friendship->setUserId($user);
-        $friendship->setWhoId($userToSent);
+        $friendship->setUser($user);
+        $friendship->setWho($userToSent);
 
         $this->em->persist($friendship);
         $this->em->flush();

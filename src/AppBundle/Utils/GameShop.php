@@ -1,10 +1,6 @@
 <?php
 namespace AppBundle\Utils;
 
-use AppBundle\Entity\Items;
-use AppBundle\Entity\Pokeball;
-use AppBundle\Entity\Statistic;
-use AppBundle\Entity\Stones;
 use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -29,11 +25,6 @@ class GameShop
     {
         $this->em = $em;
         $this->session = $session;
-    }
-
-    public function getPokeballs(int $userId): Pokeball
-    {
-        return $this->em->getRepository('AppBundle:Pokeball')->find($userId);
     }
 
     public function getPokeballsDescriptions(): array
@@ -83,12 +74,12 @@ class GameShop
         ];
     }
 
-    public function getAllItems(int $userId, $mode = ''): array
+    public function getAllItems(User $user, $mode = ''): array
     {
         return [
-            'items' => $this->em->getRepository('AppBundle:Items')->find($userId),
-            'statistics' => $this->em->getRepository('AppBundle:Statistic')->find($userId),
-            'stones' => $this->em->getRepository('AppBundle:Stones')->find($userId)
+            'items' => $user->getItems(),
+            'statistics' => $user->getStatistics(),
+            'stones' => $user->getStones()
         ];
     }
 
@@ -121,7 +112,7 @@ class GameShop
 
     private function buyBattery(int $quantity): void
     {
-        $items = $this->getItems();
+        $items = $this->user->getItems();
         $price = $quantity * 55;
         if (!$this->checkCash($price)) {
             return;
@@ -133,7 +124,7 @@ class GameShop
 
     private function buyFlashLight(): void
     {
-        $items = $this->getItems();
+        $items = $this->user->getItems();
         if (!$items->getFlashlight()) {
             $price = 5000;
             if (!$this->checkCash($price)) {
@@ -149,7 +140,7 @@ class GameShop
 
     private function buyRune(int $quantity): void
     {
-        $stones = $this->getStones();
+        $stones = $this->user->getStones();
         $price = $quantity * 100000;
         if (!$this->checkCash($price)) {
             return;
@@ -161,7 +152,7 @@ class GameShop
 
     private function buyShovel(): void
     {
-        $items = $this->getItems();
+        $items = $this->user->getItems();
         if (!$items->getShovel()) {
             $price = 500000;
             if (!$this->checkCash($price)) {
@@ -178,7 +169,7 @@ class GameShop
 
     private function buyKit(): void
     {
-        $items = $this->getItems();
+        $items = $this->user->getItems();
         $p = [1 => 25000, 2 => 180000, 3 => 800000];
         if ($items->getKit() < 3) {
             $price = $p[$items->getKit() + 1];
@@ -196,7 +187,7 @@ class GameShop
 
     private function buyPokedex(): void
     {
-        $items = $this->getItems();
+        $items = $this->user->getItems();
         if ($items->getPokedex() <= 3) {
             $price = (5 ** ($items->getPokedex() + 1)) * 10000;
             if (!$this->checkCash($price)) {
@@ -214,7 +205,7 @@ class GameShop
 
     private function buyBox(): void
     {
-        $items = $this->getItems();
+        $items = $this->user->getItems();
         if ($items->getBox() < 5) {
             $price = $items->getBox() * 150000;
             if (!$this->checkCash($price)) {
@@ -231,7 +222,7 @@ class GameShop
 
     private function buyBars(int $quantity): void
     {
-        $items = $this->getItems();
+        $items = $this->user->getItems();
         $price = $quantity * 400;
         if (!$this->checkCash($price)) {
             return;
@@ -243,7 +234,7 @@ class GameShop
 
     private function buyCookies(int $quantity): void
     {
-        $items = $this->getItems();
+        $items = $this->user->getItems();
         $price = $quantity * 2100;
         if (!$this->checkCash($price)) {
             return;
@@ -255,7 +246,7 @@ class GameShop
 
     private function buyLottery(int $quantity): void
     {
-        $statistics = $this->getStatistics();
+        $statistics = $this->user->getStatistics();
         $price = $quantity * 60000;
         if (!$this->checkCash($price)) {
             return;
@@ -268,7 +259,7 @@ class GameShop
 
     private function buyMpa(): void
     {
-        $items = $this->getItems();
+        $items = $this->user->getItems();
         if ($items->getMpa() < 10) {
             $price = 2 ** $items->getMpa() * 25000;
             if (!$this->checkCash($price)) {
@@ -286,7 +277,7 @@ class GameShop
 
     private function buySafari(int $quantity): void
     {
-        $statistics = $this->getStatistics();
+        $statistics = $this->user->getStatistics();
         $price = $quantity * 15000;
         if (!$this->checkCash($price)) {
             return;
@@ -299,7 +290,7 @@ class GameShop
 
     private function buyPokemonFood(int $quantity): void
     {
-        $items = $this->getItems();
+        $items = $this->user->getItems();
         $price = $quantity * 1500;
         if (!$this->checkCash($price)) {
             return;
@@ -403,22 +394,7 @@ class GameShop
 
     private function updatePokeballs(string $pokeball, int $quantity): void
     {
-        $pokeballs = $this->em->getRepository('AppBundle:Pokeball')->find($this->user->getId());
+        $pokeballs = $this->user->getPokeballs();
         $pokeballs->{'set'.$pokeball}($pokeballs->{'get'.$pokeball}() + $quantity);
-    }
-
-    private function getItems(): Items
-    {
-        return $this->em->getRepository('AppBundle:Items')->find($this->user->getId());
-    }
-
-    private function getStatistics(): Statistic
-    {
-        return $this->em->getRepository('AppBundle:Statistic')->find($this->user->getId());
-    }
-
-    private function getStones(): Stones
-    {
-        return $this->em->getRepository('AppBundle:Stones')->find($this->user->getId());
     }
 }

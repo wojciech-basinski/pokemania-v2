@@ -70,7 +70,7 @@ class GamePokemons
         $this->em->getRepository('AppBundle:Pokemon')->deletePokemonFromTeam($pokemonId);
         $this->em->getRepository('AppBundle:UserTeam')->deletePokemonFromTeam($id, $user->getId());
 
-        $this->addPokemonsToSessionTeam($user->getId());
+        $this->addPokemonsToSessionTeam($user);
         $this->session->getFlashBag()->add('success', 'Poprawnie usunięto Pokemona z drużyny.');
     }
 
@@ -99,7 +99,7 @@ class GamePokemons
             $user->getId()
         );
 
-        $this->addPokemonsToSessionTeam($user->getId());
+        $this->addPokemonsToSessionTeam($user);
         $this->session->getFlashBag()->add(
             'success',
             'Poprawnie dodano '. count($pokemonsPossibleToTeam) .' Pokemonów do drużyny.'
@@ -132,7 +132,7 @@ class GamePokemons
         );
     }
 
-    public function getOrderUp(int $i, int $userId): void
+    public function getOrderUp(int $i, User $user): void
     {
         if ($i < 1 || $i > 5 || !$this->session->get('pokemon'.$i)) {
             $this->session->getFlashBag()->add('error', 'Błędny numer Pokemona');
@@ -142,11 +142,11 @@ class GamePokemons
           $i => $this->session->get('pokemon'.$i)->getId(),
           $i+1 => $this->session->get('pokemon'.($i-1))->getId()
         ];
-        $this->em->getRepository('AppBundle:UserTeam')->changeOrder($order, $userId);
-        $this->addPokemonsToSessionTeam($userId);
+        $this->em->getRepository('AppBundle:UserTeam')->changeOrder($order, $user->getUserTeam()->getId());
+        $this->addPokemonsToSessionTeam($user);
     }
 
-    public function getOrderDown(int $i, int $userId): void
+    public function getOrderDown(int $i, User $user): void
     {
         if ($i < 0 || $i > 4 || !$this->session->get('pokemon'.$i)) {
             $this->session->getFlashBag()->add('error', 'Błędny numer Pokemona');
@@ -160,8 +160,8 @@ class GamePokemons
             $i+1 => $this->session->get('pokemon'.($i+1))->getId(),
             $i+2 => $this->session->get('pokemon'.$i)->getId()
         ];
-        $this->em->getRepository('AppBundle:UserTeam')->changeOrder($order, $userId);
-        $this->addPokemonsToSessionTeam($userId);
+        $this->em->getRepository('AppBundle:UserTeam')->changeOrder($order, $user->getUserTeam()->getId());
+        $this->addPokemonsToSessionTeam($user);
     }
 
     private function checkWhichPokemonGoToTeam(array $pokemons, int $possibleToTeam): array
@@ -215,10 +215,10 @@ class GamePokemons
         return $this->checkPokemonsIfTheyAreUsers($pokemons, $user);
     }
 
-    private function addPokemonsToSessionTeam(int $userId): void
+    private function addPokemonsToSessionTeam(User $user): void
     {
         $this->clearPokemonsInSession();
-        $this->auth->pokemonsToTeam($userId);
+        $this->auth->pokemonsToTeam($user);
     }
 
     private function clearPokemonsInSession(): void

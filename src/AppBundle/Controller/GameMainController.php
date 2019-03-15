@@ -103,7 +103,7 @@ class GameMainController extends Controller
         $add = $bugs->add(
             $this->request->request->get('title'),
             $this->request->request->get('content'),
-            $this->getUser()->getId()
+            $this->getUser()
         );
         if ($add) {
             return $this->redirectToRoute('game_bugs');

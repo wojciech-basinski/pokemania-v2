@@ -18,9 +18,9 @@ class Bug
     private $id;
 
     /**
-     * @var int
+     * @var User
      *
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity=User::class, fetch="EAGER")
      */
     private $reportedBy;
 
@@ -58,14 +58,14 @@ class Bug
         return $this->id;
     }
 
-    public function setReportedBy(int $reportedBy): self
+    public function setReportedBy(User $reportedBy): self
     {
         $this->reportedBy = $reportedBy;
 
         return $this;
     }
 
-    public function getReportedBy(): int
+    public function getReportedBy(): User
     {
         return $this->reportedBy;
     }

@@ -81,7 +81,7 @@ class GamePokemon
         $isInTeam = $pokemon[0]->getTeam();
 
         if ($isYourPokemon && $isInTeam) {
-            $pokemon = $this->getPokemonsFromTeam($user->getId())['pokemons'];
+            $pokemon = $this->getPokemonsFromTeam($user)['pokemons'];
         }
 
         $owner = $this->em->getRepository('AppBundle:User')->find($pokemon[0]->getOwner())->getLogin();
@@ -94,9 +94,9 @@ class GamePokemon
         ];
     }
 
-    private function getPokemonsFromTeam(int $userId): array
+    private function getPokemonsFromTeam(User $user): array
     {
-        return $this->em->getRepository('AppBundle:Pokemon')->getUsersPokemonsFromTeam($userId);
+        return $this->em->getRepository('AppBundle:Pokemon')->getUsersPokemonsFromTeam($user);
     }
 
     private function findPokemon(int $id): ?Pokemon

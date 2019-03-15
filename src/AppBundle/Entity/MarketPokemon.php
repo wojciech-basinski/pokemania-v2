@@ -46,11 +46,11 @@ class MarketPokemon
     private $value;
 
     /**
-     * @var int
+     * @var User
      *
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity=User::class, fetch="EAGER")
      */
-    private $ownerId;
+    private $owner;
 
     /**
      * @var bool
@@ -95,7 +95,7 @@ class MarketPokemon
     private $gender;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Pokemon", fetch="EAGER")
+     * @ORM\OneToOne(targetEntity=Pokemon::class, fetch="EAGER")
      * @ORM\JoinColumn(name="id_pokemon", referencedColumnName="id")
      */
     private $pokemonInfo;
@@ -153,16 +153,16 @@ class MarketPokemon
         return $this->value;
     }
 
-    public function setOwnerId(int $ownerId): self
+    public function setOwner(User $owner): self
     {
-        $this->ownerId = $ownerId;
+        $this->owner = $owner;
 
         return $this;
     }
 
-    public function getOwnerId(): int
+    public function getOwner(): User
     {
-        return $this->ownerId;
+        return $this->owner;
     }
 
     public function setShiny(bool $shiny): self

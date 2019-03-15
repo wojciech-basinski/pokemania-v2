@@ -74,7 +74,7 @@ class GamePokemonChange
         $content = $value ? 'Zablokowano możliwość ewolucji Pokemona' : 'Odblokowano możliwość ewolucji Pokemona';
         $this->session->getFlashBag()->add('success', $content);
         $this->clearPokemonsInSession();
-        $this->auth->pokemonsToTeam($user->getId());
+        $this->auth->pokemonsToTeam($user);
     }
 
     private function changeName(?string $value, ?int $id, User $user): void
@@ -91,7 +91,7 @@ class GamePokemonChange
         $this->session->getFlashBag()->add('success', 'Zmieniono imię Pokemona');
         $pokemon->setName($value);
         $this->clearPokemonsInSession();
-        $this->auth->pokemonsToTeam($user->getId());
+        $this->auth->pokemonsToTeam($user);
     }
 
     private function changeUp(?string $value, ?int $id, User $user): void

@@ -18,9 +18,9 @@ class Exchange
     private $id;
 
     /**
-     * @var int
+     * @var User
      *
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity=User::class, fetch="EAGER")
      */
     private $userId;
 
@@ -43,14 +43,14 @@ class Exchange
         return $this->id;
     }
 
-    public function setUserId(int $userId): self
+    public function setUserId(User $userId): self
     {
         $this->userId = $userId;
 
         return $this;
     }
 
-    public function getUserId(): int
+    public function getUserId(): User
     {
         return $this->userId;
     }

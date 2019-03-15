@@ -51,18 +51,13 @@ class GameHuntingCatch
         $this->pokemonHelper = $pokemonHelper;
     }
 
-    public function getPokeballs(int $userId): Pokeball
-    {
-        return $this->shop->getPokeballs($userId);
-    }
-
     public function catch(string $pokeball, User $user): void
     {
         if (!$this->pokemon || $this->pokemon->getInfo()['difficulty'] === 10) {
             $this->session->getFlashBag()->add('error', 'Nie możesz złapać tego Pokemona');
             return;
         }
-        if (!$this->checkPokeballs($user->getId(), $pokeball)) {
+        if (!$this->checkPokeballs($user, $pokeball)) {
             $this->session->getFlashBag()->add('error', 'Nie posiadasz '.$pokeball);
             return;
         }
@@ -78,7 +73,7 @@ class GameHuntingCatch
             }
             $this->deletePokemonFromSession();
             $this->deleteRepeatballFromSession();
-            $this->addStatistics($user->getId(), $pokeball, $this->pokemon->getShiny());
+            $this->addStatistics($user, $pokeball, $this->pokemon->getShiny());
             $this->addExpToUser($user, $this->pokemon->getInfo()['difficulty']);
         } elseif ($pokeball === 'Repeatball') {
             $this->session->getFlashBag()->add('info', 'Repeatball ogłuszył Pokemona, masz szansę rzucić w niego kolejny pokeball');
@@ -201,7 +196,7 @@ class GameHuntingCatch
         if (!$this->checkMagazine($user, $this->pokemon->getShiny())) {
             return false;
         }
-        $this->collection->addOneToPokemonCatchAndReturnIfMetAndCaught($this->pokemon->getIdPokemon(), $user->getId());
+        $this->collection->addOneToPokemonCatchAndReturnIfMetAndCaught($this->pokemon->getIdPokemon(), $user);
         if ($this->pokemon->getShiny()) {
             $pokemon = $this->pokemonHelper->generatePokemon($this->pokemon->getIdPokemon(), 1, true);
             $pokemon->getTraining()->setBerryLimit(rand(50, 75) * 5);
@@ -248,9 +243,9 @@ class GameHuntingCatch
         return true;
     }
 
-    private function checkPokeballs(int $userId, string $pokeball): bool
+    private function checkPokeballs(User $user, string $pokeball): bool
     {
-        $pokeballs = $this->em->getRepository('AppBundle:Pokeball')->find($userId);
+        $pokeballs = $user->getPokeballs();
 
         if (method_exists($pokeballs, 'get'.$pokeball.'s')) {
             $pokeballQuantity = $pokeballs->{'get'.$pokeball.'s'}();
@@ -274,15 +269,17 @@ class GameHuntingCatch
         $this->session->remove('pokemonHunting');
     }
 
-    private function addStatistics(int $userId, string $pokeball, bool $shiny): void
+    private function addStatistics(User $user, string $pokeball, bool $shiny): void
     {
-        $this->em->getRepository('AppBundle:Statistic')->addCatchedOnePokemon($userId);
+        $this->em->getRepository('AppBundle:Statistic')->addCatchedOnePokemon($user->getStatistics()->getId());
         if ($shiny) {
-            $this->em->getRepository('AppBundle:Achievement')->addCatchedOneShiny($userId, $pokeball);
+            $this->em->getRepository('AppBundle:Achievement')
+                ->addCatchedOneShiny($user->getAchievements()->getId(), $pokeball);
             return;
         }
         if ($pokeball !== 'Masterball') {
-            $this->em->getRepository('AppBundle:Achievement')->addCatchedOnePokemon($userId, $pokeball);
+            $this->em->getRepository('AppBundle:Achievement')
+                ->addCatchedOnePokemon($user->getAchievements()->getId(), $pokeball);
         }
     }
 

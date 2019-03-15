@@ -13,7 +13,7 @@ class MarketRepository extends EntityRepository
         $qb->where('ofert.name = :name');
         $qb->andWhere('ofert.kind = :kind');
         if (!$own) {
-            $qb->andWhere('ofert.userId <> :idUser');
+            $qb->andWhere('ofert.user <> :idUser');
             $qb->setParameter(':idUser', $userId);
         }
         $qb->setParameter(':name', $name);
@@ -33,7 +33,7 @@ class MarketRepository extends EntityRepository
         $qb->where('ofert.name = :name');
         $qb->andWhere('ofert.kind = :kind');
         if (!$own) {
-            $qb->andWhere('ofert.userId <> :userId');
+            $qb->andWhere('ofert.user <> :userId');
             $qb->setParameter(':userId', $userId);
         }
         $qb->setParameter(':name', $name);

@@ -34,7 +34,7 @@ class GameRegionController extends Controller
      */
     public function lotteryShowAction(Lottery $lottery): Response
     {
-        $tickets = $lottery->countUserTickets($this->getUser()->getId());
+        $tickets = $lottery->countUserTickets($this->getUser());
 
         return $this->render('game/lottery.html.twig', [
             'title' => 'Loteria',
@@ -117,10 +117,10 @@ class GameRegionController extends Controller
      */
     public function shopAction(GameShop $shop): Response
     {
-        $pokeballs = $shop->getPokeballs($this->getUser()->getId());
+        $pokeballs = $this->getUser()->getPokeballs();
         $pokeballsDescription =  $shop->getPokeballsDescriptions();
 
-        $items = $shop->getAllItems($this->getUser()->getId());
+        $items = $shop->getAllItems($this->getUser());
 
         return $this->render('game/shop.html.twig', [
             'title' => 'Sklep',
@@ -178,7 +178,7 @@ class GameRegionController extends Controller
      */
     public function merchantSellAction(GameMerchant $merchant): Response
     {
-        $all = $this->request->get('all');
+        $all = $this->request->get('all', false);
         $selected = $this->request->get('selected');
         $confirm = $this->request->get('confirm');
         $merchant->sellPokemons($all, $this->getUser(), $selected, $confirm);
