@@ -15,18 +15,12 @@ class OtherSpecialController extends Controller
 {
     /**
      * @Route("/lewo", name="game_left")
-     * @param LeftTable $leftTable
      *
      * @return Response
      */
-    public function leftAction(LeftTable $leftTable): Response
+    public function leftAction(): Response
     {
-
-        $pokemonsInTeam = $leftTable->getUsersPokemonsInTeam();
-
-        return $this->render('game/template/left.html.twig', [
-            'pokemonsInTeam' => $pokemonsInTeam
-        ]);
+        return $this->render('game/template/left.html.twig');
     }
 
     /**

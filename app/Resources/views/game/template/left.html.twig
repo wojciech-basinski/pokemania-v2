@@ -1,6 +1,3 @@
-{#
-    <?= $this->podpowiedz ?>
-        <?php endif; ?>#}
         <div class="panel panel-success jeden_ttlo">
             <div class="panel-heading text-medium">
                 <span>{{ app.user.login|upper }}</span>
@@ -84,6 +81,7 @@
                 <span>DRUŻYNA</span>
             </div>
             <div class="table table-stripped">
+                {% set pokemonsInTeam = get_pokemons_from_team() %}
                 {% for pokemon in pokemonsInTeam %}
                 <form id="pokemony" data-id="{{ pokemon.id }}" class="jeden tr" data-i="{{ loop.index }}"
                       action="{{ path('game_pokemon_post') }}" data-name="{{ pokemon.name }}" method="post">
