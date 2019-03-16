@@ -196,7 +196,11 @@ class GameHuntingCatch
         if (!$this->checkMagazine($user, $this->pokemon->getShiny())) {
             return false;
         }
-        $this->collection->addOneToPokemonCatchAndReturnIfMetAndCaught($this->pokemon->getIdPokemon(), $user);
+        $this->collection->addOneToPokemonCatchAndReturnIfMetAndCaught(
+            $this->pokemon->getIdPokemon(),
+            $user,
+            $this->pokemon->getShiny()
+        );
         if ($this->pokemon->getShiny()) {
             $pokemon = $this->pokemonHelper->generatePokemon($this->pokemon->getIdPokemon(), 1, true);
             $pokemon->getTraining()->setBerryLimit(rand(50, 75) * 5);

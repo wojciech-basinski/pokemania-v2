@@ -6,7 +6,9 @@
         <div class="panel-body">
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#kanto">KANTO</a></li>
+                <li><a data-toggle="tab" href="#kanto-shiny">KANTO - SHINY</a></li>
                 <li><a data-toggle="tab" href="#johto">JOHTO</a></li>
+                <li><a data-toggle="tab" href="#johto-shiny">JOHTO - SHINY</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="kanto">
@@ -36,6 +38,33 @@
                         {% endfor %}
                     </div>
                 </div>
+                <div class="tab-pane fade" id="kanto-shiny">
+                    <div class="row nomargin">
+                        <div class="alert alert-info text-center text-medium">
+                            <span>Spotkane pokemony: {{ collection.metShinyKanto }}
+                                <br/>Złapane pokemony: {{ collection.caughtShinyKanto }}</span>
+                        </div>
+                        {% for pokemon in collection['kanto'] %}
+                            <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2 text-center padding_lr margin-top" id="{{ pokemon.id }}">
+                                <div id="{{ pokemon.id }}" class="kolekcja jeden kursor"
+                                     data-original-title="Spotkane: {{ pokemon.meetShiny }}<br />Złapane: {{ pokemon.caughtShiny }}"
+                                     data-toggle="tooltip" data-placement="top auto">
+                                    {% if pokemon.meetShiny %}
+                                        {% if pokemon.caughtShiny %}
+                                            <img src="{{ asset('img/poki/s'~pokemon.id~'.png') }}" class="kolekcja_img" />
+                                        {% else %}
+                                            <img src="{{ asset('img/poki/bw/'~pokemon.id~'.png') }}" class="kolekcja_img" />
+                                        {% endif %}
+                                        <br />#{{ pokemon.id }}<br /> {{ pokemon.name }}
+                                    {% else %}
+                                        <img src="{{ asset('img/poki/b/'~pokemon.id~'.png') }}" class="kolekcja_img" />
+                                        <br />#{{ pokemon.id }}<br />???
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
                 <div class="tab-pane fade" id="johto">
                     <div class="row nomargin">
                         <div class="alert alert-info text-center text-medium">
@@ -50,6 +79,33 @@
                                     {% if pokemon.meet %}
                                         {% if pokemon.caught %}
                                             <img src="{{ asset('img/poki/'~pokemon.id~'.png') }}" class="kolekcja_img" />
+                                        {% else %}
+                                            <img src="{{ asset('img/poki/bw/'~pokemon.id~'.png') }}" class="kolekcja_img" />
+                                        {% endif %}
+                                        <br />#{{ pokemon.id }}<br /> {{ pokemon.name }}
+                                    {% else %}
+                                        <img src="{{ asset('img/poki/b/'~pokemon.id~'.png') }}" class="kolekcja_img" />
+                                        <br />#{{ pokemon.id }}<br />???
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="johto-shiny">
+                    <div class="row nomargin">
+                        <div class="alert alert-info text-center text-medium">
+                            <span>Spotkane pokemony: {{ collection.metShinyJohto }}
+                                <br/>Złapane pokemony: {{ collection.caughtShinyJohto }}</span>
+                        </div>
+                        {% for pokemon in collection['johto'] %}
+                            <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2 text-center padding_lr margin-top" id="{{ pokemon.id }}">
+                                <div id="{{ pokemon.id }}" class="kolekcja jeden kursor"
+                                     data-original-title="Spotkane: {{ pokemon.meetShiny }}<br />Złapane: {{ pokemon.caughtShiny }}"
+                                     data-toggle="tooltip" data-placement="top auto">
+                                    {% if pokemon.meetShiny %}
+                                        {% if pokemon.caughtShiny %}
+                                            <img src="{{ asset('img/poki/s'~pokemon.id~'.png') }}" class="kolekcja_img" />
                                         {% else %}
                                             <img src="{{ asset('img/poki/bw/'~pokemon.id~'.png') }}" class="kolekcja_img" />
                                         {% endif %}

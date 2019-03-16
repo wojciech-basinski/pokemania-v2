@@ -493,7 +493,7 @@ class GameHunting
 
     private function addPokemonToCollection(int $id, User $user)
     {
-        $info = $this->collection->addOneToPokemonMetAndReturnIfMetAndCaught($id, $user);
+        $info = $this->collection->addOneToPokemonMetAndReturnIfMetAndCaught($id, $user, $this->pokemon->getShiny());
 
         $this->pokemonInfo['met'] = $info[0];
         $this->pokemonInfo['caught'] = $info[1];
