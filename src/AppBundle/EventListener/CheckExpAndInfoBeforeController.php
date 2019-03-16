@@ -339,6 +339,12 @@ Twój Pokemon <span class="pogrubienie">'.$oldName.'</span> awansował na kolejn
                 $this->tokenStorage->getToken()->getUser()
             );
         }
+        if ($pokemon->getShiny()) {
+            $this->collection->addCatchAndMetToShiny(
+                $pokemon->getIdPokemon(),
+                $this->tokenStorage->getToken()->getUser()
+            );
+        }
     }
 
     private function clearPokemonsInSession(): void

@@ -1,6 +1,8 @@
 <?php
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\User;
+use AppBundle\Utils\Collection;
 use AppBundle\Utils\GameHospital;
 use AppBundle\Utils\GamePack;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -105,5 +107,15 @@ class FooterController extends Controller
     {
         $pack->useItem('food', 'all', $this->getUser(), $id);
         return $this->render('game/footer.html.twig');
+    }
+
+    /**
+     * @Route("/dupa")
+     */
+    public function dupa(Collection $collection)
+    {
+        $userCollection = $this->getUser();
+        dump($collection->addCatchAndMetToShiny(3, $userCollection));
+        $this->getDoctrine()->getManager()->flush();die;
     }
 }
