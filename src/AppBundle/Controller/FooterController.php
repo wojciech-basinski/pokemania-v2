@@ -1,9 +1,6 @@
 <?php
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\User;
-use AppBundle\Utils\AuthenticationService;
-use AppBundle\Utils\Collection;
 use AppBundle\Utils\GameHospital;
 use AppBundle\Utils\GamePack;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
