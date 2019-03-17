@@ -64,7 +64,7 @@
                                     <div class="col-xs-8">
                                         {#<a href="{{ path("game_user_profile", {'id' : pokemon.owner.id }) }}" TARGET="_blank"#}
                                            {#class="btn btn-link nopadding">#}
-                                        {{ owner.login }}
+                                        {{ pokemon.owner.login }}
                                         {#</a>#}
                                     </div>
                                 </div>
@@ -82,11 +82,11 @@
                                 {% endif %}
 
                                 <div class="row nomargin well well-stan alert-info margin_2 color-white">
-                                    <div class="col-xs-4">TYP{{ pokemon.info.typ2 ? 'Y' : '' }}:</div>
+                                    <div class="col-xs-4">TYP{{ pokemon.info.type2 ? 'Y' : '' }}:</div>
                                     <div class="col-xs-8">
-                                        <img src="{{ asset('img/typy/'~ pokemon.info.typ1 ~ '.gif') }}" data-toggle="tooltip" data-title="{{ pokemon.info.type1Description }}"/>
-                                        {% if pokemon.info.typ2 %}
-                                            <img src="{{ asset('img/typy/'~ pokemon.info.typ2 ~ '.gif') }}" data-toggle="tooltip" data-title="{{ pokemon.info.type2Description }}"/>
+                                        <img src="{{ asset('img/typy/'~ pokemon.info.type1 ~ '.gif') }}" data-toggle="tooltip" data-title="{{ pokemon.info.type1Description }}"/>
+                                        {% if pokemon.info.type2 %}
+                                            <img src="{{ asset('img/typy/'~ pokemon.info.type2 ~ '.gif') }}" data-toggle="tooltip" data-title="{{ pokemon.info.type2Description }}"/>
                                         {% endif %}
                                     </div>
                                 </div>
