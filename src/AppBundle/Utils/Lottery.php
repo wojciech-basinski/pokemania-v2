@@ -196,8 +196,8 @@ class Lottery
         $dratini->setName('Dratini');
         $dratini->setIdPokemon(147);
         $dratini->setValue(100000);
-        $dratini->setOwner($user->getId());
-        $dratini->setFirstOwner($user->getId());
+        $dratini->setOwner($user);
+        $dratini->setFirstOwner($user);
         $dratini->setCatched('lottery');
         $dratini->setLevel(1);
         $dratini->setQuality(90);

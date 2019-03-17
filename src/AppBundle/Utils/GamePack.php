@@ -1,13 +1,9 @@
 <?php
 namespace AppBundle\Utils;
 
-use AppBundle\Entity\Berry;
-use AppBundle\Entity\Items;
-use AppBundle\Entity\Pokeball;
 use AppBundle\Entity\Pokemon;
 use AppBundle\Entity\PokemonTraining;
 use AppBundle\Entity\Report;
-use AppBundle\Entity\Stones;
 use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;

@@ -61,9 +61,9 @@ class Pokemon
     private $shiny;
 
     /**
-     * @var int
+     * @var User
      *
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @Gedmo\Versioned
      */
     private $owner;
@@ -258,9 +258,9 @@ class Pokemon
     private $description;
 
     /**
-     * @var int
+     * @var User
      *
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      */
     private $firstOwner;
 
@@ -308,6 +308,11 @@ class Pokemon
      * @var array
      */
     private $effectiveness = null;
+
+    public function __construct()
+    {
+        $this->training = new PokemonTraining();
+    }
 
     public function getTraining(): PokemonTraining
     {
@@ -386,14 +391,14 @@ class Pokemon
         return $this->shiny;
     }
 
-    public function setOwner(int $owner): self
+    public function setOwner(User $owner): self
     {
         $this->owner = $owner;
 
         return $this;
     }
 
-    public function getOwner(): ?int
+    public function getOwner(): ?User
     {
         return $this->owner;
     }
@@ -722,14 +727,14 @@ class Pokemon
         return $this->description;
     }
 
-    public function setFirstOwner(int $firstOwner): self
+    public function setFirstOwner(User $firstOwner): self
     {
         $this->firstOwner = $firstOwner;
 
         return $this;
     }
 
-    public function getFirstOwner(): ?int
+    public function getFirstOwner(): ?User
     {
         return $this->firstOwner;
     }

@@ -142,8 +142,8 @@ class GameExchange
         $this->collection->addOneToPokemonCatchAndMet($id, $user);
 
         $pokemon = $this->pokemonHelper->generatePokemon($id, 1);
-        $pokemon->setOwner($user->getId());
-        $pokemon->setFirstOwner($user->getId());
+        $pokemon->setOwner($user);
+        $pokemon->setFirstOwner($user);
         $pokemon->setDateOfCatch(new \DateTime());
         $pokemon->setDescription('');
         $pokemon->setExchange(0);

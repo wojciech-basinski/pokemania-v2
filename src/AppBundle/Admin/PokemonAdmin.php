@@ -9,9 +9,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Form\Type\AdminType;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\Form\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 final class PokemonAdmin extends AbstractAdmin
@@ -25,7 +23,7 @@ final class PokemonAdmin extends AbstractAdmin
             ->add('level')
             ->add('exp')
             ->add('shiny')
-            ->add('owner')
+            ->add('owner.login')
             ->add('attack')
             ->add('defence')
             ->add('spAttack')
@@ -53,7 +51,7 @@ final class PokemonAdmin extends AbstractAdmin
             ->add('hunger')
             ->add('tr6')
             ->add('description')
-            ->add('firstOwner')
+            ->add('firstOwner.login')
             ->add('exchange')
             ->add('catched')
             ->add('quality')
@@ -69,7 +67,7 @@ final class PokemonAdmin extends AbstractAdmin
             ->add('level')
             ->add('exp')
             ->add('shiny')
-            ->add('owner')
+            ->add('owner.login')
             ->add('attack')
             ->add('defence')
             ->add('spAttack')
@@ -97,7 +95,7 @@ final class PokemonAdmin extends AbstractAdmin
             ->add('hunger')
             ->add('tr6')
             ->add('description')
-            ->add('firstOwner')
+            ->add('firstOwner.login')
             ->add('exchange')
             ->add('catched')
             ->add('quality')
@@ -122,6 +120,9 @@ final class PokemonAdmin extends AbstractAdmin
             ->add('owner', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'login',
+                'choice_value' => function (User $entity = null) {
+                    return $entity ? $entity->getId() : '';
+                },
             ])
             ->add('attack')
             ->add('defence')
@@ -150,11 +151,14 @@ final class PokemonAdmin extends AbstractAdmin
             ->add('hunger')
             ->add('tr6')
             ->add('description', null, [
-                'required' => false
+                'empty_data' => ''
             ])
             ->add('firstOwner', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'login',
+                'choice_value' => function (User $entity = null) {
+                    return $entity ? $entity->getId() : '';
+                },
             ])
             ->add('exchange')
             ->add('catched')
@@ -171,7 +175,7 @@ final class PokemonAdmin extends AbstractAdmin
             ->add('level')
             ->add('exp')
             ->add('shiny')
-            ->add('owner')
+            ->add('owner.login')
             ->add('attack')
             ->add('defence')
             ->add('spAttack')
@@ -199,7 +203,7 @@ final class PokemonAdmin extends AbstractAdmin
             ->add('hunger')
             ->add('tr6')
             ->add('description')
-            ->add('firstOwner')
+            ->add('firstOwner.login')
             ->add('exchange')
             ->add('catched')
             ->add('quality')

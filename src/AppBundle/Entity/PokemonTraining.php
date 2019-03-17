@@ -22,77 +22,84 @@ class PokemonTraining
      *
      * @ORM\Column(type="smallint")
      */
-    private $berryLimit;
+    private $berryLimit = 0;
 
     /**
      * @var int
      *
      * @ORM\Column(type="smallint")
      */
-    private $berryAttack;
+    private $berryAttack = 0;
 
     /**
      * @var int
      *
      * @ORM\Column(type="smallint")
      */
-    private $berryDefence;
+    private $berryDefence = 0;
 
     /**
      * @var int
      *
      * @ORM\Column(type="smallint")
      */
-    private $berrySpAttack;
+    private $berrySpAttack = 0;
 
     /**
      * @var int
      *
      * @ORM\Column(type="smallint")
      */
-    private $berrySpDefence;
+    private $berrySpDefence = 0;
 
     /**
      * @var int
      *
      * @ORM\Column(type="smallint")
      */
-    private $berrySpeed;
+    private $berrySpeed = 0;
 
     /**
      * @var int
      *
      * @ORM\Column(name="tr_1", type="smallint")
      */
-    private $tr1;
+    private $tr1 = 0;
 
     /**
      * @var int
      *
      * @ORM\Column(name="tr_2", type="smallint")
      */
-    private $tr2;
+    private $tr2 = 0;
 
     /**
      * @var int
      *
      * @ORM\Column(name="tr_3", type="smallint")
      */
-    private $tr3;
+    private $tr3 = 0;
 
     /**
      * @var int
      *
      * @ORM\Column(name="tr_4", type="smallint")
      */
-    private $tr4;
+    private $tr4 = 0;
 
     /**
      * @var int
      *
      * @ORM\Column(name="tr_5", type="smallint")
      */
-    private $tr5;
+    private $tr5 = 0;
+
+    public function __construct(int $limit = null)
+    {
+        if ($limit === null) {
+            $this->berryLimit = mt_rand(50, 75) * 5;
+        }
+    }
 
     public function getId(): int
     {

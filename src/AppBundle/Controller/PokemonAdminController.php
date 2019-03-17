@@ -32,7 +32,7 @@ final class PokemonAdminController extends CRUDController
 
         $generateForm = $this->createForm(GeneratePokemonForm::class);
         $generateForm->handleRequest($request);
-        if (!$generateForm->isSubmitted()) {
+        if (!$generateForm->isSubmitted() && !$request->query->get('uniqid')) {
             return $this->render('game/admin/generatePokemonForm.html.twig',[
                 'form' => $generateForm->createView()
             ]);
@@ -101,6 +101,7 @@ final class PokemonAdminController extends CRUDController
             // persist if the form was valid and if in preview mode the preview was approved
             if ($isFormValid && (!$this->isInPreviewMode() || $this->isPreviewApproved())) {
                 $submittedObject = $form->getData();
+                //add training
                 $this->admin->setSubject($submittedObject);
                 $this->admin->checkAccess('create', $submittedObject);
 

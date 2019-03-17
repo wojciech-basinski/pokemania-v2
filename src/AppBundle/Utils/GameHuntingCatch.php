@@ -204,8 +204,8 @@ class GameHuntingCatch
         if ($this->pokemon->getShiny()) {
             $pokemon = $this->pokemonHelper->generatePokemon($this->pokemon->getIdPokemon(), 1, true);
             $pokemon->getTraining()->setBerryLimit(rand(50, 75) * 5);
-            $pokemon->setOwner($user->getId());
-            $pokemon->setFirstOwner($user->getId());
+            $pokemon->setOwner($user);
+            $pokemon->setFirstOwner($user);
             $pokemon->setDateOfCatch(new \DateTime());
             $pokemon->setDescription('');
             $pokemon->setCatched($pokeball);
@@ -219,8 +219,8 @@ class GameHuntingCatch
 
         $this->pokemon->getTraining()->setBerryLimit(rand(50, 75) * 5);
 
-        $this->pokemon->setOwner($user->getId());
-        $this->pokemon->setFirstOwner($user->getId());
+        $this->pokemon->setOwner($user);
+        $this->pokemon->setFirstOwner($user);
         $this->pokemon->setDateOfCatch(new \DateTime());
         $this->pokemon->setDescription('');
         $this->pokemon->setCatched($pokeball);

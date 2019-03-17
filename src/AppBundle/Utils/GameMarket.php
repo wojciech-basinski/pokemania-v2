@@ -342,7 +342,7 @@ class GameMarket
         /** @var Pokemon $pokemon */
         $pokemon = $this->em->find('AppBundle:Pokemon', $ofert->getIdPokemon());
         $pokemon->setMarket(0);
-        $pokemon->setOwner($user->getId());
+        $pokemon->setOwner($user);
         $pokemon->setBlock(1);
         $pokemon->setExp(0);
         $pokemon->setAttachment(0);
