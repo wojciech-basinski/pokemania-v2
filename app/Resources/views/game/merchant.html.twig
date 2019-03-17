@@ -15,20 +15,7 @@
         <div class="panel-body">
             <div class="row nomargin">
                 <div class="col-xs-12 text-center">
-                    {% for message in app.flashes('error') %}
-                        <div class="alert alert-danger">
-                    <span>
-                    {{ message }}
-                    </span>
-                        </div>
-                    {% endfor %}
-                    {% for message in app.flashes('success') %}
-                        <div class="alert alert-success">
-                    <span>
-                    {{ message|raw }}
-                    </span>
-                        </div>
-                    {% endfor %}
+                    {% include('game/template/flashes.html.twig') %}
                     {% if pokemons == null %}
                         <div class="alert alert-warning"><span>Brak pokemonów do sprzedania u kupca.</span></div>
                     {% else %}

@@ -321,7 +321,7 @@ class Pokemon
         return $this;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -333,7 +333,7 @@ class Pokemon
         return $this;
     }
 
-    public function getIdPokemon(): int
+    public function getIdPokemon(): ?int
     {
         return $this->idPokemon;
     }
@@ -345,7 +345,7 @@ class Pokemon
         return $this;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -357,7 +357,7 @@ class Pokemon
         return $this;
     }
 
-    public function getLevel(): int
+    public function getLevel(): ?int
     {
         return $this->level;
     }
@@ -369,7 +369,7 @@ class Pokemon
         return $this;
     }
 
-    public function getExp(): int
+    public function getExp(): ?int
     {
         return $this->exp;
     }
@@ -381,7 +381,7 @@ class Pokemon
         return $this;
     }
 
-    public function getShiny(): bool
+    public function getShiny(): ?bool
     {
         return $this->shiny;
     }
@@ -393,7 +393,7 @@ class Pokemon
         return $this;
     }
 
-    public function getOwner(): int
+    public function getOwner(): ?int
     {
         return $this->owner;
     }
@@ -405,7 +405,7 @@ class Pokemon
         return $this;
     }
 
-    public function getAttack(): int
+    public function getAttack(): ?int
     {
         return $this->attack;
     }
@@ -417,7 +417,7 @@ class Pokemon
         return $this;
     }
 
-    public function getDefence(): int
+    public function getDefence(): ?int
     {
         return $this->defence;
     }
@@ -429,7 +429,7 @@ class Pokemon
         return $this;
     }
 
-    public function getSpAttack(): int
+    public function getSpAttack(): ?int
     {
         return $this->spAttack;
     }
@@ -441,7 +441,7 @@ class Pokemon
         return $this;
     }
 
-    public function getSpDefence(): int
+    public function getSpDefence(): ?int
     {
         return $this->spDefence;
     }
@@ -453,7 +453,7 @@ class Pokemon
         return $this;
     }
 
-    public function getSpeed(): int
+    public function getSpeed(): ?int
     {
         return $this->speed;
     }
@@ -465,7 +465,7 @@ class Pokemon
         return $this;
     }
 
-    public function getHp(): int
+    public function getHp(): ?int
     {
         return $this->hp;
     }
@@ -477,7 +477,7 @@ class Pokemon
         return $this;
     }
 
-    public function getAccuracy(): int
+    public function getAccuracy(): ?int
     {
         return $this->accuracy;
     }
@@ -489,7 +489,7 @@ class Pokemon
         return $this;
     }
 
-    public function getTeam(): bool
+    public function getTeam(): ?bool
     {
         return $this->team;
     }
@@ -501,7 +501,7 @@ class Pokemon
         return $this;
     }
 
-    public function getActualHp(): int
+    public function getActualHp(): ?int
     {
         return $this->actualHp;
     }
@@ -513,7 +513,7 @@ class Pokemon
         return $this;
     }
 
-    public function getAttack0(): int
+    public function getAttack0(): ?int
     {
         return $this->attack0;
     }
@@ -525,7 +525,7 @@ class Pokemon
         return $this;
     }
 
-    public function getAttack1(): int
+    public function getAttack1(): ?int
     {
         return $this->attack1;
     }
@@ -537,7 +537,7 @@ class Pokemon
         return $this;
     }
 
-    public function getAttack2(): int
+    public function getAttack2(): ?int
     {
         return $this->attack2;
     }
@@ -549,7 +549,7 @@ class Pokemon
         return $this;
     }
 
-    public function getAttack3(): int
+    public function getAttack3(): ?int
     {
         return $this->attack3;
     }
@@ -561,7 +561,7 @@ class Pokemon
         return $this;
     }
 
-    public function getEwolution(): bool
+    public function getEwolution(): ?bool
     {
         return $this->ewolution;
     }
@@ -573,7 +573,7 @@ class Pokemon
         return $this;
     }
 
-    public function getGender(): int
+    public function getGender(): ?int
     {
         return $this->gender;
     }
@@ -585,7 +585,7 @@ class Pokemon
         return $this;
     }
 
-    public function getValue(): int
+    public function getValue(): ?int
     {
         return $this->value;
     }
@@ -597,7 +597,7 @@ class Pokemon
         return $this;
     }
 
-    public function getAttachment(): int
+    public function getAttachment(): ?int
     {
         return $this->attachment;
     }
@@ -609,7 +609,7 @@ class Pokemon
         return $this;
     }
 
-    public function getDateOfCatch(): \DateTime
+    public function getDateOfCatch(): ?\DateTime
     {
         return $this->dateOfCatch;
     }
@@ -621,7 +621,7 @@ class Pokemon
         return $this;
     }
 
-    public function getBlock(): bool
+    public function getBlock(): ?bool
     {
         return $this->block;
     }
@@ -633,7 +633,7 @@ class Pokemon
         return $this;
     }
 
-    public function getLottery(): bool
+    public function getLottery(): ?bool
     {
         return $this->lottery;
     }
@@ -645,7 +645,7 @@ class Pokemon
         return $this;
     }
 
-    public function getBerrysHp(): int
+    public function getBerrysHp(): ?int
     {
         return $this->berrysHp;
     }
@@ -657,7 +657,7 @@ class Pokemon
         return $this;
     }
 
-    public function getSnacks(): int
+    public function getSnacks(): ?int
     {
         return $this->snacks;
     }
@@ -669,7 +669,7 @@ class Pokemon
         return $this;
     }
 
-    public function getMarket(): bool
+    public function getMarket(): ?bool
     {
         return $this->market;
     }
@@ -681,7 +681,7 @@ class Pokemon
         return $this;
     }
 
-    public function getBlockView(): bool
+    public function getBlockView(): ?bool
     {
         return $this->blockView;
     }
@@ -693,7 +693,7 @@ class Pokemon
         return $this;
     }
 
-    public function getHunger(): float
+    public function getHunger(): ?float
     {
         return $this->hunger;
     }
@@ -705,7 +705,7 @@ class Pokemon
         return $this;
     }
 
-    public function getTr6(): int
+    public function getTr6(): ?int
     {
         return $this->tr6;
     }
@@ -717,7 +717,7 @@ class Pokemon
         return $this;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -729,7 +729,7 @@ class Pokemon
         return $this;
     }
 
-    public function getFirstOwner(): int
+    public function getFirstOwner(): ?int
     {
         return $this->firstOwner;
     }
@@ -741,7 +741,7 @@ class Pokemon
         return $this;
     }
 
-    public function getExchange(): bool
+    public function getExchange(): ?bool
     {
         return $this->exchange;
     }
@@ -753,7 +753,7 @@ class Pokemon
         return $this;
     }
 
-    public function getCatched(): string
+    public function getCatched(): ?string
     {
         return $this->catched;
     }
@@ -765,7 +765,7 @@ class Pokemon
         return $this;
     }
 
-    public function getQuality(): int
+    public function getQuality(): ?int
     {
         return $this->quality;
     }
