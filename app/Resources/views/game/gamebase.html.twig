@@ -28,7 +28,7 @@
         {% endblock %}
         <div id="tabelka">
             {% block table %}
-                {{ render(controller('AppBundle:OtherSpecial:left')) }}
+                {% include 'game/template/left.html.twig' %}
             {% endblock %}
         </div>
     </div>

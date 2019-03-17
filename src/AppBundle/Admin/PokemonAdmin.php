@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace AppBundle\Admin;
 
+use AppBundle\Entity\User;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\AdminType;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\Form\Type\CollectionType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 final class PokemonAdmin extends AbstractAdmin
 {
@@ -53,7 +57,6 @@ final class PokemonAdmin extends AbstractAdmin
             ->add('exchange')
             ->add('catched')
             ->add('quality')
-            ->add('deletedAt')
         ;
     }
 
@@ -98,7 +101,6 @@ final class PokemonAdmin extends AbstractAdmin
             ->add('exchange')
             ->add('catched')
             ->add('quality')
-            ->add('deletedAt')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -112,13 +114,15 @@ final class PokemonAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->add('id')
             ->add('idPokemon')
             ->add('name')
             ->add('level')
             ->add('exp')
             ->add('shiny')
-            ->add('owner')
+            ->add('owner', EntityType::class, [
+                'class' => User::class,
+                'choice_label' => 'login',
+            ])
             ->add('attack')
             ->add('defence')
             ->add('spAttack')
@@ -145,12 +149,16 @@ final class PokemonAdmin extends AbstractAdmin
             ->add('blockView')
             ->add('hunger')
             ->add('tr6')
-            ->add('description')
-            ->add('firstOwner')
+            ->add('description', null, [
+                'required' => false
+            ])
+            ->add('firstOwner', EntityType::class, [
+                'class' => User::class,
+                'choice_label' => 'login',
+            ])
             ->add('exchange')
             ->add('catched')
             ->add('quality')
-            ->add('deletedAt')
         ;
     }
 
@@ -195,7 +203,6 @@ final class PokemonAdmin extends AbstractAdmin
             ->add('exchange')
             ->add('catched')
             ->add('quality')
-            ->add('deletedAt')
         ;
     }
 }
