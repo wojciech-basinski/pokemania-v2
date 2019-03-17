@@ -59,12 +59,11 @@ class Lottery
 
     private function play(User $user): string
     {
-        $userId = $user->getId();
         $rand = rand(0, 1000);
 
         if ($rand <= 1) {
             $status = 'Gratulacje, wygrywasz Dratini! Pokemona znajdziesz w swojej rezerwie.';
-            $this->winDratini($userId);
+            $this->winDratini($user);
         } elseif ($rand <= 4) {
             $status = 'Gratulacje, wygrywasz 2 miliony &yen;.';
             $user->setCash($user->getCash() + 2000000);
@@ -176,8 +175,6 @@ class Lottery
         $dratini = new Pokemon();
         $training = new PokemonTraining();
 
-        $this->collection->addOneToPokemonCatchAndMet(147, $user);
-
         $training->setTr1(0);
         $training->setTr2(0);
         $training->setTr3(0);
@@ -207,6 +204,7 @@ class Lottery
         if (mt_rand(0, 100) === 1) {
             $dratini->setShiny(1);
         }
+        $this->collection->addOneToPokemonCatchAndMet(147, $user, $dratini->getShiny());
         $dratini->setAttachment(750);
         $dratini->setExp(0);
         $dratini->setTeam(0);
