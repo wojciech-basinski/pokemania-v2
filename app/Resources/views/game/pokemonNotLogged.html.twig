@@ -62,8 +62,10 @@
                                 <div class="row nomargin well well-stan alert-info margin_2 color-white">
                                     <div class="col-xs-4">Właściciel</div>
                                     <div class="col-xs-8">
-                                        <a href="{{ path("game_user_profile", {'id' : pokemon.owner}) }}" TARGET="_blank"
-                                           class="btn btn-link nopadding">{{ owner }}</a>
+                                        {#<a href="{{ path("game_user_profile", {'id' : pokemon.owner.id }) }}" TARGET="_blank"#}
+                                           {#class="btn btn-link nopadding">#}
+                                        {{ owner.login }}
+                                        {#</a>#}
                                     </div>
                                 </div>
 
