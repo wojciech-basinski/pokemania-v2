@@ -111,6 +111,8 @@ class Cron
             $this->addCronMessage("executed Shiny, id: {$shiny['id']}, quantity: {$shiny['quantity']}");
             return;
         }
+        $this->em->persist($shinyKanto);
+        $this->em->flush();
         $this->addCronMessage("executed Shiny, no new shiny");
     }
 

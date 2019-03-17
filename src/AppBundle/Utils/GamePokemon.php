@@ -84,7 +84,7 @@ class GamePokemon
             $pokemon = $this->getPokemonsFromTeam($user)['pokemons'];
         }
 
-        $owner = $this->em->getRepository('AppBundle:User')->find($pokemon[0]->getOwner())->getLogin();
+        $owner = $this->em->getRepository('AppBundle:User')->find($pokemon[0]->getOwner()->getId())->getLogin();
 
         return [
             'pokemon' => $pokemon,
@@ -126,6 +126,6 @@ class GamePokemon
         if ($user === null) {
             return false;
         }
-        return ($user->getId() === $pokemon[0]->getOwner()) ? 1 : 0;
+        return ($user->getId() === $pokemon[0]->getOwner()->getId()) ? 1 : 0;
     }
 }

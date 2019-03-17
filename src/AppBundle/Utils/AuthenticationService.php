@@ -256,8 +256,8 @@ class AuthenticationService
         $starter->setName($pokemonInfo['name']);
         $starter->setIdPokemon($starterId);
         $starter->setValue($pokemonValue);
-        $starter->setOwner($user->getId());
-        $starter->setFirstOwner($user->getId());
+        $starter->setOwner($user);
+        $starter->setFirstOwner($user);
         $starter->setCatched('starter');
         $starter->setLevel(5);
         $starter->setQuality(100);
