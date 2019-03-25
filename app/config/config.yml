@@ -86,8 +86,8 @@ swiftmailer:
     spool: { type: memory }
 
 ewz_recaptcha:
-    public_key:  6Lc5wRQTAAAAALTIk8kwWNaOGv3g9A1O1nZQrVQ1
-    private_key: 6Lc5wRQTAAAAAH3XAxn90nwsHkOuZuJAA1euQykM
+    public_key:  '%public_key_recaptcha%'
+    private_key: '%private_key_recaptcha%'
     locale_key:  pl
 
 sonata_block:
